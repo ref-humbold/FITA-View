@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="FITA-View" basedir="." default="all">
+  <property name="src.dir" value="src" />
+  <property name="test.dir" value="test" />
+  <property name="build.dir" value="bin" />
+  <property name="junit.output.dir" value="junit_results" />
+  <property name="junit.report.dir" value="junit_reports" />
+  <property name="javadoc.output.dir" value="doc" />
+  <property name="debuglevel" value="source,lines,vars" />
+  <property name="target" value="1.8" />
+  <property name="source" value="1.8" />
+  <path id="JUnit4.userclasspath">
+    <pathelement location="/usr/share/java/hamcrest-core.jar" />
+    <pathelement location="/usr/share/java/junit4.jar" />
+  </path>
+  <path id="FITA-View.classpath">
+    <path refid="JUnit4.userclasspath" />
+    <pathelement location="${build.dir}" />
+  </path>
+  <target name="all" depends="make, junit, javadoc" />
+  <target name="make" depends="clean, build" />
+  <target name="clean">
+    <delete dir="${build.dir}" />
+  </target>
+  <target name="init">
+    <mkdir dir="${build.dir}" />
+    <copy includeemptydirs="false" todir="${build.dir}">
+      <fileset dir="${src.dir}" excludes="**/*.java" />
+    </copy>
+    <copy includeemptydirs="false" todir="${build.dir}">
+      <fileset dir="${test.dir}" excludes="**/*.java" />
+    </copy>
+  </target>
+  <target name="build" depends="init">
+    <javac debug="true" debuglevel="${debuglevel}" destdir="${build.dir}" includeantruntime="false" source="${source}" target="${target}">
+      <src path="${src.dir}" />
+      <src path="${test.dir}" />
+      <compilerarg line="-Xlint" />
+      <classpath refid="FITA-View.classpath" />
+    </javac>
+  </target>
+  <target name="junit">
+    <delete dir="${junit.output.dir}" />
+    <mkdir dir="${junit.output.dir}" />
+    <junit fork="yes" printsummary="withOutAndErr">
+      <formatter type="xml" />
+      <classpath refid="FITA-View.classpath" />
+    </junit>
+    <delete dir="${junit.report.dir}" />
+    <mkdir dir="${junit.report.dir}" />
+    <junitreport todir="${junit.report.dir}">
+      <fileset dir="${junit.output.dir}" includes="TEST-*.xml" />
+      <report format="frames" todir="${junit.report.dir}" />
+    </junitreport>
+  </target>
+  <target name="javadoc" depends="build">
+    <delete dir="${javadoc.output.dir}" />
+    <mkdir dir="${javadoc.output.dir}" />
+    <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
+      <package name="ref_humbold.di_container.*" />
+    </javadoc>
+  </target>
+</project>
