@@ -1,6 +1,7 @@
 # ignore Visual Paradigm backup files
 
 /UML/*.bak*
+/UML/*.lck
 
 # ignore Java, JUnit, Javadoc output
 
