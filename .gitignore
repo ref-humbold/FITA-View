@@ -1,0 +1,16 @@
+# ignore Visual Paradigm backup files
+
+/UML/*.bak*
+
+# ignore Java output
+
+/bin
+
+# ignore JUnit output
+
+/junit_results
+/junit_reports
+
+# ignore IntelliJ files
+
+*.iml
