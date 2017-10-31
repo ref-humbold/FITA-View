@@ -2,12 +2,10 @@
 
 /UML/*.bak*
 
-# ignore Java output
+# ignore Java, JUnit, Javadoc output
 
 /bin
-
-# ignore JUnit output
-
+/doc
 /junit_results
 /junit_reports
 
