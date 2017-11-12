@@ -1,0 +1,7 @@
+<node label="1">
+  <node label="2">
+    <node label="3" />
+    <node label="4" />
+  </node>
+  <node label="5" />
+</node>

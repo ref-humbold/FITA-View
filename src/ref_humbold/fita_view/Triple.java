@@ -1,7 +1,8 @@
 package ref_humbold.fita_view;
 
-public class Triple<F extends Comparable<F>, S extends Comparable<S>, T extends Comparable<T>>
-    implements Comparable<Triple<F, S, T>>
+import java.util.Objects;
+
+public class Triple<F, S, T>
 {
     private final F first;
     private final S second;
@@ -14,13 +15,7 @@ public class Triple<F extends Comparable<F>, S extends Comparable<S>, T extends 
         this.third = third;
     }
 
-    public static <F extends Comparable<F>, S extends Comparable<S>, T extends Comparable<T>> Triple<F, S, T> make()
-    {
-        return make(null, null, null);
-    }
-
-    public static <F extends Comparable<F>, S extends Comparable<S>, T extends Comparable<T>> Triple<F, S, T> make(
-        F first, S second, T third)
+    public static <F, S, T> Triple<F, S, T> make(F first, S second, T third)
     {
         return new Triple<>(first, second, third);
     }
@@ -41,57 +36,24 @@ public class Triple<F extends Comparable<F>, S extends Comparable<S>, T extends 
     }
 
     @Override
-    public int compareTo(Triple<F, S, T> t)
+    public boolean equals(Object o)
     {
-        if(this.first == null)
-            return t.first == null ? 0 : -1;
-
-        int comparedFirst = this.first.compareTo(t.first);
-
-        if(comparedFirst != 0)
-            return comparedFirst;
-
-        if(this.second == null)
-            return t.getSecond() == null ? 0 : -1;
-
-        int comparedSecond = this.second.compareTo(t.second);
-
-        if(comparedSecond != 0)
-            return comparedSecond;
-
-        if(this.third == null)
-            return t.getThird() == null ? 0 : -1;
-
-        return this.third.compareTo(t.third);
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if(this == obj)
+        if(this == o)
             return true;
 
-        if(obj == null)
+        if(o == null || !(o instanceof Triple))
             return false;
 
-        if(!(obj instanceof Triple))
-            return false;
+        Triple<?, ?, ?> other = (Triple<?, ?, ?>)o;
 
-        Triple<?, ?, ?> other = (Triple<?, ?, ?>)obj;
-
-        if(this.first == null && other.first == null || this.second == null && other.second == null
-           || this.third == null && other.third == null)
-            return true;
-
-        return this.first != null && this.first.equals(other.first) && this.second != null
-               && this.second.equals(other.second) && this.third != null && this.third.equals(
-            other.third);
+        return Objects.equals(this.first, other.first) && Objects.equals(this.second, other.second)
+            && Objects.equals(this.third, other.third);
     }
 
     @Override
     public int hashCode()
     {
-        final int prime = 37;
+        int prime = 37;
         int result = 1;
 
         result = prime * result + (first == null ? 0 : first.hashCode());

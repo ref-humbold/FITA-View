@@ -32,7 +32,8 @@
     </copy>
   </target>
   <target name="build" depends="init">
-    <javac debug="true" debuglevel="${debuglevel}" destdir="${build.dir}" includeantruntime="false" source="${source}" target="${target}">
+    <javac debug="true" debuglevel="${debuglevel}" destdir="${build.dir}" includeantruntime="false"
+           source="${source}" target="${target}">
       <src path="${src.dir}" />
       <src path="${test.dir}" />
       <compilerarg line="-Xlint" />
@@ -44,6 +45,7 @@
     <mkdir dir="${junit.output.dir}" />
     <junit fork="yes" printsummary="withOutAndErr">
       <formatter type="xml" />
+      <test name="ref_humbold.fita_view.tree.TreeReaderTest" todir="${junit.output.dir}" />
       <classpath refid="FITA-View.classpath" />
     </junit>
     <delete dir="${junit.report.dir}" />
@@ -57,7 +59,7 @@
     <delete dir="${javadoc.output.dir}" />
     <mkdir dir="${javadoc.output.dir}" />
     <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
-      <package name="ref_humbold.di_container.*" />
+      <package name="ref_humbold.fita_view.*" />
     </javadoc>
   </target>
 </project>
