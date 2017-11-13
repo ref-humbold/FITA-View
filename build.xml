@@ -46,6 +46,7 @@
     <junit fork="yes" printsummary="withOutAndErr">
       <formatter type="xml" />
       <test name="ref_humbold.fita_view.tree.TreeReaderTest" todir="${junit.output.dir}" />
+      <test name="ref_humbold.fita_view.tree.TreeWriterTest" todir="${junit.output.dir}" />
       <classpath refid="FITA-View.classpath" />
     </junit>
     <delete dir="${junit.report.dir}" />
