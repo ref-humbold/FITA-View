@@ -1,0 +1,22 @@
+<node label="1">
+  <node label="2">
+    <node label="3" />
+    <node label="4" />
+  </node>
+  <repeat label="5">
+    <node label="6">
+      <repeat label="7">
+        <node label="8">
+          <rec />
+          <rec />
+        </node>
+        <node label="11" />
+      </repeat>
+      <rec />
+    </node>
+    <node label="13">
+      <rec />
+      <node label="15" />
+    </node>
+  </repeat>
+</node>

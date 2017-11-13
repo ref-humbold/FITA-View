@@ -24,6 +24,12 @@ public class RecVertex
     }
 
     @Override
+    public String getTypename()
+    {
+        return "rec";
+    }
+
+    @Override
     public TreeVertex getLeft()
     {
         return this.recursive.getLeft();

@@ -31,11 +31,24 @@ public class NodeVertex
         this.label = label;
     }
 
+    NodeVertex(String label, TreeVertex left, TreeVertex right)
+    {
+        this(label);
+        this.setLeft(left);
+        this.setRight(right);
+    }
+
     NodeVertex(String label, int id, TreeVertex left, TreeVertex right)
     {
         this(label, id);
         this.setLeft(left);
         this.setRight(right);
+    }
+
+    @Override
+    public String getTypename()
+    {
+        return "node";
     }
 
     @Override

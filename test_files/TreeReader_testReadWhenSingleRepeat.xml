@@ -7,7 +7,7 @@
     <node label="6" />
     <node label="7">
       <rec />
-      <node label="8" />
+      <node label="9" />
     </node>
   </repeat>
 </node>

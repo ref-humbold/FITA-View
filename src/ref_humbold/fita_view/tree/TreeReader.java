@@ -95,7 +95,8 @@ public class TreeReader
                     if(label == null)
                         throw new SAXException();
 
-                    NodeVertex node = new NodeVertex(label, idIndex);
+                    NodeVertex node = qName.equals("repeat") ? new RepeatVertex(label, idIndex)
+                                                             : new NodeVertex(label, idIndex);
 
                     nodes.push(Pair.make(node, true));
 

@@ -1043,7 +1043,7 @@
 						</Class>
 					</ModelChildren>
 				</Package>
-				<Package Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="TcXIGvqD.AACAQar" Leaf="false" Name="tree" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:46:42.994" PmLastModified="2017-11-12T17:25:23.027" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
+				<Package Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="TcXIGvqD.AACAQar" Leaf="false" Name="tree" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:46:42.994" PmLastModified="2017-11-13T18:51:46.925" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
 					<SubDiagrams>
 						<ClassDiagram Idref="wCgoGvqD.AACAQa5"/>
 					</SubDiagrams>
@@ -1158,7 +1158,7 @@
 								<Class Idref="3Z0oGvqD.AACAQbQ" Name="TreeVertex"/>
 							</MasterView>
 						</Class>
-						<Class Abstract="false" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="9YyoGvqD.AACAQbj" Leaf="false" Name="NodeVertex" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:48:24.879" PmLastModified="2017-11-12T21:30:53.781" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
+						<Class Abstract="false" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="9YyoGvqD.AACAQbj" Leaf="false" Name="NodeVertex" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:48:24.879" PmLastModified="2017-11-13T18:46:29.850" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
 							<ModelChildren>
 								<Attribute Abstract="false" Aggregation="None" AllowEmptyName="false" ConnectToCodeModel="1" Derived="false" DerivedUnion="false" Documentation_plain="" HasGetter="false" HasSetter="false" Id="ONd4GvqD.AACAQkv" IsID="false" Leaf="false" Multiplicity="Unspecified" Name="left" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:59:02.172" PmLastModified="2017-10-26T12:02:21.770" QualityScore="-1" ReadOnly="false" Scope="instance" TypeModifier="" UserIDLastNumericValue="0" Visibility="private" Visible="true">
 									<Type>
@@ -1215,7 +1215,7 @@
 										</Parameter>
 									</ModelChildren>
 								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="sPcuTvqD.AACARXR" Leaf="false" Name="NodeVertex" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-10-31T13:43:06.893" PmLastModified="2017-11-12T21:30:22.678" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="package" Visible="true">
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="sPcuTvqD.AACARXR" Leaf="false" Name="NodeVertex" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-10-31T13:43:06.893" PmLastModified="2017-11-13T18:44:06.910" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="package" Visible="true">
 									<ModelChildren>
 										<Parameter Direction="inout" Documentation_plain="" Id="pTquTvqD.AACARXU" Multiplicity="Unspecified" Name="label" PmAuthor="kaleta" PmCreateDateTime="2017-10-31T13:43:34.949" PmLastModified="2017-11-05T19:03:59.341" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
 											<Type>
@@ -1225,6 +1225,25 @@
 										<Parameter Direction="inout" Documentation_plain="" Id="DN97jfqD.AACAQdE" Multiplicity="Unspecified" Name="id" PmAuthor="kaleta" PmCreateDateTime="2017-11-12T21:15:01.424" PmLastModified="2017-11-12T21:30:10.103" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
 											<Type>
 												<DataType Idref="NB0HUvqD.AACAQUG" Name="int"/>
+											</Type>
+										</Parameter>
+									</ModelChildren>
+								</Operation>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="QGLebfqD.AACAQdP" Leaf="false" Name="NodeVertex" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:44:13.058" PmLastModified="2017-11-13T18:44:36.243" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="package" Visible="true">
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="Dw7ebfqD.AACAQdo" Multiplicity="Unspecified" Name="label" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:44:24.048" PmLastModified="2017-11-13T18:44:36.243" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="AI7ebfqD.AACAQdp" Multiplicity="Unspecified" Name="left" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:44:24.064" PmLastModified="2017-11-13T18:44:36.243" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="PZ0oGvqD.AACAQbR" Name="TreeVertex"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="UI7ebfqD.AACAQdq" Multiplicity="Unspecified" Name="right" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:44:24.074" PmLastModified="2017-11-13T18:44:36.243" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="PZ0oGvqD.AACAQbR" Name="TreeVertex"/>
 											</Type>
 										</Parameter>
 									</ModelChildren>
@@ -1254,6 +1273,9 @@
 									</ModelChildren>
 								</Operation>
 							</ModelChildren>
+							<FromSimpleRelationships>
+								<Generalization Idref="8iC.bfqD.AACAQes" Name=""/>
+							</FromSimpleRelationships>
 							<ToSimpleRelationships>
 								<Generalization Idref="jW54GvqD.AACAQkJ" Name=""/>
 							</ToSimpleRelationships>
@@ -1332,29 +1354,47 @@
 								<Class Idref="vxNhsfqD.AACAQ1r" Name="TreeReader"/>
 							</MasterView>
 						</Class>
-						<Class Abstract="false" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="LfdhsfqD.AACAQ13" Leaf="false" Name="TreeWriter" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:52:31.540" PmLastModified="2017-11-05T20:10:24.100" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
+						<Class Abstract="false" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="LfdhsfqD.AACAQ13" Leaf="false" Name="TreeWriter" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:52:31.540" PmLastModified="2017-11-13T20:04:48.584" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
 							<ModelChildren>
 								<Attribute Abstract="false" Aggregation="None" AllowEmptyName="false" ConnectToCodeModel="1" Derived="false" DerivedUnion="false" Documentation_plain="" HasGetter="false" HasSetter="false" Id="TOHhsfqD.AACAQ2X" IsID="false" Leaf="false" Multiplicity="Unspecified" Name="tree" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:53:10.322" PmLastModified="2017-11-05T20:05:55.997" QualityScore="-1" ReadOnly="false" Scope="instance" TypeModifier="" UserIDLastNumericValue="0" Visibility="private" Visible="true">
 									<Type>
 										<Class Idref="PZ0oGvqD.AACAQbR" Name="TreeVertex"/>
 									</Type>
 								</Attribute>
-								<Attribute Abstract="false" Aggregation="None" AllowEmptyName="false" ConnectToCodeModel="1" Derived="false" DerivedUnion="false" Documentation_plain="" HasGetter="false" HasSetter="false" Id="69EpsfqD.AACAQ60" IsID="false" Leaf="false" Multiplicity="Unspecified" Name="builder" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T20:07:23.479" PmLastModified="2017-11-05T20:10:24.100" QualityScore="-1" ReadOnly="false" Scope="instance" Type="StringBuilder" TypeModifier="" UserIDLastNumericValue="0" Visibility="private" Visible="true"/>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="R1vhsfqD.AACAQ2s" Leaf="false" Name="TreeWriter" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:53:31.746" PmLastModified="2017-11-05T20:05:55.997" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
+								<Attribute Abstract="false" Aggregation="None" AllowEmptyName="false" ConnectToCodeModel="1" Derived="false" DerivedUnion="false" Documentation_plain="" HasGetter="false" HasSetter="false" Id="69EpsfqD.AACAQ60" IsID="false" Leaf="false" Multiplicity="Unspecified" Name="parent" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T20:07:23.479" PmLastModified="2017-11-13T20:00:32.765" QualityScore="-1" ReadOnly="false" Scope="instance" TypeModifier="" UserIDLastNumericValue="0" Visibility="private" Visible="true">
+									<Type>
+										<Class Idref="LfdhsfqD.AACAQ13" Name="TreeWriter"/>
+									</Type>
+								</Attribute>
+								<Attribute Abstract="false" Aggregation="None" AllowEmptyName="false" ConnectToCodeModel="1" Derived="false" DerivedUnion="false" Documentation_plain="" HasGetter="false" HasSetter="false" Id="P_8DbfqD.AACAQiL" IsID="false" Leaf="false" Multiplicity="Unspecified" Name="body" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:00:22.652" PmLastModified="2017-11-13T20:00:48.771" QualityScore="-1" ReadOnly="false" Scope="instance" Type="StringBuilder" TypeModifier="" UserIDLastNumericValue="0" Visibility="private" Visible="true"/>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="6DmDbfqD.AACAQid" Leaf="false" Name="TreeWriter" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:01:02.615" PmLastModified="2017-11-13T20:01:17.511" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true"/>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="R1vhsfqD.AACAQ2s" Leaf="false" Name="TreeWriter" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:53:31.746" PmLastModified="2017-11-13T20:01:17.511" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="private" Visible="true">
 									<ModelChildren>
 										<Parameter Direction="inout" Documentation_plain="" Id="B__hsfqD.AACAQ2v" Multiplicity="Unspecified" Name="tree" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:53:41.216" PmLastModified="2017-11-05T20:05:55.997" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
 											<Type>
 												<Class Idref="PZ0oGvqD.AACAQbR" Name="TreeVertex"/>
 											</Type>
 										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="j1aDbfqD.AACAQiW" Multiplicity="Unspecified" Name="parent" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:00:50.033" PmLastModified="2017-11-13T20:01:17.511" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="LfdhsfqD.AACAQ13" Name="TreeWriter"/>
+											</Type>
+										</Parameter>
 									</ModelChildren>
 								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="UfkRsfqD.AACAQ3f" Leaf="false" Name="toString" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:54:22.090" PmLastModified="2017-11-05T20:10:24.100" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="u66RsfqD.AACAQ33" Leaf="false" Name="write" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:55:16.957" PmLastModified="2017-11-13T20:04:48.587" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
 									<ReturnType>
-										<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+										<Class Idref="LfdhsfqD.AACAQ13" Name="TreeWriter"/>
 									</ReturnType>
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="1VuRsfqD.AACAQ36" Multiplicity="Unspecified" Name="tree" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:55:42.763" PmLastModified="2017-11-13T20:01:43.463" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="9YyoGvqD.AACAQbj" Name="NodeVertex"/>
+											</Type>
+										</Parameter>
+									</ModelChildren>
 								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="wQgpsfqD.AACAQ6l" Leaf="false" Name="write" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T20:06:51.907" PmLastModified="2017-11-05T20:10:24.100" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="wQgpsfqD.AACAQ6l" Leaf="false" Name="toFile" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T20:06:51.907" PmLastModified="2017-11-13T20:01:43.463" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
 									<ReturnType>
 										<DataType Idref="dB0HUvqD.AACAQUJ" Name="void"/>
 									</ReturnType>
@@ -1366,26 +1406,58 @@
 										</Parameter>
 									</ModelChildren>
 								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="u66RsfqD.AACAQ33" Leaf="false" Name="writeNodeVertex" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:55:16.957" PmLastModified="2017-11-05T20:05:55.997" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="private" Visible="true">
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="UfkRsfqD.AACAQ3f" Leaf="false" Name="toString" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:54:22.090" PmLastModified="2017-11-05T20:10:24.100" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
 									<ReturnType>
-										<DataType Idref="dB0HUvqD.AACAQUJ" Name="void"/>
+										<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
 									</ReturnType>
+								</Operation>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id=".aJDbfqD.AACAQit" Leaf="false" Name="indentBody" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:01:46.015" PmLastModified="2017-11-13T20:04:34.538" QualityScore="-1" Query="false" ReturnType="StringBuilder" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="private" Visible="true"/>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="N4VDbfqD.AACAQiw" Leaf="false" Name="startTree" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:02:09.644" PmLastModified="2017-11-13T20:04:34.538" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="private" Visible="true">
 									<ModelChildren>
-										<Parameter Direction="inout" Documentation_plain="" Id="1VuRsfqD.AACAQ36" Multiplicity="Unspecified" Name="node" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:55:42.763" PmLastModified="2017-11-05T20:05:55.997" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+										<Parameter Direction="inout" Documentation_plain="" Id="4gdDbfqD.AACAQiz" Multiplicity="Unspecified" Name="tree" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:02:25.607" PmLastModified="2017-11-13T20:02:35.914" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
 											<Type>
-												<Class Idref="9YyoGvqD.AACAQbj" Name="NodeVertex"/>
+												<Class Idref="PZ0oGvqD.AACAQbR" Name="TreeVertex"/>
 											</Type>
 										</Parameter>
 									</ModelChildren>
 								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="TVuRsfqD.AACAQ37" Leaf="false" Name="writeRecVertex" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:55:42.770" PmLastModified="2017-11-05T20:05:55.997" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="private" Visible="true">
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="ngdDbfqD.AACAQi0" Leaf="false" Name="endTree" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:02:25.657" PmLastModified="2017-11-13T20:04:34.538" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="private" Visible="true">
+									<ReturnType>
+										<Class Idref="LfdhsfqD.AACAQ13" Name="TreeWriter"/>
+									</ReturnType>
+								</Operation>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="hZDDbfqD.AACAQi3" Leaf="false" Name="addContent" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:02:36.193" PmLastModified="2017-11-13T20:04:34.538" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="private" Visible="true">
 									<ReturnType>
 										<DataType Idref="dB0HUvqD.AACAQUJ" Name="void"/>
 									</ReturnType>
 									<ModelChildren>
-										<Parameter Direction="inout" Documentation_plain="" Id="hyBRsfqD.AACAQ3." Multiplicity="Unspecified" Name="rec" PmAuthor="kaleta" PmCreateDateTime="2017-11-05T19:55:53.569" PmLastModified="2017-11-05T20:05:55.997" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+										<Parameter Direction="inout" Documentation_plain="" Id="WMLDbfqD.AACAQi6" Multiplicity="Unspecified" Name="content" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:02:50.906" PmLastModified="2017-11-13T20:03:01.137" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
 											<Type>
-												<Class Idref="NK6oGvqD.AACAQbs" Name="RecVertex"/>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+									</ModelChildren>
+								</Operation>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="tMLDbfqD.AACAQi7" Leaf="false" Name="isRec" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:02:50.925" PmLastModified="2017-11-13T20:04:34.538" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="private" Visible="true">
+									<ReturnType>
+										<DataType Idref="FB0HUvqD.AACAQUB" Name="boolean"/>
+									</ReturnType>
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="y63DbfqD.AACAQi." Multiplicity="Unspecified" Name="tree" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:03:20.275" PmLastModified="2017-11-13T20:03:30.536" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="PZ0oGvqD.AACAQbR" Name="TreeVertex"/>
+											</Type>
+										</Parameter>
+									</ModelChildren>
+								</Operation>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="r63DbfqD.AACAQi_" Leaf="false" Name="hasChildren" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:03:20.309" PmLastModified="2017-11-13T20:04:34.538" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="private" Visible="true">
+									<ReturnType>
+										<DataType Idref="FB0HUvqD.AACAQUB" Name="boolean"/>
+									</ReturnType>
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="4NfDbfqD.AACAQjC" Multiplicity="Unspecified" Name="tree" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T20:03:33.895" PmLastModified="2017-11-13T20:04:34.539" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="PZ0oGvqD.AACAQbR" Name="TreeVertex"/>
 											</Type>
 										</Parameter>
 									</ModelChildren>
@@ -1438,6 +1510,39 @@
 								<Class Idref="wd3QjfqD.AACAQcl" Name="TreeHandler"/>
 							</MasterView>
 						</Class>
+						<Class Abstract="false" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="BtA.bfqD.AACAQeF" Leaf="false" Name="RepeatVertex" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:45:03.584" PmLastModified="2017-11-13T18:46:29.869" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
+							<ModelChildren>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="qmI.bfqD.AACAQeT" Leaf="false" Name="RepeatVertex" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:45:18.677" PmLastModified="2017-11-13T18:45:33.515" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="iJo.bfqD.AACAQeW" Multiplicity="Unspecified" Name="label" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:45:23.473" PmLastModified="2017-11-13T18:45:33.515" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+									</ModelChildren>
+								</Operation>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="aJo.bfqD.AACAQeX" Leaf="false" Name="RepeatVertex" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:45:23.478" PmLastModified="2017-11-13T18:46:29.869" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="package" Visible="true">
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="CmE.bfqD.AACAQea" Multiplicity="Unspecified" Name="label" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:45:35.056" PmLastModified="2017-11-13T18:46:29.869" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="amE.bfqD.AACAQeb" Multiplicity="Unspecified" Name="id" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:45:35.062" PmLastModified="2017-11-13T18:46:29.869" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="NB0HUvqD.AACAQUG" Name="int"/>
+											</Type>
+										</Parameter>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+							<ToSimpleRelationships>
+								<Generalization Idref="8iC.bfqD.AACAQes" Name=""/>
+							</ToSimpleRelationships>
+							<MasterView>
+								<Class Idref="BtA.bfqD.AACAQeE" Name="RepeatVertex"/>
+							</MasterView>
+						</Class>
 					</ModelChildren>
 				</Package>
 			</ModelChildren>
@@ -1445,7 +1550,7 @@
 		<Stereotype Abstract="false" BaseType="Class" Documentation_plain="" IconPath="" Id="huliyvqD.AACAQY_" Leaf="false" Name="Interface" PmAuthor="kaleta" PmCreateDateTime="2017-03-12T14:28:17.876" PmLastModified="2017-10-25T13:24:57.989" QualityScore="-1" Root="false" UserIDLastNumericValue="0"/>
 		<ModelRelationshipContainer Documentation_plain="" Id="eLaYGvqD.AACAQeU" Name="relationships" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:53:02.238" PmLastModified="2017-10-31T13:30:30.891" QualityScore="-1" UserIDLastNumericValue="0">
 			<ModelChildren>
-				<ModelRelationshipContainer Documentation_plain="" Id="eLaYGvqD.AACAQeV" Name="Generalization" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:53:02.238" PmLastModified="2017-11-06T09:41:12.133" QualityScore="-1" UserIDLastNumericValue="0">
+				<ModelRelationshipContainer Documentation_plain="" Id="eLaYGvqD.AACAQeV" Name="Generalization" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:53:02.238" PmLastModified="2017-11-13T18:46:29.868" QualityScore="-1" UserIDLastNumericValue="0">
 					<ModelChildren>
 						<Generalization ConnectToCodeModel="1" Documentation_plain="" From="dDLiyvqD.AACAQZK" Id="5HiYGvqD.AACAQd6" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:52:42.023" PmLastModified="2017-11-06T09:24:37.734" QualityScore="-1" Substitutable="false" To="4mOyyvqD.AACAQbb" UserIDLastNumericValue="0" Visibility="Unspecified">
 							<MasterView>
@@ -1500,6 +1605,11 @@
 						<Generalization ConnectToCodeModel="1" Documentation_plain="" From="DNfeCfqD.AACAQu." Id="fuq.CfqD.AACAQwA" PmAuthor="kaleta" PmCreateDateTime="2017-11-06T09:40:54.398" PmLastModified="2017-11-06T09:41:12.139" QualityScore="-1" Substitutable="false" To="b0C.CfqD.AACAQvn" UserIDLastNumericValue="0" Visibility="Unspecified">
 							<MasterView>
 								<Generalization Idref="_Bq.CfqD.AACAQwB"/>
+							</MasterView>
+						</Generalization>
+						<Generalization ConnectToCodeModel="1" Documentation_plain="" From="9YyoGvqD.AACAQbj" Id="8iC.bfqD.AACAQes" PmAuthor="kaleta" PmCreateDateTime="2017-11-13T18:46:07.311" PmLastModified="2017-11-13T18:46:29.850" QualityScore="-1" Substitutable="false" To="BtA.bfqD.AACAQeF" UserIDLastNumericValue="0" Visibility="Unspecified">
+							<MasterView>
+								<Generalization Idref="WKC.bfqD.AACAQet"/>
 							</MasterView>
 						</Generalization>
 					</ModelChildren>
@@ -1573,7 +1683,7 @@
 						</Realization>
 					</ModelChildren>
 				</ModelRelationshipContainer>
-				<ModelRelationshipContainer Documentation_plain="" Id="S6aWTvqD.AACAQ1l" Name="Association" PmAuthor="kaleta" PmCreateDateTime="2017-10-31T13:30:30.866" PmLastModified="2017-11-12T17:25:23.028" QualityScore="-1" UserIDLastNumericValue="0">
+				<ModelRelationshipContainer Documentation_plain="" Id="S6aWTvqD.AACAQ1l" Name="Association" PmAuthor="kaleta" PmCreateDateTime="2017-10-31T13:30:30.866" PmLastModified="2017-11-13T18:51:46.925" QualityScore="-1" UserIDLastNumericValue="0">
 					<ModelChildren>
 						<Association Abstract="false" Derived="false" Direction="From To" Documentation_plain="" EndRelationshipFromMetaModelElement="9YyoGvqD.AACAQbj" EndRelationshipToMetaModelElement="PZ0oGvqD.AACAQbR" Id="Jr8WTvqD.AACAQ1P" Leaf="false" Name="left, right" OrderingInProfile="-1" PmAuthor="kaleta" PmCreateDateTime="2017-10-31T13:30:04.132" PmLastModified="2017-11-05T19:15:17.214" QualityScore="-1" UserIDLastNumericValue="0" Visibility="Unspecified">
 							<FromEnd>
@@ -2156,9 +2266,9 @@
 				</Realization>
 			</Connectors>
 		</ClassDiagram>
-		<ClassDiagram AlignToGrid="true" AutoFitShapesSize="false" ConnectionPointStyle="0" ConnectorLabelOrientation="0" ConnectorLineJumps="0" ConnectorLineJumpsSize="0" ConnectorStyle="1" DiagramBackground="rgb(255, 255, 255)" DiagramImageFileName="Tree.png" Editable="true" FollowDiagramParentElement="true" GeneralizationSetNotation="2" GridColor="rgb(192, 192, 192)" GridHeight="10" GridVisible="true" GridWidth="10" Height="635" HideEmptyTaggedValues="false" Id="wCgoGvqD.AACAQa5" ImageHeight="956" ImageScale="1.0" ImageWidth="756" InitializeDiagramForCreate="true" Maximized="true" ModelElementNameAlignment="4" Name="Tree" PaintConnectorThroughLabel="1" ParentModel="TcXIGvqD.AACAQar" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:47:11.747" PmLastModified="2017-11-12T21:30:44.190" PointConnectorEndToCompartmentMember="true" QualityScore="-1" RequestValidateSnapToGrid="false" ShapePresentationOption="0" ShowActivityStateNodeCaption="65535" ShowAllocatedFrom="true" ShowAllocatedTo="true" ShowAssociationNavigationArrows="3" ShowAttributeGetterSetter="false" ShowAttributesCodeDetails="2" ShowAttributesPropertyModifiers="2" ShowAttributesType="1" ShowClassEmptyCompartments="2" ShowClassOwner="2" ShowConnectorName="0" ShowConstraints="false" ShowDefaultPackage="true" ShowEllipsisForUnshownClassMembers="2" ShowInformationItemOption="2" ShowLegend="false" ShowOperationsCodeDetails="2" ShowOperationsParameters="1" ShowOperationsReturnType="1" ShowPMAuthor="false" ShowPMDifficulty="false" ShowPMDiscipline="false" ShowPMIteration="false" ShowPMPhase="false" ShowPMPriority="false" ShowPMStatus="false" ShowPMVersion="false" ShowPackageNameStyle="0" ShowPackageOwner="2" ShowParametersCodeDetails="2" ShowShapeStereotypeIconName="true" ShowStereotypes="true" ShowTaggedValues="false" ShowTemplateInfoOfGeneralizationAndRealization="false" SuppressImplied1MultiplicityForAttributeAndAssociationEnd="false" TeamworkCreateDateTime="0" TrimmedHeight="48" TrimmedWidth="48" Width="1213" X="0" Y="0" ZoomRatio="1.0" _globalPaletteOption="true" documentation="&lt;html&gt;&#10;  &lt;head&gt;&#10;    &lt;style type=&quot;text/css&quot;&gt;&#10;      &lt;!--&#10;        body { color: #000000; font-family: Dialog; font-size: 12px }&#10;      --&gt;&#10;    &lt;/style&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &lt;p&gt;&#10;      &#10;    &lt;/p&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;">
+		<ClassDiagram AlignToGrid="true" AutoFitShapesSize="false" ConnectionPointStyle="0" ConnectorLabelOrientation="0" ConnectorLineJumps="0" ConnectorLineJumpsSize="0" ConnectorStyle="1" DiagramBackground="rgb(255, 255, 255)" DiagramImageFileName="Tree.png" Editable="true" FollowDiagramParentElement="true" GeneralizationSetNotation="2" GridColor="rgb(192, 192, 192)" GridHeight="10" GridVisible="true" GridWidth="10" Height="635" HideEmptyTaggedValues="false" Id="wCgoGvqD.AACAQa5" ImageHeight="756" ImageScale="1.0" ImageWidth="1354" InitializeDiagramForCreate="true" Maximized="true" ModelElementNameAlignment="4" Name="Tree" PaintConnectorThroughLabel="1" ParentModel="TcXIGvqD.AACAQar" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:47:11.747" PmLastModified="2017-11-13T20:04:12.075" PointConnectorEndToCompartmentMember="true" QualityScore="-1" RequestValidateSnapToGrid="false" ShapePresentationOption="0" ShowActivityStateNodeCaption="65535" ShowAllocatedFrom="true" ShowAllocatedTo="true" ShowAssociationNavigationArrows="3" ShowAttributeGetterSetter="false" ShowAttributesCodeDetails="2" ShowAttributesPropertyModifiers="2" ShowAttributesType="1" ShowClassEmptyCompartments="2" ShowClassOwner="2" ShowConnectorName="0" ShowConstraints="false" ShowDefaultPackage="true" ShowEllipsisForUnshownClassMembers="2" ShowInformationItemOption="2" ShowLegend="false" ShowOperationsCodeDetails="2" ShowOperationsParameters="1" ShowOperationsReturnType="1" ShowPMAuthor="false" ShowPMDifficulty="false" ShowPMDiscipline="false" ShowPMIteration="false" ShowPMPhase="false" ShowPMPriority="false" ShowPMStatus="false" ShowPMVersion="false" ShowPackageNameStyle="0" ShowPackageOwner="2" ShowParametersCodeDetails="2" ShowShapeStereotypeIconName="true" ShowStereotypes="true" ShowTaggedValues="false" ShowTemplateInfoOfGeneralizationAndRealization="false" SuppressImplied1MultiplicityForAttributeAndAssociationEnd="false" TeamworkCreateDateTime="0" TrimmedHeight="48" TrimmedWidth="48" Width="1213" X="0" Y="0" ZoomRatio="1.0" _globalPaletteOption="true" documentation="&lt;html&gt;&#10;  &lt;head&gt;&#10;    &lt;style type=&quot;text/css&quot;&gt;&#10;      &lt;!--&#10;        body { color: #000000; font-family: Dialog; font-size: 12px }&#10;      --&gt;&#10;    &lt;/style&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &lt;p&gt;&#10;      &#10;    &lt;/p&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;">
 			<Shapes>
-				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="150" Id="wd3QjfqD.AACAQcl" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="Id3QjfqD.AACAQcm" Model="Id3QjfqD.AACAQcm" ModelElementNameAlignment="9" Name="TreeHandler" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="500" WpMbs="false" X="2" Y="802" ZOrder="2">
+				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="150" Id="wd3QjfqD.AACAQcl" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="Id3QjfqD.AACAQcm" Model="Id3QjfqD.AACAQcm" ModelElementNameAlignment="9" Name="TreeHandler" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="500" WpMbs="false" X="850" Y="252" ZOrder="4">
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
 						<Stroke/>
@@ -2167,7 +2277,16 @@
 					<FillColor Color="rgb(122, 207, 245)" Style="1" Transparency="0" Type="1"/>
 					<CompartmentFont Value="none"/>
 				</Class>
-				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="150" Id="TfdhsfqD.AACAQ12" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="LfdhsfqD.AACAQ13" Model="LfdhsfqD.AACAQ13" ModelElementNameAlignment="9" Name="TreeWriter" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="300" WpMbs="false" X="402" Y="552" ZOrder="4">
+				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="250" Id="TfdhsfqD.AACAQ12" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="LfdhsfqD.AACAQ13" Model="LfdhsfqD.AACAQ13" ModelElementNameAlignment="9" Name="TreeWriter" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="400" WpMbs="false" X="902" Y="502" ZOrder="6">
+					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
+					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
+						<Stroke/>
+					</Line>
+					<Caption Height="14" InternalHeight="-2147483648" InternalWidth="-2147483648" Side="FreeMove" Visible="true" Width="400" X="-48" Y="-48"/>
+					<FillColor Color="rgb(122, 207, 245)" Style="1" Transparency="0" Type="1"/>
+					<CompartmentFont Value="none"/>
+				</Class>
+				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="150" Id="vxNhsfqD.AACAQ1r" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="fxNhsfqD.AACAQ1s" Model="fxNhsfqD.AACAQ1s" ModelElementNameAlignment="9" Name="TreeReader" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="300" WpMbs="false" X="950" Y="2" ZOrder="8">
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
 						<Stroke/>
@@ -2176,16 +2295,7 @@
 					<FillColor Color="rgb(122, 207, 245)" Style="1" Transparency="0" Type="1"/>
 					<CompartmentFont Value="none"/>
 				</Class>
-				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="150" Id="vxNhsfqD.AACAQ1r" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="fxNhsfqD.AACAQ1s" Model="fxNhsfqD.AACAQ1s" ModelElementNameAlignment="9" Name="TreeReader" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="300" WpMbs="false" X="2" Y="552" ZOrder="6">
-					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
-					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
-						<Stroke/>
-					</Line>
-					<Caption Height="14" InternalHeight="-2147483648" InternalWidth="-2147483648" Side="FreeMove" Visible="true" Width="300" X="-48" Y="-48"/>
-					<FillColor Color="rgb(122, 207, 245)" Style="1" Transparency="0" Type="1"/>
-					<CompartmentFont Value="none"/>
-				</Class>
-				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="150" Id="1K6oGvqD.AACAQbr" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="NK6oGvqD.AACAQbs" Model="NK6oGvqD.AACAQbs" ModelElementNameAlignment="9" Name="RecVertex" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="250" WpMbs="false" X="502" Y="302" ZOrder="8">
+				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="150" Id="1K6oGvqD.AACAQbr" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="NK6oGvqD.AACAQbs" Model="NK6oGvqD.AACAQbs" ModelElementNameAlignment="9" Name="RecVertex" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="250" WpMbs="false" X="502" Y="302" ZOrder="10">
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
 						<Stroke/>
@@ -2194,7 +2304,7 @@
 					<FillColor Color="rgb(122, 207, 245)" Style="1" Transparency="0" Type="1"/>
 					<CompartmentFont Value="none"/>
 				</Class>
-				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="150" Id="dYyoGvqD.AACAQbi" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="9YyoGvqD.AACAQbj" Model="9YyoGvqD.AACAQbj" ModelElementNameAlignment="9" Name="NodeVertex" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="402" WpMbs="false" X="2" Y="302" ZOrder="10">
+				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="152" Id="dYyoGvqD.AACAQbi" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="9YyoGvqD.AACAQbj" Model="9YyoGvqD.AACAQbj" ModelElementNameAlignment="9" Name="NodeVertex" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="402" WpMbs="false" X="2" Y="302" ZOrder="12">
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
 						<Stroke/>
@@ -2203,7 +2313,16 @@
 					<FillColor Color="rgb(122, 207, 245)" Style="1" Transparency="0" Type="1"/>
 					<CompartmentFont Value="none"/>
 				</Class>
-				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="200" Id="3Z0oGvqD.AACAQbQ" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="PZ0oGvqD.AACAQbR" Model="PZ0oGvqD.AACAQbR" ModelElementNameAlignment="9" Name="TreeVertex" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="300" WpMbs="false" X="302" Y="2" ZOrder="12">
+				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="200" Id="3Z0oGvqD.AACAQbQ" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="PZ0oGvqD.AACAQbR" Model="PZ0oGvqD.AACAQbR" ModelElementNameAlignment="9" Name="TreeVertex" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="300" WpMbs="false" X="302" Y="2" ZOrder="14">
+					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
+					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
+						<Stroke/>
+					</Line>
+					<Caption Height="14" InternalHeight="-2147483648" InternalWidth="-2147483648" Side="FreeMove" Visible="true" Width="300" X="-48" Y="-48"/>
+					<FillColor Color="rgb(122, 207, 245)" Style="1" Transparency="0" Type="1"/>
+					<CompartmentFont Value="none"/>
+				</Class>
+				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="100" Id="BtA.bfqD.AACAQeE" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="BtA.bfqD.AACAQeF" Model="BtA.bfqD.AACAQeF" ModelElementNameAlignment="9" Name="RepeatVertex" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="300" WpMbs="false" X="52" Y="552" ZOrder="2">
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
 						<Stroke/>
@@ -2214,7 +2333,7 @@
 				</Class>
 			</Shapes>
 			<Connectors>
-				<Generalization Background="rgb(255, 255, 255)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="3Z0oGvqD.AACAQbQ" FromConnectType="0" FromPinType="1" FromShapeXDiff="0" FromShapeYDiff="0" Height="199" Id="Oe54GvqD.AACAQkK" MetaModelElement="jW54GvqD.AACAQkJ" Model="jW54GvqD.AACAQkJ" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowConnectorName="2" To="dYyoGvqD.AACAQbi" ToConnectType="0" ToPinType="2" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="168" X="183" Y="153" ZOrder="14">
+				<Generalization Background="rgb(255, 255, 255)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="3Z0oGvqD.AACAQbQ" FromConnectType="0" FromPinType="1" FromShapeXDiff="0" FromShapeYDiff="0" Height="199" Id="Oe54GvqD.AACAQkK" MetaModelElement="jW54GvqD.AACAQkJ" Model="jW54GvqD.AACAQkJ" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowConnectorName="2" To="dYyoGvqD.AACAQbi" ToConnectType="0" ToPinType="2" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="168" X="183" Y="153" ZOrder="16">
 					<ToPinRatio X="0.574999988079071" Y="0.0"/>
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
@@ -2226,7 +2345,7 @@
 						<Point X="233.0" Y="302.0"/>
 					</Points>
 				</Generalization>
-				<Generalization Background="rgb(255, 255, 255)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="3Z0oGvqD.AACAQbQ" FromConnectType="0" FromPinType="1" FromShapeXDiff="0" FromShapeYDiff="0" Height="199" Id="i_14GvqD.AACAQkj" MetaModelElement="yX14GvqD.AACAQki" Model="yX14GvqD.AACAQki" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowConnectorName="2" To="1K6oGvqD.AACAQbr" ToConnectType="0" ToPinType="2" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="100" X="552" Y="153" ZOrder="16">
+				<Generalization Background="rgb(255, 255, 255)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="3Z0oGvqD.AACAQbQ" FromConnectType="0" FromPinType="1" FromShapeXDiff="0" FromShapeYDiff="0" Height="199" Id="i_14GvqD.AACAQkj" MetaModelElement="yX14GvqD.AACAQki" Model="yX14GvqD.AACAQki" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowConnectorName="2" To="1K6oGvqD.AACAQbr" ToConnectType="0" ToPinType="2" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="100" X="552" Y="153" ZOrder="18">
 					<ToPinRatio X="0.4000000059604645" Y="0.0"/>
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
@@ -2238,7 +2357,7 @@
 						<Point X="602.0" Y="302.0"/>
 					</Points>
 				</Generalization>
-				<Association AssociationEndPropertyStringsAInternalHeight="-2147483648" AssociationEndPropertyStringsAInternalWidth="-2147483648" AssociationEndPropertyStringsBInternalHeight="-2147483648" AssociationEndPropertyStringsBInternalWidth="-2147483648" Background="rgb(122, 207, 245)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="dYyoGvqD.AACAQbi" FromConnectType="0" FromMultiplicityInternalHeight="-2147483648" FromMultiplicityInternalWidth="-2147483648" FromPinType="2" FromRoleInternalHeight="-2147483648" FromRoleInternalWidth="-2147483648" FromShapeXDiff="0" FromShapeYDiff="0" HasAssociationEndPropertyStringsAShape="false" HasAssociationEndPropertyStringsBShape="false" HasMultiplicityAShape="false" HasMultiplicityBShape="false" HasRoleAShape="false" HasRoleBShape="false" Height="300" Id="fn8WTvqD.AACAQ1b" MetaModelElement="Jr8WTvqD.AACAQ1P" Model="Jr8WTvqD.AACAQ1P" Name="left, right" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowAssociationEndPropertyStrings="false" ShowConnectorName="2" ShowDirection="false" ShowFromMultiplicity="true" ShowFromRoleName="true" ShowFromRoleVisibility="true" ShowMultiplicityConstraints="false" ShowNavigationArrows="0" ShowOrderedMultiplicityConstraint="true" ShowStereotypes="true" ShowToMultiplicity="true" ShowToRoleName="true" ShowToRoleVisibility="true" ShowUniqueMultiplicityConstraint="true" SuppressImplied1MultiplicityForAssociationEnd="0" To="3Z0oGvqD.AACAQbQ" ToConnectType="0" ToMultiplicityInternalHeight="-2147483648" ToMultiplicityInternalWidth="-2147483648" ToPinType="2" ToRoleInternalHeight="-2147483648" ToRoleInternalWidth="-2147483648" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="249" X="103" Y="52" ZOrder="18">
+				<Association AssociationEndPropertyStringsAInternalHeight="-2147483648" AssociationEndPropertyStringsAInternalWidth="-2147483648" AssociationEndPropertyStringsBInternalHeight="-2147483648" AssociationEndPropertyStringsBInternalWidth="-2147483648" Background="rgb(122, 207, 245)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="dYyoGvqD.AACAQbi" FromConnectType="0" FromMultiplicityInternalHeight="-2147483648" FromMultiplicityInternalWidth="-2147483648" FromPinType="2" FromRoleInternalHeight="-2147483648" FromRoleInternalWidth="-2147483648" FromShapeXDiff="0" FromShapeYDiff="0" HasAssociationEndPropertyStringsAShape="false" HasAssociationEndPropertyStringsBShape="false" HasMultiplicityAShape="false" HasMultiplicityBShape="false" HasRoleAShape="false" HasRoleBShape="false" Height="300" Id="fn8WTvqD.AACAQ1b" MetaModelElement="Jr8WTvqD.AACAQ1P" Model="Jr8WTvqD.AACAQ1P" Name="left, right" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowAssociationEndPropertyStrings="false" ShowConnectorName="2" ShowDirection="false" ShowFromMultiplicity="true" ShowFromRoleName="true" ShowFromRoleVisibility="true" ShowMultiplicityConstraints="false" ShowNavigationArrows="0" ShowOrderedMultiplicityConstraint="true" ShowStereotypes="true" ShowToMultiplicity="true" ShowToRoleName="true" ShowToRoleVisibility="true" ShowUniqueMultiplicityConstraint="true" SuppressImplied1MultiplicityForAssociationEnd="0" To="3Z0oGvqD.AACAQbQ" ToConnectType="0" ToMultiplicityInternalHeight="-2147483648" ToMultiplicityInternalWidth="-2147483648" ToPinType="2" ToRoleInternalHeight="-2147483648" ToRoleInternalWidth="-2147483648" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="249" X="103" Y="52" ZOrder="20">
 					<FromPinRatio X="0.375" Y="0.0"/>
 					<ToPinRatio X="0.0" Y="0.5"/>
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
@@ -2252,7 +2371,7 @@
 						<Point X="302.0" Y="102.0"/>
 					</Points>
 				</Association>
-				<Association AssociationEndPropertyStringsAInternalHeight="-2147483648" AssociationEndPropertyStringsAInternalWidth="-2147483648" AssociationEndPropertyStringsBInternalHeight="-2147483648" AssociationEndPropertyStringsBInternalWidth="-2147483648" Background="rgb(122, 207, 245)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="1K6oGvqD.AACAQbr" FromConnectType="0" FromMultiplicityInternalHeight="-2147483648" FromMultiplicityInternalWidth="-2147483648" FromPinType="2" FromRoleInternalHeight="-2147483648" FromRoleInternalWidth="-2147483648" FromShapeXDiff="0" FromShapeYDiff="0" HasAssociationEndPropertyStringsAShape="false" HasAssociationEndPropertyStringsBShape="false" HasMultiplicityAShape="false" HasMultiplicityBShape="false" HasRoleAShape="false" HasRoleBShape="false" Height="300" Id="F8HWTvqD.AACAQ2G" MetaModelElement="cMHWTvqD.AACAQ2B" Model="cMHWTvqD.AACAQ2B" Name="recursive" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowAssociationEndPropertyStrings="false" ShowConnectorName="2" ShowDirection="false" ShowFromMultiplicity="true" ShowFromRoleName="true" ShowFromRoleVisibility="true" ShowMultiplicityConstraints="false" ShowNavigationArrows="0" ShowOrderedMultiplicityConstraint="true" ShowStereotypes="true" ShowToMultiplicity="true" ShowToRoleName="true" ShowToRoleVisibility="true" ShowUniqueMultiplicityConstraint="true" SuppressImplied1MultiplicityForAssociationEnd="0" To="3Z0oGvqD.AACAQbQ" ToConnectType="0" ToMultiplicityInternalHeight="-2147483648" ToMultiplicityInternalWidth="-2147483648" ToPinType="2" ToRoleInternalHeight="-2147483648" ToRoleInternalWidth="-2147483648" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="150" X="552" Y="52" ZOrder="20">
+				<Association AssociationEndPropertyStringsAInternalHeight="-2147483648" AssociationEndPropertyStringsAInternalWidth="-2147483648" AssociationEndPropertyStringsBInternalHeight="-2147483648" AssociationEndPropertyStringsBInternalWidth="-2147483648" Background="rgb(122, 207, 245)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="1K6oGvqD.AACAQbr" FromConnectType="0" FromMultiplicityInternalHeight="-2147483648" FromMultiplicityInternalWidth="-2147483648" FromPinType="2" FromRoleInternalHeight="-2147483648" FromRoleInternalWidth="-2147483648" FromShapeXDiff="0" FromShapeYDiff="0" HasAssociationEndPropertyStringsAShape="false" HasAssociationEndPropertyStringsBShape="false" HasMultiplicityAShape="false" HasMultiplicityBShape="false" HasRoleAShape="false" HasRoleBShape="false" Height="300" Id="F8HWTvqD.AACAQ2G" MetaModelElement="cMHWTvqD.AACAQ2B" Model="cMHWTvqD.AACAQ2B" Name="recursive" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowAssociationEndPropertyStrings="false" ShowConnectorName="2" ShowDirection="false" ShowFromMultiplicity="true" ShowFromRoleName="true" ShowFromRoleVisibility="true" ShowMultiplicityConstraints="false" ShowNavigationArrows="0" ShowOrderedMultiplicityConstraint="true" ShowStereotypes="true" ShowToMultiplicity="true" ShowToRoleName="true" ShowToRoleVisibility="true" ShowUniqueMultiplicityConstraint="true" SuppressImplied1MultiplicityForAssociationEnd="0" To="3Z0oGvqD.AACAQbQ" ToConnectType="0" ToMultiplicityInternalHeight="-2147483648" ToMultiplicityInternalWidth="-2147483648" ToPinType="2" ToRoleInternalHeight="-2147483648" ToRoleInternalWidth="-2147483648" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="150" X="552" Y="52" ZOrder="22">
 					<FromPinRatio X="0.6000000238418579" Y="0.0"/>
 					<ToPinRatio X="1.0" Y="0.5"/>
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
@@ -2266,18 +2385,30 @@
 						<Point X="602.0" Y="102.0"/>
 					</Points>
 				</Association>
-				<Association AssociationEndPropertyStringsAInternalHeight="-2147483648" AssociationEndPropertyStringsAInternalWidth="-2147483648" AssociationEndPropertyStringsBInternalHeight="-2147483648" AssociationEndPropertyStringsBInternalWidth="-2147483648" Background="rgb(122, 207, 245)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="vxNhsfqD.AACAQ1r" FromConnectType="0" FromMultiplicityInternalHeight="-2147483648" FromMultiplicityInternalWidth="-2147483648" FromPinType="2" FromRoleInternalHeight="-2147483648" FromRoleInternalWidth="-2147483648" FromShapeXDiff="0" FromShapeYDiff="0" HasAssociationEndPropertyStringsAShape="false" HasAssociationEndPropertyStringsBShape="false" HasMultiplicityAShape="false" HasMultiplicityBShape="false" HasRoleAShape="false" HasRoleBShape="false" Height="199" Id="bGYwjfqD.AACAQdf" MetaModelElement="_KYwjfqD.AACAQda" Model="_KYwjfqD.AACAQda" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowAssociationEndPropertyStrings="false" ShowConnectorName="2" ShowDirection="false" ShowFromMultiplicity="true" ShowFromRoleName="true" ShowFromRoleVisibility="true" ShowMultiplicityConstraints="false" ShowNavigationArrows="0" ShowOrderedMultiplicityConstraint="true" ShowStereotypes="true" ShowToMultiplicity="true" ShowToRoleName="true" ShowToRoleVisibility="true" ShowUniqueMultiplicityConstraint="true" SuppressImplied1MultiplicityForAssociationEnd="0" To="wd3QjfqD.AACAQcl" ToConnectType="0" ToMultiplicityInternalHeight="-2147483648" ToMultiplicityInternalWidth="-2147483648" ToPinType="1" ToRoleInternalHeight="-2147483648" ToRoleInternalWidth="-2147483648" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="100" X="102" Y="652" ZOrder="22">
+				<Association AssociationEndPropertyStringsAInternalHeight="-2147483648" AssociationEndPropertyStringsAInternalWidth="-2147483648" AssociationEndPropertyStringsBInternalHeight="-2147483648" AssociationEndPropertyStringsBInternalWidth="-2147483648" Background="rgb(122, 207, 245)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="vxNhsfqD.AACAQ1r" FromConnectType="0" FromMultiplicityInternalHeight="-2147483648" FromMultiplicityInternalWidth="-2147483648" FromPinType="2" FromRoleInternalHeight="-2147483648" FromRoleInternalWidth="-2147483648" FromShapeXDiff="0" FromShapeYDiff="0" HasAssociationEndPropertyStringsAShape="false" HasAssociationEndPropertyStringsBShape="false" HasMultiplicityAShape="false" HasMultiplicityBShape="false" HasRoleAShape="false" HasRoleBShape="false" Height="199" Id="bGYwjfqD.AACAQdf" MetaModelElement="_KYwjfqD.AACAQda" Model="_KYwjfqD.AACAQda" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowAssociationEndPropertyStrings="false" ShowConnectorName="2" ShowDirection="false" ShowFromMultiplicity="true" ShowFromRoleName="true" ShowFromRoleVisibility="true" ShowMultiplicityConstraints="false" ShowNavigationArrows="0" ShowOrderedMultiplicityConstraint="true" ShowStereotypes="true" ShowToMultiplicity="true" ShowToRoleName="true" ShowToRoleVisibility="true" ShowUniqueMultiplicityConstraint="true" SuppressImplied1MultiplicityForAssociationEnd="0" To="wd3QjfqD.AACAQcl" ToConnectType="0" ToMultiplicityInternalHeight="-2147483648" ToMultiplicityInternalWidth="-2147483648" ToPinType="1" ToRoleInternalHeight="-2147483648" ToRoleInternalWidth="-2147483648" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="100" X="1050" Y="102" ZOrder="24">
 					<FromPinRatio X="0.5" Y="1.0"/>
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
 						<Stroke/>
 					</Line>
-					<Caption Height="0" InternalHeight="-2147483648" InternalWidth="-2147483648" Side="None" Visible="true" Width="20" X="152" Y="752"/>
+					<Caption Height="0" InternalHeight="-2147483648" InternalWidth="-2147483648" Side="None" Visible="true" Width="20" X="1102" Y="202"/>
 					<Points>
-						<Point X="152.0" Y="702.0"/>
-						<Point X="152.0" Y="801.0"/>
+						<Point X="1100.0" Y="152.0"/>
+						<Point X="1100.0" Y="251.0"/>
 					</Points>
 				</Association>
+				<Generalization Background="rgb(255, 255, 255)" ConnectorLabelOrientation="4" ConnectorLineJumps="4" ConnectorStyle="Follow Diagram" CreatorDiagramType="ClassDiagram" Foreground="rgb(0, 0, 0)" From="dYyoGvqD.AACAQbi" FromConnectType="0" FromPinType="1" FromShapeXDiff="0" FromShapeYDiff="0" Height="197" Id="WKC.bfqD.AACAQet" MetaModelElement="8iC.bfqD.AACAQes" Model="8iC.bfqD.AACAQes" PaintThroughLabel="2" RequestRebuild="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" Selectable="true" ShowConnectorName="2" To="BtA.bfqD.AACAQeE" ToConnectType="0" ToPinType="2" ToShapeXDiff="0" ToShapeYDiff="0" UseFromShapeCenter="true" UseToShapeCenter="true" Width="100" X="152" Y="405" ZOrder="26">
+					<ToPinRatio X="0.5" Y="0.0"/>
+					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
+					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
+						<Stroke/>
+					</Line>
+					<Caption Height="0" InternalHeight="-2147483648" InternalWidth="-2147483648" Side="None" Visible="true" Width="20" X="202" Y="502"/>
+					<Points>
+						<Point X="202.0" Y="455.0"/>
+						<Point X="202.0" Y="552.0"/>
+					</Points>
+				</Generalization>
 			</Connectors>
 		</ClassDiagram>
 	</Diagrams>

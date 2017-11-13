@@ -11,6 +11,8 @@ public abstract class TreeVertex
         this.id = id;
     }
 
+    public abstract String getTypename();
+
     public abstract TreeVertex getLeft();
 
     protected abstract void setLeft(TreeVertex vertex);
