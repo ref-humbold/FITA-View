@@ -12,19 +12,19 @@ public class TreeWriterTest
     @Before
     public void setUp()
     {
-        testObject = new TreeWriter();
     }
 
     @After
     public void tearDown()
     {
-        testObject = null;
     }
 
     @Test
     public void testToStringWhenNull()
     {
-        String result = testObject.write(null).toString();
+        testObject = new TreeWriter(null);
+
+        String result = testObject.toString();
 
         Assert.assertEquals("", result);
     }
@@ -36,7 +36,9 @@ public class TreeWriterTest
             new NodeVertex("1", new NodeVertex("2", new NodeVertex("3"), new NodeVertex("4")),
                            new NodeVertex("5"));
 
-        String result = testObject.write(tree).toString();
+        testObject = new TreeWriter(tree);
+
+        String result = testObject.toString();
         String expected =
             "<node label=\"1\">\n  <node label=\"2\">\n    <node label=\"3\" />\n    <node label=\"4\" />\n"
                 + "  </node>\n  <node label=\"5\" />\n</node>\n";
@@ -56,7 +58,9 @@ public class TreeWriterTest
             new NodeVertex("1", new NodeVertex("2", new NodeVertex("3"), new NodeVertex("4")),
                            repeat);
 
-        String result = testObject.write(tree).toString();
+        testObject = new TreeWriter(tree);
+
+        String result = testObject.toString();
         String expected =
             "<node label=\"1\">\n  <node label=\"2\">\n    <node label=\"3\" />\n    <node label=\"4\" />\n"
                 + "  </node>\n  <repeat label=\"5\">\n    <node label=\"6\" />\n    <node label=\"7\">\n"

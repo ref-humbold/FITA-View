@@ -8,30 +8,10 @@ import java.util.Collections;
 public class TreeWriter
 {
     private TreeVertex tree;
-    private TreeWriter parent;
-    private StringBuilder body = new StringBuilder();
 
-    public TreeWriter()
-    {
-    }
-
-    private TreeWriter(TreeVertex tree, TreeWriter parent)
+    public TreeWriter(TreeVertex tree)
     {
         this.tree = tree;
-        this.parent = parent;
-    }
-
-    public TreeWriter write(TreeVertex tree)
-    {
-        if(tree == null)
-            return this;
-
-        TreeWriter writer = startTree(tree);
-
-        if(!isRec(tree) && hasChildren(tree))
-            writer = writer.write(tree.getLeft()).write(tree.getRight());
-
-        return writer.endTree();
     }
 
     public void toFile(String filename)
@@ -46,84 +26,122 @@ public class TreeWriter
     @Override
     public String toString()
     {
-        StringBuilder output = new StringBuilder();
+        TreeXMLBuilder builder = new TreeXMLBuilder();
 
-        if(tree == null)
-            return body.toString();
-
-        output.append("<");
-        output.append(tree.getTypename());
-
-        if(!isRec(tree))
-        {
-            output.append(" label=\"");
-            output.append(tree.getLabel());
-            output.append("\"");
-        }
-
-        if(hasChildren(tree))
-        {
-            output.append(">");
-            output.append(indentBody().toString());
-            output.append("</");
-            output.append(tree.getTypename());
-            output.append(">\n");
-        }
-        else
-            output.append(" />\n");
-
-        return output.toString();
+        return builder.build(tree).toString();
     }
 
-    private StringBuilder indentBody()
+    private class TreeXMLBuilder
     {
-        String indentString = String.join("", Collections.nCopies(2, " "));
-        StringBuilder indented = new StringBuilder("\n" + body.toString().trim());
-        int indexStart = 0;
+        private TreeVertex tree;
+        private TreeXMLBuilder parent;
+        private StringBuilder body = new StringBuilder();
 
-        while(indexStart >= 0)
+        TreeXMLBuilder()
         {
-            int newlineIndex = indented.indexOf("\n", indexStart);
+        }
 
-            if(newlineIndex >= 0)
+        private TreeXMLBuilder(TreeVertex tree, TreeXMLBuilder parent)
+        {
+            this.tree = tree;
+            this.parent = parent;
+        }
+
+        TreeXMLBuilder build(TreeVertex tree)
+        {
+            if(tree == null)
+                return this;
+
+            TreeXMLBuilder builder = startTree(tree);
+
+            if(!isRec(tree) && hasChildren(tree))
+                builder = builder.build(tree.getLeft()).build(tree.getRight());
+
+            return builder.endTree();
+        }
+
+        @Override
+        public String toString()
+        {
+            StringBuilder output = new StringBuilder();
+
+            if(tree == null)
+                return body.toString();
+
+            output.append("<");
+            output.append(tree.getTypename());
+
+            if(!isRec(tree))
             {
-                indented.insert(newlineIndex + 1, indentString);
-                indexStart = newlineIndex + indentString.length();
+                output.append(" label=\"");
+                output.append(tree.getLabel());
+                output.append("\"");
+            }
+
+            if(hasChildren(tree))
+            {
+                output.append(">");
+                output.append(indentBody().toString());
+                output.append("</");
+                output.append(tree.getTypename());
+                output.append(">\n");
             }
             else
-            {
-                indented.append("\n");
-                indexStart = newlineIndex;
-            }
+                output.append(" />\n");
+
+            return output.toString();
         }
 
-        return indented;
-    }
+        private StringBuilder indentBody()
+        {
+            String indentString = String.join("", Collections.nCopies(2, " "));
+            StringBuilder indented = new StringBuilder("\n" + body.toString().trim());
+            int indexStart = 0;
 
-    private TreeWriter startTree(TreeVertex tree)
-    {
-        return new TreeWriter(tree, this);
-    }
+            while(indexStart >= 0)
+            {
+                int newlineIndex = indented.indexOf("\n", indexStart);
 
-    private TreeWriter endTree()
-    {
-        parent.addContent(toString());
+                if(newlineIndex >= 0)
+                {
+                    indented.insert(newlineIndex + 1, indentString);
+                    indexStart = newlineIndex + indentString.length();
+                }
+                else
+                {
+                    indented.append("\n");
+                    indexStart = newlineIndex;
+                }
+            }
 
-        return parent;
-    }
+            return indented;
+        }
 
-    private void addContent(String content)
-    {
-        body.append(content);
-    }
+        private TreeXMLBuilder startTree(TreeVertex tree)
+        {
+            return new TreeXMLBuilder(tree, this);
+        }
 
-    private boolean isRec(TreeVertex tree)
-    {
-        return tree.getTypename().equals("rec");
-    }
+        private TreeXMLBuilder endTree()
+        {
+            parent.addContent(toString());
 
-    private boolean hasChildren(TreeVertex tree)
-    {
-        return !isRec(tree) && tree.getLeft() != null && tree.getRight() != null;
+            return parent;
+        }
+
+        private void addContent(String content)
+        {
+            body.append(content);
+        }
+
+        private boolean isRec(TreeVertex tree)
+        {
+            return tree.getTypename().equals("rec");
+        }
+
+        private boolean hasChildren(TreeVertex tree)
+        {
+            return !isRec(tree) && tree.getLeft() != null && tree.getRight() != null;
+        }
     }
 }
