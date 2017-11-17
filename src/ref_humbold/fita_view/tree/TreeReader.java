@@ -3,12 +3,16 @@ package ref_humbold.fita_view.tree;
 import java.io.File;
 import java.io.IOException;
 import java.util.Stack;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import ref_humbold.fita_view.Pair;
@@ -28,7 +32,14 @@ public class TreeReader
         this.file = new File(filename);
         try
         {
-            this.parser = SAXParserFactory.newInstance().newSAXParser();
+            String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(language);
+            Schema schema =
+                schemaFactory.newSchema(new File("src/ref_humbold/fita_view/tree/Tree.xsd"));
+            SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+
+            parserFactory.setSchema(schema);
+            this.parser = parserFactory.newSAXParser();
         }
         catch(ParserConfigurationException | SAXException e)
         {
@@ -48,8 +59,15 @@ public class TreeReader
         extends DefaultHandler
     {
         private Stack<TreeVertex> repeats = new Stack<>();
-        private Stack<Pair<TreeVertex, Boolean>> nodes = new Stack<>();
+        private Stack<Pair<TreeVertex, TreeChild>> nodes = new Stack<>();
         private int idIndex = 1;
+
+        @Override
+        public void error(SAXParseException e)
+            throws SAXException
+        {
+            throw new TreeParsingException(e);
+        }
 
         @Override
         public void endElement(String uri, String localName, String qName)
@@ -57,20 +75,33 @@ public class TreeReader
         {
             switch(qName)
             {
+                case "null":
+                    break;
+
                 case "node":
                 case "repeat":
                 case "rec":
                     if(nodes.size() > 1)
                     {
-                        TreeVertex node = nodes.pop().getFirst();
-                        Pair<TreeVertex, Boolean> parent = nodes.pop();
+                        Pair<TreeVertex, TreeChild> node = nodes.pop();
+                        Pair<TreeVertex, TreeChild> parent = nodes.pop();
 
-                        if(parent.getSecond())
-                            parent.getFirst().setLeft(node);
-                        else
-                            parent.getFirst().setRight(node);
+                        if(node.getSecond() == TreeChild.RIGHT)
+                            throw new TreeParsingException(
+                                "Node must have zero or two children, but it has only one.");
 
-                        nodes.push(Pair.make(parent.getFirst(), false));
+                        switch(parent.getSecond())
+                        {
+                            case LEFT:
+                                parent.getFirst().setLeft(node.getFirst());
+                                nodes.push(Pair.make(parent.getFirst(), TreeChild.RIGHT));
+                                break;
+
+                            case RIGHT:
+                                parent.getFirst().setRight(node.getFirst());
+                                nodes.push(Pair.make(parent.getFirst(), TreeChild.NONE));
+                                break;
+                        }
 
                         if(qName.equals("repeat"))
                             repeats.pop();
@@ -78,7 +109,7 @@ public class TreeReader
                     break;
 
                 default:
-                    throw new SAXException();
+                    throw new TreeParsingException("No such tag: \'" + qName + "\'");
             }
         }
 
@@ -88,6 +119,9 @@ public class TreeReader
         {
             switch(qName)
             {
+                case "null":
+                    break;
+
                 case "node":
                 case "repeat":
                     String label = attributes.getValue("label");
@@ -98,18 +132,22 @@ public class TreeReader
                     NodeVertex node = qName.equals("repeat") ? new RepeatVertex(label, idIndex)
                                                              : new NodeVertex(label, idIndex);
 
-                    nodes.push(Pair.make(node, true));
+                    nodes.push(Pair.make(node, TreeChild.LEFT));
 
                     if(qName.equals("repeat"))
                         repeats.push(node);
                     break;
 
                 case "rec":
+                    if(repeats.empty())
+                        throw new TreeParsingException(
+                            "Vertex \'rec\' is out of scope of vertex \'repeat\'.");
+
                     nodes.push(Pair.make(new RecVertex(repeats.peek(), idIndex), null));
                     break;
 
                 default:
-                    throw new SAXException();
+                    throw new TreeParsingException("No such tag: \'" + qName + "\'");
             }
 
             ++idIndex;
@@ -119,7 +157,7 @@ public class TreeReader
         public void endDocument()
             throws SAXException
         {
-            tree = nodes.get(0).getFirst();
+            tree = nodes.empty() ? null : nodes.get(0).getFirst();
         }
     }
 }

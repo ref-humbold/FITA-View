@@ -1,15 +1,14 @@
-# ignore Visual Paradigm backup files
+# Visual Paradigm backup files
+UML/*.bak*
 
-/UML/*.bak*
-/UML/*.lck
+# ignore Java output
+bin
+docs
+junit_results
+junit_reports
 
-# ignore Java, JUnit, Javadoc output
-
-/bin
-/doc
-/junit_results
-/junit_reports
-
-# ignore IntelliJ files
-
+# IntelliJ project files
 *.iml
+.idea
+out
+gen

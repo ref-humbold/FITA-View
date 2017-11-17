@@ -23,13 +23,32 @@ public class TreeReaderTest
     }
 
     @Test
+    public void testReadEmptyTree()
+    {
+        TreeVertex result = null;
+
+        try
+        {
+            testObject = new TreeReader("test/ref_humbold/fita_view/tree/testReadEmptyTree.xml");
+            result = testObject.read();
+        }
+        catch(SAXException | IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertNull(result);
+    }
+
+    @Test
     public void testReadFiniteTree()
     {
         TreeVertex result = null;
 
         try
         {
-            testObject = new TreeReader("test_files/TreeReader_testReadFiniteTree.xml");
+            testObject = new TreeReader("test/ref_humbold/fita_view/tree/testReadFiniteTree.xml");
             result = testObject.read();
         }
         catch(SAXException | IOException e)
@@ -53,7 +72,8 @@ public class TreeReaderTest
 
         try
         {
-            testObject = new TreeReader("test_files/TreeReader_testReadWhenSingleRepeat.xml");
+            testObject =
+                new TreeReader("test/ref_humbold/fita_view/tree/testReadWhenSingleRepeat.xml");
             result = testObject.read();
         }
         catch(SAXException | IOException e)
@@ -82,7 +102,8 @@ public class TreeReaderTest
 
         try
         {
-            testObject = new TreeReader("test_files/TreeReader_testReadWhenNestedRepeats.xml");
+            testObject =
+                new TreeReader("test/ref_humbold/fita_view/tree/testReadWhenNestedRepeats.xml");
             result = testObject.read();
         }
         catch(SAXException | IOException e)
@@ -108,5 +129,108 @@ public class TreeReaderTest
 
         Assert.assertNotNull(result);
         Assert.assertEquals(expected, result);
+    }
+
+    @Test(expected = TreeParsingException.class)
+    public void testReadWhenRecOutOfScope()
+        throws SAXException
+    {
+        try
+        {
+            testObject =
+                new TreeReader("test/ref_humbold/fita_view/tree/testReadWhenRecOutOfScope.xml");
+        }
+        catch(SAXException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = TreeParsingException.class)
+    public void testReadWhenOneChild()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new TreeReader("test/ref_humbold/fita_view/tree/testReadWhenOneChild.xml");
+        }
+        catch(SAXException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = TreeParsingException.class)
+    public void testReadWhenNullIsChild()
+        throws SAXException
+    {
+        try
+        {
+            testObject =
+                new TreeReader("test/ref_humbold/fita_view/tree/testReadWhenNullIsChild.xml");
+        }
+        catch(SAXException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = TreeParsingException.class)
+    public void testReadWhenThreeChildren()
+        throws SAXException
+    {
+        try
+        {
+            testObject =
+                new TreeReader("test/ref_humbold/fita_view/tree/testReadWhenThreeChildren.xml");
+        }
+        catch(SAXException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
     }
 }

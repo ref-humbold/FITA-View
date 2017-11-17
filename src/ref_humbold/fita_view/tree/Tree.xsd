@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
+           elementFormDefault="qualified">
+  <xs:element name="null" type="emptyType" />
+  <xs:element name="node" type="nodeType" />
+  <xs:complexType name="nodeType" mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="2">
+      <xs:element type="nodeType" name="node" />
+      <xs:element type="nodeRecType" name="repeat" />
+    </xs:choice>
+    <xs:attribute name="label" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="nodeRecType" mixed="true">
+    <xs:choice minOccurs="0" maxOccurs="2">
+      <xs:element type="nodeRecType" name="node" />
+      <xs:element type="nodeRecType" name="repeat" />
+      <xs:element type="emptyType" name="rec" />
+    </xs:choice>
+    <xs:attribute name="label" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="emptyType" />
+</xs:schema>

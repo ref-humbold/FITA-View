@@ -11,6 +11,12 @@ public abstract class TreeVertex
         this.id = id;
     }
 
+    @Override
+    public int hashCode()
+    {
+        return getLabel().hashCode();
+    }
+
     public abstract String getTypename();
 
     public abstract TreeVertex getLeft();

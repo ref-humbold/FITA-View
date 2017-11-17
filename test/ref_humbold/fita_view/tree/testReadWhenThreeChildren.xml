@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node label="1">
+  <node label="2">
+    <node label="3" />
+    <node label="4" />
+    <node label="5" />
+  </node>
+  <node label="6">
+    <node label="7" />
+    <node label="8" />
+  </node>
+</node>

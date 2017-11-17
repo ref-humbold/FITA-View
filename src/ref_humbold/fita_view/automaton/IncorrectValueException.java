@@ -1,26 +1,26 @@
 package ref_humbold.fita_view.automaton;
 
-public class IncorrectVariableValueException
+public class IncorrectValueException
     extends RuntimeException
 {
     private static final long serialVersionUID = -2128138364416571613L;
 
-    public IncorrectVariableValueException()
+    public IncorrectValueException()
     {
         super();
     }
 
-    public IncorrectVariableValueException(String s)
+    public IncorrectValueException(String s)
     {
         super(s);
     }
 
-    public IncorrectVariableValueException(Throwable t)
+    public IncorrectValueException(Throwable t)
     {
         super(t);
     }
 
-    public IncorrectVariableValueException(String s, Throwable t)
+    public IncorrectValueException(String s, Throwable t)
     {
         super(s, t);
     }

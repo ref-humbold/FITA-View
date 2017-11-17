@@ -28,6 +28,9 @@ public class TreeWriter
     {
         TreeXMLBuilder builder = new TreeXMLBuilder();
 
+        if(tree == null)
+            return "<null />";
+        
         return builder.build(tree).toString();
     }
 

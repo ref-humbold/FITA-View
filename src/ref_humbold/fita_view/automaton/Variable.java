@@ -12,6 +12,7 @@ public class Variable
     public Variable(String initValue, String... values)
     {
         this.initValue = initValue;
+        this.values.add(this.initValue);
         this.values.addAll(Arrays.asList(values));
     }
 

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import ref_humbold.fita_view.automaton.IncorrectVariableValueException;
+import ref_humbold.fita_view.automaton.IncorrectValueException;
 import ref_humbold.fita_view.automaton.Variable;
 
 public class NodeVertex
@@ -105,7 +105,7 @@ public class NodeVertex
     public void setState(Variable var, String value)
     {
         if(!var.isCorrectValue(value))
-            throw new IncorrectVariableValueException(value);
+            throw new IncorrectValueException(value);
 
         state.put(var, value);
     }

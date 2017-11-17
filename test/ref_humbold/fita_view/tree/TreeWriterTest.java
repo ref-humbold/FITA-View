@@ -20,13 +20,13 @@ public class TreeWriterTest
     }
 
     @Test
-    public void testToStringWhenNull()
+    public void testToStringWhenEmptyTree()
     {
         testObject = new TreeWriter(null);
 
         String result = testObject.toString();
 
-        Assert.assertEquals("", result);
+        Assert.assertEquals("<null />", result);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class TreeWriterTest
     }
 
     @Test
-    public void testToStringWhenSingleRepeat()
+    public void testToStringWhenRepeat()
     {
         TreeVertex repeat = new RepeatVertex("5");
 
