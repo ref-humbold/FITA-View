@@ -5,8 +5,9 @@ import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
-import ref_humbold.fita_view.automaton.traversing.BottomUpTraversing;
-import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
+import ref_humbold.fita_view.automaton.traversing.TraversingDirection;
+import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
+import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class BottomUpDFTA
@@ -20,12 +21,11 @@ public class BottomUpDFTA
     }
 
     @Override
-    public void setTraversing(TreeTraversing traversing)
+    public void setTraversing(TraversingMode traversingMode)
     {
-        if(!(traversing instanceof BottomUpTraversing))
-            throw new ImproperTraversingException();
-
-        this.traversing = traversing;
+        this.traversing = TraversingFactory.getInstance()
+                                           .getTraversing(traversingMode,
+                                                          TraversingDirection.BOTTOM_UP);
     }
 
     @Override

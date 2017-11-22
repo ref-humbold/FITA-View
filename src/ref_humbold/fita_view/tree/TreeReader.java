@@ -55,6 +55,11 @@ public class TreeReader
         return tree;
     }
 
+    private enum TreeChild
+    {
+        LEFT, RIGHT, NONE
+    }
+
     private class TreeHandler
         extends DefaultHandler
     {
@@ -109,7 +114,7 @@ public class TreeReader
                     break;
 
                 default:
-                    throw new TreeParsingException("No such tag: \'" + qName + "\'");
+                    throw new TreeParsingException("Unexpected tag: \'" + qName + "\'");
             }
         }
 

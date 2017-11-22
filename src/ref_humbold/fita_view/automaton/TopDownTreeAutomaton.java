@@ -3,8 +3,9 @@ package ref_humbold.fita_view.automaton;
 import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
-import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
-import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
+import ref_humbold.fita_view.automaton.traversing.TraversingDirection;
+import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
+import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 
 public abstract class TopDownTreeAutomaton
     extends SimpleTreeAutomaton
@@ -15,12 +16,11 @@ public abstract class TopDownTreeAutomaton
     }
 
     @Override
-    public void setTraversing(TreeTraversing traversing)
+    public void setTraversing(TraversingMode traversingMode)
     {
-        if(!(traversing instanceof TopDownTraversing))
-            throw new ImproperTraversingException();
-
-        this.traversing = traversing;
+        this.traversing = TraversingFactory.getInstance()
+                                           .getTraversing(traversingMode,
+                                                          TraversingDirection.TOP_DOWN);
     }
 
     @Override
