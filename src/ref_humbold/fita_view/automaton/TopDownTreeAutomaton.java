@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.automaton;
 
+import java.util.List;
 import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
@@ -10,9 +11,9 @@ import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 public abstract class TopDownTreeAutomaton
     extends SimpleTreeAutomaton
 {
-    public TopDownTreeAutomaton(Set<String> alphabet, Variable... vars)
+    public TopDownTreeAutomaton(Set<String> alphabet, List<Variable> variables)
     {
-        super(alphabet, vars);
+        super(alphabet, variables);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ref_humbold.fita_view.automaton;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,9 +14,9 @@ public class TopDownDFTA
 {
     private Map<Triple<Variable, String, String>, Pair<String, String>> transitions;
 
-    public TopDownDFTA(Set<String> alphabet, Variable... vars)
+    public TopDownDFTA(Set<String> alphabet, List<Variable> variables)
     {
-        super(alphabet, vars);
+        super(alphabet, variables);
         this.transitions = new HashMap<>();
     }
 

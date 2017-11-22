@@ -17,7 +17,7 @@ public class TreeWriter
     public void toFile(String filename)
         throws IOException
     {
-        FileWriter fileWriter = new FileWriter(new File(filename));
+        FileWriter fileWriter = new FileWriter(new File(filename + ".tree"));
 
         fileWriter.write(toString());
         fileWriter.close();
@@ -30,7 +30,7 @@ public class TreeWriter
 
         if(tree == null)
             return "<null />";
-        
+
         return builder.build(tree).toString();
     }
 

@@ -2,6 +2,7 @@ package ref_humbold.fita_view.automaton;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,9 +18,9 @@ public class TopDownNFTA
     private StateChoice choice;
     private Map<Triple<Variable, String, String>, Set<Pair<String, String>>> transitions;
 
-    public TopDownNFTA(Set<String> alphabet, Variable... vars)
+    public TopDownNFTA(Set<String> alphabet, List<Variable> variables)
     {
-        super(alphabet, vars);
+        super(alphabet, variables);
         this.transitions = new HashMap<>();
     }
 

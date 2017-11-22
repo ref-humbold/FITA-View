@@ -104,7 +104,7 @@ public class NodeVertex
     @Override
     public void setState(Variable var, String value)
     {
-        if(!var.isCorrectValue(value))
+        if(!var.isValue(value))
             throw new IncorrectValueException(value);
 
         state.put(var, value);

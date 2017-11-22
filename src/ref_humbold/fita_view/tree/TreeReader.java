@@ -21,13 +21,13 @@ public class TreeReader
 {
     private File file;
     private SAXParser parser;
-    private TreeVertex tree;
 
     public TreeReader(String filename)
         throws SAXException
     {
-        if(!filename.endsWith(".xml"))
-            throw new IllegalArgumentException("File is not an XML.");
+        if(!filename.endsWith(".tree.xml"))
+            throw new IllegalArgumentException(
+                "File extension is not recognizable, should be \'.tree.xml\'.");
 
         this.file = new File(filename);
         try
@@ -50,9 +50,11 @@ public class TreeReader
     public TreeVertex read()
         throws IOException, SAXException
     {
-        parser.parse(file, new TreeHandler());
+        TreeHandler handler = new TreeHandler();
 
-        return tree;
+        parser.parse(file, handler);
+
+        return handler.getTree();
     }
 
     private enum TreeChild
@@ -65,57 +67,19 @@ public class TreeReader
     {
         private Stack<TreeVertex> repeats = new Stack<>();
         private Stack<Pair<TreeVertex, TreeChild>> nodes = new Stack<>();
+        private TreeVertex tree = null;
         private int idIndex = 1;
+
+        public TreeVertex getTree()
+        {
+            return tree;
+        }
 
         @Override
         public void error(SAXParseException e)
             throws SAXException
         {
             throw new TreeParsingException(e);
-        }
-
-        @Override
-        public void endElement(String uri, String localName, String qName)
-            throws SAXException
-        {
-            switch(qName)
-            {
-                case "null":
-                    break;
-
-                case "node":
-                case "repeat":
-                case "rec":
-                    if(nodes.size() > 1)
-                    {
-                        Pair<TreeVertex, TreeChild> node = nodes.pop();
-                        Pair<TreeVertex, TreeChild> parent = nodes.pop();
-
-                        if(node.getSecond() == TreeChild.RIGHT)
-                            throw new TreeParsingException(
-                                "Node must have zero or two children, but it has only one.");
-
-                        switch(parent.getSecond())
-                        {
-                            case LEFT:
-                                parent.getFirst().setLeft(node.getFirst());
-                                nodes.push(Pair.make(parent.getFirst(), TreeChild.RIGHT));
-                                break;
-
-                            case RIGHT:
-                                parent.getFirst().setRight(node.getFirst());
-                                nodes.push(Pair.make(parent.getFirst(), TreeChild.NONE));
-                                break;
-                        }
-
-                        if(qName.equals("repeat"))
-                            repeats.pop();
-                    }
-                    break;
-
-                default:
-                    throw new TreeParsingException("Unexpected tag: \'" + qName + "\'");
-            }
         }
 
         @Override
@@ -152,10 +116,54 @@ public class TreeReader
                     break;
 
                 default:
-                    throw new TreeParsingException("No such tag: \'" + qName + "\'");
+                    throw new TreeParsingException("Unexpected tag: \'" + qName + "\'");
             }
 
             ++idIndex;
+        }
+
+        @Override
+        public void endElement(String uri, String localName, String qName)
+            throws SAXException
+        {
+            switch(qName)
+            {
+                case "null":
+                    break;
+
+                case "node":
+                case "repeat":
+                case "rec":
+                    if(nodes.size() > 1)
+                    {
+                        Pair<TreeVertex, TreeChild> node = nodes.pop();
+                        Pair<TreeVertex, TreeChild> parent = nodes.pop();
+
+                        if(node.getSecond() == TreeChild.RIGHT)
+                            throw new TreeParsingException(
+                                "Node must have zero or two children, but it has one.");
+
+                        switch(parent.getSecond())
+                        {
+                            case LEFT:
+                                parent.getFirst().setLeft(node.getFirst());
+                                nodes.push(Pair.make(parent.getFirst(), TreeChild.RIGHT));
+                                break;
+
+                            case RIGHT:
+                                parent.getFirst().setRight(node.getFirst());
+                                nodes.push(Pair.make(parent.getFirst(), TreeChild.NONE));
+                                break;
+                        }
+
+                        if(qName.equals("repeat"))
+                            repeats.pop();
+                    }
+                    break;
+
+                default:
+                    throw new TreeParsingException("Unexpected tag: \'" + qName + "\'");
+            }
         }
 
         @Override

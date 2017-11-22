@@ -1,6 +1,5 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -15,10 +14,10 @@ public abstract class SimpleTreeAutomaton
     protected TreeVertex tree;
     protected TreeTraversing traversing;
 
-    public SimpleTreeAutomaton(Set<String> alphabet, Variable... vars)
+    public SimpleTreeAutomaton(Set<String> alphabet, List<Variable> variables)
     {
         this.alphabet = alphabet;
-        this.variables = Arrays.asList(vars);
+        this.variables = variables;
     }
 
     @Override
