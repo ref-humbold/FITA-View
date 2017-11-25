@@ -32,43 +32,43 @@ public class RecVertex
     @Override
     public TreeVertex getLeft()
     {
-        return this.recursive.getLeft();
+        return recursive.getLeft();
     }
 
     @Override
     protected void setLeft(TreeVertex vertex)
     {
-        this.recursive.setLeft(vertex);
+        recursive.setLeft(vertex);
     }
 
     @Override
     public TreeVertex getRight()
     {
-        return this.recursive.getRight();
+        return recursive.getRight();
     }
 
     @Override
     protected void setRight(TreeVertex vertex)
     {
-        this.recursive.setRight(vertex);
+        recursive.setRight(vertex);
     }
 
     @Override
     public TreeVertex getParent()
     {
-        return this.parent;
+        return parent;
     }
 
     @Override
     protected void setParent(TreeVertex vertex)
     {
-        this.parent = vertex;
+        parent = vertex;
     }
 
     @Override
     public String getLabel()
     {
-        return this.recursive.getLabel();
+        return recursive.getLabel();
     }
 
     @Override
@@ -100,6 +100,12 @@ public class RecVertex
 
         RecVertex other = (RecVertex)o;
 
-        return other.recursive.id == this.recursive.id;
+        return this.recursive.id == other.recursive.id;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return recursive.id * 37 + getLabel().hashCode();
     }
 }

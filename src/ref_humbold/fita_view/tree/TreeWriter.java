@@ -14,6 +14,11 @@ public class TreeWriter
         this.tree = tree;
     }
 
+    /**
+     * Zapisywanie do pliku.
+     * @param filename nazwa pliku bez rozszerzenia
+     * @throws IOException
+     */
     public void toFile(String filename)
         throws IOException
     {
@@ -23,6 +28,9 @@ public class TreeWriter
         fileWriter.close();
     }
 
+    /**
+     * @return wersja tekstowa drzewa jako XML
+     */
     @Override
     public String toString()
     {

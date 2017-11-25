@@ -20,12 +20,12 @@ public class Pair<F, S>
 
     public F getFirst()
     {
-        return this.first;
+        return first;
     }
 
     public S getSecond()
     {
-        return this.second;
+        return second;
     }
 
     @Override

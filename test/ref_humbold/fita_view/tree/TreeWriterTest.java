@@ -17,6 +17,7 @@ public class TreeWriterTest
     @After
     public void tearDown()
     {
+        testObject = null;
     }
 
     @Test

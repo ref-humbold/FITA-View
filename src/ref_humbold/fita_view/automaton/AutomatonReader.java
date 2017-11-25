@@ -3,11 +3,9 @@ package ref_humbold.fita_view.automaton;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -45,8 +43,10 @@ public class AutomatonReader
         {
             String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
             SchemaFactory schemaFactory = SchemaFactory.newInstance(language);
-            Schema schema = schemaFactory.newSchema(
-                new File("src/ref_humbold/fita_view/tree/TopDownAutomaton.xsd"));
+            Schema schema = isTopDown ? schemaFactory.newSchema(
+                new File("src/ref_humbold/fita_view/automaton/TopDownAutomaton.xsd"))
+                                      : schemaFactory.newSchema(new File(
+                                          "src/ref_humbold/fita_view/automaton/BottomUpAutomaton.xsd"));
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             parserFactory.setSchema(schema);
@@ -72,15 +72,10 @@ public class AutomatonReader
     private abstract class AutomatonHandler
         extends DefaultHandler
     {
-        protected Set<String> alphabet = new HashSet<>();
+        protected Collection<String> alphabet = new ArrayList<>();
+        protected Map<Integer, Variable> variables = new HashMap<>();
         protected String tagName = null;
-        private Map<Integer, Variable> variables = new HashMap<>();
-        private Integer varID;
-
-        protected List<Variable> getVariables()
-        {
-            return new ArrayList<>(variables.values());
-        }
+        protected Integer varID;
 
         public abstract TreeAutomaton getAutomaton();
 
@@ -98,13 +93,10 @@ public class AutomatonReader
             switch(qName)
             {
                 case "alphabet":
-                    break;
-
-                case "word":
-                    tagName = "word";
-                    break;
-
                 case "variables":
+                case "transitions":
+                case "word":
+                case "value":
                     break;
 
                 case "var":
@@ -114,19 +106,8 @@ public class AutomatonReader
                     variables.put(varID, new Variable(init));
                     break;
 
-                case "value":
-                    tagName = "value";
-                    break;
-
-                case "transitions":
-                    break;
-
                 case "trans":
-                    varID = Integer.parseInt(attributes.getValue("varID"));
-                    break;
-
-                case "label":
-                    tagName = "label";
+                    varID = Integer.parseInt(attributes.getValue("var-id"));
                     break;
 
                 default:
@@ -159,6 +140,14 @@ public class AutomatonReader
         {
             switch(qName)
             {
+                case "automaton":
+                case "alphabet":
+                case "transitions":
+                case "word":
+                case "value":
+                case "var":
+                    break;
+
                 default:
                     throw new TreeParsingException("Unexpected tag: \'" + qName + "\'");
             }
@@ -170,6 +159,10 @@ public class AutomatonReader
     {
         private TopDownTreeAutomaton automaton;
         private boolean isDeterministic;
+        private String nodeValue;
+        private String label;
+        private String leftResult;
+        private String rightResult;
 
         @Override
         public TreeAutomaton getAutomaton()
@@ -181,6 +174,8 @@ public class AutomatonReader
         public void startElement(String uri, String localName, String qName, Attributes attributes)
             throws SAXException
         {
+            tagName = qName;
+
             switch(qName)
             {
                 case "automaton":
@@ -188,19 +183,9 @@ public class AutomatonReader
                     break;
 
                 case "label":
-                    tagName = "label";
-                    break;
-
-                case "nodeValue":
-                    tagName = "nodeValue";
-                    break;
-
-                case "leftResult":
-                    tagName = "leftResult";
-                    break;
-
-                case "rightResult":
-                    tagName = "rightResult";
+                case "node-value":
+                case "left-result":
+                case "right-result":
                     break;
 
                 default:
@@ -212,21 +197,22 @@ public class AutomatonReader
         public void characters(char[] chars, int start, int length)
             throws SAXException
         {
-            if(tagName == null)
-                return;
-
             switch(tagName)
             {
                 case "label":
+                    label = new String(chars, start, length);
                     break;
 
-                case "nodeValue":
+                case "node-value":
+                    nodeValue = new String(chars, start, length);
                     break;
 
-                case "leftResult":
+                case "left-result":
+                    leftResult = new String(chars, start, length);
                     break;
 
-                case "rightResult":
+                case "right-result":
+                    rightResult = new String(chars, start, length);
                     break;
 
                 default:
@@ -241,8 +227,19 @@ public class AutomatonReader
             switch(qName)
             {
                 case "variables":
-                    automaton = isDeterministic ? new TopDownDFTA(alphabet, getVariables())
-                                                : new TopDownNFTA(alphabet, getVariables());
+                    automaton = isDeterministic ? new TopDownDFTA(alphabet, variables.values())
+                                                : new TopDownNFTA(alphabet, variables.values());
+                    break;
+
+                case "trans":
+                    automaton.addTransition(variables.get(varID), nodeValue, label, leftResult,
+                                            rightResult);
+                    break;
+
+                case "label":
+                case "node-value":
+                case "left-result":
+                case "right-result":
                     break;
 
                 default:
@@ -255,6 +252,11 @@ public class AutomatonReader
         extends AutomatonHandler
     {
         private BottomUpDFTA automaton;
+        private String leftLabel;
+        private String rightLabel;
+        private String leftValue;
+        private String rightValue;
+        private String nodeResult;
 
         @Override
         public TreeAutomaton getAutomaton()
@@ -273,25 +275,16 @@ public class AutomatonReader
         public void startElement(String uri, String localName, String qName, Attributes attributes)
             throws SAXException
         {
+            tagName = qName;
+
             switch(qName)
             {
                 case "automaton":
-                    break;
-
-                case "label":
-                    tagName = "label";
-                    break;
-
-                case "leftValue":
-                    tagName = "leftValue";
-                    break;
-
-                case "rightValue":
-                    tagName = "rightValue";
-                    break;
-
-                case "nodeResult":
-                    tagName = "nodeResult";
+                case "left-label":
+                case "right-label":
+                case "left-value":
+                case "right-value":
+                case "node-result":
                     break;
 
                 default:
@@ -303,21 +296,26 @@ public class AutomatonReader
         public void characters(char[] chars, int start, int length)
             throws SAXException
         {
-            if(tagName == null)
-                return;
-
             switch(tagName)
             {
-                case "label":
+                case "left-label":
+                    leftLabel = new String(chars, start, length);
                     break;
 
-                case "leftValue":
+                case "right-label":
+                    rightLabel = new String(chars, start, length);
                     break;
 
-                case "rightValue":
+                case "left-value":
+                    leftValue = new String(chars, start, length);
                     break;
 
-                case "nodeResult":
+                case "right-value":
+                    rightValue = new String(chars, start, length);
+                    break;
+
+                case "node-result":
+                    nodeResult = new String(chars, start, length);
                     break;
 
                 default:
@@ -332,7 +330,19 @@ public class AutomatonReader
             switch(qName)
             {
                 case "variables":
-                    automaton = new BottomUpDFTA(alphabet, getVariables());
+                    automaton = new BottomUpDFTA(alphabet, variables.values());
+                    break;
+
+                case "trans":
+                    automaton.addTransition(variables.get(varID), leftValue, leftLabel, rightValue,
+                                            rightLabel, nodeResult);
+                    break;
+
+                case "left-label":
+                case "right-label":
+                case "left-value":
+                case "right-value":
+                case "node-result":
                     break;
 
                 default:

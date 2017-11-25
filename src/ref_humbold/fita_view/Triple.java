@@ -22,17 +22,17 @@ public class Triple<F, S, T>
 
     public F getFirst()
     {
-        return this.first;
+        return first;
     }
 
     public S getSecond()
     {
-        return this.second;
+        return second;
     }
 
     public T getThird()
     {
-        return this.third;
+        return third;
     }
 
     @Override

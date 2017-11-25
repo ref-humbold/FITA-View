@@ -47,6 +47,12 @@ public class TreeReader
         }
     }
 
+    /**
+     * Wczytywanie drzewa z pliku XML.
+     * @return wczytane drzewo
+     * @throws IOException
+     * @throws SAXException
+     */
     public TreeVertex read()
         throws IOException, SAXException
     {

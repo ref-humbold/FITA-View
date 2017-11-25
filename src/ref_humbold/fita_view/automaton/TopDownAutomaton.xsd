@@ -32,12 +32,12 @@
               <xs:element name="trans" maxOccurs="unbounded">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="nodeValue" type="transArgsType" />
+                    <xs:element name="node-value" type="transArgsType" />
                     <xs:element name="label" type="transArgsType" />
-                    <xs:element name="leftResult" type="transResultType" />
-                    <xs:element name="rightResult" type="transResultType" />
+                    <xs:element name="left-result" type="transResultType" />
+                    <xs:element name="right-result" type="transResultType" />
                   </xs:sequence>
-                  <xs:attribute name="varID" type="xs:int" />
+                  <xs:attribute name="var-id" type="xs:int" />
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
@@ -54,19 +54,19 @@
 
   <xs:simpleType name="strType">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[\w\d.,;:!@#$%^&*]+" />
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="transArgsType">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[\w\d.,;:!@#$%^&*]+|\*" />
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+|\?\*" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="transResultType">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[\w\d.,;:!@#$%^&*]+|=" />
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+|\?=" />
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

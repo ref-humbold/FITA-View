@@ -1,9 +1,9 @@
 package ref_humbold.fita_view.automaton;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
@@ -14,7 +14,7 @@ public class TopDownDFTA
 {
     private Map<Triple<Variable, String, String>, Pair<String, String>> transitions;
 
-    public TopDownDFTA(Set<String> alphabet, List<Variable> variables)
+    public TopDownDFTA(Collection<String> alphabet, Collection<Variable> variables)
     {
         super(alphabet, variables);
         this.transitions = new HashMap<>();
@@ -42,5 +42,28 @@ public class TopDownDFTA
     protected Pair<String, String> doTransition(Variable var, String value, String label)
     {
         return transitions.get(Triple.make(var, value, label));
+    }
+
+    @Override
+    public String toString()
+    {
+        return "TopDownDFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
+            + transitions.toString();
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o)
+            return true;
+
+        if(o == null || !(o instanceof TopDownDFTA))
+            return false;
+
+        TopDownDFTA other = (TopDownDFTA)o;
+
+        return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
+                                                                               other.variables)
+            && Objects.equals(this.transitions, other.transitions);
     }
 }

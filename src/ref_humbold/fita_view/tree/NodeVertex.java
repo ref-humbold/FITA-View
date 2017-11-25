@@ -21,6 +21,13 @@ public class NodeVertex
         this(label, 0);
     }
 
+    public NodeVertex(String label, TreeVertex left, TreeVertex right)
+    {
+        this(label);
+        this.setLeft(left);
+        this.setRight(right);
+    }
+
     NodeVertex(String label, int id)
     {
         super(id);
@@ -29,13 +36,6 @@ public class NodeVertex
             throw new IllegalArgumentException("Label is null");
 
         this.label = label;
-    }
-
-    NodeVertex(String label, TreeVertex left, TreeVertex right)
-    {
-        this(label);
-        this.setLeft(left);
-        this.setRight(right);
     }
 
     NodeVertex(String label, int id, TreeVertex left, TreeVertex right)
@@ -54,45 +54,45 @@ public class NodeVertex
     @Override
     public TreeVertex getLeft()
     {
-        return this.left;
+        return left;
     }
 
     @Override
     protected void setLeft(TreeVertex vertex)
     {
-        this.left = vertex;
-        this.left.setParent(this);
+        left = vertex;
+        left.setParent(this);
     }
 
     @Override
     public TreeVertex getRight()
     {
-        return this.right;
+        return right;
     }
 
     @Override
     protected void setRight(TreeVertex vertex)
     {
-        this.right = vertex;
-        this.left.setParent(this);
+        right = vertex;
+        right.setParent(this);
     }
 
     @Override
     public TreeVertex getParent()
     {
-        return this.parent;
+        return parent;
     }
 
     @Override
     protected void setParent(TreeVertex vertex)
     {
-        this.parent = vertex;
+        parent = vertex;
     }
 
     @Override
     public String getLabel()
     {
-        return this.label;
+        return label;
     }
 
     @Override
@@ -130,7 +130,13 @@ public class NodeVertex
 
         NodeVertex other = (NodeVertex)o;
 
-        return this.label.equals(other.label) && Objects.equals(this.left, other.left)
+        return Objects.equals(this.label, other.label) && Objects.equals(this.left, other.left)
             && Objects.equals(this.right, other.right);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return id * 37 + label.hashCode();
     }
 }

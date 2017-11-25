@@ -1,8 +1,7 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
@@ -16,7 +15,7 @@ public class BottomUpDFTA
 {
     private Map<Triple<Variable, Pair<String, String>, Pair<String, String>>, String> transitions;
 
-    public BottomUpDFTA(Set<String> alphabet, List<Variable> variables)
+    public BottomUpDFTA(Collection<String> alphabet, Collection<Variable> variables)
     {
         super(alphabet, variables);
     }

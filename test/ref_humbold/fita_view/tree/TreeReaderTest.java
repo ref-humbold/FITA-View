@@ -20,6 +20,7 @@ public class TreeReaderTest
     @After
     public void tearDown()
     {
+        testObject = null;
     }
 
     @Test
