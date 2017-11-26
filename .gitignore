@@ -3,7 +3,6 @@ UML/*.bak*
 
 # ignore Java output
 bin
-docs
 junit_results
 junit_reports
 
