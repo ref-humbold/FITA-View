@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.tree;
 
+import ref_humbold.fita_view.automaton.IncorrectValueException;
 import ref_humbold.fita_view.automaton.Variable;
 
 public abstract class TreeVertex
@@ -11,16 +12,7 @@ public abstract class TreeVertex
         this.id = id;
     }
 
-    @Override
-    public int hashCode()
-    {
-        return getLabel().hashCode();
-    }
-
-    /**
-     * @return nazwa rodzaju węzła
-     */
-    public abstract String getTypename();
+    public abstract VertexType getTypename();
 
     public abstract TreeVertex getLeft();
 
@@ -34,20 +26,18 @@ public abstract class TreeVertex
 
     protected abstract void setParent(TreeVertex vertex);
 
-    /**
-     * @return etykieta węzła
-     */
     public abstract String getLabel();
 
     /**
-     * @param var zmienna stanu
-     * @return wartość zmiennej
+     * @param var state variable
+     * @return variable value in node
      */
     public abstract String getState(Variable var);
 
     /**
-     * @param var zmienna stanu
-     * @param value wartość zmiennej
+     * @param var state variable
+     * @param value variable value
      */
-    public abstract void setState(Variable var, String value);
+    public abstract void setState(Variable var, String value)
+        throws IncorrectValueException;
 }

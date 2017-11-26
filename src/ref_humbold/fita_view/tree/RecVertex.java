@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.tree;
 
+import ref_humbold.fita_view.automaton.IncorrectValueException;
 import ref_humbold.fita_view.automaton.Variable;
 
 public class RecVertex
@@ -24,9 +25,9 @@ public class RecVertex
     }
 
     @Override
-    public String getTypename()
+    public VertexType getTypename()
     {
-        return "rec";
+        return VertexType.REC;
     }
 
     @Override
@@ -79,6 +80,7 @@ public class RecVertex
 
     @Override
     public void setState(Variable var, String value)
+        throws IncorrectValueException
     {
         recursive.setState(var, value);
     }

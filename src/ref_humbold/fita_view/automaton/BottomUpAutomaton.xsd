@@ -54,19 +54,19 @@
 
   <xs:simpleType name="strType">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[\w\d.,;:!@#$%^&*]+" />
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="transArgsType">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[\w\d.,;:!@#$%^&*]+|\*" />
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+|\(\*\)" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="transResultType">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[\w\d.,;:!@#$%^&*]+|=" />
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+|\(&lt;\)|\(&gt;\)" />
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

@@ -48,8 +48,8 @@ public class TreeReader
     }
 
     /**
-     * Wczytywanie drzewa z pliku XML.
-     * @return wczytane drzewo
+     * Reading tree from XML file.
+     * @return tree object
      * @throws IOException
      * @throws SAXException
      */

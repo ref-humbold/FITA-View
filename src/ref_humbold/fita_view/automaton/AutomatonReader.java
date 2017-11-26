@@ -58,6 +58,12 @@ public class AutomatonReader
         }
     }
 
+    /**
+     * Reading automaton from XML file.
+     * @return automaton object
+     * @throws IOException
+     * @throws SAXException
+     */
     public TreeAutomaton read()
         throws IOException, SAXException
     {
@@ -129,7 +135,14 @@ public class AutomatonReader
                     break;
 
                 case "value":
-                    variables.get(varID).addValue(new String(chars, start, length));
+                    try
+                    {
+                        variables.get(varID).addValue(new String(chars, start, length));
+                    }
+                    catch(IncorrectValueException e)
+                    {
+                        throw new AutomatonParsingException(e);
+                    }
                     break;
             }
         }

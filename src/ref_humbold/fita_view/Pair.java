@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Pair<F, S>
 {
-    protected final F first;
-    protected final S second;
+    private final F first;
+    private final S second;
 
     public Pair(F first, S second)
     {

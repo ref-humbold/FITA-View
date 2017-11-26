@@ -15,6 +15,11 @@ public class RandomChoice
     {
     }
 
+    /**
+     * Non-deterministically choosing variable values.
+     * @param states possible state variable values
+     * @return variable value chosen randomly
+     */
     @Override
     public Pair<String, String> chooseState(Set<Pair<String, String>> states)
     {

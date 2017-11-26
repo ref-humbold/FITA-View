@@ -14,8 +14,8 @@ public class RepeatVertex
     }
 
     @Override
-    public String getTypename()
+    public VertexType getTypename()
     {
-        return "repeat";
+        return VertexType.REPEAT;
     }
 }

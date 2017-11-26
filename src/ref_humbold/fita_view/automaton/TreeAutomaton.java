@@ -9,6 +9,11 @@ public interface TreeAutomaton
 
     void setTree(TreeVertex tree);
 
+    /**
+     * Checking if given label is in alphabet recognised by the automaton
+     * @param label label to check
+     * @return true if label is in alphabet, otherwise false
+     */
     boolean isInAlphabet(String label);
 
     TreeVertex generateTree();

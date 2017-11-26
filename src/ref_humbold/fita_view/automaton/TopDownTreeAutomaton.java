@@ -37,13 +37,29 @@ public abstract class TopDownTreeAutomaton
 
     @Override
     protected void initTree()
+        throws IncorrectValueException
     {
         for(Variable var : variables)
             tree.setState(var, var.getInitValue());
     }
 
+    /**
+     * Adding new transition to transition function of automaton.
+     * @param var variable
+     * @param value variable value in node
+     * @param label tree label of node
+     * @param leftResult variable value in left son
+     * @param rightResult variable value in right son
+     */
     protected abstract void addTransition(Variable var, String value, String label,
                                           String leftResult, String rightResult);
 
+    /**
+     * Calling a transition function with given arguments.
+     * @param var variable
+     * @param value variable value in node
+     * @param label tree label of node
+     * @return pair of variable values in sons (first left, second right)
+     */
     protected abstract Pair<String, String> doTransition(Variable var, String value, String label);
 }

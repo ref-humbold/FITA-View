@@ -1,6 +1,5 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -9,18 +8,18 @@ import java.util.Set;
 public class Variable
 {
     private String initValue;
-    private Set<String> values;
+    private Set<String> values = new HashSet<>();
 
     public Variable(String init)
     {
-        this(init, Collections.singletonList(init));
+        this.initValue = init;
+        this.values.add(this.initValue);
     }
 
-    public Variable(String init, Collection<String> values)
+    public Variable(String init, String... values)
     {
-        this.initValue = init;
-        this.values = new HashSet<>(values);
-        this.values.add(this.initValue);
+        this(init);
+        Collections.addAll(this.values, values);
     }
 
     public String getInitValue()
@@ -28,13 +27,27 @@ public class Variable
         return initValue;
     }
 
+    /**
+     * Checking if given string is value of the variable.
+     * @param value string to check
+     * @return true if string is in values set, otherwise false
+     */
     public boolean isValue(String value)
     {
         return values.contains(value);
     }
 
+    /**
+     * Adding given string to variable values set
+     * @param value string to add
+     * @throws IncorrectValueException if string is null or empty
+     */
     void addValue(String value)
+        throws IncorrectValueException
     {
+        if(value == null || value.isEmpty())
+            throw new IncorrectValueException("Value is null or empty.");
+
         values.add(value);
     }
 

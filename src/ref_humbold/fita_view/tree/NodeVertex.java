@@ -46,9 +46,9 @@ public class NodeVertex
     }
 
     @Override
-    public String getTypename()
+    public VertexType getTypename()
     {
-        return "node";
+        return VertexType.NODE;
     }
 
     @Override
@@ -103,6 +103,7 @@ public class NodeVertex
 
     @Override
     public void setState(Variable var, String value)
+        throws IncorrectValueException
     {
         if(!var.isValue(value))
             throw new IncorrectValueException(value);

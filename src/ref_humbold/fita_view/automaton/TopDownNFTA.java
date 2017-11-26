@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
@@ -64,5 +65,28 @@ public class TopDownNFTA
     protected Pair<String, String> doTransition(Variable var, String value, String label)
     {
         return choice.chooseState(transitions.get(Triple.make(var, value, label)));
+    }
+
+    @Override
+    public String toString()
+    {
+        return "TopDownNFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
+            + transitions.toString();
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o)
+            return true;
+
+        if(o == null || !(o instanceof TopDownNFTA))
+            return false;
+
+        TopDownNFTA other = (TopDownNFTA)o;
+
+        return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
+                                                                               other.variables)
+            && Objects.equals(this.transitions, other.transitions);
     }
 }

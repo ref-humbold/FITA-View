@@ -53,5 +53,9 @@ public abstract class SimpleTreeAutomaton
     @Override
     public abstract TreeVertex generateTree();
 
-    protected abstract void initTree();
+    /**
+     * Setting inital state of variables in tree.
+     */
+    protected abstract void initTree()
+        throws IncorrectValueException;
 }

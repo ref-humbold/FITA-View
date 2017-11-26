@@ -15,8 +15,8 @@ public class TreeWriter
     }
 
     /**
-     * Zapisywanie do pliku.
-     * @param filename nazwa pliku bez rozszerzenia
+     * Writing tree to XML file.
+     * @param filename name of the file without extension
      * @throws IOException
      */
     public void toFile(String filename)
@@ -29,7 +29,7 @@ public class TreeWriter
     }
 
     /**
-     * @return wersja tekstowa drzewa jako XML
+     * @return text version of tree as XML
      */
     @Override
     public String toString()
@@ -80,7 +80,7 @@ public class TreeWriter
                 return body.toString();
 
             output.append("<");
-            output.append(tree.getTypename());
+            output.append(getNodeName(tree));
 
             if(!isRec(tree))
             {
@@ -94,7 +94,7 @@ public class TreeWriter
                 output.append(">");
                 output.append(indentBody().toString());
                 output.append("</");
-                output.append(tree.getTypename());
+                output.append(getNodeName(tree));
                 output.append(">\n");
             }
             else
@@ -147,12 +147,17 @@ public class TreeWriter
 
         private boolean isRec(TreeVertex tree)
         {
-            return tree.getTypename().equals("rec");
+            return tree.getTypename() == VertexType.REC;
         }
 
         private boolean hasChildren(TreeVertex tree)
         {
             return !isRec(tree) && tree.getLeft() != null && tree.getRight() != null;
+        }
+
+        private String getNodeName(TreeVertex tree)
+        {
+            return tree.getTypename().toString().toLowerCase();
         }
     }
 }
