@@ -37,7 +37,7 @@ public abstract class TopDownTreeAutomaton
 
     @Override
     protected void initTree()
-        throws IncorrectValueException
+        throws IllegalValueException
     {
         for(Variable var : variables)
             tree.setState(var, var.getInitValue());

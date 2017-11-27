@@ -43,7 +43,17 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Variable v = new Variable("A", "B", "C");
+        Variable v = null;
+        try
+        {
+            v = new Variable("A", "B", "C");
+        }
+        catch(IllegalValueException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
         TopDownDFTA expected =
             new TopDownDFTA(new HashSet<>(Arrays.asList("0", "1")), Collections.singletonList(v));
 
@@ -76,7 +86,18 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Variable v = new Variable("A", "B", "C");
+        Variable v = null;
+
+        try
+        {
+            v = new Variable("A", "B", "C");
+        }
+        catch(IllegalValueException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
         BottomUpDFTA expected =
             new BottomUpDFTA(new HashSet<>(Arrays.asList("0", "1")), Collections.singletonList(v));
 

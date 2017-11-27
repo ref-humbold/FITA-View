@@ -61,8 +61,8 @@ public class AutomatonReader
     /**
      * Reading automaton from XML file.
      * @return automaton object
-     * @throws IOException
-     * @throws SAXException
+     * @throws IOException if any IO errors occur
+     * @throws SAXException if any parsing errors occur
      */
     public TreeAutomaton read()
         throws IOException, SAXException
@@ -109,7 +109,17 @@ public class AutomatonReader
                     String init = attributes.getValue("init");
 
                     varID = Integer.parseInt(attributes.getValue("id"));
-                    variables.put(varID, new Variable(init));
+
+                    try
+                    {
+                        variables.put(varID, new Variable(init));
+                    }
+                    catch(IllegalValueException e)
+                    {
+                        throw new AutomatonParsingException(
+                            "Illegal value of variable with ID " + varID + ".", e);
+                    }
+
                     break;
 
                 case "trans":
@@ -139,7 +149,7 @@ public class AutomatonReader
                     {
                         variables.get(varID).addValue(new String(chars, start, length));
                     }
-                    catch(IncorrectValueException e)
+                    catch(IllegalValueException e)
                     {
                         throw new AutomatonParsingException(e);
                     }
@@ -218,14 +228,26 @@ public class AutomatonReader
 
                 case "node-value":
                     nodeValue = new String(chars, start, length);
+
+                    if(!nodeValue.equals("(*)") && !variables.get(varID).isValue(nodeValue))
+                        throw new AutomatonParsingException(
+                            "Given left-result is not a value of variable with ID " + varID + ".");
                     break;
 
                 case "left-result":
                     leftResult = new String(chars, start, length);
+
+                    if(!leftResult.equals("(=)") && !variables.get(varID).isValue(leftResult))
+                        throw new AutomatonParsingException(
+                            "Given left-result is not a value of variable with ID " + varID + ".");
                     break;
 
                 case "right-result":
                     rightResult = new String(chars, start, length);
+
+                    if(!rightResult.equals("(=)") && !variables.get(varID).isValue(rightResult))
+                        throw new AutomatonParsingException(
+                            "Given right-result is not a value of variable with ID " + varID + ".");
                     break;
 
                 default:
@@ -321,14 +343,27 @@ public class AutomatonReader
 
                 case "left-value":
                     leftValue = new String(chars, start, length);
+
+                    if(!leftValue.equals("(*)") && !variables.get(varID).isValue(leftValue))
+                        throw new AutomatonParsingException(
+                            "Given left-value is not a value of variable with ID " + varID + ".");
                     break;
 
                 case "right-value":
                     rightValue = new String(chars, start, length);
+
+                    if(!rightValue.equals("(*)") && !variables.get(varID).isValue(rightValue))
+                        throw new AutomatonParsingException(
+                            "Given right-value is not a value of variable with ID " + varID + ".");
                     break;
 
                 case "node-result":
                     nodeResult = new String(chars, start, length);
+
+                    if(!nodeResult.equals("(<)") && !nodeResult.equals("(<)") && !variables.get(
+                        varID).isValue(nodeResult))
+                        throw new AutomatonParsingException(
+                            "Given node-result is not a value of variable with ID " + varID + ".");
                     break;
 
                 default:

@@ -2,23 +2,35 @@ package ref_humbold.fita_view.automaton;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
 public class Variable
+    implements Iterable<String>
 {
     private String initValue;
     private Set<String> values = new HashSet<>();
 
     public Variable(String init)
+        throws IllegalValueException
     {
+        if(init == null || init.isEmpty())
+            throw new IllegalValueException("Initial value is null or empty.");
+
         this.initValue = init;
         this.values.add(this.initValue);
     }
 
     public Variable(String init, String... values)
+        throws IllegalValueException
     {
         this(init);
+
+        for(String v : values)
+            if(v == null || v.isEmpty())
+                throw new IllegalValueException("Value is null or empty.");
+
         Collections.addAll(this.values, values);
     }
 
@@ -27,8 +39,14 @@ public class Variable
         return initValue;
     }
 
+    @Override
+    public Iterator<String> iterator()
+    {
+        return values.iterator();
+    }
+
     /**
-     * Checking if given string is value of the variable.
+     * Checking if given string is value of this variable.
      * @param value string to check
      * @return true if string is in values set, otherwise false
      */
@@ -40,13 +58,13 @@ public class Variable
     /**
      * Adding given string to variable values set
      * @param value string to add
-     * @throws IncorrectValueException if string is null or empty
+     * @throws IllegalValueException if string is null or empty
      */
     void addValue(String value)
-        throws IncorrectValueException
+        throws IllegalValueException
     {
         if(value == null || value.isEmpty())
-            throw new IncorrectValueException("Value is null or empty.");
+            throw new IllegalValueException("Value is null or empty.");
 
         values.add(value);
     }

@@ -12,7 +12,15 @@ public class VariableTest
     @Before
     public void setUp()
     {
-        testObject = new Variable("A", "B", "C");
+        try
+        {
+            testObject = new Variable("A", "B", "C");
+        }
+        catch(IllegalValueException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
     }
 
     @After
@@ -57,7 +65,7 @@ public class VariableTest
         {
             testObject.addValue("D");
         }
-        catch(IncorrectValueException e)
+        catch(IllegalValueException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -75,7 +83,7 @@ public class VariableTest
         {
             testObject.addValue("A");
         }
-        catch(IncorrectValueException e)
+        catch(IllegalValueException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -86,11 +94,18 @@ public class VariableTest
         Assert.assertTrue(resultA);
     }
 
-    @Test(expected = IncorrectValueException.class)
+    @Test(expected = IllegalValueException.class)
     public void testAddValueWhenNull()
-        throws IncorrectValueException
+        throws IllegalValueException
     {
         testObject.addValue(null);
+    }
+
+    @Test(expected = IllegalValueException.class)
+    public void testAddValueWhenEmpty()
+        throws IllegalValueException
+    {
+        testObject.addValue("");
     }
 
     @Test

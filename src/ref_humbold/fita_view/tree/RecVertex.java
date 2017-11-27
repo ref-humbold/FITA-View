@@ -1,6 +1,6 @@
 package ref_humbold.fita_view.tree;
 
-import ref_humbold.fita_view.automaton.IncorrectValueException;
+import ref_humbold.fita_view.automaton.IllegalValueException;
 import ref_humbold.fita_view.automaton.Variable;
 
 public class RecVertex
@@ -80,7 +80,7 @@ public class RecVertex
 
     @Override
     public void setState(Variable var, String value)
-        throws IncorrectValueException
+        throws IllegalValueException
     {
         recursive.setState(var, value);
     }

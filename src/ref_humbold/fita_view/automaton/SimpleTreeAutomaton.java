@@ -57,5 +57,5 @@ public abstract class SimpleTreeAutomaton
      * Setting inital state of variables in tree.
      */
     protected abstract void initTree()
-        throws IncorrectValueException;
+        throws IllegalValueException;
 }
