@@ -1,23 +1,20 @@
 package ref_humbold.fita_view.automaton;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import ref_humbold.fita_view.Pair;
-import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class TopDownDFTA
     extends TopDownTreeAutomaton
 {
-    private Map<Triple<Variable, String, String>, Pair<String, String>> transitions;
+    private Transitions<Pair<String, String>, Pair<String, String>> transitions =
+        new Transitions<>();
 
     public TopDownDFTA(Collection<String> alphabet, Collection<Variable> variables)
     {
         super(alphabet, variables);
-        this.transitions = new HashMap<>();
     }
 
     @Override
@@ -35,13 +32,15 @@ public class TopDownDFTA
     protected void addTransition(Variable var, String value, String label, String leftResult,
                                  String rightResult)
     {
-        transitions.put(Triple.make(var, value, label), Pair.make(leftResult, rightResult));
+        transitions.add(var, Pair.make(value, label), Pair.make(leftResult, rightResult));
     }
 
     @Override
     protected Pair<String, String> doTransition(Variable var, String value, String label)
     {
-        return transitions.get(Triple.make(var, value, label));
+        Pair<String, String> result = transitions.get(var, Pair.make(value, label));
+
+        return removeWildcard(value, result);
     }
 
     @Override

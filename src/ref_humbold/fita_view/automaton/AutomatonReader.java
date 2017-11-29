@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -78,10 +79,11 @@ public class AutomatonReader
     private abstract class AutomatonHandler
         extends DefaultHandler
     {
-        protected Collection<String> alphabet = new ArrayList<>();
-        protected Map<Integer, Variable> variables = new HashMap<>();
-        protected String tagName = null;
-        protected Integer varID;
+        Collection<String> alphabet = new ArrayList<>();
+        List<String> varValues = new ArrayList<>();
+        Map<Integer, Variable> variables = new HashMap<>();
+        String tagName = null;
+        Integer varID;
 
         public abstract TreeAutomaton getAutomaton();
 
@@ -106,20 +108,9 @@ public class AutomatonReader
                     break;
 
                 case "var":
-                    String init = attributes.getValue("init");
-
+                    varValues = new ArrayList<>();
+                    varValues.add(attributes.getValue("init"));
                     varID = Integer.parseInt(attributes.getValue("id"));
-
-                    try
-                    {
-                        variables.put(varID, new Variable(init));
-                    }
-                    catch(IllegalValueException e)
-                    {
-                        throw new AutomatonParsingException(
-                            "Illegal value of variable with ID " + varID + ".", e);
-                    }
-
                     break;
 
                 case "trans":
@@ -147,9 +138,9 @@ public class AutomatonReader
                 case "value":
                     try
                     {
-                        variables.get(varID).addValue(new String(chars, start, length));
+                        varValues.add(new String(chars, start, length));
                     }
-                    catch(IllegalValueException e)
+                    catch(IllegalVariableValueException e)
                     {
                         throw new AutomatonParsingException(e);
                     }
@@ -168,7 +159,18 @@ public class AutomatonReader
                 case "transitions":
                 case "word":
                 case "value":
+                    break;
+
                 case "var":
+                    try
+                    {
+                        variables.put(varID, new Variable(varValues.get(0), varValues));
+                    }
+                    catch(IllegalVariableValueException e)
+                    {
+                        throw new AutomatonParsingException(
+                            "Illegal value of variable with ID " + varID + ".", e);
+                    }
                     break;
 
                 default:
@@ -224,12 +226,17 @@ public class AutomatonReader
             {
                 case "label":
                     label = new String(chars, start, length);
+
+                    if(!label.equals(Transitions.EVERY_VALUE) && !alphabet.contains(label))
+                        throw new AutomatonParsingException(
+                            "Given label is not a part of automaton's alphabet.");
                     break;
 
                 case "node-value":
                     nodeValue = new String(chars, start, length);
 
-                    if(!nodeValue.equals("(*)") && !variables.get(varID).isValue(nodeValue))
+                    if(!nodeValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
+                                                                               .contains(nodeValue))
                         throw new AutomatonParsingException(
                             "Given left-result is not a value of variable with ID " + varID + ".");
                     break;
@@ -237,7 +244,9 @@ public class AutomatonReader
                 case "left-result":
                     leftResult = new String(chars, start, length);
 
-                    if(!leftResult.equals("(=)") && !variables.get(varID).isValue(leftResult))
+                    if(!leftResult.equals(Transitions.SAME_VALUE) && !variables.get(varID)
+                                                                               .contains(
+                                                                                   leftResult))
                         throw new AutomatonParsingException(
                             "Given left-result is not a value of variable with ID " + varID + ".");
                     break;
@@ -245,7 +254,9 @@ public class AutomatonReader
                 case "right-result":
                     rightResult = new String(chars, start, length);
 
-                    if(!rightResult.equals("(=)") && !variables.get(varID).isValue(rightResult))
+                    if(!rightResult.equals(Transitions.SAME_VALUE) && !variables.get(varID)
+                                                                                .contains(
+                                                                                    rightResult))
                         throw new AutomatonParsingException(
                             "Given right-result is not a value of variable with ID " + varID + ".");
                     break;
@@ -335,16 +346,26 @@ public class AutomatonReader
             {
                 case "left-label":
                     leftLabel = new String(chars, start, length);
+
+                    if(!leftLabel.equals(Transitions.EVERY_VALUE) && !alphabet.contains(leftLabel))
+                        throw new AutomatonParsingException(
+                            "Given left-label is not a part of automaton's alphabet.");
                     break;
 
                 case "right-label":
                     rightLabel = new String(chars, start, length);
+
+                    if(!rightLabel.equals(Transitions.EVERY_VALUE) && !alphabet.contains(
+                        rightLabel))
+                        throw new AutomatonParsingException(
+                            "Given right-label is not a part of automaton's alphabet.");
                     break;
 
                 case "left-value":
                     leftValue = new String(chars, start, length);
 
-                    if(!leftValue.equals("(*)") && !variables.get(varID).isValue(leftValue))
+                    if(!leftValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
+                                                                               .contains(leftValue))
                         throw new AutomatonParsingException(
                             "Given left-value is not a value of variable with ID " + varID + ".");
                     break;
@@ -352,7 +373,9 @@ public class AutomatonReader
                 case "right-value":
                     rightValue = new String(chars, start, length);
 
-                    if(!rightValue.equals("(*)") && !variables.get(varID).isValue(rightValue))
+                    if(!rightValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
+                                                                                .contains(
+                                                                                    rightValue))
                         throw new AutomatonParsingException(
                             "Given right-value is not a value of variable with ID " + varID + ".");
                     break;
@@ -360,8 +383,8 @@ public class AutomatonReader
                 case "node-result":
                     nodeResult = new String(chars, start, length);
 
-                    if(!nodeResult.equals("(<)") && !nodeResult.equals("(<)") && !variables.get(
-                        varID).isValue(nodeResult))
+                    if(!nodeResult.equals(Transitions.LEFT_VALUE) && !nodeResult.equals(
+                        Transitions.RIGHT_VALUE) && !variables.get(varID).contains(nodeResult))
                         throw new AutomatonParsingException(
                             "Given node-result is not a value of variable with ID " + varID + ".");
                     break;

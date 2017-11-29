@@ -1,37 +1,44 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
 public class Variable
-    implements Iterable<String>
+    implements Collection<String>
 {
     private String initValue;
     private Set<String> values = new HashSet<>();
 
     public Variable(String init)
-        throws IllegalValueException
+        throws IllegalVariableValueException
     {
         if(init == null || init.isEmpty())
-            throw new IllegalValueException("Initial value is null or empty.");
+            throw new IllegalVariableValueException("Initial value is null or empty.");
 
         this.initValue = init;
         this.values.add(this.initValue);
     }
 
-    public Variable(String init, String... values)
-        throws IllegalValueException
+    public Variable(String init, Collection<String> values)
+        throws IllegalVariableValueException
     {
         this(init);
 
         for(String v : values)
             if(v == null || v.isEmpty())
-                throw new IllegalValueException("Value is null or empty.");
+                throw new IllegalVariableValueException("Value is null or empty.");
 
-        Collections.addAll(this.values, values);
+        this.values.addAll(values);
+    }
+
+    public Variable(String init, String... values)
+        throws IllegalVariableValueException
+    {
+        this(init, Arrays.asList(values));
     }
 
     public String getInitValue()
@@ -40,51 +47,101 @@ public class Variable
     }
 
     @Override
+    public int size()
+    {
+        return values.size();
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        return values.isEmpty();
+    }
+
+    @Override
+    public boolean contains(Object value)
+    {
+        return values.contains(value);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> collection)
+    {
+        return values.containsAll(collection);
+    }
+
+    @Override
     public Iterator<String> iterator()
     {
         return values.iterator();
     }
 
-    /**
-     * Checking if given string is value of this variable.
-     * @param value string to check
-     * @return true if string is in values set, otherwise false
-     */
-    public boolean isValue(String value)
+    @Override
+    public Object[] toArray()
     {
-        return values.contains(value);
+        return values.toArray();
     }
 
-    /**
-     * Adding given string to variable values set
-     * @param value string to add
-     * @throws IllegalValueException if string is null or empty
-     */
-    void addValue(String value)
-        throws IllegalValueException
+    @Override
+    public <T> T[] toArray(T[] ts)
     {
-        if(value == null || value.isEmpty())
-            throw new IllegalValueException("Value is null or empty.");
+        return values.toArray(ts);
+    }
 
-        values.add(value);
+    @Override
+    public boolean add(String value)
+        throws IllegalVariableValueException
+    {
+        throw new UnsupportedOperationException("Cannot add value to the variable.");
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends String> collection)
+        throws IllegalVariableValueException
+    {
+        throw new UnsupportedOperationException("Cannot add value to the variable.");
+    }
+
+    @Override
+    public boolean remove(Object o)
+    {
+        throw new UnsupportedOperationException("Cannot remove values from variable.");
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> collection)
+    {
+        throw new UnsupportedOperationException("Cannot remove values from variable.");
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> collection)
+    {
+        throw new UnsupportedOperationException("Cannot retain values from variable.");
+    }
+
+    @Override
+    public void clear()
+    {
+        throw new UnsupportedOperationException("Cannot remove values from variable.");
     }
 
     @Override
     public String toString()
     {
-        return "Variable of " + values.toString();
+        return "Variable::" + values.toString();
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(Object obj)
     {
-        if(this == o)
+        if(this == obj)
             return true;
 
-        if(o == null || !(o instanceof Variable))
+        if(obj == null || !(obj instanceof Variable))
             return false;
 
-        Variable other = (Variable)o;
+        Variable other = (Variable)obj;
 
         return Objects.equals(this.initValue, other.initValue) && Objects.equals(this.values,
                                                                                  other.values);

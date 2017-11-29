@@ -57,5 +57,11 @@ public abstract class SimpleTreeAutomaton
      * Setting inital state of variables in tree.
      */
     protected abstract void initTree()
-        throws IllegalValueException;
+        throws IllegalVariableValueException;
+
+    @Override
+    public int hashCode()
+    {
+        return alphabet.hashCode() * 37 + variables.hashCode();
+    }
 }

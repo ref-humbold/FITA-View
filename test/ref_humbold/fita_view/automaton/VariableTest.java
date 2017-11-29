@@ -1,5 +1,8 @@
 package ref_humbold.fita_view.automaton;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +19,7 @@ public class VariableTest
         {
             testObject = new Variable("A", "B", "C");
         }
-        catch(IllegalValueException e)
+        catch(IllegalVariableValueException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -29,6 +32,30 @@ public class VariableTest
         testObject = null;
     }
 
+    @Test(expected = IllegalVariableValueException.class)
+    public void testConstructorWhenInitIsNull()
+    {
+        testObject = new Variable(null);
+    }
+
+    @Test(expected = IllegalVariableValueException.class)
+    public void testConstructorWhenInitIsEmpty()
+    {
+        testObject = new Variable("");
+    }
+
+    @Test(expected = IllegalVariableValueException.class)
+    public void testConstructorWhenValueIsNull()
+    {
+        testObject = new Variable("A", "B", "C", null);
+    }
+
+    @Test(expected = IllegalVariableValueException.class)
+    public void testConstructorWhenValueIsEmpty()
+    {
+        testObject = new Variable("A", "B", "C", "");
+    }
+
     @Test
     public void testGetInitValue()
     {
@@ -39,11 +66,27 @@ public class VariableTest
     }
 
     @Test
-    public void testIsValueWhenInSet()
+    public void testSize()
     {
-        boolean resultA = testObject.isValue("A");
-        boolean resultB = testObject.isValue("B");
-        boolean resultC = testObject.isValue("C");
+        int result = testObject.size();
+
+        Assert.assertEquals(3, result);
+    }
+
+    @Test
+    public void testIsEmpty()
+    {
+        boolean result = testObject.isEmpty();
+
+        Assert.assertFalse(result);
+    }
+
+    @Test
+    public void testContainsWhenInSet()
+    {
+        boolean resultA = testObject.contains("A");
+        boolean resultB = testObject.contains("B");
+        boolean resultC = testObject.contains("C");
 
         Assert.assertTrue(resultA);
         Assert.assertTrue(resultB);
@@ -51,61 +94,57 @@ public class VariableTest
     }
 
     @Test
-    public void testIsValueWhenOutOfSet()
+    public void testContainsWhenOutOfSet()
     {
-        boolean resultD = testObject.isValue("D");
+        boolean resultD = testObject.contains("D");
 
         Assert.assertFalse(resultD);
     }
 
     @Test
-    public void testAddValueWhenNewValue()
+    public void testContainsWhenNull()
     {
-        try
-        {
-            testObject.addValue("D");
-        }
-        catch(IllegalValueException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        boolean result = testObject.contains(null);
 
-        boolean resultD = testObject.isValue("D");
-
-        Assert.assertTrue(resultD);
+        Assert.assertFalse(result);
     }
 
     @Test
-    public void testAddValueWhenExistingValue()
+    public void testContainsWhenEmpty()
     {
-        try
-        {
-            testObject.addValue("A");
-        }
-        catch(IllegalValueException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        boolean result = testObject.contains("");
 
-        boolean resultA = testObject.isValue("A");
-
-        Assert.assertTrue(resultA);
+        Assert.assertFalse(result);
     }
 
-    @Test(expected = IllegalValueException.class)
-    public void testAddValueWhenNull()
-        throws IllegalValueException
+    @Test
+    public void testContainsAllWhenInSet()
     {
-        testObject.addValue(null);
+        Collection<String> collection = Arrays.asList("C", "A");
+
+        boolean result = testObject.containsAll(collection);
+
+        Assert.assertTrue(result);
     }
 
-    @Test(expected = IllegalValueException.class)
-    public void testAddValueWhenEmpty()
-        throws IllegalValueException
+    @Test
+    public void testContainsAllWhenOutOfSet()
     {
-        testObject.addValue("");
+        Collection<String> collection = Arrays.asList("B", "D");
+
+        boolean result = testObject.containsAll(collection);
+
+        Assert.assertFalse(result);
+    }
+
+    @Test
+    public void testContainsAllWhenNullAndEmpty()
+    {
+        Collection<String> collection = Arrays.asList("C", null, "");
+
+        boolean result = testObject.containsAll(collection);
+
+        Assert.assertFalse(result);
     }
 
     @Test
@@ -113,6 +152,6 @@ public class VariableTest
     {
         String result = testObject.toString();
 
-        Assert.assertEquals("Variable of [A, B, C]", result);
+        Assert.assertEquals("Variable::[A, B, C]", result);
     }
 }

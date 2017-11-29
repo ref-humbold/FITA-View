@@ -1,6 +1,6 @@
 package ref_humbold.fita_view.tree;
 
-import ref_humbold.fita_view.automaton.IllegalValueException;
+import ref_humbold.fita_view.automaton.IllegalVariableValueException;
 import ref_humbold.fita_view.automaton.Variable;
 
 public abstract class TreeVertex
@@ -39,5 +39,5 @@ public abstract class TreeVertex
      * @param value variable value
      */
     public abstract void setState(Variable var, String value)
-        throws IllegalValueException;
+        throws IllegalVariableValueException;
 }

@@ -37,7 +37,7 @@ public abstract class TopDownTreeAutomaton
 
     @Override
     protected void initTree()
-        throws IllegalValueException
+        throws IllegalVariableValueException
     {
         for(Variable var : variables)
             tree.setState(var, var.getInitValue());
@@ -62,4 +62,20 @@ public abstract class TopDownTreeAutomaton
      * @return pair of variable values in sons (first left, second right)
      */
     protected abstract Pair<String, String> doTransition(Variable var, String value, String label);
+
+    protected Pair<String, String> removeWildcard(String value, Pair<String, String> trans)
+    {
+        if(trans.getFirst().equals(Transitions.SAME_VALUE) && trans.getSecond()
+                                                                   .equals(
+                                                                       (Transitions.SAME_VALUE)))
+            return Pair.make(value, value);
+
+        if(trans.getFirst().equals(Transitions.SAME_VALUE))
+            return Pair.make(value, trans.getSecond());
+
+        if(trans.getSecond().equals(Transitions.SAME_VALUE))
+            return Pair.make(trans.getFirst(), value);
+
+        return trans;
+    }
 }

@@ -3,6 +3,7 @@ package ref_humbold.fita_view;
 import java.util.Objects;
 
 public class Pair<F, S>
+    implements Tuple
 {
     private final F first;
     private final S second;
@@ -29,6 +30,27 @@ public class Pair<F, S>
     }
 
     @Override
+    public int getArity()
+    {
+        return 2;
+    }
+
+    @Override
+    public Object[] toArray()
+    {
+        return new Object[]{first, second};
+    }
+
+    @Override
+    public String toString()
+    {
+        String firstString = first == null ? "null" : first.toString();
+        String secondString = second == null ? "null" : second.toString();
+
+        return "(" + firstString + ", " + secondString + ")";
+    }
+
+    @Override
     public boolean equals(Object obj)
     {
         if(this == obj)
@@ -52,14 +74,5 @@ public class Pair<F, S>
         result = prime * result + (second == null ? 0 : second.hashCode());
 
         return result;
-    }
-
-    @Override
-    public String toString()
-    {
-        String firstString = first == null ? "null" : first.toString();
-        String secondString = second == null ? "null" : second.toString();
-
-        return "(" + firstString + ", " + secondString + ")";
     }
 }

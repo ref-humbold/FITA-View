@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import ref_humbold.fita_view.automaton.IllegalValueException;
+import ref_humbold.fita_view.automaton.IllegalVariableValueException;
 import ref_humbold.fita_view.automaton.Variable;
 
 public class NodeVertex
@@ -103,10 +103,10 @@ public class NodeVertex
 
     @Override
     public void setState(Variable var, String value)
-        throws IllegalValueException
+        throws IllegalVariableValueException
     {
-        if(!var.isValue(value))
-            throw new IllegalValueException(value);
+        if(!var.contains(value))
+            throw new IllegalVariableValueException(value);
 
         state.put(var, value);
     }

@@ -2,23 +2,25 @@ package ref_humbold.fita_view;
 
 import java.util.Objects;
 
-public class Triple<F, S, T>
+public class Quadruple<F, S, T, U>
     implements Tuple
 {
     private final F first;
     private final S second;
     private final T third;
+    private final U fourth;
 
-    public Triple(F first, S second, T third)
+    public Quadruple(F first, S second, T third, U fourth)
     {
         this.first = first;
         this.second = second;
         this.third = third;
+        this.fourth = fourth;
     }
 
-    public static <F, S, T> Triple<F, S, T> make(F first, S second, T third)
+    public static <F, S, T, U> Quadruple<F, S, T, U> make(F first, S second, T third, U fourth)
     {
-        return new Triple<>(first, second, third);
+        return new Quadruple<>(first, second, third, fourth);
     }
 
     public F getFirst()
@@ -36,16 +38,21 @@ public class Triple<F, S, T>
         return third;
     }
 
+    public U getFourth()
+    {
+        return fourth;
+    }
+
     @Override
     public int getArity()
     {
-        return 3;
+        return 4;
     }
 
     @Override
     public Object[] toArray()
     {
-        return new Object[]{first, second, third};
+        return new Object[]{first, second, third, fourth};
     }
 
     @Override
@@ -54,23 +61,25 @@ public class Triple<F, S, T>
         String firstString = first == null ? "null" : first.toString();
         String secondString = second == null ? "null" : second.toString();
         String thirdString = third == null ? "null" : third.toString();
+        String fourthString = fourth == null ? "null" : fourth.toString();
 
-        return "(" + firstString + ", " + secondString + ", " + thirdString + ")";
+        return "(" + firstString + ", " + secondString + ", " + thirdString + ", " + fourthString
+            + ")";
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(Object obj)
     {
-        if(this == o)
+        if(this == obj)
             return true;
 
-        if(o == null || !(o instanceof Triple))
+        if(obj == null || !(obj instanceof Quadruple))
             return false;
 
-        Triple<?, ?, ?> other = (Triple<?, ?, ?>)o;
+        Quadruple<?, ?, ?, ?> other = (Quadruple<?, ?, ?, ?>)obj;
 
         return Objects.equals(this.first, other.first) && Objects.equals(this.second, other.second)
-            && Objects.equals(this.third, other.third);
+            && Objects.equals(this.third, other.third) && Objects.equals(this.fourth, other.fourth);
     }
 
     @Override
@@ -82,6 +91,7 @@ public class Triple<F, S, T>
         result = prime * result + (first == null ? 0 : first.hashCode());
         result = prime * result + (second == null ? 0 : second.hashCode());
         result = prime * result + (third == null ? 0 : third.hashCode());
+        result = prime * result + (fourth == null ? 0 : fourth.hashCode());
 
         return result;
     }
