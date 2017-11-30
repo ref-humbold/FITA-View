@@ -1,0 +1,287 @@
+<automaton>
+  <alphabet>
+    <word>0</word>
+    <word>1</word>
+  </alphabet>
+  <variables>
+    <var id="0" init="A">
+      <value>B</value>
+      <value>C</value>
+    </var>
+  </variables>
+  <transitions>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>0</left-label>
+      <right-value>A</right-value>
+      <right-label>0</right-label>
+      <node-result>A</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>0</left-label>
+      <right-value>A</right-value>
+      <right-label>1</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>0</left-label>
+      <right-value>B</right-value>
+      <right-label>0</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>0</left-label>
+      <right-value>B</right-value>
+      <right-label>1</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>0</left-label>
+      <right-value>C</right-value>
+      <right-label>0</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>0</left-label>
+      <right-value>C</right-value>
+      <right-label>1</right-label>
+      <node-result>A</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>1</left-label>
+      <right-value>A</right-value>
+      <right-label>0</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>1</left-label>
+      <right-value>A</right-value>
+      <right-label>1</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>1</left-label>
+      <right-value>B</right-value>
+      <right-label>0</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>1</left-label>
+      <right-value>B</right-value>
+      <right-label>1</right-label>
+      <node-result>A</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>1</left-label>
+      <right-value>C</right-value>
+      <right-label>0</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>A</left-value>
+      <left-label>1</left-label>
+      <right-value>C</right-value>
+      <right-label>1</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>0</left-label>
+      <right-value>A</right-value>
+      <right-label>0</right-label>
+      <node-result>A</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>0</left-label>
+      <right-value>A</right-value>
+      <right-label>1</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>0</left-label>
+      <right-value>B</right-value>
+      <right-label>0</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>0</left-label>
+      <right-value>B</right-value>
+      <right-label>1</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>0</left-label>
+      <right-value>C</right-value>
+      <right-label>0</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>0</left-label>
+      <right-value>C</right-value>
+      <right-label>1</right-label>
+      <node-result>A</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>1</left-label>
+      <right-value>A</right-value>
+      <right-label>0</right-label>
+      <node-result>A</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>1</left-label>
+      <right-value>A</right-value>
+      <right-label>0</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>1</left-label>
+      <right-value>A</right-value>
+      <right-label>1</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>1</left-label>
+      <right-value>B</right-value>
+      <right-label>0</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>1</left-label>
+      <right-value>B</right-value>
+      <right-label>1</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>1</left-label>
+      <right-value>C</right-value>
+      <right-label>0</right-label>
+      <node-result>A</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
+      <left-label>1</left-label>
+      <right-value>C</right-value>
+      <right-label>1</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>0</left-label>
+      <right-value>A</right-value>
+      <right-label>0</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>0</left-label>
+      <right-value>A</right-value>
+      <right-label>1</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>0</left-label>
+      <right-value>B</right-value>
+      <right-label>0</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>0</left-label>
+      <right-value>B</right-value>
+      <right-label>1</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>0</left-label>
+      <right-value>C</right-value>
+      <right-label>0</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>0</left-label>
+      <right-value>C</right-value>
+      <right-label>1</right-label>
+      <node-result>A</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>1</left-label>
+      <right-value>A</right-value>
+      <right-label>0</right-label>
+      <node-result>A</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>1</left-label>
+      <right-value>A</right-value>
+      <right-label>0</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>1</left-label>
+      <right-value>A</right-value>
+      <right-label>1</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>1</left-label>
+      <right-value>B</right-value>
+      <right-label>0</right-label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>1</left-label>
+      <right-value>B</right-value>
+      <right-label>1</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>1</left-label>
+      <right-value>C</right-value>
+      <right-label>0</right-label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>1</left-label>
+      <right-value>C</right-value>
+      <right-label>1</right-label>
+      <node-result>A</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>C</left-value>
+      <left-label>1</left-label>
+      <right-value>C</right-value>
+      <right-label>1</right-label>
+      <node-result>B</node-result>
+    </trans>
+  </transitions>
+</automaton>

@@ -1,7 +1,7 @@
 package ref_humbold.fita_view.automaton;
 
 public class IllegalVariableValueException
-    extends IllegalArgumentException
+    extends Exception
 {
     private static final long serialVersionUID = -2128138364416571613L;
 

@@ -90,14 +90,12 @@ public class Variable
 
     @Override
     public boolean add(String value)
-        throws IllegalVariableValueException
     {
         throw new UnsupportedOperationException("Cannot add value to the variable.");
     }
 
     @Override
     public boolean addAll(Collection<? extends String> collection)
-        throws IllegalVariableValueException
     {
         throw new UnsupportedOperationException("Cannot add value to the variable.");
     }

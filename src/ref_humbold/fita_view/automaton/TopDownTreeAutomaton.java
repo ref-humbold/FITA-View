@@ -52,7 +52,8 @@ public abstract class TopDownTreeAutomaton
      * @param rightResult variable value in right son
      */
     protected abstract void addTransition(Variable var, String value, String label,
-                                          String leftResult, String rightResult);
+                                          String leftResult, String rightResult)
+        throws DuplicatedTransitionException;
 
     /**
      * Calling a transition function with given arguments.

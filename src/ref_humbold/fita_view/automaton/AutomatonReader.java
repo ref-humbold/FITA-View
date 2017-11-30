@@ -83,6 +83,7 @@ public class AutomatonReader
         List<String> varValues = new ArrayList<>();
         Map<Integer, Variable> variables = new HashMap<>();
         String tagName = null;
+        StringBuilder content = null;
         Integer varID;
 
         public abstract TreeAutomaton getAutomaton();
@@ -98,6 +99,8 @@ public class AutomatonReader
         public void startElement(String uri, String localName, String qName, Attributes attributes)
             throws SAXException
         {
+            content = new StringBuilder();
+
             switch(qName)
             {
                 case "alphabet":
@@ -115,6 +118,10 @@ public class AutomatonReader
 
                 case "trans":
                     varID = Integer.parseInt(attributes.getValue("var-id"));
+
+                    if(!variables.containsKey(varID))
+                        throw new AutomatonParsingException(
+                            "No variable with with ID " + varID + ".");
                     break;
 
                 default:
@@ -124,28 +131,8 @@ public class AutomatonReader
 
         @Override
         public void characters(char[] chars, int start, int length)
-            throws SAXException
         {
-            if(tagName == null)
-                return;
-
-            switch(tagName)
-            {
-                case "word":
-                    alphabet.add(new String(chars, start, length));
-                    break;
-
-                case "value":
-                    try
-                    {
-                        varValues.add(new String(chars, start, length));
-                    }
-                    catch(IllegalVariableValueException e)
-                    {
-                        throw new AutomatonParsingException(e);
-                    }
-                    break;
-            }
+            content.append(chars, start, length);
         }
 
         @Override
@@ -157,8 +144,16 @@ public class AutomatonReader
                 case "automaton":
                 case "alphabet":
                 case "transitions":
+                    break;
+
                 case "word":
+                    alphabet.add(content.toString());
+                    content = null;
+                    break;
+
                 case "value":
+                    varValues.add(content.toString());
+                    content = null;
                     break;
 
                 case "var":
@@ -200,6 +195,7 @@ public class AutomatonReader
             throws SAXException
         {
             tagName = qName;
+            content = new StringBuilder();
 
             switch(qName)
             {
@@ -219,54 +215,6 @@ public class AutomatonReader
         }
 
         @Override
-        public void characters(char[] chars, int start, int length)
-            throws SAXException
-        {
-            switch(tagName)
-            {
-                case "label":
-                    label = new String(chars, start, length);
-
-                    if(!label.equals(Transitions.EVERY_VALUE) && !alphabet.contains(label))
-                        throw new AutomatonParsingException(
-                            "Given label is not a part of automaton's alphabet.");
-                    break;
-
-                case "node-value":
-                    nodeValue = new String(chars, start, length);
-
-                    if(!nodeValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
-                                                                               .contains(nodeValue))
-                        throw new AutomatonParsingException(
-                            "Given left-result is not a value of variable with ID " + varID + ".");
-                    break;
-
-                case "left-result":
-                    leftResult = new String(chars, start, length);
-
-                    if(!leftResult.equals(Transitions.SAME_VALUE) && !variables.get(varID)
-                                                                               .contains(
-                                                                                   leftResult))
-                        throw new AutomatonParsingException(
-                            "Given left-result is not a value of variable with ID " + varID + ".");
-                    break;
-
-                case "right-result":
-                    rightResult = new String(chars, start, length);
-
-                    if(!rightResult.equals(Transitions.SAME_VALUE) && !variables.get(varID)
-                                                                                .contains(
-                                                                                    rightResult))
-                        throw new AutomatonParsingException(
-                            "Given right-result is not a value of variable with ID " + varID + ".");
-                    break;
-
-                default:
-                    super.characters(chars, start, length);
-            }
-        }
-
-        @Override
         public void endElement(String uri, String localName, String qName)
             throws SAXException
         {
@@ -278,14 +226,59 @@ public class AutomatonReader
                     break;
 
                 case "trans":
-                    automaton.addTransition(variables.get(varID), nodeValue, label, leftResult,
-                                            rightResult);
+                    try
+                    {
+                        automaton.addTransition(variables.get(varID), nodeValue, label, leftResult,
+                                                rightResult);
+                    }
+                    catch(DuplicatedTransitionException e)
+                    {
+                        throw new AutomatonParsingException("Duplicated transition entry.", e);
+                    }
                     break;
 
                 case "label":
+                    label = content.toString();
+                    content = null;
+
+                    if(!label.equals(Transitions.EVERY_VALUE) && !alphabet.contains(label))
+                        throw new AutomatonParsingException(
+                            "Given label \'" + label + "\' is not a part of automaton's alphabet.");
+                    break;
+
                 case "node-value":
+                    nodeValue = content.toString();
+                    content = null;
+
+                    if(!nodeValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
+                                                                               .contains(nodeValue))
+                        throw new AutomatonParsingException("Given node-value  \'" + nodeValue
+                                                                + "\' is not a value of variable with ID "
+                                                                + varID + ".");
+                    break;
+
                 case "left-result":
+                    leftResult = content.toString();
+                    content = null;
+
+                    if(!leftResult.equals(Transitions.SAME_VALUE) && !variables.get(varID)
+                                                                               .contains(
+                                                                                   leftResult))
+                        throw new AutomatonParsingException("Given left-result \'" + leftResult
+                                                                + "\' is not a value of variable with ID "
+                                                                + varID + ".");
+                    break;
+
                 case "right-result":
+                    rightResult = content.toString();
+                    content = null;
+
+                    if(!rightResult.equals(Transitions.SAME_VALUE) && !variables.get(varID)
+                                                                                .contains(
+                                                                                    rightResult))
+                        throw new AutomatonParsingException("Given right-result \'" + rightResult
+                                                                + "\'is not a value of variable with ID "
+                                                                + varID + ".");
                     break;
 
                 default:
@@ -322,6 +315,7 @@ public class AutomatonReader
             throws SAXException
         {
             tagName = qName;
+            content = new StringBuilder();
 
             switch(qName)
             {
@@ -339,62 +333,6 @@ public class AutomatonReader
         }
 
         @Override
-        public void characters(char[] chars, int start, int length)
-            throws SAXException
-        {
-            switch(tagName)
-            {
-                case "left-label":
-                    leftLabel = new String(chars, start, length);
-
-                    if(!leftLabel.equals(Transitions.EVERY_VALUE) && !alphabet.contains(leftLabel))
-                        throw new AutomatonParsingException(
-                            "Given left-label is not a part of automaton's alphabet.");
-                    break;
-
-                case "right-label":
-                    rightLabel = new String(chars, start, length);
-
-                    if(!rightLabel.equals(Transitions.EVERY_VALUE) && !alphabet.contains(
-                        rightLabel))
-                        throw new AutomatonParsingException(
-                            "Given right-label is not a part of automaton's alphabet.");
-                    break;
-
-                case "left-value":
-                    leftValue = new String(chars, start, length);
-
-                    if(!leftValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
-                                                                               .contains(leftValue))
-                        throw new AutomatonParsingException(
-                            "Given left-value is not a value of variable with ID " + varID + ".");
-                    break;
-
-                case "right-value":
-                    rightValue = new String(chars, start, length);
-
-                    if(!rightValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
-                                                                                .contains(
-                                                                                    rightValue))
-                        throw new AutomatonParsingException(
-                            "Given right-value is not a value of variable with ID " + varID + ".");
-                    break;
-
-                case "node-result":
-                    nodeResult = new String(chars, start, length);
-
-                    if(!nodeResult.equals(Transitions.LEFT_VALUE) && !nodeResult.equals(
-                        Transitions.RIGHT_VALUE) && !variables.get(varID).contains(nodeResult))
-                        throw new AutomatonParsingException(
-                            "Given node-result is not a value of variable with ID " + varID + ".");
-                    break;
-
-                default:
-                    super.characters(chars, start, length);
-            }
-        }
-
-        @Override
         public void endElement(String uri, String localName, String qName)
             throws SAXException
         {
@@ -405,15 +343,68 @@ public class AutomatonReader
                     break;
 
                 case "trans":
-                    automaton.addTransition(variables.get(varID), leftValue, leftLabel, rightValue,
-                                            rightLabel, nodeResult);
+                    try
+                    {
+                        automaton.addTransition(variables.get(varID), leftValue, leftLabel,
+                                                rightValue, rightLabel, nodeResult);
+                    }
+                    catch(DuplicatedTransitionException e)
+                    {
+                        throw new AutomatonParsingException("Duplicated transition entry.", e);
+                    }
                     break;
 
                 case "left-label":
+                    leftLabel = content.toString();
+                    content = null;
+
+                    if(!leftLabel.equals(Transitions.EVERY_VALUE) && !alphabet.contains(leftLabel))
+                        throw new AutomatonParsingException("Given left-label \'" + leftLabel
+                                                                + "\' is not a part of automaton's alphabet.");
+                    break;
+
                 case "right-label":
+                    rightLabel = content.toString();
+                    content = null;
+
+                    if(!rightLabel.equals(Transitions.EVERY_VALUE) && !alphabet.contains(
+                        rightLabel))
+                        throw new AutomatonParsingException("Given right-label \'" + rightLabel
+                                                                + "\' is not a part of automaton's alphabet.");
+                    break;
+
                 case "left-value":
+                    leftValue = content.toString();
+                    content = null;
+
+                    if(!leftValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
+                                                                               .contains(leftValue))
+                        throw new AutomatonParsingException("Given left-value \'" + leftValue
+                                                                + "\' is not a value of variable with ID "
+                                                                + varID + ".");
+                    break;
+
                 case "right-value":
+                    rightValue = content.toString();
+                    content = null;
+
+                    if(!rightValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
+                                                                                .contains(
+                                                                                    rightValue))
+                        throw new AutomatonParsingException("Given right-value \'" + rightValue
+                                                                + "\' is not a value of variable with ID "
+                                                                + varID + ".");
+                    break;
+
                 case "node-result":
+                    nodeResult = content.toString();
+                    content = null;
+
+                    if(!nodeResult.equals(Transitions.LEFT_VALUE) && !nodeResult.equals(
+                        Transitions.RIGHT_VALUE) && !variables.get(varID).contains(nodeResult))
+                        throw new AutomatonParsingException("Given node-result \'" + nodeResult
+                                                                + "\' is not a value of variable with ID "
+                                                                + varID + ".");
                     break;
 
                 default:

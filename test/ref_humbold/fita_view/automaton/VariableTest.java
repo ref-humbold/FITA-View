@@ -34,24 +34,28 @@ public class VariableTest
 
     @Test(expected = IllegalVariableValueException.class)
     public void testConstructorWhenInitIsNull()
+        throws IllegalVariableValueException
     {
         testObject = new Variable(null);
     }
 
     @Test(expected = IllegalVariableValueException.class)
     public void testConstructorWhenInitIsEmpty()
+        throws IllegalVariableValueException
     {
         testObject = new Variable("");
     }
 
     @Test(expected = IllegalVariableValueException.class)
     public void testConstructorWhenValueIsNull()
+        throws IllegalVariableValueException
     {
         testObject = new Variable("A", "B", "C", null);
     }
 
     @Test(expected = IllegalVariableValueException.class)
     public void testConstructorWhenValueIsEmpty()
+        throws IllegalVariableValueException
     {
         testObject = new Variable("A", "B", "C", "");
     }

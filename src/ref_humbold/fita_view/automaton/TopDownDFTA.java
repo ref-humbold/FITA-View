@@ -31,7 +31,11 @@ public class TopDownDFTA
     @Override
     protected void addTransition(Variable var, String value, String label, String leftResult,
                                  String rightResult)
+        throws DuplicatedTransitionException
     {
+        if(transitions.containsKey(var, Pair.make(value, label)))
+            throw new DuplicatedTransitionException();
+
         transitions.add(var, Pair.make(value, label), Pair.make(leftResult, rightResult));
     }
 

@@ -1,0 +1,56 @@
+<automaton determinism="true">
+  <alphabet>
+    <word>0</word>
+    <word>1</word>
+  </alphabet>
+  <variables>
+    <var id="0" init="A">
+      <value>B</value>
+      <value>C</value>
+    </var>
+  </variables>
+  <transitions>
+    <trans var-id="0">
+      <node-value>A</node-value>
+      <label>0</label>
+      <left-result>B</left-result>
+      <right-result>C</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>A</node-value>
+      <label>1</label>
+      <left-result>A</left-result>
+      <right-result>A</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>B</node-value>
+      <label>0</label>
+      <left-result>C</left-result>
+      <right-result>A</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>B</node-value>
+      <label>1</label>
+      <left-result>B</left-result>
+      <right-result>B</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>C</node-value>
+      <label>0</label>
+      <left-result>A</left-result>
+      <right-result>B</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>C</node-value>
+      <label>1</label>
+      <left-result>C</left-result>
+      <right-result>C</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>C</node-value>
+      <label>2</label>
+      <left-result>B</left-result>
+      <right-result>B</right-result>
+    </trans>
+  </transitions>
+</automaton>

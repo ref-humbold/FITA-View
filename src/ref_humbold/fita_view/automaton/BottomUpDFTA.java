@@ -55,7 +55,12 @@ public class BottomUpDFTA
      */
     void addTransition(Variable var, String leftValue, String leftLabel, String rightValue,
                        String rightLabel, String result)
+        throws DuplicatedTransitionException
     {
+        if(transitions.containsKey(var,
+                                   Quadruple.make(leftValue, rightValue, leftLabel, rightLabel)))
+            throw new DuplicatedTransitionException();
+
         transitions.add(var, Quadruple.make(leftValue, rightValue, leftLabel, rightLabel), result);
     }
 
