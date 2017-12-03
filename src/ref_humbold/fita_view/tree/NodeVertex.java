@@ -46,7 +46,7 @@ public class NodeVertex
     }
 
     @Override
-    public VertexType getTypename()
+    public VertexType getType()
     {
         return VertexType.NODE;
     }

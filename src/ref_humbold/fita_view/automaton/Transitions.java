@@ -22,19 +22,59 @@ public class Transitions<K extends Tuple, V>
     {
     }
 
+    /**
+     * Testing of variable and arguments for presence in transition function.
+     * @param var variable
+     * @param key arguments of transition
+     * @return {@code true} if there is any transition entry with given arguments
+     */
     public boolean containsKey(Variable var, K key)
     {
         return map.containsKey(Pair.make(var, (Tuple)key));
     }
 
+    /**
+     * Testing of variable and arguments for fitting entry in transition function.
+     * @param var variable
+     * @param key arguments of transition
+     * @return {@code true} if there is any transition entry fitting given arguments
+     */
+    public boolean containsEntry(Variable var, K key)
+    {
+        for(int i = 0; i < 1 << key.size(); ++i)
+        {
+            Tuple t = setWildcard(i, key);
+            boolean contains = map.containsKey(Pair.make(var, t));
+
+            if(contains)
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Adding new arguments-result entry to transition function for variable.
+     * @param var variable
+     * @param key arguments of transition
+     * @param value result of transition
+     */
     public void add(Variable var, K key, V value)
     {
         map.put(Pair.make(var, key), value);
     }
 
+    /**
+     * Getting a result of transition function for arguments with variable.
+     * @param var variable
+     * @param key arguments of transition
+     * @return result of transition for the arguments
+     * @throws NoSuchTransitionException if there is no entry for given arguments with variable.
+     */
     public V get(Variable var, K key)
+        throws NoSuchTransitionException
     {
-        for(int i = 0; i < 1 << key.getArity(); ++i)
+        for(int i = 0; i < 1 << key.size(); ++i)
         {
             Tuple t = setWildcard(i, key);
             V value = map.get(Pair.make(var, t));
@@ -43,49 +83,29 @@ public class Transitions<K extends Tuple, V>
                 return value;
         }
 
-        return null;
+        throw new NoSuchTransitionException(
+            "No entry for arguments " + key + " with variable " + var + ".");
     }
 
     private Tuple setWildcard(int mask, Tuple t)
     {
         Object[] objects = t.toArray();
 
-        switch(t.getArity())
+        for(int i = 0; i < t.size(); ++i)
+        {
+            if((mask & (1 << i)) == 1 << i)
+                objects[i] = EVERY_VALUE;
+        }
+
+        switch(t.size())
         {
             case 2:
-                if((mask & 1) == 1)
-                    objects[0] = EVERY_VALUE;
-
-                if((mask & 2) == 2)
-                    objects[1] = EVERY_VALUE;
-
                 return Pair.make(objects[0], objects[1]);
 
             case 3:
-                if((mask & 1) == 1)
-                    objects[0] = EVERY_VALUE;
-
-                if((mask & 2) == 2)
-                    objects[1] = EVERY_VALUE;
-
-                if((mask & 4) == 4)
-                    objects[2] = EVERY_VALUE;
-
                 return Triple.make(objects[0], objects[1], objects[2]);
 
             case 4:
-                if((mask & 1) == 1)
-                    objects[0] = EVERY_VALUE;
-
-                if((mask & 2) == 2)
-                    objects[1] = EVERY_VALUE;
-
-                if((mask & 4) == 4)
-                    objects[2] = EVERY_VALUE;
-
-                if((mask & 8) == 8)
-                    objects[3] = EVERY_VALUE;
-
                 return Quadruple.make(objects[0], objects[1], objects[2], objects[3]);
 
             default:

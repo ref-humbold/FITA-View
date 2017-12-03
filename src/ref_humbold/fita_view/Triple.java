@@ -37,7 +37,7 @@ public class Triple<F, S, T>
     }
 
     @Override
-    public int getArity()
+    public int size()
     {
         return 3;
     }

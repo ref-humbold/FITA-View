@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Variable
-    implements Collection<String>
+    implements Iterable<String>
 {
     private String initValue;
     private Set<String> values = new HashSet<>();
@@ -46,82 +46,20 @@ public class Variable
         return initValue;
     }
 
-    @Override
-    public int size()
-    {
-        return values.size();
-    }
-
-    @Override
-    public boolean isEmpty()
-    {
-        return values.isEmpty();
-    }
-
-    @Override
-    public boolean contains(Object value)
+    /**
+     * Testing of given string for presence as a value of the variable
+     * @param value string to test
+     * @return {@code true} if this string is value, otherwise {@code false}
+     */
+    public boolean contains(String value)
     {
         return values.contains(value);
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> collection)
-    {
-        return values.containsAll(collection);
     }
 
     @Override
     public Iterator<String> iterator()
     {
         return values.iterator();
-    }
-
-    @Override
-    public Object[] toArray()
-    {
-        return values.toArray();
-    }
-
-    @Override
-    public <T> T[] toArray(T[] ts)
-    {
-        return values.toArray(ts);
-    }
-
-    @Override
-    public boolean add(String value)
-    {
-        throw new UnsupportedOperationException("Cannot add value to the variable.");
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends String> collection)
-    {
-        throw new UnsupportedOperationException("Cannot add value to the variable.");
-    }
-
-    @Override
-    public boolean remove(Object o)
-    {
-        throw new UnsupportedOperationException("Cannot remove values from variable.");
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> collection)
-    {
-        throw new UnsupportedOperationException("Cannot remove values from variable.");
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> collection)
-    {
-        throw new UnsupportedOperationException("Cannot retain values from variable.");
-    }
-
-    @Override
-    public void clear()
-    {
-        throw new UnsupportedOperationException("Cannot remove values from variable.");
     }
 
     @Override

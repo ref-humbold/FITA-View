@@ -50,8 +50,8 @@ public class TreeReader
     /**
      * Reading tree from XML file.
      * @return tree object
-     * @throws IOException
-     * @throws SAXException
+     * @throws IOException if any IO error occurs
+     * @throws SAXException if any parsing error occurs
      */
     public TreeVertex read()
         throws IOException, SAXException
@@ -174,7 +174,6 @@ public class TreeReader
 
         @Override
         public void endDocument()
-            throws SAXException
         {
             tree = nodes.empty() ? null : nodes.get(0).getFirst();
         }

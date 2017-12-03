@@ -44,7 +44,7 @@ public class Quadruple<F, S, T, U>
     }
 
     @Override
-    public int getArity()
+    public int size()
     {
         return 4;
     }

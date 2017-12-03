@@ -17,7 +17,7 @@ public class TreeWriter
     /**
      * Writing tree to XML file.
      * @param filename name of the file without extension
-     * @throws IOException
+     * @throws IOException if any IO error occurs
      */
     public void toFile(String filename)
         throws IOException
@@ -147,7 +147,7 @@ public class TreeWriter
 
         private boolean isRec(TreeVertex tree)
         {
-            return tree.getTypename() == VertexType.REC;
+            return tree.getType() == VertexType.REC;
         }
 
         private boolean hasChildren(TreeVertex tree)
@@ -157,7 +157,7 @@ public class TreeWriter
 
         private String getNodeName(TreeVertex tree)
         {
-            return tree.getTypename().toString().toLowerCase();
+            return tree.getType().toString().toLowerCase();
         }
     }
 }

@@ -29,6 +29,13 @@ public class TopDownDFTA
     }
 
     @Override
+    protected Pair<String, String> getTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException
+    {
+        return transitions.get(var, Pair.make(value, label));
+    }
+
+    @Override
     protected void addTransition(Variable var, String value, String label, String leftResult,
                                  String rightResult)
         throws DuplicatedTransitionException
@@ -37,14 +44,6 @@ public class TopDownDFTA
             throw new DuplicatedTransitionException();
 
         transitions.add(var, Pair.make(value, label), Pair.make(leftResult, rightResult));
-    }
-
-    @Override
-    protected Pair<String, String> doTransition(Variable var, String value, String label)
-    {
-        Pair<String, String> result = transitions.get(var, Pair.make(value, label));
-
-        return removeWildcard(value, result);
     }
 
     @Override

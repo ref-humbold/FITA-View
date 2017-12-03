@@ -62,8 +62,8 @@ public class AutomatonReader
     /**
      * Reading automaton from XML file.
      * @return automaton object
-     * @throws IOException if any IO errors occur
-     * @throws SAXException if any parsing errors occur
+     * @throws IOException if any IO error occurs
+     * @throws SAXException if any parsing error occurs
      */
     public TreeAutomaton read()
         throws IOException, SAXException

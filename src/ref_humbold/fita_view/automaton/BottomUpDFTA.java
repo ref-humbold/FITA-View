@@ -45,7 +45,32 @@ public class BottomUpDFTA
     }
 
     /**
-     * Adding new transition to transition function of automaton.
+     * Getting a result of transition function for given arguments.
+     * @param var variable
+     * @param leftValue variable value in left son
+     * @param leftLabel tree label of left son
+     * @param rightValue variable value in right son
+     * @param rightLabel tree label of right son
+     * @return variable value in node
+     */
+    String doTransition(Variable var, String leftValue, String leftLabel, String rightValue,
+                        String rightLabel)
+        throws NoSuchTransitionException
+    {
+        String result =
+            transitions.get(var, Quadruple.make(leftValue, rightValue, leftLabel, rightLabel));
+
+        if(result.equals(Transitions.LEFT_VALUE))
+            return leftValue;
+
+        if(result.equals(Transitions.RIGHT_VALUE))
+            return rightValue;
+
+        return result;
+    }
+
+    /**
+     * Adding new transition entry to transition function of automaton.
      * @param var variable
      * @param leftValue variable value in left son
      * @param leftLabel tree label of left son
@@ -62,30 +87,6 @@ public class BottomUpDFTA
             throw new DuplicatedTransitionException();
 
         transitions.add(var, Quadruple.make(leftValue, rightValue, leftLabel, rightLabel), result);
-    }
-
-    /**
-     * Calling a transition function with given arguments.
-     * @param var variable
-     * @param leftValue variable value in left son
-     * @param leftLabel tree label of left son
-     * @param rightValue variable value in right son
-     * @param rightLabel tree label of right son
-     * @return variable value in node
-     */
-    String doTransition(Variable var, String leftValue, String leftLabel, String rightValue,
-                        String rightLabel)
-    {
-        String result =
-            transitions.get(var, Quadruple.make(leftValue, rightValue, leftLabel, rightLabel));
-
-        if(result.equals(Transitions.LEFT_VALUE))
-            return leftValue;
-
-        if(result.equals(Transitions.RIGHT_VALUE))
-            return rightValue;
-
-        return result;
     }
 
     @Override

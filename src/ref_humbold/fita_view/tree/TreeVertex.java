@@ -12,7 +12,10 @@ public abstract class TreeVertex
         this.id = id;
     }
 
-    public abstract VertexType getTypename();
+    /**
+     * @return type of the node
+     */
+    public abstract VertexType getType();
 
     public abstract TreeVertex getLeft();
 

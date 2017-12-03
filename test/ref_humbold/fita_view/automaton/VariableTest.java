@@ -1,8 +1,5 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -70,23 +67,7 @@ public class VariableTest
     }
 
     @Test
-    public void testSize()
-    {
-        int result = testObject.size();
-
-        Assert.assertEquals(3, result);
-    }
-
-    @Test
-    public void testIsEmpty()
-    {
-        boolean result = testObject.isEmpty();
-
-        Assert.assertFalse(result);
-    }
-
-    @Test
-    public void testContainsWhenInSet()
+    public void testContainsWhenInnerValue()
     {
         boolean resultA = testObject.contains("A");
         boolean resultB = testObject.contains("B");
@@ -98,7 +79,7 @@ public class VariableTest
     }
 
     @Test
-    public void testContainsWhenOutOfSet()
+    public void testContainsWhenOuterValue()
     {
         boolean resultD = testObject.contains("D");
 
@@ -117,36 +98,6 @@ public class VariableTest
     public void testContainsWhenEmpty()
     {
         boolean result = testObject.contains("");
-
-        Assert.assertFalse(result);
-    }
-
-    @Test
-    public void testContainsAllWhenInSet()
-    {
-        Collection<String> collection = Arrays.asList("C", "A");
-
-        boolean result = testObject.containsAll(collection);
-
-        Assert.assertTrue(result);
-    }
-
-    @Test
-    public void testContainsAllWhenOutOfSet()
-    {
-        Collection<String> collection = Arrays.asList("B", "D");
-
-        boolean result = testObject.containsAll(collection);
-
-        Assert.assertFalse(result);
-    }
-
-    @Test
-    public void testContainsAllWhenNullAndEmpty()
-    {
-        Collection<String> collection = Arrays.asList("C", null, "");
-
-        boolean result = testObject.containsAll(collection);
 
         Assert.assertFalse(result);
     }

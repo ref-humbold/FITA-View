@@ -25,7 +25,7 @@ public class RecVertex
     }
 
     @Override
-    public VertexType getTypename()
+    public VertexType getType()
     {
         return VertexType.REC;
     }

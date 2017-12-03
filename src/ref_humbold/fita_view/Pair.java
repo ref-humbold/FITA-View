@@ -30,7 +30,7 @@ public class Pair<F, S>
     }
 
     @Override
-    public int getArity()
+    public int size()
     {
         return 2;
     }

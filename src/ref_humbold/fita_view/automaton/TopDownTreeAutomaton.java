@@ -44,7 +44,32 @@ public abstract class TopDownTreeAutomaton
     }
 
     /**
-     * Adding new transition to transition function of automaton.
+     * Getting a result of transition function for given arguments.
+     * @param var variable
+     * @param value variable value in node
+     * @param label tree label of node
+     * @return pair of variable values in sons (first left, second right)
+     */
+    protected final Pair<String, String> doTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException
+    {
+        Pair<String, String> result = getTransition(var, value, label);
+
+        return removeWildcard(value, result);
+    }
+
+    /**
+     * Calling a transition function with given arguments.
+     * @param var variable
+     * @param value variable value in node
+     * @param label tree label of node
+     * @return pair of variable values in sons (first left, second right)
+     */
+    protected abstract Pair<String, String> getTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException;
+
+    /**
+     * Adding new transition entry to transition function of automaton.
      * @param var variable
      * @param value variable value in node
      * @param label tree label of node
@@ -55,16 +80,7 @@ public abstract class TopDownTreeAutomaton
                                           String leftResult, String rightResult)
         throws DuplicatedTransitionException;
 
-    /**
-     * Calling a transition function with given arguments.
-     * @param var variable
-     * @param value variable value in node
-     * @param label tree label of node
-     * @return pair of variable values in sons (first left, second right)
-     */
-    protected abstract Pair<String, String> doTransition(Variable var, String value, String label);
-
-    protected Pair<String, String> removeWildcard(String value, Pair<String, String> trans)
+    private Pair<String, String> removeWildcard(String value, Pair<String, String> trans)
     {
         if(trans.getFirst().equals(Transitions.SAME_VALUE) && trans.getSecond()
                                                                    .equals(

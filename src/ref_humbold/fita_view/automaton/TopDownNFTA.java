@@ -47,6 +47,13 @@ public class TopDownNFTA
     }
 
     @Override
+    protected Pair<String, String> getTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException
+    {
+        return choice.chooseState(transitions.get(var, Pair.make(value, label)));
+    }
+
+    @Override
     protected void addTransition(Variable var, String value, String label, String leftResult,
                                  String rightResult)
     {
@@ -55,16 +62,14 @@ public class TopDownNFTA
         if(!transitions.containsKey(var, key))
             transitions.add(var, key, new HashSet<>());
 
-        transitions.get(var, key).add(Pair.make(leftResult, rightResult));
-    }
-
-    @Override
-    protected Pair<String, String> doTransition(Variable var, String value, String label)
-    {
-        Pair<String, String> result =
-            choice.chooseState(transitions.get(var, Pair.make(value, label)));
-
-        return removeWildcard(value, result);
+        try
+        {
+            transitions.get(var, key).add(Pair.make(leftResult, rightResult));
+        }
+        catch(NoSuchTransitionException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

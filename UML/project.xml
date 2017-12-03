@@ -112,41 +112,9 @@
 								<Class Idref="i3FiyvqD.AACAQYH" Name="TreeAutomaton"/>
 							</MasterView>
 						</Class>
-						<Class Abstract="true" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="dDLiyvqD.AACAQZK" Leaf="false" Name="TopDownTreeAutomaton" PmAuthor="kaleta" PmCreateDateTime="2017-10-25T13:25:02.382" PmLastModified="2017-11-21T23:22:08.851" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
+						<Class Abstract="true" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="dDLiyvqD.AACAQZK" Leaf="false" Name="TopDownTreeAutomaton" PmAuthor="kaleta" PmCreateDateTime="2017-10-25T13:25:02.382" PmLastModified="2017-12-03T21:03:07.649" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
 							<ModelChildren>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="dmXuGfqD.AACAQiH" Leaf="false" Name="addTransition" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:51:39.118" PmLastModified="2017-11-21T23:13:53.793" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="protected" Visible="true">
-									<ReturnType>
-										<DataType Idref="dB0HUvqD.AACAQUJ" Name="void"/>
-									</ReturnType>
-									<ModelChildren>
-										<Parameter Direction="inout" Documentation_plain="" Id="wcYJB_qD.AACAQjS" Multiplicity="Unspecified" Name="var" PmAuthor="kaleta" PmCreateDateTime="2017-11-21T22:51:19.939" PmLastModified="2017-11-21T22:51:29.960" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
-											<Type>
-												<Class Idref="XEWGCfqD.AACAQdU" Name="Variable"/>
-											</Type>
-										</Parameter>
-										<Parameter Direction="inout" Documentation_plain="" Id="DIweGfqD.AACAQiK" Multiplicity="Unspecified" Name="value" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:52:14.640" PmLastModified="2017-11-21T22:51:29.960" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
-											<Type>
-												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
-											</Type>
-										</Parameter>
-										<Parameter Direction="inout" Documentation_plain="" Id="c5VeGfqD.AACAQkj" Multiplicity="Unspecified" Name="label" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:54:56.590" PmLastModified="2017-11-07T22:55:50.830" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
-											<Type>
-												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
-											</Type>
-										</Parameter>
-										<Parameter Direction="inout" Documentation_plain="" Id="HIweGfqD.AACAQiS" Multiplicity="Unspecified" Name="leftResult" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:52:14.648" PmLastModified="2017-11-07T22:52:40.372" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
-											<Type>
-												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
-											</Type>
-										</Parameter>
-										<Parameter Direction="inout" Documentation_plain="" Id="3IweGfqD.AACAQiT" Multiplicity="Unspecified" Name="rightResult" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:52:14.651" PmLastModified="2017-11-07T22:52:40.372" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
-											<Type>
-												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
-											</Type>
-										</Parameter>
-									</ModelChildren>
-								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="pHmBGfqD.AACAQnk" Leaf="false" Name="doTransition" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T23:02:32.357" PmLastModified="2017-11-21T23:13:53.793" QualityScore="-1" Query="false" ReturnType="Pair" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="protected" Visible="true">
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="pHmBGfqD.AACAQnk" Leaf="true" Name="doTransition" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T23:02:32.357" PmLastModified="2017-12-03T20:34:41.035" QualityScore="-1" Query="false" ReturnType="Pair" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="protected" Visible="true">
 									<TemplateTypeBindInfo>
 										<TemplateTypeBindInfo BindedType="Pair" Documentation_plain="" Id="DHyJB_qD.AACAQjn" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-11-21T22:52:15.920" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
 											<Details>
@@ -186,6 +154,140 @@
 											<Type>
 												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
 											</Type>
+										</Parameter>
+									</ModelChildren>
+								</Operation>
+								<Operation Abstract="true" ConnectToCodeModel="1" Documentation_plain="" Id="O5F7uAaD.AACAQfb" Leaf="false" Name="getTransition" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T20:33:31.740" PmLastModified="2017-12-03T20:34:19.650" QualityScore="-1" Query="false" ReturnType="Pair" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="protected" Visible="true">
+									<TemplateTypeBindInfo>
+										<TemplateTypeBindInfo BindedType="Pair" Documentation_plain="" Id="W6N7uAaD.AACAQgR" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T20:33:47.098" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Details>
+												<TemplateTypeBindDetails Documentation_plain="" Id="B6N7uAaD.AACAQgS" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T20:33:47.104" QualityScore="-1" UserIDLastNumericValue="0" Wildcard="Non Wildcard">
+													<Arguments>
+														<TemplateTypeBindInfo Documentation_plain="" Id="h6N7uAaD.AACAQgT" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T20:33:47.105" QualityScore="-1" UserIDLastNumericValue="0">
+															<BindedType>
+																<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+															</BindedType>
+														</TemplateTypeBindInfo>
+													</Arguments>
+												</TemplateTypeBindDetails>
+												<TemplateTypeBindDetails Documentation_plain="" Id="R6N7uAaD.AACAQgU" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T20:33:47.106" QualityScore="-1" UserIDLastNumericValue="0" Wildcard="Non Wildcard">
+													<Arguments>
+														<TemplateTypeBindInfo Documentation_plain="" Id="R6N7uAaD.AACAQgV" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T20:33:47.106" QualityScore="-1" UserIDLastNumericValue="0">
+															<BindedType>
+																<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+															</BindedType>
+														</TemplateTypeBindInfo>
+													</Arguments>
+												</TemplateTypeBindDetails>
+											</Details>
+										</TemplateTypeBindInfo>
+									</TemplateTypeBindInfo>
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="3aN7uAaD.AACAQgN" Multiplicity="Unspecified" Name="var" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T20:33:47.067" PmLastModified="2017-12-03T20:34:19.650" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="XEWGCfqD.AACAQdU" Name="Variable"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="U6N7uAaD.AACAQgP" Multiplicity="Unspecified" Name="value" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T20:33:47.082" PmLastModified="2017-12-03T20:34:19.650" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="S6N7uAaD.AACAQgQ" Multiplicity="Unspecified" Name="label" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T20:33:47.090" PmLastModified="2017-12-03T20:34:19.650" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+									</ModelChildren>
+								</Operation>
+								<Operation Abstract="true" ConnectToCodeModel="1" Documentation_plain="" Id="dmXuGfqD.AACAQiH" Leaf="false" Name="addTransition" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:51:39.118" PmLastModified="2017-12-03T20:33:28.640" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="protected" Visible="true">
+									<ReturnType>
+										<DataType Idref="dB0HUvqD.AACAQUJ" Name="void"/>
+									</ReturnType>
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="wcYJB_qD.AACAQjS" Multiplicity="Unspecified" Name="var" PmAuthor="kaleta" PmCreateDateTime="2017-11-21T22:51:19.939" PmLastModified="2017-11-21T22:51:29.960" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="XEWGCfqD.AACAQdU" Name="Variable"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="DIweGfqD.AACAQiK" Multiplicity="Unspecified" Name="value" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:52:14.640" PmLastModified="2017-11-21T22:51:29.960" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="c5VeGfqD.AACAQkj" Multiplicity="Unspecified" Name="label" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:54:56.590" PmLastModified="2017-11-07T22:55:50.830" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="HIweGfqD.AACAQiS" Multiplicity="Unspecified" Name="leftResult" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:52:14.648" PmLastModified="2017-11-07T22:52:40.372" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="3IweGfqD.AACAQiT" Multiplicity="Unspecified" Name="rightResult" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:52:14.651" PmLastModified="2017-11-07T22:52:40.372" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+									</ModelChildren>
+								</Operation>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="vRcfuAaD.AACAQi4" Leaf="false" Name="removeWildcard" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:19.965" PmLastModified="2017-12-03T21:03:07.650" QualityScore="-1" Query="false" ReturnType="Pair" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="private" Visible="true">
+									<TemplateTypeBindInfo>
+										<TemplateTypeBindInfo BindedType="Pair" Documentation_plain="" Id="kW6fuAaD.AACAQjJ" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.265" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Details>
+												<TemplateTypeBindDetails Documentation_plain="" Id="0W6fuAaD.AACAQjK" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.267" QualityScore="-1" UserIDLastNumericValue="0" Wildcard="Non Wildcard">
+													<Arguments>
+														<TemplateTypeBindInfo Documentation_plain="" Id="MW6fuAaD.AACAQjL" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.268" QualityScore="-1" UserIDLastNumericValue="0">
+															<BindedType>
+																<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+															</BindedType>
+														</TemplateTypeBindInfo>
+													</Arguments>
+												</TemplateTypeBindDetails>
+												<TemplateTypeBindDetails Documentation_plain="" Id="sW6fuAaD.AACAQjM" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.269" QualityScore="-1" UserIDLastNumericValue="0" Wildcard="Non Wildcard">
+													<Arguments>
+														<TemplateTypeBindInfo Documentation_plain="" Id="cW6fuAaD.AACAQjN" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.270" QualityScore="-1" UserIDLastNumericValue="0">
+															<BindedType>
+																<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+															</BindedType>
+														</TemplateTypeBindInfo>
+													</Arguments>
+												</TemplateTypeBindDetails>
+											</Details>
+										</TemplateTypeBindInfo>
+									</TemplateTypeBindInfo>
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="zm6fuAaD.AACAQjC" Multiplicity="Unspecified" Name="value" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.243" PmLastModified="2017-12-03T21:03:07.650" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="Pm6fuAaD.AACAQjD" Multiplicity="Unspecified" Name="result" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.252" PmLastModified="2017-12-03T21:03:07.650" QualityScore="-1" Type="Pair" TypeModifier="" UserIDLastNumericValue="0">
+											<TemplateTypeBindInfo>
+												<TemplateTypeBindInfo BindedType="Pair" Documentation_plain="" Id="QW6fuAaD.AACAQjE" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.258" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+													<Details>
+														<TemplateTypeBindDetails Documentation_plain="" Id="IW6fuAaD.AACAQjF" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.260" QualityScore="-1" UserIDLastNumericValue="0" Wildcard="Non Wildcard">
+															<Arguments>
+																<TemplateTypeBindInfo Documentation_plain="" Id="IW6fuAaD.AACAQjG" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.260" QualityScore="-1" UserIDLastNumericValue="0">
+																	<BindedType>
+																		<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+																	</BindedType>
+																</TemplateTypeBindInfo>
+															</Arguments>
+														</TemplateTypeBindDetails>
+														<TemplateTypeBindDetails Documentation_plain="" Id="YW6fuAaD.AACAQjH" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.262" QualityScore="-1" UserIDLastNumericValue="0" Wildcard="Non Wildcard">
+															<Arguments>
+																<TemplateTypeBindInfo Documentation_plain="" Id="YW6fuAaD.AACAQjI" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:02:56.262" QualityScore="-1" UserIDLastNumericValue="0">
+																	<BindedType>
+																		<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
+																	</BindedType>
+																</TemplateTypeBindInfo>
+															</Arguments>
+														</TemplateTypeBindDetails>
+													</Details>
+												</TemplateTypeBindInfo>
+											</TemplateTypeBindInfo>
 										</Parameter>
 									</ModelChildren>
 								</Operation>
@@ -647,7 +749,7 @@
 								</Class>
 							</ModelChildren>
 						</Package>
-						<Class Abstract="false" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="XEWGCfqD.AACAQdU" Leaf="false" Name="Variable" PmAuthor="kaleta" PmCreateDateTime="2017-11-06T09:10:38.522" PmLastModified="2017-11-29T17:24:11.558" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
+						<Class Abstract="false" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="XEWGCfqD.AACAQdU" Leaf="false" Name="Variable" PmAuthor="kaleta" PmCreateDateTime="2017-11-06T09:10:38.522" PmLastModified="2017-12-03T20:15:55.485" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
 							<ModelChildren>
 								<Attribute Abstract="false" Aggregation="None" AllowEmptyName="false" ConnectToCodeModel="1" Derived="false" DerivedUnion="false" Documentation_plain="" HasGetter="false" HasSetter="false" Id="oQyOGfqD.AACAQdT" IsID="false" Leaf="false" Multiplicity="Unspecified" Name="initValue" PmAuthor="kaleta" PmCreateDateTime="2017-11-07T22:44:35.717" PmLastModified="2017-11-07T22:45:06.795" QualityScore="-1" ReadOnly="false" Scope="instance" TypeModifier="" UserIDLastNumericValue="0" Visibility="private" Visible="true">
 									<Type>
@@ -699,42 +801,12 @@
 										<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
 									</ReturnType>
 								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="wzfYp_qD.AACAQdt" Leaf="false" Name="size" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-22T20:02:13.443" PmLastModified="2017-11-29T17:20:56.728" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
-									<ReturnType>
-										<DataType Idref="NB0HUvqD.AACAQUG" Name="int"/>
-									</ReturnType>
-								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="WbNpEAaD.AACAQgz" Leaf="false" Name="isEmpty" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T17:23:08.954" PmLastModified="2017-11-29T17:23:37.315" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
-									<ReturnType>
-										<DataType Idref="FB0HUvqD.AACAQUB" Name="boolean"/>
-									</ReturnType>
-								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="5nRGCfqD.AACAQee" Leaf="false" Name="contains" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-06T09:11:14.407" PmLastModified="2017-11-29T17:23:37.317" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="5nRGCfqD.AACAQee" Leaf="false" Name="contains" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-06T09:11:14.407" PmLastModified="2017-12-03T20:15:55.485" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
 									<ReturnType>
 										<DataType Idref="FB0HUvqD.AACAQUB" Name="boolean"/>
 									</ReturnType>
 									<ModelChildren>
-										<Parameter Direction="inout" Documentation_plain="" Id="Jw5GCfqD.AACAQeh" Multiplicity="Unspecified" Name="value" PmAuthor="kaleta" PmCreateDateTime="2017-11-06T09:11:31.428" PmLastModified="2017-11-29T17:21:52.041" QualityScore="-1" Type="Object" TypeModifier="" UserIDLastNumericValue="0"/>
-									</ModelChildren>
-								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="DEppEAaD.AACAQge" Leaf="false" Name="containsAll" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T17:22:37.360" PmLastModified="2017-11-29T17:23:37.317" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
-									<ReturnType>
-										<DataType Idref="FB0HUvqD.AACAQUB" Name="boolean"/>
-									</ReturnType>
-									<ModelChildren>
-										<Parameter Direction="inout" Documentation_plain="" Id="UVFpEAaD.AACAQgh" Multiplicity="Unspecified" Name="collection" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T17:22:51.786" PmLastModified="2017-11-29T17:23:37.317" QualityScore="-1" Type="Collection" TypeModifier="" UserIDLastNumericValue="0">
-											<TemplateTypeBindInfo>
-												<TemplateTypeBindInfo BindedType="Collection" Documentation_plain="" Id="YqjpEAaD.AACAQhJ" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T17:23:27.302" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
-													<Details>
-														<TemplateTypeBindDetails Documentation_plain="" Id="EqjpEAaD.AACAQhK" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T17:23:27.304" QualityScore="-1" UserIDLastNumericValue="0" Wildcard="Unbound">
-															<Arguments>
-																<TemplateTypeBindInfo Documentation_plain="" Id="EqjpEAaD.AACAQhL" Name="" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T17:23:27.304" QualityScore="-1" UserIDLastNumericValue="0"/>
-															</Arguments>
-														</TemplateTypeBindDetails>
-													</Details>
-												</TemplateTypeBindInfo>
-											</TemplateTypeBindInfo>
-										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="Jw5GCfqD.AACAQeh" Multiplicity="Unspecified" Name="value" PmAuthor="kaleta" PmCreateDateTime="2017-11-06T09:11:31.428" PmLastModified="2017-12-03T20:15:55.485" QualityScore="-1" Type="String" TypeModifier="" UserIDLastNumericValue="0"/>
 									</ModelChildren>
 								</Operation>
 								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="oGR3f_qD.AACAQfb" Leaf="false" Name="iterator" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-27T20:22:21.061" PmLastModified="2017-11-27T20:22:48.191" QualityScore="-1" Query="false" ReturnType="Iterator" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
@@ -753,16 +825,6 @@
 											</Details>
 										</TemplateTypeBindInfo>
 									</TemplateTypeBindInfo>
-								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="GfzpEAaD.AACAQhP" Leaf="false" Name="toArray" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T17:23:38.136" PmLastModified="2017-11-29T17:24:11.559" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="[]" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
-									<ReturnType>
-										<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
-									</ReturnType>
-								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="5SbpEAaD.AACAQhS" Leaf="false" Name="toArray" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T17:23:47.623" PmLastModified="2017-11-29T17:24:11.559" QualityScore="-1" Query="false" ReturnType="T" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="[]" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
-									<ModelChildren>
-										<Parameter Direction="inout" Documentation_plain="" Id="cpHpEAaD.AACAQhV" Multiplicity="Unspecified" Name="ts" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T17:23:57.006" PmLastModified="2017-11-29T17:24:11.560" QualityScore="-1" Type="T" TypeModifier="[]" UserIDLastNumericValue="0"/>
-									</ModelChildren>
 								</Operation>
 							</ModelChildren>
 							<MasterView>
@@ -1212,33 +1274,8 @@
 								<Class Idref="zLYFL_qD.AACAQmu" Name="BottomUpAutomatonHandler"/>
 							</MasterView>
 						</Class>
-						<Class Abstract="false" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="2uzXEAaD.AACAQem" Leaf="false" Name="Transitions&lt;K, V&gt;" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:55:21.051" PmLastModified="2017-11-29T19:00:28.463" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
+						<Class Abstract="false" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="2uzXEAaD.AACAQem" Leaf="false" Name="Transitions&lt;K, V&gt;" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:55:21.051" PmLastModified="2017-12-03T21:46:30.425" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
 							<ModelChildren>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="Fto3EAaD.AACAQgn" Leaf="false" Name="Transitions" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:35.816" PmLastModified="2017-11-29T18:56:54.143" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true"/>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="ef3XEAaD.AACAQgF" Leaf="false" Name="add" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:55:55.934" PmLastModified="2017-11-29T18:56:54.143" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
-									<ReturnType>
-										<DataType Idref="dB0HUvqD.AACAQUJ" Name="void"/>
-									</ReturnType>
-									<ModelChildren>
-										<Parameter Direction="inout" Documentation_plain="" Id="kkw3EAaD.AACAQgi" Multiplicity="Unspecified" Name="var" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:25.289" PmLastModified="2017-11-29T18:56:54.144" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
-											<Type>
-												<Class Idref="XEWGCfqD.AACAQdU" Name="Variable"/>
-											</Type>
-										</Parameter>
-										<Parameter Direction="inout" Documentation_plain="" Id="ikw3EAaD.AACAQgj" Multiplicity="Unspecified" Name="key" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:25.297" PmLastModified="2017-11-29T18:56:54.144" QualityScore="-1" Type="K" TypeModifier="" UserIDLastNumericValue="0"/>
-										<Parameter Direction="inout" Documentation_plain="" Id="6kw3EAaD.AACAQgk" Multiplicity="Unspecified" Name="value" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:25.303" PmLastModified="2017-11-29T18:56:54.144" QualityScore="-1" Type="V" TypeModifier="" UserIDLastNumericValue="0"/>
-									</ModelChildren>
-								</Operation>
-								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="HvY3EAaD.AACAQgq" Leaf="false" Name="get" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:40.952" PmLastModified="2017-11-29T18:57:06.157" QualityScore="-1" Query="false" ReturnType="V" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
-									<ModelChildren>
-										<Parameter Direction="inout" Documentation_plain="" Id="w1U3EAaD.AACAQgz" Multiplicity="Unspecified" Name="var" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:56.131" PmLastModified="2017-11-29T18:57:06.157" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
-											<Type>
-												<Class Idref="XEWGCfqD.AACAQdU" Name="Variable"/>
-											</Type>
-										</Parameter>
-										<Parameter Direction="inout" Documentation_plain="" Id="01U3EAaD.AACAQg0" Multiplicity="Unspecified" Name="key" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:56.139" PmLastModified="2017-11-29T18:57:06.157" QualityScore="-1" Type="K" TypeModifier="" UserIDLastNumericValue="0"/>
-									</ModelChildren>
-								</Operation>
 								<Attribute Abstract="false" Aggregation="None" AllowEmptyName="false" ConnectToCodeModel="1" Derived="false" DerivedUnion="false" Documentation_plain="" HasGetter="false" HasSetter="false" Id="DiV3EAaD.AACAQiT" IsID="false" Leaf="false" Multiplicity="Unspecified" Name="EVERY_VALUE" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:59:05.584" PmLastModified="2017-11-29T19:00:28.463" QualityScore="-1" ReadOnly="false" Scope="classifier" TypeModifier="" UserIDLastNumericValue="0" Visibility="public" Visible="true">
 									<Type>
 										<DataType Idref="dB0HUvqD.AACAQUK" Name="string"/>
@@ -1294,6 +1331,57 @@
 										</TemplateTypeBindInfo>
 									</TemplateTypeBindInfo>
 								</Attribute>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="Fto3EAaD.AACAQgn" Leaf="false" Name="Transitions" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:35.816" PmLastModified="2017-11-29T18:56:54.143" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true"/>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="t.kEeAaD.AACAQfX" Leaf="false" Name="containsKey" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:45:40.717" PmLastModified="2017-12-03T21:46:08.214" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
+									<ReturnType>
+										<DataType Idref="FB0HUvqD.AACAQUB" Name="boolean"/>
+									</ReturnType>
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="YgsEeAaD.AACAQfv" Multiplicity="Unspecified" Name="var" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:45:55.142" PmLastModified="2017-12-03T21:46:08.214" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="XEWGCfqD.AACAQdU" Name="Variable"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="BgsEeAaD.AACAQf0" Multiplicity="Unspecified" Name="key" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:45:55.168" PmLastModified="2017-12-03T21:46:08.214" QualityScore="-1" Type="K" TypeModifier="" UserIDLastNumericValue="0"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="wdsEeAaD.AACAQf4" Leaf="false" Name="containsEntry" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:45:58.019" PmLastModified="2017-12-03T21:46:30.426" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
+									<ReturnType>
+										<DataType Idref="FB0HUvqD.AACAQUB" Name="boolean"/>
+									</ReturnType>
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="cvCEeAaD.AACAQf7" Multiplicity="Unspecified" Name="var" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:46:11.278" PmLastModified="2017-12-03T21:46:30.426" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="XEWGCfqD.AACAQdU" Name="Variable"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="WvCEeAaD.AACAQf8" Multiplicity="Unspecified" Name="key" PmAuthor="kaleta" PmCreateDateTime="2017-12-03T21:46:11.290" PmLastModified="2017-12-03T21:46:30.426" QualityScore="-1" Type="K" TypeModifier="" UserIDLastNumericValue="0"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="HvY3EAaD.AACAQgq" Leaf="false" Name="get" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:40.952" PmLastModified="2017-11-29T18:57:06.157" QualityScore="-1" Query="false" ReturnType="V" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="w1U3EAaD.AACAQgz" Multiplicity="Unspecified" Name="var" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:56.131" PmLastModified="2017-11-29T18:57:06.157" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="XEWGCfqD.AACAQdU" Name="Variable"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="01U3EAaD.AACAQg0" Multiplicity="Unspecified" Name="key" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:56.139" PmLastModified="2017-11-29T18:57:06.157" QualityScore="-1" Type="K" TypeModifier="" UserIDLastNumericValue="0"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Abstract="false" ConnectToCodeModel="1" Documentation_plain="" Id="ef3XEAaD.AACAQgF" Leaf="false" Name="add" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:55:55.934" PmLastModified="2017-11-29T18:56:54.143" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
+									<ReturnType>
+										<DataType Idref="dB0HUvqD.AACAQUJ" Name="void"/>
+									</ReturnType>
+									<ModelChildren>
+										<Parameter Direction="inout" Documentation_plain="" Id="kkw3EAaD.AACAQgi" Multiplicity="Unspecified" Name="var" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:25.289" PmLastModified="2017-11-29T18:56:54.144" QualityScore="-1" TypeModifier="" UserIDLastNumericValue="0">
+											<Type>
+												<Class Idref="XEWGCfqD.AACAQdU" Name="Variable"/>
+											</Type>
+										</Parameter>
+										<Parameter Direction="inout" Documentation_plain="" Id="ikw3EAaD.AACAQgj" Multiplicity="Unspecified" Name="key" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:25.297" PmLastModified="2017-11-29T18:56:54.144" QualityScore="-1" Type="K" TypeModifier="" UserIDLastNumericValue="0"/>
+										<Parameter Direction="inout" Documentation_plain="" Id="6kw3EAaD.AACAQgk" Multiplicity="Unspecified" Name="value" PmAuthor="kaleta" PmCreateDateTime="2017-11-29T18:56:25.303" PmLastModified="2017-11-29T18:56:54.144" QualityScore="-1" Type="V" TypeModifier="" UserIDLastNumericValue="0"/>
+									</ModelChildren>
+								</Operation>
 							</ModelChildren>
 							<MasterView>
 								<Class Idref="WuzXEAaD.AACAQel" Name="Transitions&lt;K, V&gt;"/>
@@ -1306,7 +1394,7 @@
 						<ClassDiagram Idref="wCgoGvqD.AACAQa5"/>
 					</SubDiagrams>
 					<ModelChildren>
-						<Class Abstract="true" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="PZ0oGvqD.AACAQbR" Leaf="false" Name="TreeVertex" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:47:54.172" PmLastModified="2017-11-26T16:20:02.391" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
+						<Class Abstract="true" Active="false" BusinessKeyMutable="true" BusinessModel="false" ConnectToCodeModel="1" Documentation_plain="" Id="PZ0oGvqD.AACAQbR" Leaf="false" Name="TreeVertex" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:47:54.172" PmLastModified="2017-12-03T21:01:53.664" QualityScore="-1" Root="false" UserIDLastNumericValue="0" Visibility="public">
 							<ModelChildren>
 								<Attribute Abstract="false" Aggregation="None" AllowEmptyName="false" ConnectToCodeModel="1" Derived="false" DerivedUnion="false" Documentation_plain="" HasGetter="false" HasSetter="false" Id="UH5HjfqD.AACAQdV" IsID="false" Leaf="false" Multiplicity="Unspecified" Name="id" PmAuthor="kaleta" PmCreateDateTime="2017-11-12T21:18:51.530" PmLastModified="2017-11-12T21:36:24.812" QualityScore="-1" ReadOnly="false" Scope="instance" TypeModifier="" UserIDLastNumericValue="0" Visibility="package" Visible="true">
 									<Type>
@@ -1322,7 +1410,7 @@
 										</Parameter>
 									</ModelChildren>
 								</Operation>
-								<Operation Abstract="true" ConnectToCodeModel="1" Documentation_plain="" Id="YJ0XH_qD.AACAQim" Leaf="false" Name="getTypename" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-26T16:18:42.182" PmLastModified="2017-11-26T16:20:02.394" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
+								<Operation Abstract="true" ConnectToCodeModel="1" Documentation_plain="" Id="YJ0XH_qD.AACAQim" Leaf="false" Name="getType" Ordered="false" PmAuthor="kaleta" PmCreateDateTime="2017-11-26T16:18:42.182" PmLastModified="2017-12-03T21:01:53.667" QualityScore="-1" Query="false" ReturnTypeDocumentation_plain="" Scope="instance" Static="false" TypeModifier="" Unique="true" UserIDLastNumericValue="0" Visibility="public" Visible="true">
 									<ReturnType>
 										<Class Idref="iM_nH_qD.AACAQhu" Name="VertexType"/>
 									</ReturnType>
@@ -2206,9 +2294,9 @@
 		<Stereotype Abstract="false" BaseType="Class" Documentation_plain="" IconPath="" Id="fdXKx_qD.AACAQjl" Leaf="false" Name="enumeration" PmAuthor="kaleta" PmCreateDateTime="2017-03-12T14:28:17.878" PmLastModified="2017-11-22T11:44:31.996" QualityScore="-1" Root="false" UserIDLastNumericValue="0"/>
 	</Models>
 	<Diagrams>
-		<ClassDiagram AlignToGrid="true" AutoFitShapesSize="false" ConnectionPointStyle="0" ConnectorLabelOrientation="0" ConnectorLineJumps="0" ConnectorLineJumpsSize="0" ConnectorStyle="1" DiagramBackground="rgb(255, 255, 255)" DiagramImageFileName="Automaton.png" Editable="true" FollowDiagramParentElement="true" GeneralizationSetNotation="2" GridColor="rgb(192, 192, 192)" GridHeight="10" GridVisible="true" GridWidth="10" Height="635" HideEmptyTaggedValues="false" Id="hFUXUvqD.AACARFT" ImageHeight="906" ImageScale="1.0" ImageWidth="2356" InitializeDiagramForCreate="true" Maximized="true" ModelElementNameAlignment="4" Name="Automaton" PaintConnectorThroughLabel="1" ParentModel="8c2nUvqD.AACAQ6y" PmAuthor="kaleta" PmCreateDateTime="2017-10-23T22:24:42.785" PmLastModified="2017-11-29T19:00:15.769" PointConnectorEndToCompartmentMember="true" QualityScore="-1" RequestValidateSnapToGrid="false" ShapePresentationOption="0" ShowActivityStateNodeCaption="65535" ShowAllocatedFrom="true" ShowAllocatedTo="true" ShowAssociationNavigationArrows="3" ShowAttributeGetterSetter="false" ShowAttributesCodeDetails="2" ShowAttributesPropertyModifiers="2" ShowAttributesType="1" ShowClassEmptyCompartments="2" ShowClassOwner="2" ShowConnectorName="0" ShowConstraints="false" ShowDefaultPackage="true" ShowEllipsisForUnshownClassMembers="2" ShowInformationItemOption="2" ShowLegend="false" ShowOperationsCodeDetails="2" ShowOperationsParameters="1" ShowOperationsReturnType="1" ShowPMAuthor="false" ShowPMDifficulty="false" ShowPMDiscipline="false" ShowPMIteration="false" ShowPMPhase="false" ShowPMPriority="false" ShowPMStatus="false" ShowPMVersion="false" ShowPackageNameStyle="0" ShowPackageOwner="2" ShowParametersCodeDetails="2" ShowShapeStereotypeIconName="true" ShowStereotypes="true" ShowTaggedValues="false" ShowTemplateInfoOfGeneralizationAndRealization="false" SuppressImplied1MultiplicityForAttributeAndAssociationEnd="false" TeamworkCreateDateTime="0" TrimmedHeight="48" TrimmedWidth="48" Width="1213" X="0" Y="0" ZoomRatio="1.0" _globalPaletteOption="true" documentation="&lt;html&gt;&#10;  &lt;head&gt;&#10;    &lt;style type=&quot;text/css&quot;&gt;&#10;      &lt;!--&#10;        body { color: #000000; font-family: Dialog; font-size: 12px }&#10;      --&gt;&#10;    &lt;/style&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &lt;p&gt;&#10;      &#10;    &lt;/p&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;">
+		<ClassDiagram AlignToGrid="true" AutoFitShapesSize="false" ConnectionPointStyle="0" ConnectorLabelOrientation="0" ConnectorLineJumps="0" ConnectorLineJumpsSize="0" ConnectorStyle="1" DiagramBackground="rgb(255, 255, 255)" DiagramImageFileName="Automaton.png" Editable="true" FollowDiagramParentElement="true" GeneralizationSetNotation="2" GridColor="rgb(192, 192, 192)" GridHeight="10" GridVisible="true" GridWidth="10" Height="635" HideEmptyTaggedValues="false" Id="hFUXUvqD.AACARFT" ImageHeight="906" ImageScale="1.0" ImageWidth="2356" InitializeDiagramForCreate="true" Maximized="true" ModelElementNameAlignment="4" Name="Automaton" PaintConnectorThroughLabel="1" ParentModel="8c2nUvqD.AACAQ6y" PmAuthor="kaleta" PmCreateDateTime="2017-10-23T22:24:42.785" PmLastModified="2017-12-03T21:46:26.932" PointConnectorEndToCompartmentMember="true" QualityScore="-1" RequestValidateSnapToGrid="false" ShapePresentationOption="0" ShowActivityStateNodeCaption="65535" ShowAllocatedFrom="true" ShowAllocatedTo="true" ShowAssociationNavigationArrows="3" ShowAttributeGetterSetter="false" ShowAttributesCodeDetails="2" ShowAttributesPropertyModifiers="2" ShowAttributesType="1" ShowClassEmptyCompartments="2" ShowClassOwner="2" ShowConnectorName="0" ShowConstraints="false" ShowDefaultPackage="true" ShowEllipsisForUnshownClassMembers="2" ShowInformationItemOption="2" ShowLegend="false" ShowOperationsCodeDetails="2" ShowOperationsParameters="1" ShowOperationsReturnType="1" ShowPMAuthor="false" ShowPMDifficulty="false" ShowPMDiscipline="false" ShowPMIteration="false" ShowPMPhase="false" ShowPMPriority="false" ShowPMStatus="false" ShowPMVersion="false" ShowPackageNameStyle="0" ShowPackageOwner="2" ShowParametersCodeDetails="2" ShowShapeStereotypeIconName="true" ShowStereotypes="true" ShowTaggedValues="false" ShowTemplateInfoOfGeneralizationAndRealization="false" SuppressImplied1MultiplicityForAttributeAndAssociationEnd="false" TeamworkCreateDateTime="0" TrimmedHeight="48" TrimmedWidth="48" Width="1213" X="0" Y="0" ZoomRatio="1.0" _globalPaletteOption="true" documentation="&lt;html&gt;&#10;  &lt;head&gt;&#10;    &lt;style type=&quot;text/css&quot;&gt;&#10;      &lt;!--&#10;        body { color: #000000; font-family: Dialog; font-size: 12px }&#10;      --&gt;&#10;    &lt;/style&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &lt;p&gt;&#10;      &#10;    &lt;/p&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;">
 			<Shapes>
-				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="150" Id="WuzXEAaD.AACAQel" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="2uzXEAaD.AACAQem" Model="2uzXEAaD.AACAQem" ModelElementNameAlignment="9" Name="Transitions&lt;K, V&gt;" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="300" WpMbs="false" X="402" Y="2" ZOrder="2">
+				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="200" Id="WuzXEAaD.AACAQel" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="2uzXEAaD.AACAQem" Model="2uzXEAaD.AACAQem" ModelElementNameAlignment="9" Name="Transitions&lt;K, V&gt;" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="300" WpMbs="false" X="2" Y="2" ZOrder="2">
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
 						<Stroke/>
@@ -2271,7 +2359,7 @@
 					<FillColor Color="rgb(122, 207, 245)" Style="1" Transparency="0" Type="1"/>
 					<CompartmentFont Value="none"/>
 				</Class>
-				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="200" Id="bEWGCfqD.AACAQdT" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="XEWGCfqD.AACAQdU" Model="XEWGCfqD.AACAQdU" ModelElementNameAlignment="9" Name="Variable" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="300" WpMbs="false" X="2" Y="2" ZOrder="16">
+				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" CreatorDiagramType="ClassDiagram" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="150" Id="bEWGCfqD.AACAQdT" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="XEWGCfqD.AACAQdU" Model="XEWGCfqD.AACAQdU" ModelElementNameAlignment="9" Name="Variable" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="300" WpMbs="false" X="402" Y="2" ZOrder="16">
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
 					<Line Cap="0" Color="rgb(0, 0, 0)" Transparency="0" Weight="1.0">
 						<Stroke/>
@@ -2721,7 +2809,7 @@
 				</Realization>
 			</Connectors>
 		</ClassDiagram>
-		<ClassDiagram AlignToGrid="true" AutoFitShapesSize="false" ConnectionPointStyle="0" ConnectorLabelOrientation="0" ConnectorLineJumps="0" ConnectorLineJumpsSize="0" ConnectorStyle="1" DiagramBackground="rgb(255, 255, 255)" DiagramImageFileName="Tree.png" Editable="true" FollowDiagramParentElement="true" GeneralizationSetNotation="2" GridColor="rgb(192, 192, 192)" GridHeight="10" GridVisible="true" GridWidth="10" Height="0" HideEmptyTaggedValues="false" Id="wCgoGvqD.AACAQa5" ImageHeight="906" ImageScale="1.0" ImageWidth="1456" InitializeDiagramForCreate="true" Maximized="false" ModelElementNameAlignment="4" Name="Tree" PaintConnectorThroughLabel="1" ParentModel="TcXIGvqD.AACAQar" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:47:11.747" PmLastModified="2017-11-26T16:20:43.684" PointConnectorEndToCompartmentMember="true" QualityScore="-1" RequestValidateSnapToGrid="false" ShapePresentationOption="0" ShowActivityStateNodeCaption="65535" ShowAllocatedFrom="true" ShowAllocatedTo="true" ShowAssociationNavigationArrows="3" ShowAttributeGetterSetter="false" ShowAttributesCodeDetails="2" ShowAttributesPropertyModifiers="2" ShowAttributesType="1" ShowClassEmptyCompartments="2" ShowClassOwner="2" ShowConnectorName="0" ShowConstraints="false" ShowDefaultPackage="true" ShowEllipsisForUnshownClassMembers="2" ShowInformationItemOption="2" ShowLegend="false" ShowOperationsCodeDetails="2" ShowOperationsParameters="1" ShowOperationsReturnType="1" ShowPMAuthor="false" ShowPMDifficulty="false" ShowPMDiscipline="false" ShowPMIteration="false" ShowPMPhase="false" ShowPMPriority="false" ShowPMStatus="false" ShowPMVersion="false" ShowPackageNameStyle="0" ShowPackageOwner="2" ShowParametersCodeDetails="2" ShowShapeStereotypeIconName="true" ShowStereotypes="true" ShowTaggedValues="false" ShowTemplateInfoOfGeneralizationAndRealization="false" SuppressImplied1MultiplicityForAttributeAndAssociationEnd="false" TeamworkCreateDateTime="0" TrimmedHeight="48" TrimmedWidth="48" Width="0" X="0" Y="0" ZoomRatio="1.0" _globalPaletteOption="true" documentation="&lt;html&gt;&#10;  &lt;head&gt;&#10;    &lt;style type=&quot;text/css&quot;&gt;&#10;      &lt;!--&#10;        body { color: #000000; font-family: Dialog; font-size: 12px }&#10;      --&gt;&#10;    &lt;/style&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &lt;p&gt;&#10;      &#10;    &lt;/p&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;">
+		<ClassDiagram AlignToGrid="true" AutoFitShapesSize="false" ConnectionPointStyle="0" ConnectorLabelOrientation="0" ConnectorLineJumps="0" ConnectorLineJumpsSize="0" ConnectorStyle="1" DiagramBackground="rgb(255, 255, 255)" DiagramImageFileName="Tree.png" Editable="true" FollowDiagramParentElement="true" GeneralizationSetNotation="2" GridColor="rgb(192, 192, 192)" GridHeight="10" GridVisible="true" GridWidth="10" Height="0" HideEmptyTaggedValues="false" Id="wCgoGvqD.AACAQa5" ImageHeight="906" ImageScale="1.0" ImageWidth="1456" InitializeDiagramForCreate="true" Maximized="false" ModelElementNameAlignment="4" Name="Tree" PaintConnectorThroughLabel="1" ParentModel="TcXIGvqD.AACAQar" PmAuthor="kaleta" PmCreateDateTime="2017-10-26T11:47:11.747" PmLastModified="2017-12-03T21:01:43.660" PointConnectorEndToCompartmentMember="true" QualityScore="-1" RequestValidateSnapToGrid="false" ShapePresentationOption="0" ShowActivityStateNodeCaption="65535" ShowAllocatedFrom="true" ShowAllocatedTo="true" ShowAssociationNavigationArrows="3" ShowAttributeGetterSetter="false" ShowAttributesCodeDetails="2" ShowAttributesPropertyModifiers="2" ShowAttributesType="1" ShowClassEmptyCompartments="2" ShowClassOwner="2" ShowConnectorName="0" ShowConstraints="false" ShowDefaultPackage="true" ShowEllipsisForUnshownClassMembers="2" ShowInformationItemOption="2" ShowLegend="false" ShowOperationsCodeDetails="2" ShowOperationsParameters="1" ShowOperationsReturnType="1" ShowPMAuthor="false" ShowPMDifficulty="false" ShowPMDiscipline="false" ShowPMIteration="false" ShowPMPhase="false" ShowPMPriority="false" ShowPMStatus="false" ShowPMVersion="false" ShowPackageNameStyle="0" ShowPackageOwner="2" ShowParametersCodeDetails="2" ShowShapeStereotypeIconName="true" ShowStereotypes="true" ShowTaggedValues="false" ShowTemplateInfoOfGeneralizationAndRealization="false" SuppressImplied1MultiplicityForAttributeAndAssociationEnd="false" TeamworkCreateDateTime="0" TrimmedHeight="48" TrimmedWidth="48" Width="0" X="0" Y="0" ZoomRatio="1.0" _globalPaletteOption="true" documentation="&lt;html&gt;&#10;  &lt;head&gt;&#10;    &lt;style type=&quot;text/css&quot;&gt;&#10;      &lt;!--&#10;        body { color: #000000; font-family: Dialog; font-size: 12px }&#10;      --&gt;&#10;    &lt;/style&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &lt;p&gt;&#10;      &#10;    &lt;/p&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;">
 			<Shapes>
 				<Class AttributeSortType="0" Background="rgb(122, 207, 245)" ConnectToPoint="true" ConnectionPointType="2" DisplayAsRobustnessAnalysisIcon="true" EnumerationLiteralSortType="0" Foreground="rgb(0, 0, 0)" Height="100" Id="CM_nH_qD.AACAQht" InterfaceBall="false" KShDrOp="false" KSwCsMbSt="true" LShCmMl="false" LshRfAts="true" MShDrAt="false" MSwTpPts="true" MetaModelElement="iM_nH_qD.AACAQhu" Model="iM_nH_qD.AACAQhu" ModelElementNameAlignment="9" Name="VertexType" OperationSortType="0" OverrideAppearanceWithStereotypeIcon="true" ParentConnectorDTheta="0.0" ParentConnectorHeaderLength="40" ParentConnectorLineLength="10" PresentationOption="4" PrimitiveShapeType="0" RequestDefaultSize="false" RequestFitSize="false" RequestFitSizeFromCenter="false" RequestResetCaption="false" RequestResetCaptionFitWidth="false" RequestResetCaptionSize="false" RequestSetSizeOption="0" Selectable="true" ShowAllocatedFrom="0" ShowAllocatedTo="0" ShowAttributeType="1" ShowAttributesCodeDetails="0" ShowAttributesPropertyModifiers="0" ShowAttributesType="0" ShowClassMemberConstraints="true" ShowEllipsisForUnshownMembers="0" ShowEmptyCompartments="0" ShowEnumerationLiteralType="1" ShowInitialAttributeValue="true" ShowOperationParameterDirection="false" ShowOperationProperties="false" ShowOperationRaisedExceptions="false" ShowOperationSignature="true" ShowOperationTemplateParameters="false" ShowOperationType="1" ShowOperationsCodeDetails="0" ShowOperationsParameters="0" ShowOperationsReturnType="0" ShowOwnerOption="3" ShowParameterNameInOperationSignature="true" ShowParametersCodeDetails="0" ShowStereotypeIconName="0" ShowTypeOption="0" SuppressImplied1MultiplicityForAttribute="0" VisibilityStyle="1" Width="150" WpMbs="false" X="2" Y="2" ZOrder="0">
 					<ElementFont Color="rgb(0, 0, 0)" Name="Dialog" Size="11" Style="0"/>
