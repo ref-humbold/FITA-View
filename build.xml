@@ -55,7 +55,7 @@
     </javac>
   </target>
 
-  <target name="jar">
+  <target name="jar" depends="build">
     <jar destfile="fita_view.jar" basedir="${build.dir}" excludes="**/*Test.class">
       <manifest>
         <attribute name="Built-By" value="Rafał Kaleta" />

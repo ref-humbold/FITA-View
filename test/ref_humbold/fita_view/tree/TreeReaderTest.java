@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.tree;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
@@ -30,11 +31,11 @@ public class TreeReaderTest
 
         try
         {
-            testObject =
-                new TreeReader("test/ref_humbold/fita_view/tree/testReadEmptyTree.tree.xml");
+            testObject = new TreeReader(
+                new File("test/ref_humbold/fita_view/tree/testReadEmptyTree.tree.xml"));
             result = testObject.read();
         }
-        catch(SAXException | IOException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -50,11 +51,11 @@ public class TreeReaderTest
 
         try
         {
-            testObject =
-                new TreeReader("test/ref_humbold/fita_view/tree/testReadFiniteTree.tree.xml");
+            testObject = new TreeReader(
+                new File("test/ref_humbold/fita_view/tree/testReadFiniteTree.tree.xml"));
             result = testObject.read();
         }
-        catch(SAXException | IOException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -75,11 +76,11 @@ public class TreeReaderTest
 
         try
         {
-            testObject =
-                new TreeReader("test/ref_humbold/fita_view/tree/testReadWhenSingleRepeat.tree.xml");
+            testObject = new TreeReader(
+                new File("test/ref_humbold/fita_view/tree/testReadWhenSingleRepeat.tree.xml"));
             result = testObject.read();
         }
-        catch(SAXException | IOException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -106,10 +107,10 @@ public class TreeReaderTest
         try
         {
             testObject = new TreeReader(
-                "test/ref_humbold/fita_view/tree/testReadWhenNestedRepeats.tree.xml");
+                new File("test/ref_humbold/fita_view/tree/testReadWhenNestedRepeats.tree.xml"));
             result = testObject.read();
         }
-        catch(SAXException | IOException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -141,9 +142,9 @@ public class TreeReaderTest
         try
         {
             testObject = new TreeReader(
-                "test/ref_humbold/fita_view/tree/testReadWhenRecOutOfScope.tree.xml");
+                new File("test/ref_humbold/fita_view/tree/testReadWhenRecOutOfScope.tree.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -166,10 +167,10 @@ public class TreeReaderTest
     {
         try
         {
-            testObject =
-                new TreeReader("test/ref_humbold/fita_view/tree/testReadWhenOneChild.tree.xml");
+            testObject = new TreeReader(
+                new File("test/ref_humbold/fita_view/tree/testReadWhenOneChild.tree.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -192,10 +193,10 @@ public class TreeReaderTest
     {
         try
         {
-            testObject =
-                new TreeReader("test/ref_humbold/fita_view/tree/testReadWhenNullIsChild.tree.xml");
+            testObject = new TreeReader(
+                new File("test/ref_humbold/fita_view/tree/testReadWhenNullIsChild.tree.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -219,9 +220,9 @@ public class TreeReaderTest
         try
         {
             testObject = new TreeReader(
-                "test/ref_humbold/fita_view/tree/testReadWhenThreeChildren.tree.xml");
+                new File("test/ref_humbold/fita_view/tree/testReadWhenThreeChildren.tree.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());

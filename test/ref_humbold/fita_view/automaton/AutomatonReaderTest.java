@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.automaton;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,10 +34,10 @@ public class AutomatonReaderTest
         try
         {
             testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTA.tda.xml");
+                new File("test/ref_humbold/fita_view/automaton/testReadTopDownDFTA.tda.xml"));
             result = testObject.read();
         }
-        catch(SAXException | IOException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -83,11 +84,11 @@ public class AutomatonReaderTest
 
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenWildcards.tda.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenWildcards.tda.xml"));
             result = testObject.read();
         }
-        catch(SAXException | IOException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -134,10 +135,10 @@ public class AutomatonReaderTest
         try
         {
             testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownNFTA.tda.xml");
+                new File("test/ref_humbold/fita_view/automaton/testReadTopDownNFTA.tda.xml"));
             result = testObject.read();
         }
-        catch(SAXException | IOException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -181,10 +182,10 @@ public class AutomatonReaderTest
         try
         {
             testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTA.bua.xml");
+                new File("test/ref_humbold/fita_view/automaton/testReadBottomUpDFTA.bua.xml"));
             result = testObject.read();
         }
-        catch(SAXException | IOException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -262,11 +263,11 @@ public class AutomatonReaderTest
 
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenWildcards.bua.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenWildcards.bua.xml"));
             result = testObject.read();
         }
-        catch(SAXException | IOException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -328,10 +329,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenMultipleTransitions.tda.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenMultipleTransitions.tda.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -354,10 +355,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenMultipleTransitions.bua.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenMultipleTransitions.bua.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -380,10 +381,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenIncorrectAlphabetWord.tda.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenIncorrectAlphabetWord.tda.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -406,10 +407,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenIncorrectAlphabetWord.bua.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenIncorrectAlphabetWord.bua.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -432,10 +433,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenIncorrectVariableValue.tda.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenIncorrectVariableValue.tda.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -458,10 +459,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenIncorrectVariableValue.bua.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenIncorrectVariableValue.bua.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -484,10 +485,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchLabel.tda.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchLabel.tda.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -510,10 +511,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenNoSuchLabel.bua.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenNoSuchLabel.bua.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -536,10 +537,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchVariableValue.tda.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchVariableValue.tda.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -562,10 +563,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenNoSuchVariableValue.bua.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenNoSuchVariableValue.bua.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -588,10 +589,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchVariableId.tda.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchVariableId.tda.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -614,10 +615,10 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenNoSuchVariableId.bua.xml");
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenNoSuchVariableId.bua.xml"));
         }
-        catch(SAXException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());

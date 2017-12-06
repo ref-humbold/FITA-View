@@ -19,6 +19,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import ref_humbold.fita_view.FileFormatException;
 import ref_humbold.fita_view.tree.TreeParsingException;
 
 public class AutomatonReader
@@ -27,18 +28,18 @@ public class AutomatonReader
     private SAXParser parser;
     private boolean isTopDown;
 
-    public AutomatonReader(String filename)
-        throws SAXException
+    public AutomatonReader(File file)
+        throws SAXException, FileFormatException
     {
-        if(filename.endsWith(".bua.xml"))
+        if(file.getName().endsWith(".bua.xml"))
             this.isTopDown = false;
-        else if(filename.endsWith(".tda.xml"))
+        else if(file.getName().endsWith(".tda.xml"))
             this.isTopDown = true;
         else
-            throw new IllegalArgumentException(
+            throw new FileFormatException(
                 "File extension is not recognizable, should be one of \'.bua.xml\' or \'.tda.xml\'.");
 
-        this.file = new File(filename);
+        this.file = file;
 
         try
         {

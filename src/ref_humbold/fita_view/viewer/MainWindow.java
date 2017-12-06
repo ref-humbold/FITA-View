@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 public class MainWindow
 {
     private JFrame frame = new JFrame("FITA-View");
-    private MainPanel treePanel = new TreePanel();
-    private MainPanel automatonPanel = new AutomatonPanel();
+    private TreePanel treePanel = new TreePanel();
+    private AutomatonPanel automatonPanel = new AutomatonPanel();
 
     public MainWindow()
     {

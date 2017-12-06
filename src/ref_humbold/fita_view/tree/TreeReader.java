@@ -15,6 +15,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import ref_humbold.fita_view.FileFormatException;
 import ref_humbold.fita_view.Pair;
 
 public class TreeReader
@@ -22,14 +23,15 @@ public class TreeReader
     private File file;
     private SAXParser parser;
 
-    public TreeReader(String filename)
-        throws SAXException
+    public TreeReader(File file)
+        throws SAXException, FileFormatException
     {
-        if(!filename.endsWith(".tree.xml"))
-            throw new IllegalArgumentException(
+        if(!file.getName().endsWith(".tree.xml"))
+            throw new FileFormatException(
                 "File extension is not recognizable, should be \'.tree.xml\'.");
 
-        this.file = new File(filename);
+        this.file = file;
+
         try
         {
             String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
