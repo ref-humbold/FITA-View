@@ -55,6 +55,15 @@
     </javac>
   </target>
 
+  <target name="jar">
+    <jar destfile="fita_view.jar" basedir="${build.dir}" excludes="**/*Test.class">
+      <manifest>
+        <attribute name="Built-By" value="Rafał Kaleta" />
+        <attribute name="Main-Class" value="ref_humbold.fita_view.FITAView" />
+      </manifest>
+    </jar>
+  </target>
+
   <target name="test">
     <delete dir="${junit.output.dir}" />
     <mkdir dir="${junit.output.dir}" />
@@ -81,9 +90,9 @@
     </javadoc>
   </target>
 
-  <target name="make" depends="clean, build" />
+  <target name="make" depends="clean, build, jar" />
 
-  <target name="make-test" depends="clean, build-test" />
+  <target name="make-test" depends="clean, build-test, jar" />
 
   <target name="all" depends="make-test, test, javadocs" />
 </project>
