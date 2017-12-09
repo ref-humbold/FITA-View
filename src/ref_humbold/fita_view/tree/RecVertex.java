@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.tree;
 
+import java.util.Map;
+
 import ref_humbold.fita_view.automaton.IllegalVariableValueException;
 import ref_humbold.fita_view.automaton.Variable;
 
@@ -83,6 +85,12 @@ public class RecVertex
         throws IllegalVariableValueException
     {
         recursive.setState(var, value);
+    }
+
+    @Override
+    public Map<Variable, String> getFullState()
+    {
+        return recursive.getFullState();
     }
 
     @Override

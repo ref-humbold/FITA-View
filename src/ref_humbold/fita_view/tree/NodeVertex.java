@@ -112,6 +112,12 @@ public class NodeVertex
     }
 
     @Override
+    public Map<Variable, String> getFullState()
+    {
+        return state;
+    }
+
+    @Override
     public String toString()
     {
         String leftString = left == null ? "#" : left.toString();

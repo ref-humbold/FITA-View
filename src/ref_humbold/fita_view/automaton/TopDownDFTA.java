@@ -18,8 +18,20 @@ public class TopDownDFTA
     }
 
     @Override
+    public boolean isAccepted()
+    {
+        return false;
+    }
+
+    @Override
     public void run()
     {
+    }
+
+    @Override
+    public void makeStepForward()
+    {
+
     }
 
     @Override
@@ -40,10 +52,13 @@ public class TopDownDFTA
                                  String rightResult)
         throws DuplicatedTransitionException
     {
-        if(transitions.containsKey(var, Pair.make(value, label)))
-            throw new DuplicatedTransitionException();
+        Pair<String, String> key = Pair.make(value, label);
 
-        transitions.add(var, Pair.make(value, label), Pair.make(leftResult, rightResult));
+        if(transitions.containsKey(var, key))
+            throw new DuplicatedTransitionException(
+                "Duplicated transition entry for " + var + " + " + key + ".");
+
+        transitions.add(var, key, Pair.make(leftResult, rightResult));
     }
 
     @Override

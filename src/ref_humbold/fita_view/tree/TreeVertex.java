@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.tree;
 
+import java.util.Map;
+
 import ref_humbold.fita_view.automaton.IllegalVariableValueException;
 import ref_humbold.fita_view.automaton.Variable;
 
@@ -43,4 +45,6 @@ public abstract class TreeVertex
      */
     public abstract void setState(Variable var, String value)
         throws IllegalVariableValueException;
+
+    public abstract Map<Variable, String> getFullState();
 }

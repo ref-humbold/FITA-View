@@ -32,7 +32,7 @@ public class AutomatonPanel
         super();
 
         this.initComponents();
-        this.setBackground(new Color(0x00FFFF));
+        this.setBackground(new Color(0x0000FF));
     }
 
     @Override

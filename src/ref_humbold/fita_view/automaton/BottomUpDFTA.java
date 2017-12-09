@@ -1,7 +1,10 @@
 package ref_humbold.fita_view.automaton;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import ref_humbold.fita_view.Quadruple;
 import ref_humbold.fita_view.automaton.traversing.TraversingDirection;
@@ -14,6 +17,7 @@ public class BottomUpDFTA
 {
     private Transitions<Quadruple<String, String, String, String>, String> transitions =
         new Transitions<>();
+    private Set<Map<Variable, String>> acceptingStates = new HashSet<>();
 
     public BottomUpDFTA(Collection<String> alphabet, Collection<Variable> variables)
     {
@@ -28,9 +32,20 @@ public class BottomUpDFTA
                                                           TraversingDirection.BOTTOM_UP);
     }
 
+    public boolean isAccepted()
+    {
+        return acceptingStates.contains(tree.getFullState());
+    }
+
     @Override
     public void run()
     {
+    }
+
+    @Override
+    public void makeStepForward()
+    {
+
     }
 
     @Override
@@ -42,6 +57,11 @@ public class BottomUpDFTA
     @Override
     protected void initTree()
     {
+    }
+
+    void addAcceptingState(Map<Variable, String> accept)
+    {
+        acceptingStates.add(accept);
     }
 
     /**
@@ -60,10 +80,10 @@ public class BottomUpDFTA
         String result =
             transitions.get(var, Quadruple.make(leftValue, rightValue, leftLabel, rightLabel));
 
-        if(result.equals(Transitions.LEFT_VALUE))
+        if(result.equals(Wildcard.LEFT_VALUE))
             return leftValue;
 
-        if(result.equals(Transitions.RIGHT_VALUE))
+        if(result.equals(Wildcard.RIGHT_VALUE))
             return rightValue;
 
         return result;
@@ -82,11 +102,13 @@ public class BottomUpDFTA
                        String rightLabel, String result)
         throws DuplicatedTransitionException
     {
-        if(transitions.containsKey(var,
-                                   Quadruple.make(leftValue, rightValue, leftLabel, rightLabel)))
-            throw new DuplicatedTransitionException();
+        Quadruple<String, String, String, String> key =
+            Quadruple.make(leftValue, rightValue, leftLabel, rightLabel);
+        if(transitions.containsKey(var, key))
+            throw new DuplicatedTransitionException(
+                "Duplicated transition entry for " + var + " + " + key + ".");
 
-        transitions.add(var, Quadruple.make(leftValue, rightValue, leftLabel, rightLabel), result);
+        transitions.add(var, key, result);
     }
 
     @Override
@@ -109,6 +131,7 @@ public class BottomUpDFTA
 
         return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
                                                                                other.variables)
-            && Objects.equals(this.transitions, other.transitions);
+            && Objects.equals(this.acceptingStates, other.acceptingStates) && Objects.equals(
+            this.transitions, other.transitions);
     }
 }

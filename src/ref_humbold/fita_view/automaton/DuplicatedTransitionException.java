@@ -1,7 +1,9 @@
 package ref_humbold.fita_view.automaton;
 
+import org.xml.sax.SAXException;
+
 public class DuplicatedTransitionException
-    extends Exception
+    extends SAXException
 {
     private static final long serialVersionUID = -5872121228497322894L;
 
@@ -15,13 +17,13 @@ public class DuplicatedTransitionException
         super(s);
     }
 
-    public DuplicatedTransitionException(Throwable t)
+    public DuplicatedTransitionException(Exception e)
     {
-        super(t);
+        super(e);
     }
 
-    public DuplicatedTransitionException(String s, Throwable t)
+    public DuplicatedTransitionException(String s, Exception e)
     {
-        super(s, t);
+        super(s, e);
     }
 }

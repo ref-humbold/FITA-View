@@ -24,18 +24,6 @@ public abstract class TopDownTreeAutomaton
     }
 
     @Override
-    public void makeStepForward()
-    {
-        traversing.moveForward();
-    }
-
-    @Override
-    public void makeStepBackward()
-    {
-        traversing.moveBackward();
-    }
-
-    @Override
     protected void initTree()
         throws IllegalVariableValueException
     {
@@ -82,15 +70,14 @@ public abstract class TopDownTreeAutomaton
 
     private Pair<String, String> removeWildcard(String value, Pair<String, String> trans)
     {
-        if(trans.getFirst().equals(Transitions.SAME_VALUE) && trans.getSecond()
-                                                                   .equals(
-                                                                       (Transitions.SAME_VALUE)))
+        if(trans.getFirst().equals(Wildcard.SAME_VALUE) && trans.getSecond()
+                                                                .equals((Wildcard.SAME_VALUE)))
             return Pair.make(value, value);
 
-        if(trans.getFirst().equals(Transitions.SAME_VALUE))
+        if(trans.getFirst().equals(Wildcard.SAME_VALUE))
             return Pair.make(value, trans.getSecond());
 
-        if(trans.getSecond().equals(Transitions.SAME_VALUE))
+        if(trans.getSecond().equals(Wildcard.SAME_VALUE))
             return Pair.make(trans.getFirst(), value);
 
         return trans;

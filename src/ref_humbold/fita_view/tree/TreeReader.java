@@ -116,10 +116,6 @@ public class TreeReader
                     break;
 
                 case "rec":
-                    if(repeats.empty())
-                        throw new TreeParsingException(
-                            "Vertex \'rec\' is out of scope of vertex \'repeat\'.");
-
                     nodes.push(Pair.make(new RecVertex(repeats.peek(), idIndex), null));
                     break;
 
@@ -148,7 +144,7 @@ public class TreeReader
                         Pair<TreeVertex, TreeChild> parent = nodes.pop();
 
                         if(node.getSecond() == TreeChild.RIGHT)
-                            throw new TreeParsingException(
+                            throw new OneChildException(
                                 "Node must have zero or two children, but it has one.");
 
                         switch(parent.getSecond())

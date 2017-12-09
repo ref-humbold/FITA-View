@@ -20,7 +20,6 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import ref_humbold.fita_view.FileFormatException;
-import ref_humbold.fita_view.tree.TreeParsingException;
 
 public class AutomatonReader
 {
@@ -106,6 +105,7 @@ public class AutomatonReader
             {
                 case "alphabet":
                 case "variables":
+                case "accepting":
                 case "transitions":
                 case "word":
                 case "value":
@@ -121,12 +121,12 @@ public class AutomatonReader
                     varID = Integer.parseInt(attributes.getValue("var-id"));
 
                     if(!variables.containsKey(varID))
-                        throw new AutomatonParsingException(
+                        throw new NoVariableWithIDException(
                             "No variable with with ID " + varID + ".");
                     break;
 
                 default:
-                    throw new TreeParsingException("Unexpected tag: \'" + qName + "\'");
+                    throw new AutomatonParsingException("Unexpected tag: \'" + qName + "\'");
             }
         }
 
@@ -144,6 +144,7 @@ public class AutomatonReader
             {
                 case "automaton":
                 case "alphabet":
+                case "accepting":
                 case "transitions":
                     break;
 
@@ -164,13 +165,13 @@ public class AutomatonReader
                     }
                     catch(IllegalVariableValueException e)
                     {
-                        throw new AutomatonParsingException(
-                            "Illegal value of variable with ID " + varID + ".", e);
+                        throw new IllegalVariableValueException(
+                            "Illegal value of variable with ID " + varID + ". " + e.getMessage());
                     }
                     break;
 
                 default:
-                    throw new TreeParsingException("Unexpected tag: \'" + qName + "\'");
+                    throw new AutomatonParsingException("Unexpected tag: \'" + qName + "\'");
             }
         }
     }
@@ -227,23 +228,16 @@ public class AutomatonReader
                     break;
 
                 case "trans":
-                    try
-                    {
-                        automaton.addTransition(variables.get(varID), nodeValue, label, leftResult,
-                                                rightResult);
-                    }
-                    catch(DuplicatedTransitionException e)
-                    {
-                        throw new AutomatonParsingException("Duplicated transition entry.", e);
-                    }
+                    automaton.addTransition(variables.get(varID), nodeValue, label, leftResult,
+                                            rightResult);
                     break;
 
                 case "label":
                     label = content.toString();
                     content = null;
 
-                    if(!label.equals(Transitions.EVERY_VALUE) && !alphabet.contains(label))
-                        throw new AutomatonParsingException(
+                    if(!label.equals(Wildcard.EVERY_VALUE) && !alphabet.contains(label))
+                        throw new IllegalAlphabetWordException(
                             "Given label \'" + label + "\' is not a part of automaton's alphabet.");
                     break;
 
@@ -251,35 +245,33 @@ public class AutomatonReader
                     nodeValue = content.toString();
                     content = null;
 
-                    if(!nodeValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
-                                                                               .contains(nodeValue))
-                        throw new AutomatonParsingException("Given node-value  \'" + nodeValue
-                                                                + "\' is not a value of variable with ID "
-                                                                + varID + ".");
+                    if(!nodeValue.equals(Wildcard.EVERY_VALUE) && !variables.get(varID)
+                                                                            .contains(nodeValue))
+                        throw new IllegalVariableValueException("Given node-value  \'" + nodeValue
+                                                                    + "\' is not a value of variable with ID "
+                                                                    + varID + ".");
                     break;
 
                 case "left-result":
                     leftResult = content.toString();
                     content = null;
 
-                    if(!leftResult.equals(Transitions.SAME_VALUE) && !variables.get(varID)
-                                                                               .contains(
-                                                                                   leftResult))
-                        throw new AutomatonParsingException("Given left-result \'" + leftResult
-                                                                + "\' is not a value of variable with ID "
-                                                                + varID + ".");
+                    if(!leftResult.equals(Wildcard.SAME_VALUE) && !variables.get(varID)
+                                                                            .contains(leftResult))
+                        throw new IllegalVariableValueException("Given left-result \'" + leftResult
+                                                                    + "\' is not a value of variable with ID "
+                                                                    + varID + ".");
                     break;
 
                 case "right-result":
                     rightResult = content.toString();
                     content = null;
 
-                    if(!rightResult.equals(Transitions.SAME_VALUE) && !variables.get(varID)
-                                                                                .contains(
-                                                                                    rightResult))
-                        throw new AutomatonParsingException("Given right-result \'" + rightResult
-                                                                + "\'is not a value of variable with ID "
-                                                                + varID + ".");
+                    if(!rightResult.equals(Wildcard.SAME_VALUE) && !variables.get(varID)
+                                                                             .contains(rightResult))
+                        throw new IllegalVariableValueException(
+                            "Given right-result \'" + rightResult
+                                + "\'is not a value of variable with ID " + varID + ".");
                     break;
 
                 default:
@@ -297,6 +289,7 @@ public class AutomatonReader
         private String leftValue;
         private String rightValue;
         private String nodeResult;
+        private Map<Variable, String> accept;
 
         @Override
         public TreeAutomaton getAutomaton()
@@ -328,6 +321,33 @@ public class AutomatonReader
                 case "node-result":
                     break;
 
+                case "accept":
+                    accept = new HashMap<>();
+                    break;
+
+                case "var-acc":
+                    int id = Integer.parseInt(attributes.getValue("var-id"));
+                    String value = attributes.getValue("value");
+
+                    if(!variables.containsKey(varID))
+                        throw new NoVariableWithIDException(
+                            "No variable with with ID " + varID + ".");
+
+                    Variable v = variables.get(id);
+
+                    if(!value.equals(Wildcard.EVERY_VALUE) && !v.contains(value))
+                        throw new IllegalVariableValueException("Given accepting value \'" + value
+                                                                    + "\'is not a value of variable with ID "
+                                                                    + id + ".");
+
+                    if(accept.containsKey(v))
+                        throw new DuplicatedAcceptingValueException(
+                            "Accepting value for variable with ID " + id
+                                + " has been already defined.");
+
+                    accept.put(v, value);
+                    break;
+
                 default:
                     super.startElement(uri, localName, qName, attributes);
             }
@@ -339,73 +359,72 @@ public class AutomatonReader
         {
             switch(qName)
             {
+                case "var-acc":
+                    break;
+
                 case "variables":
                     automaton = new BottomUpDFTA(alphabet, variables.values());
                     break;
 
+                case "accept":
+                    automaton.addAcceptingState(accept);
+                    accept = null;
+                    break;
+
                 case "trans":
-                    try
-                    {
-                        automaton.addTransition(variables.get(varID), leftValue, leftLabel,
-                                                rightValue, rightLabel, nodeResult);
-                    }
-                    catch(DuplicatedTransitionException e)
-                    {
-                        throw new AutomatonParsingException("Duplicated transition entry.", e);
-                    }
+                    automaton.addTransition(variables.get(varID), leftValue, leftLabel, rightValue,
+                                            rightLabel, nodeResult);
                     break;
 
                 case "left-label":
                     leftLabel = content.toString();
                     content = null;
 
-                    if(!leftLabel.equals(Transitions.EVERY_VALUE) && !alphabet.contains(leftLabel))
-                        throw new AutomatonParsingException("Given left-label \'" + leftLabel
-                                                                + "\' is not a part of automaton's alphabet.");
+                    if(!leftLabel.equals(Wildcard.EVERY_VALUE) && !alphabet.contains(leftLabel))
+                        throw new IllegalAlphabetWordException("Given left-label \'" + leftLabel
+                                                                   + "\' is not a part of automaton's alphabet.");
                     break;
 
                 case "right-label":
                     rightLabel = content.toString();
                     content = null;
 
-                    if(!rightLabel.equals(Transitions.EVERY_VALUE) && !alphabet.contains(
-                        rightLabel))
-                        throw new AutomatonParsingException("Given right-label \'" + rightLabel
-                                                                + "\' is not a part of automaton's alphabet.");
+                    if(!rightLabel.equals(Wildcard.EVERY_VALUE) && !alphabet.contains(rightLabel))
+                        throw new IllegalAlphabetWordException("Given right-label \'" + rightLabel
+                                                                   + "\' is not a part of automaton's alphabet.");
                     break;
 
                 case "left-value":
                     leftValue = content.toString();
                     content = null;
 
-                    if(!leftValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
-                                                                               .contains(leftValue))
-                        throw new AutomatonParsingException("Given left-value \'" + leftValue
-                                                                + "\' is not a value of variable with ID "
-                                                                + varID + ".");
+                    if(!leftValue.equals(Wildcard.EVERY_VALUE) && !variables.get(varID)
+                                                                            .contains(leftValue))
+                        throw new IllegalVariableValueException("Given left-value \'" + leftValue
+                                                                    + "\' is not a value of variable with ID "
+                                                                    + varID + ".");
                     break;
 
                 case "right-value":
                     rightValue = content.toString();
                     content = null;
 
-                    if(!rightValue.equals(Transitions.EVERY_VALUE) && !variables.get(varID)
-                                                                                .contains(
-                                                                                    rightValue))
-                        throw new AutomatonParsingException("Given right-value \'" + rightValue
-                                                                + "\' is not a value of variable with ID "
-                                                                + varID + ".");
+                    if(!rightValue.equals(Wildcard.EVERY_VALUE) && !variables.get(varID)
+                                                                             .contains(rightValue))
+                        throw new IllegalVariableValueException("Given right-value \'" + rightValue
+                                                                    + "\' is not a value of variable with ID "
+                                                                    + varID + ".");
                     break;
 
                 case "node-result":
                     nodeResult = content.toString();
                     content = null;
 
-                    if(!nodeResult.equals(Transitions.LEFT_VALUE) && !nodeResult.equals(
-                        Transitions.RIGHT_VALUE) && !variables.get(varID).contains(nodeResult))
-                        throw new AutomatonParsingException("Given node-result \'" + nodeResult
-                                                                + "\' is not a value of variable with ID "
-                                                                + varID + ".");
+                    if(!nodeResult.equals(Wildcard.LEFT_VALUE) && !nodeResult.equals(
+                        Wildcard.RIGHT_VALUE) && !variables.get(varID).contains(nodeResult))
+                        throw new IllegalVariableValueException("Given node-result \'" + nodeResult
+                                                                    + "\' is not a value of variable with ID "
+                                                                    + varID + ".");
                     break;
 
                 default:

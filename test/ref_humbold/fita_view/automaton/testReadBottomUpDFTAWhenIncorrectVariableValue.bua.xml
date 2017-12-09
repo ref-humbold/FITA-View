@@ -9,6 +9,11 @@
       <value>-</value>
     </var>
   </variables>
+  <accepting>
+    <accept>
+      <var-acc var-id="0" value="C" />
+    </accept>
+  </accepting>
   <transitions>
     <trans var-id="0">
       <left-value>A</left-value>

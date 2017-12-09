@@ -161,7 +161,7 @@ public class TreeReaderTest
         }
     }
 
-    @Test(expected = TreeParsingException.class)
+    @Test(expected = OneChildException.class)
     public void testReadWhenOneChild()
         throws SAXException
     {

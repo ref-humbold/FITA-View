@@ -206,6 +206,8 @@ public class AutomatonReaderTest
         BottomUpDFTA expected =
             new BottomUpDFTA(Arrays.asList("0", "1"), Collections.singletonList(v));
 
+        expected.addAcceptingState(Collections.singletonMap(v, "C"));
+
         try
         {
             expected.addTransition(v, "A", "0", "A", "0", "A");
@@ -288,6 +290,8 @@ public class AutomatonReaderTest
         BottomUpDFTA expected =
             new BottomUpDFTA(Arrays.asList("0", "1"), Collections.singletonList(v));
 
+        expected.addAcceptingState(Collections.singletonMap(v, "(*)"));
+
         try
         {
             expected.addTransition(v, "A", "(*)", "(*)", "(*)", "(<)");
@@ -323,7 +327,7 @@ public class AutomatonReaderTest
         Assert.assertEquals(expected, result);
     }
 
-    @Test(expected = AutomatonParsingException.class)
+    @Test(expected = DuplicatedTransitionException.class)
     public void testReadTopDownDFTAWhenMultipleTransitions()
         throws SAXException
     {
@@ -349,7 +353,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = AutomatonParsingException.class)
+    @Test(expected = DuplicatedTransitionException.class)
     public void testReadBottomUpDFTAWhenMultipleTransitions()
         throws SAXException
     {
@@ -479,7 +483,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = AutomatonParsingException.class)
+    @Test(expected = IllegalAlphabetWordException.class)
     public void testReadTopDownDFTAWhenNoSuchLabel()
         throws SAXException
     {
@@ -505,7 +509,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = AutomatonParsingException.class)
+    @Test(expected = IllegalAlphabetWordException.class)
     public void testReadBottomUpDFTAWhenNoSuchLabel()
         throws SAXException
     {
@@ -531,7 +535,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = AutomatonParsingException.class)
+    @Test(expected = IllegalVariableValueException.class)
     public void testReadTopDownDFTAWhenNoSuchVariableValue()
         throws SAXException
     {
@@ -557,7 +561,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = AutomatonParsingException.class)
+    @Test(expected = IllegalVariableValueException.class)
     public void testReadBottomUpDFTAWhenNoSuchVariableValue()
         throws SAXException
     {
@@ -583,7 +587,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = AutomatonParsingException.class)
+    @Test(expected = NoVariableWithIDException.class)
     public void testReadTopDownDFTAWhenNoSuchVariableId()
         throws SAXException
     {
@@ -609,7 +613,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = AutomatonParsingException.class)
+    @Test(expected = NoVariableWithIDException.class)
     public void testReadBottomUpDFTAWhenNoSuchVariableId()
         throws SAXException
     {

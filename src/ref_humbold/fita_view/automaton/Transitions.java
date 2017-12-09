@@ -11,11 +11,6 @@ import ref_humbold.fita_view.Tuple;
 
 public class Transitions<K extends Tuple, V>
 {
-    static final String EVERY_VALUE = "(*)";
-    static final String SAME_VALUE = "(=)";
-    static final String LEFT_VALUE = "(<)";
-    static final String RIGHT_VALUE = "(>)";
-
     private Map<Pair<Variable, Tuple>, V> map = new HashMap<>();
 
     public Transitions()
@@ -94,7 +89,7 @@ public class Transitions<K extends Tuple, V>
         for(int i = 0; i < t.size(); ++i)
         {
             if((mask & (1 << i)) == 1 << i)
-                objects[i] = EVERY_VALUE;
+                objects[i] = Wildcard.EVERY_VALUE;
         }
 
         switch(t.size())

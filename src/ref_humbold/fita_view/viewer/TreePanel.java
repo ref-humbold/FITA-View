@@ -32,7 +32,7 @@ public class TreePanel
         super();
 
         this.initComponents();
-        this.setBackground(new Color(0xFF00FF));
+        this.setBackground(new Color(0xFF0000));
     }
 
     @Override

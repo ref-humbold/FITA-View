@@ -16,11 +16,15 @@ public interface TreeAutomaton
      */
     boolean isInAlphabet(String label);
 
-    TreeVertex generateTree();
+    /**
+     * Testing if given tree is accepted by the automaton.
+     * @return {@code true} if automaton accepts tree, otherwise {@code false}
+     */
+    boolean isAccepted();
 
     void run();
 
     void makeStepForward();
 
-    void makeStepBackward();
+    TreeVertex generateTree();
 }

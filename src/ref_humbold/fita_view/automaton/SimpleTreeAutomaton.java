@@ -36,19 +36,13 @@ public abstract class SimpleTreeAutomaton
     }
 
     @Override
-    public void makeStepForward()
-    {
-        traversing.moveForward();
-    }
-
-    @Override
-    public void makeStepBackward()
-    {
-        traversing.moveBackward();
-    }
+    public abstract boolean isAccepted();
 
     @Override
     public abstract void run();
+
+    @Override
+    public abstract void makeStepForward();
 
     @Override
     public abstract TreeVertex generateTree();

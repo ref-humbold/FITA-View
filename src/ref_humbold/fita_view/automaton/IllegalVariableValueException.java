@@ -1,7 +1,9 @@
 package ref_humbold.fita_view.automaton;
 
+import org.xml.sax.SAXException;
+
 public class IllegalVariableValueException
-    extends Exception
+    extends SAXException
 {
     private static final long serialVersionUID = -2128138364416571613L;
 
@@ -15,13 +17,13 @@ public class IllegalVariableValueException
         super(s);
     }
 
-    public IllegalVariableValueException(Throwable t)
+    public IllegalVariableValueException(Exception e)
     {
-        super(t);
+        super(e);
     }
 
-    public IllegalVariableValueException(String s, Throwable t)
+    public IllegalVariableValueException(String s, Exception e)
     {
-        super(s, t);
+        super(s, e);
     }
 }
