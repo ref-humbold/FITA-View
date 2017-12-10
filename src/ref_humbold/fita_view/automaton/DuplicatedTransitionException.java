@@ -7,19 +7,9 @@ public class DuplicatedTransitionException
 {
     private static final long serialVersionUID = -5872121228497322894L;
 
-    public DuplicatedTransitionException()
-    {
-        super();
-    }
-
     public DuplicatedTransitionException(String s)
     {
         super(s);
-    }
-
-    public DuplicatedTransitionException(Exception e)
-    {
-        super(e);
     }
 
     public DuplicatedTransitionException(String s, Exception e)

@@ -46,5 +46,16 @@ public abstract class TreeVertex
     public abstract void setState(Variable var, String value)
         throws IllegalVariableValueException;
 
+    /**
+     * @return values of all variables in node
+     */
     public abstract Map<Variable, String> getFullState();
+
+    /**
+     * @return {@code true} if vertex has both left and right children, otherwise {@code false}
+     */
+    public boolean hasChildren()
+    {
+        return getLeft() != null && getRight() != null;
+    }
 }

@@ -17,6 +17,7 @@ public class TraversingFactory
     }
 
     public TreeTraversing getTraversing(TraversingMode mode, TraversingDirection direction)
+        throws IncorrectTraversingException
     {
         switch(mode)
         {
@@ -49,7 +50,8 @@ public class TraversingFactory
                         return new TopDownDFS();
 
                     case BOTTOM_UP:
-                        return new BottomUpDFS();
+                        throw new IncorrectTraversingException(
+                            "Cannot perform DFS traversing on bottom-up automaton.");
                 }
                 break;
         }

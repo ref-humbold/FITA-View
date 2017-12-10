@@ -61,7 +61,9 @@ public class NodeVertex
     protected void setLeft(TreeVertex vertex)
     {
         left = vertex;
-        left.setParent(this);
+
+        if(vertex != null)
+            left.setParent(this);
     }
 
     @Override
@@ -74,7 +76,9 @@ public class NodeVertex
     protected void setRight(TreeVertex vertex)
     {
         right = vertex;
-        right.setParent(this);
+
+        if(vertex != null)
+            right.setParent(this);
     }
 
     @Override
@@ -123,7 +127,7 @@ public class NodeVertex
         String leftString = left == null ? "#" : left.toString();
         String rightString = right == null ? "#" : right.toString();
 
-        return "{{ " + label + ", " + leftString + ", " + rightString + " }}";
+        return "<$ " + label + ", " + leftString + ", " + rightString + " $>";
     }
 
     @Override

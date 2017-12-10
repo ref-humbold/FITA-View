@@ -96,7 +96,7 @@ public class RecVertex
     @Override
     public String toString()
     {
-        return "{{REC}}";
+        return "<$ REC $>";
     }
 
     @Override

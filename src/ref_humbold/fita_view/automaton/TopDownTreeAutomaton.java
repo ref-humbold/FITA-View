@@ -3,6 +3,7 @@ package ref_humbold.fita_view.automaton;
 import java.util.Collection;
 
 import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingDirection;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
@@ -17,6 +18,7 @@ public abstract class TopDownTreeAutomaton
 
     @Override
     public void setTraversing(TraversingMode traversingMode)
+        throws IncorrectTraversingException
     {
         this.traversing = TraversingFactory.getInstance()
                                            .getTraversing(traversingMode,
@@ -24,7 +26,7 @@ public abstract class TopDownTreeAutomaton
     }
 
     @Override
-    protected void initTree()
+    protected void initializeTree()
         throws IllegalVariableValueException
     {
         for(Variable var : variables)

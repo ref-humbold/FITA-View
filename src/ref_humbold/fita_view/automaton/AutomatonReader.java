@@ -19,8 +19,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import ref_humbold.fita_view.FileFormatException;
-
 public class AutomatonReader
 {
     private File file;
@@ -92,7 +90,7 @@ public class AutomatonReader
         public void error(SAXParseException e)
             throws SAXException
         {
-            throw new AutomatonParsingException(e);
+            throw new AutomatonParsingException(e.getMessage(), e);
         }
 
         @Override
@@ -301,7 +299,7 @@ public class AutomatonReader
         public void error(SAXParseException e)
             throws SAXException
         {
-            throw new AutomatonParsingException(e);
+            throw new AutomatonParsingException(e.getMessage(), e);
         }
 
         @Override

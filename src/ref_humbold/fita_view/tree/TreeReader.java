@@ -15,7 +15,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import ref_humbold.fita_view.FileFormatException;
+import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.Pair;
 
 public class TreeReader
@@ -87,7 +87,7 @@ public class TreeReader
         public void error(SAXParseException e)
             throws SAXException
         {
-            throw new TreeParsingException(e);
+            throw new TreeParsingException(e.getMessage(), e);
         }
 
         @Override

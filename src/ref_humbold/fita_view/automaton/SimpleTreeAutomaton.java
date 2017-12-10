@@ -35,22 +35,10 @@ public abstract class SimpleTreeAutomaton
         return alphabet.contains(label);
     }
 
-    @Override
-    public abstract boolean isAccepted();
-
-    @Override
-    public abstract void run();
-
-    @Override
-    public abstract void makeStepForward();
-
-    @Override
-    public abstract TreeVertex generateTree();
-
     /**
-     * Setting inital state of variables in tree.
+     * Setting initial state of variables in tree.
      */
-    protected abstract void initTree()
+    protected abstract void initializeTree()
         throws IllegalVariableValueException;
 
     @Override

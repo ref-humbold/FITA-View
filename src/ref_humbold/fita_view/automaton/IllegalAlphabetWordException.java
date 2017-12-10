@@ -7,19 +7,9 @@ public class IllegalAlphabetWordException
 {
     private static final long serialVersionUID = 2685639795692482834L;
 
-    public IllegalAlphabetWordException()
-    {
-        super();
-    }
-
     public IllegalAlphabetWordException(String s)
     {
         super(s);
-    }
-
-    public IllegalAlphabetWordException(Exception e)
-    {
-        super(e);
     }
 
     public IllegalAlphabetWordException(String s, Exception e)

@@ -7,19 +7,9 @@ public class NoVariableWithIDException
 {
     private static final long serialVersionUID = -2119786768131576888L;
 
-    public NoVariableWithIDException()
-    {
-        super();
-    }
-
     public NoVariableWithIDException(String s)
     {
         super(s);
-    }
-
-    public NoVariableWithIDException(Exception e)
-    {
-        super(e);
     }
 
     public NoVariableWithIDException(String s, Exception e)

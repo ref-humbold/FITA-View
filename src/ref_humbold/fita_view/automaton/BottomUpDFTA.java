@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import ref_humbold.fita_view.Quadruple;
+import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingDirection;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
@@ -26,12 +27,14 @@ public class BottomUpDFTA
 
     @Override
     public void setTraversing(TraversingMode traversingMode)
+        throws IncorrectTraversingException
     {
         this.traversing = TraversingFactory.getInstance()
                                            .getTraversing(traversingMode,
                                                           TraversingDirection.BOTTOM_UP);
     }
 
+    @Override
     public boolean isAccepted()
     {
         return acceptingStates.contains(tree.getFullState());
@@ -55,7 +58,7 @@ public class BottomUpDFTA
     }
 
     @Override
-    protected void initTree()
+    protected void initializeTree()
     {
     }
 

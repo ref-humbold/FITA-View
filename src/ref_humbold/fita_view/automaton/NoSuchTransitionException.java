@@ -5,19 +5,9 @@ public class NoSuchTransitionException
 {
     private static final long serialVersionUID = 3922393365263563771L;
 
-    public NoSuchTransitionException()
-    {
-        super();
-    }
-
     public NoSuchTransitionException(String s)
     {
         super(s);
-    }
-
-    public NoSuchTransitionException(Throwable t)
-    {
-        super(t);
     }
 
     public NoSuchTransitionException(String s, Throwable t)

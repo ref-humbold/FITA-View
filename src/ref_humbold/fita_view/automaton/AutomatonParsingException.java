@@ -7,19 +7,9 @@ public class AutomatonParsingException
 {
     private static final long serialVersionUID = -2361435525177698748L;
 
-    public AutomatonParsingException()
-    {
-        super();
-    }
-
     public AutomatonParsingException(String s)
     {
         super(s);
-    }
-
-    public AutomatonParsingException(Exception e)
-    {
-        super(e);
     }
 
     public AutomatonParsingException(String s, Exception e)

@@ -1,11 +1,13 @@
 package ref_humbold.fita_view.automaton;
 
+import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public interface TreeAutomaton
 {
-    void setTraversing(TraversingMode traversingMode);
+    void setTraversing(TraversingMode traversingMode)
+        throws IncorrectTraversingException;
 
     void setTree(TreeVertex tree);
 

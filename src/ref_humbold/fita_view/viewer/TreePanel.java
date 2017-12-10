@@ -13,7 +13,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.xml.sax.SAXException;
 
-import ref_humbold.fita_view.FileFormatException;
+import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.tree.TreeReader;
 import ref_humbold.fita_view.tree.TreeVertex;
 
