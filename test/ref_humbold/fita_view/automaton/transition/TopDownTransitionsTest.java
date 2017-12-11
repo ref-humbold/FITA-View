@@ -22,6 +22,7 @@ public class TopDownTransitionsTest
 
     @Before
     public void setUp()
+        throws Exception
     {
         testObject = new TopDownTransitions<>();
         testObject.add(v, Pair.make("A", "0"), Pair.make("B", "C"));
@@ -94,9 +95,17 @@ public class TopDownTransitionsTest
     @Test
     public void testAddWhenDirectKey()
     {
-        testObject.add(v, Pair.make("B", "0"), Pair.make("A", "A"));
+        try
+        {
+            testObject.add(v, Pair.make("B", "4"), Pair.make("A", "A"));
+        }
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
-        boolean result = testObject.containsKey(v, Pair.make("B", "0"));
+        boolean result = testObject.containsKey(v, Pair.make("B", "4"));
 
         Assert.assertTrue(result);
     }
@@ -104,19 +113,42 @@ public class TopDownTransitionsTest
     @Test
     public void testAddWhenWildcardKey()
     {
-        testObject.add(v, Pair.make(Wildcard.EVERY_VALUE, "4"), Pair.make("B", "B"));
+        try
+        {
+            testObject.add(v, Pair.make(Wildcard.EVERY_VALUE, "5"), Pair.make("B", "B"));
+        }
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
-        boolean result = testObject.containsKey(v, Pair.make(Wildcard.EVERY_VALUE, "4"));
-        boolean result0 = testObject.containsEntry(v, Pair.make("A", "4"));
-        boolean result1 = testObject.containsEntry(v, Pair.make("B", "4"));
-        boolean result2 = testObject.containsEntry(v, Pair.make("C", "4"));
-        boolean result3 = testObject.containsEntry(v, Pair.make("D", "4"));
+        boolean result = testObject.containsKey(v, Pair.make(Wildcard.EVERY_VALUE, "5"));
+        boolean result0 = testObject.containsEntry(v, Pair.make("A", "5"));
+        boolean result1 = testObject.containsEntry(v, Pair.make("B", "5"));
+        boolean result2 = testObject.containsEntry(v, Pair.make("C", "5"));
+        boolean result3 = testObject.containsEntry(v, Pair.make("D", "5"));
 
         Assert.assertTrue(result);
         Assert.assertTrue(result0);
         Assert.assertTrue(result1);
         Assert.assertTrue(result2);
         Assert.assertTrue(result3);
+    }
+
+    @Test(expected = DuplicatedTransitionException.class)
+    public void testAddWhenDuplicated()
+        throws DuplicatedTransitionException
+    {
+        try
+        {
+            testObject.add(v, Pair.make("A", "0"), Pair.make("B", "C"));
+        }
+        catch(IllegalTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
     }
 
     @Test

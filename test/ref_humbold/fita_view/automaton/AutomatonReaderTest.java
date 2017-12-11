@@ -11,6 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
+import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
+
 public class AutomatonReaderTest
 {
     private AutomatonReader testObject;
@@ -68,7 +71,7 @@ public class AutomatonReaderTest
             expected.addTransition(v, "C", "0", "A", "B");
             expected.addTransition(v, "C", "1", "C", "C");
         }
-        catch(DuplicatedTransitionException e)
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -119,7 +122,7 @@ public class AutomatonReaderTest
             expected.addTransition(v, Wildcard.EVERY_VALUE, "1", Wildcard.SAME_VALUE,
                                    Wildcard.SAME_VALUE);
         }
-        catch(DuplicatedTransitionException e)
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -319,16 +322,24 @@ public class AutomatonReaderTest
         TopDownNFTA expected =
             new TopDownNFTA(Arrays.asList("0", "1"), Collections.singletonList(v));
 
-        expected.addTransition(v, "A", "0", "B", "C");
-        expected.addTransition(v, "A", "1", "A", "A");
-        expected.addTransition(v, "A", "1", "A", "B");
-        expected.addTransition(v, "B", "0", "C", "A");
-        expected.addTransition(v, "B", "0", "B", "C");
-        expected.addTransition(v, "B", "1", "B", "B");
-        expected.addTransition(v, "C", "0", "A", "B");
-        expected.addTransition(v, "C", "1", "C", "C");
-        expected.addTransition(v, "C", "1", "B", "B");
-        expected.addTransition(v, "C", "1", "A", "A");
+        try
+        {
+            expected.addTransition(v, "A", "0", "B", "C");
+            expected.addTransition(v, "A", "1", "A", "A");
+            expected.addTransition(v, "A", "1", "A", "B");
+            expected.addTransition(v, "B", "0", "C", "A");
+            expected.addTransition(v, "B", "0", "B", "C");
+            expected.addTransition(v, "B", "1", "B", "B");
+            expected.addTransition(v, "C", "0", "A", "B");
+            expected.addTransition(v, "C", "1", "C", "C");
+            expected.addTransition(v, "C", "1", "B", "B");
+            expected.addTransition(v, "C", "1", "A", "A");
+        }
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof TopDownNFTA);
@@ -442,12 +453,11 @@ public class AutomatonReaderTest
             expected.addTransition(v, "A", Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "A");
             expected.addTransition(v, "B", "A", Wildcard.EVERY_VALUE, Wildcard.LEFT_VALUE);
             expected.addTransition(v, "B", "B", "0", "B");
-            expected.addTransition(v, "B", "B", "1", "C");
             expected.addTransition(v, "B", "C", Wildcard.EVERY_VALUE, "C");
             expected.addTransition(v, "C", Wildcard.EVERY_VALUE, "0", Wildcard.RIGHT_VALUE);
             expected.addTransition(v, "C", "A", "1", "B");
             expected.addTransition(v, "C", "B", "1", "C");
-            expected.addTransition(v, "C", Wildcard.SAME_VALUE, "1", "A");
+            expected.addTransition(v, Wildcard.EVERY_VALUE, Wildcard.SAME_VALUE, "1", "C");
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
@@ -468,6 +478,32 @@ public class AutomatonReaderTest
         {
             testObject = new AutomatonReader(new File(
                 "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenDoubleSameWildcard.bua.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = IllegalTransitionException.class)
+    public void testReadBottomUpDFTAWhenSameWildcardWithoutEveryWildcard()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenSameWildcardWithoutEveryWildcard.bua.xml"));
         }
         catch(Exception e)
         {

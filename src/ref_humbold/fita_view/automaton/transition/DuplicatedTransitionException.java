@@ -1,4 +1,4 @@
-package ref_humbold.fita_view.automaton;
+package ref_humbold.fita_view.automaton.transition;
 
 import org.xml.sax.SAXException;
 

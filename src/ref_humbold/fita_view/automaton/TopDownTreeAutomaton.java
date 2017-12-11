@@ -3,6 +3,8 @@ package ref_humbold.fita_view.automaton;
 import java.util.Collection;
 
 import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
+import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingDirection;
@@ -69,7 +71,7 @@ public abstract class TopDownTreeAutomaton
      */
     protected abstract void addTransition(Variable var, String value, String label,
                                           String leftResult, String rightResult)
-        throws DuplicatedTransitionException;
+        throws DuplicatedTransitionException, IllegalTransitionException;
 
     private Pair<String, String> removeWildcard(String value, Pair<String, String> trans)
     {

@@ -22,6 +22,7 @@ public class BottomUpTransitionsTest
 
     @Before
     public void setUp()
+        throws Exception
     {
         testObject = new BottomUpTransitions();
         testObject.add(v, Triple.make("A", "B", "0"), "C");
@@ -103,7 +104,15 @@ public class BottomUpTransitionsTest
     @Test
     public void testAddWhenDirectKey()
     {
-        testObject.add(v, Triple.make("D", "B", "4"), "A");
+        try
+        {
+            testObject.add(v, Triple.make("D", "B", "4"), "A");
+        }
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         boolean result = testObject.containsKey(v, Triple.make("D", "B", "4"));
 
@@ -113,19 +122,57 @@ public class BottomUpTransitionsTest
     @Test
     public void testAddWhenWildcardKey()
     {
-        testObject.add(v, Triple.make("D", Wildcard.EVERY_VALUE, "4"), "B");
+        try
+        {
+            testObject.add(v, Triple.make("D", Wildcard.EVERY_VALUE, "5"), "B");
+        }
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
-        boolean result = testObject.containsKey(v, Triple.make("D", Wildcard.EVERY_VALUE, "4"));
-        boolean result0 = testObject.containsEntry(v, Triple.make("D", "A", "4"));
-        boolean result1 = testObject.containsEntry(v, Triple.make("D", "B", "4"));
-        boolean result2 = testObject.containsEntry(v, Triple.make("D", "C", "4"));
-        boolean result3 = testObject.containsEntry(v, Triple.make("D", "D", "4"));
+        boolean result = testObject.containsKey(v, Triple.make("D", Wildcard.EVERY_VALUE, "5"));
+        boolean result0 = testObject.containsEntry(v, Triple.make("D", "A", "5"));
+        boolean result1 = testObject.containsEntry(v, Triple.make("D", "B", "5"));
+        boolean result2 = testObject.containsEntry(v, Triple.make("D", "C", "5"));
+        boolean result3 = testObject.containsEntry(v, Triple.make("D", "D", "5"));
 
         Assert.assertTrue(result);
         Assert.assertTrue(result0);
         Assert.assertTrue(result1);
         Assert.assertTrue(result2);
         Assert.assertTrue(result3);
+    }
+
+    @Test(expected = DuplicatedTransitionException.class)
+    public void testAddWhenDuplicated()
+        throws DuplicatedTransitionException
+    {
+        try
+        {
+            testObject.add(v, Triple.make("A", "B", "0"), "C");
+        }
+        catch(IllegalTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = IllegalTransitionException.class)
+    public void testAddWhenIncorrectSameWildcard()
+        throws IllegalTransitionException
+    {
+        try
+        {
+            testObject.add(v, Triple.make("A", Wildcard.SAME_VALUE, "6"), "C");
+        }
+        catch(DuplicatedTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
     }
 
     @Test

@@ -35,9 +35,21 @@
     </trans>
     <trans var-id="0">
       <left-value>B</left-value>
+      <right-value>B</right-value>
+      <label>1</label>
+      <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>B</left-value>
       <right-value>C</right-value>
       <label>(*)</label>
       <node-result>C</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>(=)</left-value>
+      <right-value>(=)</right-value>
+      <label>0</label>
+      <node-result>B</node-result>
     </trans>
     <trans var-id="0">
       <left-value>C</left-value>
@@ -53,13 +65,13 @@
     </trans>
     <trans var-id="0">
       <left-value>C</left-value>
-      <right-value>B</right-value>
+      <right-value>(=)</right-value>
       <label>1</label>
-      <node-result>C</node-result>
+      <node-result>A</node-result>
     </trans>
     <trans var-id="0">
-      <left-value>(*)</left-value>
-      <right-value>(=)</right-value>
+      <left-value>C</left-value>
+      <right-value>B</right-value>
       <label>1</label>
       <node-result>C</node-result>
     </trans>

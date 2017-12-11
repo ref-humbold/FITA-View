@@ -37,6 +37,7 @@ public abstract class Transitions<K, V>
      * @param value result of transition
      */
     public void add(Variable var, K key, V value)
+        throws DuplicatedTransitionException, IllegalTransitionException
     {
         map.put(Pair.make(var, key), value);
     }

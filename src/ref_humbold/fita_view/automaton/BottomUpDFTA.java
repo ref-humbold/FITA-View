@@ -8,6 +8,8 @@ import java.util.Set;
 
 import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.transition.BottomUpTransitions;
+import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
+import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingDirection;
@@ -102,18 +104,7 @@ public class BottomUpDFTA
                        String result)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
-        Triple<String, String, String> key = Triple.make(leftValue, rightValue, label);
-
-        if(leftValue.equals(Wildcard.SAME_VALUE) && rightValue.equals(Wildcard.SAME_VALUE))
-            throw new IllegalTransitionException(
-                "Transition cannot contain wildcard " + Wildcard.SAME_VALUE
-                    + " as both left and right value.");
-
-        if(transitions.containsKey(var, key))
-            throw new DuplicatedTransitionException(
-                "Duplicated transition entry for " + var + " + " + key + ".");
-
-        transitions.add(var, key, result);
+        transitions.add(var, Triple.make(leftValue, rightValue, label), result);
     }
 
     @Override

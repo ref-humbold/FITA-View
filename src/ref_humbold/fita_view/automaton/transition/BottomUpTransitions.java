@@ -8,8 +8,7 @@ import ref_humbold.fita_view.automaton.Wildcard;
 public class BottomUpTransitions
     extends Transitions<Triple<String, String, String>, String>
 {
-    private final String[] sameMasks =
-        new String[]{"=__", "_=_", "*=_", "=*_", "=_*", "_=*", "*=*", "=**"};
+    private final String[] sameMasks = new String[]{"*=_", "=*_", "*=*", "=**"};
 
     @Override
     public boolean containsEntry(Variable var, Triple<String, String, String> key)
@@ -37,6 +36,25 @@ public class BottomUpTransitions
         }
 
         return false;
+    }
+
+    @Override
+    public void add(Variable var, Triple<String, String, String> key, String value)
+        throws DuplicatedTransitionException, IllegalTransitionException
+    {
+        if((key.getFirst().equals(Wildcard.SAME_VALUE) && !key.getSecond()
+                                                              .equals(Wildcard.EVERY_VALUE)) || (
+            key.getSecond().equals(Wildcard.SAME_VALUE) && !key.getFirst()
+                                                               .equals(Wildcard.EVERY_VALUE)))
+            throw new IllegalTransitionException(
+                "Transition cannot contain wildcard " + Wildcard.SAME_VALUE
+                    + " as both left and right value.");
+
+        if(containsKey(var, key))
+            throw new DuplicatedTransitionException(
+                "Duplicated transition entry for " + var + " + " + key + ".");
+
+        super.add(var, key, value);
     }
 
     @Override

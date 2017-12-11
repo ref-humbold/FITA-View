@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Objects;
 
 import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
+import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.transition.TopDownTransitions;
 import ref_humbold.fita_view.tree.TreeVertex;
@@ -51,15 +53,9 @@ public class TopDownDFTA
     @Override
     protected void addTransition(Variable var, String value, String label, String leftResult,
                                  String rightResult)
-        throws DuplicatedTransitionException
+        throws DuplicatedTransitionException, IllegalTransitionException
     {
-        Pair<String, String> key = Pair.make(value, label);
-
-        if(transitions.containsKey(var, key))
-            throw new DuplicatedTransitionException(
-                "Duplicated transition entry for " + var + " + " + key + ".");
-
-        transitions.add(var, key, Pair.make(leftResult, rightResult));
+        transitions.add(var, Pair.make(value, label), Pair.make(leftResult, rightResult));
     }
 
     @Override

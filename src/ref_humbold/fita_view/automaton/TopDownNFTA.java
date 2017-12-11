@@ -7,6 +7,8 @@ import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoice;
+import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
+import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.transition.TopDownTransitions;
 import ref_humbold.fita_view.tree.TreeVertex;
@@ -68,6 +70,7 @@ public class TopDownNFTA
     @Override
     protected void addTransition(Variable var, String value, String label, String leftResult,
                                  String rightResult)
+        throws DuplicatedTransitionException, IllegalTransitionException
     {
         Pair<String, String> key = Pair.make(value, label);
 
