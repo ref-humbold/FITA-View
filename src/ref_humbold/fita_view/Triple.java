@@ -3,7 +3,6 @@ package ref_humbold.fita_view;
 import java.util.Objects;
 
 public class Triple<F, S, T>
-    implements Tuple
 {
     private final F first;
     private final S second;
@@ -36,16 +35,9 @@ public class Triple<F, S, T>
         return third;
     }
 
-    @Override
     public int size()
     {
         return 3;
-    }
-
-    @Override
-    public Object[] toArray()
-    {
-        return new Object[]{first, second, third};
     }
 
     @Override

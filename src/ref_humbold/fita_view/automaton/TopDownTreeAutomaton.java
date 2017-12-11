@@ -3,6 +3,7 @@ package ref_humbold.fita_view.automaton;
 import java.util.Collection;
 
 import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingDirection;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;

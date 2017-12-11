@@ -50,10 +50,9 @@
               <xs:element name="trans" maxOccurs="unbounded">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="left-value" type="everyWildcardType" />
-                    <xs:element name="left-label" type="everyWildcardType" />
-                    <xs:element name="right-value" type="everyWildcardType" />
-                    <xs:element name="right-label" type="everyWildcardType" />
+                    <xs:element name="left-value" type="everySameWildcardType" />
+                    <xs:element name="right-value" type="everySameWildcardType" />
+                    <xs:element name="label" type="everyWildcardType" />
                     <xs:element name="node-result" type="leftRightWildcardType" />
                   </xs:sequence>
                   <xs:attribute name="var-id" type="xs:int" />
@@ -82,9 +81,15 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="everySameWildcardType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+|\(\*\)|\(=\)" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="leftRightWildcardType">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+|\(&lt;\)|\(&gt;\)" />
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+|\(\^=\)|\(=\^\)" />
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

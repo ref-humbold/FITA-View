@@ -282,8 +282,7 @@ public class AutomatonReader
         extends AutomatonHandler
     {
         private BottomUpDFTA automaton;
-        private String leftLabel;
-        private String rightLabel;
+        private String label;
         private String leftValue;
         private String rightValue;
         private String nodeResult;
@@ -312,8 +311,7 @@ public class AutomatonReader
             switch(qName)
             {
                 case "automaton":
-                case "left-label":
-                case "right-label":
+                case "label":
                 case "left-value":
                 case "right-value":
                 case "node-result":
@@ -370,34 +368,25 @@ public class AutomatonReader
                     break;
 
                 case "trans":
-                    automaton.addTransition(variables.get(varID), leftValue, leftLabel, rightValue,
-                                            rightLabel, nodeResult);
+                    automaton.addTransition(variables.get(varID), leftValue, rightValue, label,
+                                            nodeResult);
                     break;
 
-                case "left-label":
-                    leftLabel = content.toString();
+                case "label":
+                    label = content.toString();
                     content = null;
 
-                    if(!leftLabel.equals(Wildcard.EVERY_VALUE) && !alphabet.contains(leftLabel))
-                        throw new IllegalAlphabetWordException("Given left-label \'" + leftLabel
-                                                                   + "\' is not a part of automaton's alphabet.");
-                    break;
-
-                case "right-label":
-                    rightLabel = content.toString();
-                    content = null;
-
-                    if(!rightLabel.equals(Wildcard.EVERY_VALUE) && !alphabet.contains(rightLabel))
-                        throw new IllegalAlphabetWordException("Given right-label \'" + rightLabel
-                                                                   + "\' is not a part of automaton's alphabet.");
+                    if(!label.equals(Wildcard.EVERY_VALUE) && !alphabet.contains(label))
+                        throw new IllegalAlphabetWordException(
+                            "Given label \'" + label + "\' is not a part of automaton's alphabet.");
                     break;
 
                 case "left-value":
                     leftValue = content.toString();
                     content = null;
 
-                    if(!leftValue.equals(Wildcard.EVERY_VALUE) && !variables.get(varID)
-                                                                            .contains(leftValue))
+                    if(!leftValue.equals(Wildcard.EVERY_VALUE) && !leftValue.equals(
+                        Wildcard.SAME_VALUE) && !variables.get(varID).contains(leftValue))
                         throw new IllegalVariableValueException("Given left-value \'" + leftValue
                                                                     + "\' is not a value of variable with ID "
                                                                     + varID + ".");
@@ -407,8 +396,8 @@ public class AutomatonReader
                     rightValue = content.toString();
                     content = null;
 
-                    if(!rightValue.equals(Wildcard.EVERY_VALUE) && !variables.get(varID)
-                                                                             .contains(rightValue))
+                    if(!rightValue.equals(Wildcard.EVERY_VALUE) && !rightValue.equals(
+                        Wildcard.SAME_VALUE) && !variables.get(varID).contains(rightValue))
                         throw new IllegalVariableValueException("Given right-value \'" + rightValue
                                                                     + "\' is not a value of variable with ID "
                                                                     + varID + ".");

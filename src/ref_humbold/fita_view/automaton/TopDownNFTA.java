@@ -7,6 +7,8 @@ import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoice;
+import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
+import ref_humbold.fita_view.automaton.transition.TopDownTransitions;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class TopDownNFTA
@@ -14,8 +16,7 @@ public class TopDownNFTA
     implements NonDeterministicAutomaton
 {
     private StateChoice choice;
-    private Transitions<Pair<String, String>, Set<Pair<String, String>>> transitions =
-        new Transitions<>();
+    private TopDownTransitions<Set<Pair<String, String>>> transitions = new TopDownTransitions<>();
 
     public TopDownNFTA(Collection<String> alphabet, Collection<Variable> variables)
     {

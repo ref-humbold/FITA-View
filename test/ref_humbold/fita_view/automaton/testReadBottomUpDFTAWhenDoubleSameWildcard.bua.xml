@@ -46,6 +46,12 @@
       <node-result>C</node-result>
     </trans>
     <trans var-id="0">
+      <left-value>(=)</left-value>
+      <right-value>(=)</right-value>
+      <label>0</label>
+      <node-result>B</node-result>
+    </trans>
+    <trans var-id="0">
       <left-value>C</left-value>
       <right-value>(*)</right-value>
       <label>0</label>

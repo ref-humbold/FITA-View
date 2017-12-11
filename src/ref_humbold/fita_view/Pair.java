@@ -3,7 +3,6 @@ package ref_humbold.fita_view;
 import java.util.Objects;
 
 public class Pair<F, S>
-    implements Tuple
 {
     private final F first;
     private final S second;
@@ -29,16 +28,9 @@ public class Pair<F, S>
         return second;
     }
 
-    @Override
     public int size()
     {
         return 2;
-    }
-
-    @Override
-    public Object[] toArray()
-    {
-        return new Object[]{first, second};
     }
 
     @Override

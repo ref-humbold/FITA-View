@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import ref_humbold.fita_view.Quadruple;
+import ref_humbold.fita_view.Triple;
+import ref_humbold.fita_view.automaton.transition.BottomUpTransitions;
+import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingDirection;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
@@ -16,8 +18,7 @@ import ref_humbold.fita_view.tree.TreeVertex;
 public class BottomUpDFTA
     extends SimpleTreeAutomaton
 {
-    private Transitions<Quadruple<String, String, String, String>, String> transitions =
-        new Transitions<>();
+    private BottomUpTransitions transitions = new BottomUpTransitions();
     private Set<Map<Variable, String>> acceptingStates = new HashSet<>();
 
     public BottomUpDFTA(Collection<String> alphabet, Collection<Variable> variables)
@@ -71,17 +72,14 @@ public class BottomUpDFTA
      * Getting a result of transition function for given arguments.
      * @param var variable
      * @param leftValue variable value in left son
-     * @param leftLabel tree label of left son
      * @param rightValue variable value in right son
-     * @param rightLabel tree label of right son
+     * @param label tree label of node
      * @return variable value in node
      */
-    String doTransition(Variable var, String leftValue, String leftLabel, String rightValue,
-                        String rightLabel)
+    String doTransition(Variable var, String leftValue, String rightValue, String label)
         throws NoSuchTransitionException
     {
-        String result =
-            transitions.get(var, Quadruple.make(leftValue, rightValue, leftLabel, rightLabel));
+        String result = transitions.get(var, Triple.make(leftValue, rightValue, label));
 
         if(result.equals(Wildcard.LEFT_VALUE))
             return leftValue;
@@ -96,17 +94,21 @@ public class BottomUpDFTA
      * Adding new transition entry to transition function of automaton.
      * @param var variable
      * @param leftValue variable value in left son
-     * @param leftLabel tree label of left son
      * @param rightValue variable value in right son
-     * @param rightLabel tree label of right son
+     * @param label tree label of node
      * @param result variable value in node
      */
-    void addTransition(Variable var, String leftValue, String leftLabel, String rightValue,
-                       String rightLabel, String result)
-        throws DuplicatedTransitionException
+    void addTransition(Variable var, String leftValue, String rightValue, String label,
+                       String result)
+        throws DuplicatedTransitionException, IllegalTransitionException
     {
-        Quadruple<String, String, String, String> key =
-            Quadruple.make(leftValue, rightValue, leftLabel, rightLabel);
+        Triple<String, String, String> key = Triple.make(leftValue, rightValue, label);
+
+        if(leftValue.equals(Wildcard.SAME_VALUE) && rightValue.equals(Wildcard.SAME_VALUE))
+            throw new IllegalTransitionException(
+                "Transition cannot contain wildcard " + Wildcard.SAME_VALUE
+                    + " as both left and right value.");
+
         if(transitions.containsKey(var, key))
             throw new DuplicatedTransitionException(
                 "Duplicated transition entry for " + var + " + " + key + ".");

@@ -4,13 +4,14 @@ import java.util.Collection;
 import java.util.Objects;
 
 import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
+import ref_humbold.fita_view.automaton.transition.TopDownTransitions;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class TopDownDFTA
     extends TopDownTreeAutomaton
 {
-    private Transitions<Pair<String, String>, Pair<String, String>> transitions =
-        new Transitions<>();
+    private TopDownTransitions<Pair<String, String>> transitions = new TopDownTransitions<>();
 
     public TopDownDFTA(Collection<String> alphabet, Collection<Variable> variables)
     {

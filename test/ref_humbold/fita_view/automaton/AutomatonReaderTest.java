@@ -26,6 +26,8 @@ public class AutomatonReaderTest
         testObject = null;
     }
 
+    // TopDownDFTA
+
     @Test
     public void testReadTopDownDFTA()
     {
@@ -111,10 +113,11 @@ public class AutomatonReaderTest
         try
         {
             expected.addTransition(v, "A", "0", "B", "C");
-            expected.addTransition(v, "A", "1", "B", "(=)");
+            expected.addTransition(v, "A", "1", "B", Wildcard.SAME_VALUE);
             expected.addTransition(v, "B", "0", "C", "A");
             expected.addTransition(v, "C", "0", "A", "B");
-            expected.addTransition(v, "(*)", "1", "(=)", "(=)");
+            expected.addTransition(v, Wildcard.EVERY_VALUE, "1", Wildcard.SAME_VALUE,
+                                   Wildcard.SAME_VALUE);
         }
         catch(DuplicatedTransitionException e)
         {
@@ -126,6 +129,164 @@ public class AutomatonReaderTest
         Assert.assertTrue(result instanceof TopDownDFTA);
         Assert.assertEquals(expected, result);
     }
+
+    @Test(expected = DuplicatedTransitionException.class)
+    public void testReadTopDownDFTAWhenMultipleTransitions()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenMultipleTransitions.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = AutomatonParsingException.class)
+    public void testReadTopDownDFTAWhenIncorrectAlphabetWord()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenIncorrectAlphabetWord.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = AutomatonParsingException.class)
+    public void testReadTopDownDFTAWhenIncorrectVariableValue()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenIncorrectVariableValue.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = IllegalAlphabetWordException.class)
+    public void testReadTopDownDFTAWhenNoSuchLabel()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchLabel.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = IllegalVariableValueException.class)
+    public void testReadTopDownDFTAWhenNoSuchVariableValue()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchVariableValue.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = NoVariableWithIDException.class)
+    public void testReadTopDownDFTAWhenNoSuchVariableId()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchVariableId.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    // TopDownNFTA
 
     @Test
     public void testReadTopDownNFTA()
@@ -174,6 +335,8 @@ public class AutomatonReaderTest
         Assert.assertEquals(expected, result);
     }
 
+    // BottomUpDFTA
+
     @Test
     public void testReadBottomUpDFTA()
     {
@@ -210,44 +373,26 @@ public class AutomatonReaderTest
 
         try
         {
-            expected.addTransition(v, "A", "0", "A", "0", "A");
-            expected.addTransition(v, "A", "0", "A", "1", "B");
-            expected.addTransition(v, "A", "0", "B", "0", "B");
-            expected.addTransition(v, "A", "0", "B", "1", "C");
-            expected.addTransition(v, "A", "0", "C", "0", "C");
-            expected.addTransition(v, "A", "0", "C", "1", "A");
-            expected.addTransition(v, "A", "1", "A", "0", "B");
-            expected.addTransition(v, "A", "1", "A", "1", "C");
-            expected.addTransition(v, "A", "1", "B", "0", "B");
-            expected.addTransition(v, "A", "1", "B", "1", "A");
-            expected.addTransition(v, "A", "1", "C", "0", "B");
-            expected.addTransition(v, "A", "1", "C", "1", "C");
-            expected.addTransition(v, "B", "0", "A", "0", "A");
-            expected.addTransition(v, "B", "0", "A", "1", "B");
-            expected.addTransition(v, "B", "0", "B", "0", "B");
-            expected.addTransition(v, "B", "0", "B", "1", "C");
-            expected.addTransition(v, "B", "0", "C", "0", "C");
-            expected.addTransition(v, "B", "0", "C", "1", "A");
-            expected.addTransition(v, "B", "1", "A", "0", "A");
-            expected.addTransition(v, "B", "1", "A", "1", "C");
-            expected.addTransition(v, "B", "1", "B", "0", "B");
-            expected.addTransition(v, "B", "1", "B", "1", "C");
-            expected.addTransition(v, "B", "1", "C", "0", "A");
-            expected.addTransition(v, "B", "1", "C", "1", "B");
-            expected.addTransition(v, "C", "0", "A", "0", "C");
-            expected.addTransition(v, "C", "0", "A", "1", "B");
-            expected.addTransition(v, "C", "0", "B", "0", "B");
-            expected.addTransition(v, "C", "0", "B", "1", "C");
-            expected.addTransition(v, "C", "0", "C", "0", "C");
-            expected.addTransition(v, "C", "0", "C", "1", "A");
-            expected.addTransition(v, "C", "1", "A", "0", "A");
-            expected.addTransition(v, "C", "1", "A", "1", "B");
-            expected.addTransition(v, "C", "1", "B", "0", "B");
-            expected.addTransition(v, "C", "1", "B", "1", "C");
-            expected.addTransition(v, "C", "1", "C", "0", "C");
-            expected.addTransition(v, "C", "1", "C", "1", "A");
+            expected.addTransition(v, "A", "A", "0", "A");
+            expected.addTransition(v, "A", "A", "1", "B");
+            expected.addTransition(v, "A", "B", "0", "B");
+            expected.addTransition(v, "A", "B", "1", "C");
+            expected.addTransition(v, "A", "C", "0", "C");
+            expected.addTransition(v, "A", "C", "1", "A");
+            expected.addTransition(v, "B", "A", "0", "B");
+            expected.addTransition(v, "B", "A", "1", "C");
+            expected.addTransition(v, "B", "B", "0", "B");
+            expected.addTransition(v, "B", "B", "1", "C");
+            expected.addTransition(v, "B", "C", "0", "C");
+            expected.addTransition(v, "B", "C", "1", "A");
+            expected.addTransition(v, "C", "A", "0", "A");
+            expected.addTransition(v, "C", "A", "1", "B");
+            expected.addTransition(v, "C", "B", "0", "B");
+            expected.addTransition(v, "C", "B", "1", "C");
+            expected.addTransition(v, "C", "C", "0", "C");
+            expected.addTransition(v, "C", "C", "1", "A");
         }
-        catch(DuplicatedTransitionException e)
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -290,33 +435,21 @@ public class AutomatonReaderTest
         BottomUpDFTA expected =
             new BottomUpDFTA(Arrays.asList("0", "1"), Collections.singletonList(v));
 
-        expected.addAcceptingState(Collections.singletonMap(v, "(*)"));
+        expected.addAcceptingState(Collections.singletonMap(v, Wildcard.EVERY_VALUE));
 
         try
         {
-            expected.addTransition(v, "A", "(*)", "(*)", "(*)", "(<)");
-            expected.addTransition(v, "A", "1", "A", "1", "B");
-            expected.addTransition(v, "B", "0", "A", "0", "A");
-            expected.addTransition(v, "B", "0", "A", "1", "B");
-            expected.addTransition(v, "B", "0", "B", "0", "B");
-            expected.addTransition(v, "B", "0", "B", "1", "C");
-            expected.addTransition(v, "B", "0", "C", "0", "C");
-            expected.addTransition(v, "B", "0", "C", "1", "A");
-            expected.addTransition(v, "B", "1", "A", "0", "A");
-            expected.addTransition(v, "B", "1", "A", "1", "C");
-            expected.addTransition(v, "B", "1", "B", "0", "B");
-            expected.addTransition(v, "B", "1", "B", "1", "C");
-            expected.addTransition(v, "B", "1", "C", "0", "A");
-            expected.addTransition(v, "B", "1", "C", "1", "B");
-            expected.addTransition(v, "C", "0", "(*)", "(*)", "(>)");
-            expected.addTransition(v, "C", "1", "A", "0", "A");
-            expected.addTransition(v, "C", "1", "A", "1", "B");
-            expected.addTransition(v, "C", "1", "B", "0", "B");
-            expected.addTransition(v, "C", "1", "B", "1", "C");
-            expected.addTransition(v, "C", "1", "C", "0", "C");
-            expected.addTransition(v, "C", "1", "C", "1", "A");
+            expected.addTransition(v, "A", Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "A");
+            expected.addTransition(v, "B", "A", Wildcard.EVERY_VALUE, Wildcard.LEFT_VALUE);
+            expected.addTransition(v, "B", "B", "0", "B");
+            expected.addTransition(v, "B", "B", "1", "C");
+            expected.addTransition(v, "B", "C", Wildcard.EVERY_VALUE, "C");
+            expected.addTransition(v, "C", Wildcard.EVERY_VALUE, "0", Wildcard.RIGHT_VALUE);
+            expected.addTransition(v, "C", "A", "1", "B");
+            expected.addTransition(v, "C", "B", "1", "C");
+            expected.addTransition(v, "C", Wildcard.SAME_VALUE, "1", "A");
         }
-        catch(DuplicatedTransitionException e)
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -327,14 +460,14 @@ public class AutomatonReaderTest
         Assert.assertEquals(expected, result);
     }
 
-    @Test(expected = DuplicatedTransitionException.class)
-    public void testReadTopDownDFTAWhenMultipleTransitions()
+    @Test(expected = IllegalTransitionException.class)
+    public void testReadBottomUpDFTAWhenDoubleSameWildcard()
         throws SAXException
     {
         try
         {
             testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenMultipleTransitions.tda.xml"));
+                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenDoubleSameWildcard.bua.xml"));
         }
         catch(Exception e)
         {
@@ -380,32 +513,6 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = AutomatonParsingException.class)
-    public void testReadTopDownDFTAWhenIncorrectAlphabetWord()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenIncorrectAlphabetWord.tda.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
-    @Test(expected = AutomatonParsingException.class)
     public void testReadBottomUpDFTAWhenIncorrectAlphabetWord()
         throws SAXException
     {
@@ -413,32 +520,6 @@ public class AutomatonReaderTest
         {
             testObject = new AutomatonReader(new File(
                 "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenIncorrectAlphabetWord.bua.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
-    @Test(expected = AutomatonParsingException.class)
-    public void testReadTopDownDFTAWhenIncorrectVariableValue()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenIncorrectVariableValue.tda.xml"));
         }
         catch(Exception e)
         {
@@ -484,32 +565,6 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = IllegalAlphabetWordException.class)
-    public void testReadTopDownDFTAWhenNoSuchLabel()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchLabel.tda.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
-    @Test(expected = IllegalAlphabetWordException.class)
     public void testReadBottomUpDFTAWhenNoSuchLabel()
         throws SAXException
     {
@@ -536,32 +591,6 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = IllegalVariableValueException.class)
-    public void testReadTopDownDFTAWhenNoSuchVariableValue()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchVariableValue.tda.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
-    @Test(expected = IllegalVariableValueException.class)
     public void testReadBottomUpDFTAWhenNoSuchVariableValue()
         throws SAXException
     {
@@ -569,32 +598,6 @@ public class AutomatonReaderTest
         {
             testObject = new AutomatonReader(new File(
                 "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenNoSuchVariableValue.bua.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
-    @Test(expected = NoVariableWithIDException.class)
-    public void testReadTopDownDFTAWhenNoSuchVariableId()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchVariableId.tda.xml"));
         }
         catch(Exception e)
         {
