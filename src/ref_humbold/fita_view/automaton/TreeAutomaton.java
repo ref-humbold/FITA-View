@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.automaton;
 
+import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.TreeVertex;
@@ -24,9 +25,11 @@ public interface TreeAutomaton
      */
     boolean isAccepted();
 
-    void run();
+    void run()
+        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException;
 
-    void makeStepForward();
+    void makeStepForward()
+        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException;
 
     TreeVertex generateTree();
 }

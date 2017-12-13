@@ -9,6 +9,7 @@ import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
+import ref_humbold.fita_view.tree.TreeVertex;
 
 public abstract class TopDownTreeAutomaton
     extends SimpleTreeAutomaton
@@ -18,6 +19,36 @@ public abstract class TopDownTreeAutomaton
     public TopDownTreeAutomaton(Collection<String> alphabet, Collection<Variable> variables)
     {
         super(alphabet, variables);
+    }
+
+    @Override
+    public void run()
+        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException
+    {
+        if(traversing == null)
+            throw new NoTraversingException("Automaton has no traversing strategy.");
+
+        while(traversing.hasNext())
+            makeStepForward();
+    }
+
+    @Override
+    public void makeStepForward()
+        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException
+    {
+        if(traversing == null)
+            throw new NoTraversingException("Automaton has no traversing strategy.");
+
+        for(TreeVertex vertex : traversing.next())
+            if(vertex.hasChildren())
+                for(Variable v : variables)
+                {
+                    Pair<String, String> result =
+                        doTransition(v, vertex.getState(v), vertex.getLabel());
+
+                    vertex.getLeft().setState(v, result.getFirst());
+                    vertex.getRight().setState(v, result.getSecond());
+                }
     }
 
     @Override
@@ -43,7 +74,7 @@ public abstract class TopDownTreeAutomaton
      * @param label tree label of node
      * @return pair of variable values in sons (first left, second right)
      */
-    protected final Pair<String, String> doTransition(Variable var, String value, String label)
+    private Pair<String, String> doTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
         Pair<String, String> result = getTransition(var, value, label);

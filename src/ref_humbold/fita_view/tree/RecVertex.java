@@ -16,7 +16,7 @@ public class RecVertex
         this(recursive, 0);
     }
 
-    RecVertex(TreeVertex recursive, int index)
+    public RecVertex(TreeVertex recursive, int index)
     {
         super(index);
 

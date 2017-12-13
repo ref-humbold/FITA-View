@@ -8,7 +8,7 @@ public class RepeatVertex
         super(label);
     }
 
-    RepeatVertex(String label, int index)
+    public RepeatVertex(String label, int index)
     {
         super(label, index);
     }

@@ -14,23 +14,40 @@ public abstract class TreeVertex
         this.index = index;
     }
 
+    public int getIndex()
+    {
+        return this.index;
+    }
+
     /**
-     * @return type of the node
+     * @return type of the vertex
      */
     public abstract VertexType getType();
 
+    /**
+     * @return left son of the vertex
+     */
     public abstract TreeVertex getLeft();
 
     protected abstract void setLeft(TreeVertex vertex);
 
+    /**
+     * @return right son of the vertex
+     */
     public abstract TreeVertex getRight();
 
     protected abstract void setRight(TreeVertex vertex);
 
+    /**
+     * @return parent of the vertex
+     */
     public abstract TreeVertex getParent();
 
     protected abstract void setParent(TreeVertex vertex);
 
+    /**
+     * @return label of the vertex
+     */
     public abstract String getLabel();
 
     /**

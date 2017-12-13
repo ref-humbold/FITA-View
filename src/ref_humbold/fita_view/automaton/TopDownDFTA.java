@@ -27,17 +27,6 @@ public class TopDownDFTA
     }
 
     @Override
-    public void run()
-    {
-    }
-
-    @Override
-    public void makeStepForward()
-    {
-
-    }
-
-    @Override
     public TreeVertex generateTree()
     {
         return null;
