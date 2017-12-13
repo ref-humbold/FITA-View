@@ -1,21 +1,14 @@
 package ref_humbold.fita_view.automaton.traversing;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.NoSuchElementException;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class BottomUpLevel
-    extends TreeTraversing
+    extends BottomUpTraversing
 {
-    @Override
-    public void initialize(Collection<TreeVertex> vertices)
-    {
-        super.initialize(vertices);
-        vertexDeque.add(null);
-    }
-
     @Override
     public Iterable<TreeVertex> next()
     {
@@ -23,17 +16,26 @@ public class BottomUpLevel
             throw new NoSuchElementException();
 
         ArrayList<TreeVertex> vertices = new ArrayList<>();
-        TreeVertex vertex = vertexDeque.pollFirst();
+        int index = vertexQueue.peek().getSecond();
 
-        while(vertex != null)
+        canAddParent = false;
+
+        while(index >= 1 << maxDepth)
         {
+            Pair<TreeVertex, Integer> vertexPair = vertexQueue.poll();
+            TreeVertex vertex = vertexPair.getFirst();
+
+            index = vertexPair.getSecond();
             vertices.add(vertex);
 
-            if(vertexDeque.peekLast() != vertex.getParent())
-                vertexDeque.addLast(vertex.getParent());
+            if(vertex.getParent() != null && canAddParent)
+                vertexQueue.add(Pair.make(vertex.getParent(), index / 2));
 
-            vertex = vertexDeque.pollFirst();
+            canAddParent = !canAddParent;
+            index = hasNext() ? vertexQueue.peek().getSecond() : -1;
         }
+
+        --maxDepth;
 
         return vertices;
     }

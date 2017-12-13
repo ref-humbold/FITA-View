@@ -6,14 +6,15 @@ import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
-import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
-import ref_humbold.fita_view.automaton.traversing.TraversingDirection;
+import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 
 public abstract class TopDownTreeAutomaton
     extends SimpleTreeAutomaton
 {
+    private TopDownTraversing traversing;
+
     public TopDownTreeAutomaton(Collection<String> alphabet, Collection<Variable> variables)
     {
         super(alphabet, variables);
@@ -21,11 +22,8 @@ public abstract class TopDownTreeAutomaton
 
     @Override
     public void setTraversing(TraversingMode traversingMode)
-        throws IncorrectTraversingException
     {
-        this.traversing = TraversingFactory.getInstance()
-                                           .getTraversing(traversingMode,
-                                                          TraversingDirection.TOP_DOWN);
+        this.traversing = TraversingFactory.getInstance().getTopDownTraversing(traversingMode);
     }
 
     @Override
@@ -34,6 +32,8 @@ public abstract class TopDownTreeAutomaton
     {
         for(Variable var : variables)
             tree.setState(var, var.getInitValue());
+
+        traversing.initialize(tree);
     }
 
     /**

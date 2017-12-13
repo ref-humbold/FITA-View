@@ -28,9 +28,9 @@ public class NodeVertex
         this.setRight(right);
     }
 
-    NodeVertex(String label, int id)
+    NodeVertex(String label, int index)
     {
-        super(id);
+        super(index);
 
         if(label == null)
             throw new IllegalArgumentException("Label is null");
@@ -127,7 +127,7 @@ public class NodeVertex
         String leftString = left == null ? "#" : left.toString();
         String rightString = right == null ? "#" : right.toString();
 
-        return "<$ " + label + ", " + leftString + ", " + rightString + " $>";
+        return "<$ " + label + "," + leftString + ", " + rightString + " $>";
     }
 
     @Override
@@ -148,6 +148,6 @@ public class NodeVertex
     @Override
     public int hashCode()
     {
-        return id * 37 + label.hashCode();
+        return index * 37 + label.hashCode();
     }
 }

@@ -15,8 +15,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.automaton.FileFormatException;
 
 public class TreeReader
 {
@@ -76,7 +76,7 @@ public class TreeReader
         private Stack<TreeVertex> repeats = new Stack<>();
         private Stack<Pair<TreeVertex, TreeChild>> nodes = new Stack<>();
         private TreeVertex tree = null;
-        private int idIndex = 1;
+        private int index = 1;
 
         public TreeVertex getTree()
         {
@@ -106,24 +106,23 @@ public class TreeReader
                     if(label == null)
                         throw new SAXException();
 
-                    NodeVertex node = qName.equals("repeat") ? new RepeatVertex(label, idIndex)
-                                                             : new NodeVertex(label, idIndex);
+                    NodeVertex node = qName.equals("repeat") ? new RepeatVertex(label, index)
+                                                             : new NodeVertex(label, index);
 
                     nodes.push(Pair.make(node, TreeChild.LEFT));
+                    index += index + 1;
 
                     if(qName.equals("repeat"))
                         repeats.push(node);
                     break;
 
                 case "rec":
-                    nodes.push(Pair.make(new RecVertex(repeats.peek(), idIndex), null));
+                    nodes.push(Pair.make(new RecVertex(repeats.peek(), index), null));
                     break;
 
                 default:
                     throw new TreeParsingException("Unexpected tag: \'" + qName + "\'");
             }
-
-            ++idIndex;
         }
 
         @Override
@@ -147,11 +146,14 @@ public class TreeReader
                             throw new OneChildException(
                                 "Node must have zero or two children, but it has one.");
 
+                        index /= 2;
+
                         switch(parent.getSecond())
                         {
                             case LEFT:
                                 parent.getFirst().setLeft(node.getFirst());
                                 nodes.push(Pair.make(parent.getFirst(), TreeChild.RIGHT));
+                                --index;
                                 break;
 
                             case RIGHT:

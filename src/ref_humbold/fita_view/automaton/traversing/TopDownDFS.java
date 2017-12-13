@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class TopDownDFS
-    extends TreeTraversing
+    extends TopDownTraversing
 {
     /**
      * Getting next vertex in depth-first search order.

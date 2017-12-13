@@ -1,6 +1,7 @@
 package ref_humbold.fita_view.automaton.traversing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 
@@ -67,7 +68,7 @@ public class TopDownBFSTest
     }
 
     @Test
-    public void testInitialize()
+    public void testInitializeSingle()
     {
         testObject.initialize(finiteTreeNode1);
 
@@ -78,7 +79,7 @@ public class TopDownBFSTest
     }
 
     @Test
-    public void testInitializeWhenDoubleInvoke()
+    public void testInitializeSingleWhenDoubleInvoke()
     {
         testObject.initialize(finiteTreeNode1);
         testObject.initialize(finiteTreeNode2);
@@ -88,6 +89,33 @@ public class TopDownBFSTest
         Assert.assertEquals(1, deque.size());
         Assert.assertFalse(deque.contains(finiteTreeNode1));
         Assert.assertTrue(deque.contains(finiteTreeNode2));
+    }
+
+    @Test
+    public void testInitializeCollection()
+    {
+        testObject.initialize(Arrays.asList(finiteTreeNode2, finiteTreeNode3));
+
+        Deque<TreeVertex> deque = testObject.vertexDeque;
+
+        Assert.assertEquals(2, deque.size());
+        Assert.assertTrue(deque.contains(finiteTreeNode2));
+        Assert.assertTrue(deque.contains(finiteTreeNode3));
+    }
+
+    @Test
+    public void testInitializeCollectionWhenDoubleInvoke()
+    {
+        testObject.initialize(Arrays.asList(finiteTreeNode4, finiteTreeNode5));
+        testObject.initialize(Arrays.asList(finiteTreeNode6, finiteTreeNode7));
+
+        Deque<TreeVertex> deque = testObject.vertexDeque;
+
+        Assert.assertEquals(2, deque.size());
+        Assert.assertFalse(deque.contains(finiteTreeNode4));
+        Assert.assertFalse(deque.contains(finiteTreeNode5));
+        Assert.assertTrue(deque.contains(finiteTreeNode6));
+        Assert.assertTrue(deque.contains(finiteTreeNode7));
     }
 
     @Test

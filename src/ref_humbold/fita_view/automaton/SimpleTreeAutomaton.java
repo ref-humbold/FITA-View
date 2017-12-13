@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public abstract class SimpleTreeAutomaton
@@ -15,7 +14,6 @@ public abstract class SimpleTreeAutomaton
     protected Set<String> alphabet;
     protected List<Variable> variables;
     protected TreeVertex tree;
-    protected TreeTraversing traversing;
 
     public SimpleTreeAutomaton(Collection<String> alphabet, Collection<Variable> variables)
     {

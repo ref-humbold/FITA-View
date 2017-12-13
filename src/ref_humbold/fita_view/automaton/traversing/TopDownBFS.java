@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class TopDownBFS
-    extends TreeTraversing
+    extends TopDownTraversing
 {
     /**
      * Getting next vertex in breadth-first search order.

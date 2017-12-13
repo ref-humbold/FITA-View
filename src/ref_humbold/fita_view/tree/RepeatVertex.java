@@ -8,9 +8,9 @@ public class RepeatVertex
         super(label);
     }
 
-    RepeatVertex(String label, int id)
+    RepeatVertex(String label, int index)
     {
-        super(label, id);
+        super(label, index);
     }
 
     @Override

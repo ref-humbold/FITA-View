@@ -7,11 +7,11 @@ import ref_humbold.fita_view.automaton.Variable;
 
 public abstract class TreeVertex
 {
-    final int id;
+    final int index;
 
-    TreeVertex(int id)
+    TreeVertex(int index)
     {
-        this.id = id;
+        this.index = index;
     }
 
     /**

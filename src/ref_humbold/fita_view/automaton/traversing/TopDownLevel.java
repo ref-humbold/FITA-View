@@ -1,26 +1,13 @@
 package ref_humbold.fita_view.automaton.traversing;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class TopDownLevel
-    extends TreeTraversing
+    extends TopDownTraversing
 {
-    @Override
-    public void initialize(Collection<TreeVertex> vertices)
-    {
-        super.initialize(vertices);
-    }
-
-    @Override
-    public void initialize(TreeVertex vertex)
-    {
-        super.initialize(vertex);
-    }
-
     /**
      * Getting next level vertices in breadth-first search order.
      * @return next vertices

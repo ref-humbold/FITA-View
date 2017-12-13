@@ -3,10 +3,11 @@ package ref_humbold.fita_view.automaton.traversing;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class BottomUpBFS
-    extends TreeTraversing
+    extends BottomUpTraversing
 {
     @Override
     public Iterable<TreeVertex> next()
@@ -14,10 +15,14 @@ public class BottomUpBFS
         if(!hasNext())
             throw new NoSuchElementException();
 
-        TreeVertex vertex = vertexDeque.pollFirst();
+        Pair<TreeVertex, Integer> vertexPair = vertexQueue.poll();
+        TreeVertex vertex = vertexPair.getFirst();
+        int depth = vertexPair.getSecond();
 
-        if(vertexDeque.peekLast() != vertex.getParent())
-            vertexDeque.addLast(vertex.getParent());
+        if(vertex.getParent() != null && canAddParent)
+            vertexQueue.add(Pair.make(vertex.getParent(), depth / 2));
+
+        canAddParent = !canAddParent;
 
         return Collections.singletonList(vertex);
     }

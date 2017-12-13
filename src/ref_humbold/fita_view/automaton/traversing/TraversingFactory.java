@@ -16,44 +16,37 @@ public class TraversingFactory
         return instance;
     }
 
-    public TreeTraversing getTraversing(TraversingMode mode, TraversingDirection direction)
+    public BottomUpTraversing getBottomUpTraversing(TraversingMode mode)
         throws IncorrectTraversingException
     {
         switch(mode)
         {
             case LEVEL:
-                switch(direction)
-                {
-                    case TOP_DOWN:
-                        return new TopDownLevel();
-
-                    case BOTTOM_UP:
-                        return new BottomUpLevel();
-                }
-                break;
+                return new BottomUpLevel();
 
             case BFS:
-                switch(direction)
-                {
-                    case TOP_DOWN:
-                        return new TopDownBFS();
-
-                    case BOTTOM_UP:
-                        return new BottomUpBFS();
-                }
-                break;
+                return new BottomUpBFS();
 
             case DFS:
-                switch(direction)
-                {
-                    case TOP_DOWN:
-                        return new TopDownDFS();
+                throw new IncorrectTraversingException(
+                    "Cannot perform DFS traversing on bottom-up automaton.");
+        }
 
-                    case BOTTOM_UP:
-                        throw new IncorrectTraversingException(
-                            "Cannot perform DFS traversing on bottom-up automaton.");
-                }
-                break;
+        return null;
+    }
+
+    public TopDownTraversing getTopDownTraversing(TraversingMode mode)
+    {
+        switch(mode)
+        {
+            case LEVEL:
+                return new TopDownLevel();
+
+            case BFS:
+                return new TopDownBFS();
+
+            case DFS:
+                return new TopDownDFS();
         }
 
         return null;

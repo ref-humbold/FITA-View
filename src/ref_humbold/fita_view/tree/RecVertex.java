@@ -16,9 +16,9 @@ public class RecVertex
         this(recursive, 0);
     }
 
-    RecVertex(TreeVertex recursive, int id)
+    RecVertex(TreeVertex recursive, int index)
     {
-        super(id);
+        super(index);
 
         if(recursive == null)
             throw new IllegalArgumentException("Recursive node is null");
@@ -110,12 +110,12 @@ public class RecVertex
 
         RecVertex other = (RecVertex)o;
 
-        return this.recursive.id == other.recursive.id;
+        return this.recursive.index == other.recursive.index;
     }
 
     @Override
     public int hashCode()
     {
-        return recursive.id * 37 + getLabel().hashCode();
+        return recursive.index * 37 + getLabel().hashCode();
     }
 }

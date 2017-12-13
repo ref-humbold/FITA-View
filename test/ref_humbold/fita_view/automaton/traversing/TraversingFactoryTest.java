@@ -28,19 +28,8 @@ public class TraversingFactoryTest
     @Test
     public void testGetTraversingWhenTopDownDFS()
     {
-        TreeTraversing result = null;
-
-        try
-        {
-            result = TraversingFactory.getInstance()
-                                      .getTraversing(TraversingMode.DFS,
-                                                     TraversingDirection.TOP_DOWN);
-        }
-        catch(IncorrectTraversingException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        TopDownTraversing result =
+            TraversingFactory.getInstance().getTopDownTraversing(TraversingMode.DFS);
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof TopDownDFS);
@@ -49,19 +38,8 @@ public class TraversingFactoryTest
     @Test
     public void testGetTraversingWhenTopDownBFS()
     {
-        TreeTraversing result = null;
-
-        try
-        {
-            result = TraversingFactory.getInstance()
-                                      .getTraversing(TraversingMode.BFS,
-                                                     TraversingDirection.TOP_DOWN);
-        }
-        catch(IncorrectTraversingException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        TopDownTraversing result =
+            TraversingFactory.getInstance().getTopDownTraversing(TraversingMode.BFS);
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof TopDownBFS);
@@ -70,19 +48,8 @@ public class TraversingFactoryTest
     @Test
     public void testGetTraversingWhenTopDownLevel()
     {
-        TreeTraversing result = null;
-
-        try
-        {
-            result = TraversingFactory.getInstance()
-                                      .getTraversing(TraversingMode.LEVEL,
-                                                     TraversingDirection.TOP_DOWN);
-        }
-        catch(IncorrectTraversingException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        TopDownTraversing result =
+            TraversingFactory.getInstance().getTopDownTraversing(TraversingMode.LEVEL);
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof TopDownLevel);
@@ -92,20 +59,17 @@ public class TraversingFactoryTest
     public void testGetTraversingWhenBottomUpDFS()
         throws IncorrectTraversingException
     {
-        TraversingFactory.getInstance()
-                         .getTraversing(TraversingMode.DFS, TraversingDirection.BOTTOM_UP);
+        TraversingFactory.getInstance().getBottomUpTraversing(TraversingMode.DFS);
     }
 
     @Test
     public void testGetTraversingWhenBottomUpBFS()
     {
-        TreeTraversing result = null;
+        BottomUpTraversing result = null;
 
         try
         {
-            result = TraversingFactory.getInstance()
-                                      .getTraversing(TraversingMode.BFS,
-                                                     TraversingDirection.BOTTOM_UP);
+            result = TraversingFactory.getInstance().getBottomUpTraversing(TraversingMode.BFS);
         }
         catch(IncorrectTraversingException e)
         {
@@ -120,13 +84,11 @@ public class TraversingFactoryTest
     @Test
     public void testGetTraversingWhenBottomUpLevel()
     {
-        TreeTraversing result = null;
+        BottomUpTraversing result = null;
 
         try
         {
-            result = TraversingFactory.getInstance()
-                                      .getTraversing(TraversingMode.LEVEL,
-                                                     TraversingDirection.BOTTOM_UP);
+            result = TraversingFactory.getInstance().getBottomUpTraversing(TraversingMode.LEVEL);
         }
         catch(IncorrectTraversingException e)
         {
