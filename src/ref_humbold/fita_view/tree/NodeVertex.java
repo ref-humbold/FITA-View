@@ -38,9 +38,9 @@ public class NodeVertex
         this.label = label;
     }
 
-    public NodeVertex(String label, int id, TreeVertex left, TreeVertex right)
+    public NodeVertex(String label, int index, TreeVertex left, TreeVertex right)
     {
-        this(label, id);
+        this(label, index);
         this.setLeft(left);
         this.setRight(right);
     }

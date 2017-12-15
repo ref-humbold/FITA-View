@@ -8,6 +8,7 @@ import java.util.Collections;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -672,6 +673,40 @@ public class AutomatonReaderTest
             testObject.read();
         }
         catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Ignore
+    @Test(expected = FileFormatException.class)
+    public void testReadWhenExpectedBottomUpButNamedTopDown()
+        throws FileFormatException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File("test/ref_humbold/fita_view/automaton/testReadTopDownAutomaton.bua.xml"));
+        }
+        catch(SAXException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Ignore
+    @Test(expected = FileFormatException.class)
+    public void testReadWhenExpectedTopDownButNamedBottomUp()
+        throws FileFormatException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File("test/ref_humbold/fita_view/automaton/testReadBottomUpAutomaton.tda.xml"));
+        }
+        catch(SAXException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());

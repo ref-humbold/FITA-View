@@ -23,7 +23,7 @@ public class TopDownLevel
 
         for(int i = 0; i < length; ++i)
         {
-            TreeVertex vertex = vertexDeque.pollFirst();
+            TreeVertex vertex = vertexDeque.removeFirst();
 
             if(vertex.hasChildren())
             {

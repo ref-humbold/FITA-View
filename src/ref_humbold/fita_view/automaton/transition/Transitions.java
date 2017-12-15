@@ -12,10 +12,10 @@ public abstract class Transitions<K, V>
     protected Map<Pair<Variable, K>, V> map = new HashMap<>();
 
     /**
-     * Testing of variable and arguments for presence in transition function.
+     * Testing if specified variable and arguments are present in transition function.
      * @param var variable
      * @param key arguments of transition
-     * @return {@code true} if there is any transition entry with given arguments
+     * @return {@code true} if there is transition entry with the exact arguments
      */
     public boolean containsKey(Variable var, K key)
     {
@@ -23,15 +23,15 @@ public abstract class Transitions<K, V>
     }
 
     /**
-     * Testing of variable and arguments for fitting entry in transition function.
+     * Testing if specified variable and arguments fit for any entry in transition function.
      * @param var variable
      * @param key arguments of transition
-     * @return {@code true} if there is any transition entry fitting given arguments
+     * @return {@code true} if there is any transition entry fitting the arguments
      */
     public abstract boolean containsEntry(Variable var, K key);
 
     /**
-     * Adding new arguments-result entry to transition function for variable.
+     * Adding new arguments-result entry to transition function for specified variable.
      * @param var variable
      * @param key arguments of transition
      * @param value result of transition
@@ -43,11 +43,11 @@ public abstract class Transitions<K, V>
     }
 
     /**
-     * Getting a result of transition function for arguments with variable.
+     * Getting a result of transition function for specified arguments and variable.
      * @param var variable
      * @param key arguments of transition
      * @return result of transition for the arguments
-     * @throws NoSuchTransitionException if there is no entry for given arguments with variable.
+     * @throws NoSuchTransitionException if there is no entry for specified arguments with variable.
      */
     public abstract V get(Variable var, K key)
         throws NoSuchTransitionException;

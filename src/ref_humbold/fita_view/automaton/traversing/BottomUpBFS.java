@@ -15,7 +15,7 @@ public class BottomUpBFS
         if(!hasNext())
             throw new NoSuchElementException();
 
-        Pair<TreeVertex, Integer> vertexPair = vertexQueue.poll();
+        Pair<TreeVertex, Integer> vertexPair = vertexQueue.remove();
         TreeVertex vertex = vertexPair.getFirst();
         int depth = vertexPair.getSecond();
 

@@ -47,7 +47,7 @@ public class Variable
     }
 
     /**
-     * Testing of given string for presence as a value of the variable
+     * Testing if specified string is value of the variable.
      * @param value string to test
      * @return {@code true} if this string is value, otherwise {@code false}
      */

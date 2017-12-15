@@ -9,19 +9,11 @@ import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public abstract class BottomUpTraversing
-    implements TreeTraversing<Pair<TreeVertex, Integer>>
+    implements TreeTraversing<Collection<Pair<TreeVertex, Integer>>>
 {
     Queue<Pair<TreeVertex, Integer>> vertexQueue = new PriorityQueue<>(16, new PairComparator());
     boolean canAddParent;
     int maxDepth;
-
-    @Override
-    public void initialize(Pair<TreeVertex, Integer> place)
-    {
-        clear();
-        vertexQueue.add(place);
-        maxDepth = countDepth(place.getSecond());
-    }
 
     @Override
     public void initialize(Collection<Pair<TreeVertex, Integer>> places)

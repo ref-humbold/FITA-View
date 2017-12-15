@@ -24,6 +24,7 @@ import ref_humbold.fita_view.tree.TreeVertex;
 public class BottomUpDFTA
     extends SimpleTreeAutomaton
 {
+    private boolean isRunning = false;
     private BottomUpTraversing traversing;
     private BottomUpTransitions transitions = new BottomUpTransitions();
     private Set<Map<Variable, String>> acceptingStates = new HashSet<>();
@@ -39,6 +40,7 @@ public class BottomUpDFTA
     {
         super.setTree(tree);
         this.findLeaves();
+        this.isRunning = false;
     }
 
     @Override
@@ -61,8 +63,17 @@ public class BottomUpDFTA
         if(traversing == null)
             throw new NoTraversingException("Automaton has no traversing strategy.");
 
-        while(traversing.hasNext())
-            makeStepForward();
+        initializeTree();
+
+        try
+        {
+            while(traversing.hasNext())
+                makeStepForward();
+        }
+        finally
+        {
+            isRunning = false;
+        }
     }
 
     @Override
@@ -70,17 +81,32 @@ public class BottomUpDFTA
         throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException
     {
         if(traversing == null)
+        {
+            isRunning = false;
             throw new NoTraversingException("Automaton has no traversing strategy.");
+        }
+
+        if(!traversing.hasNext())
+            return;
+
+        if(!isRunning)
+            initializeTree();
 
         for(TreeVertex vertex : traversing.next())
-            if(vertex.hasChildren())
-                for(Variable v : variables)
+            for(Variable var : variables)
+                try
                 {
-                    String leftValue = vertex.getLeft().getState(v);
-                    String rightValue = vertex.getRight().getState(v);
-                    String result = doTransition(v, leftValue, rightValue, vertex.getLabel());
+                    String leftValue = vertex.getLeft() == null ? var.getInitValue()
+                                                                : vertex.getLeft().getState(var);
+                    String rightValue = vertex.getRight() == null ? var.getInitValue()
+                                                                  : vertex.getRight().getState(var);
+                    String result = doTransition(var, leftValue, rightValue, vertex.getLabel());
 
-                    vertex.setState(v, result);
+                    vertex.setState(var, result);
+                }
+                finally
+                {
+                    isRunning = false;
                 }
     }
 
@@ -104,6 +130,7 @@ public class BottomUpDFTA
             indexedLeaves.add(Pair.make(v, v.getIndex()));
 
         traversing.initialize(indexedLeaves);
+        isRunning = true;
     }
 
     void addAcceptingState(Map<Variable, String> accept)
@@ -112,7 +139,7 @@ public class BottomUpDFTA
     }
 
     /**
-     * Getting a result of transition function for given arguments.
+     * Getting a result of transition function for specified arguments.
      * @param var variable
      * @param leftValue variable value in left son
      * @param rightValue variable value in right son
@@ -155,8 +182,8 @@ public class BottomUpDFTA
         TopDownTraversing t =
             TraversingFactory.getInstance().getTopDownTraversing(TraversingMode.DFS);
 
-        for(Iterable<TreeVertex> it : t)
-            for(TreeVertex v : it)
+        while(t.hasNext())
+            for(TreeVertex v : t.next())
                 if(!v.hasChildren())
                     leaves.add(v);
     }

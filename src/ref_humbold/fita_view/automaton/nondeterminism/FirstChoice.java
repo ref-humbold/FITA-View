@@ -14,7 +14,7 @@ public class FirstChoice
     /**
      * Non-deterministically choosing variable values.
      * @param states possible state variable values
-     * @return variable value chosen as first value given from set
+     * @return variable value chosen as first value specified from set
      */
     @Override
     public Pair<String, String> chooseState(Set<Pair<String, String>> states)

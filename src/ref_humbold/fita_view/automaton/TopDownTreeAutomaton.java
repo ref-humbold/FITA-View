@@ -68,7 +68,7 @@ public abstract class TopDownTreeAutomaton
     }
 
     /**
-     * Getting a result of transition function for given arguments.
+     * Getting a result of transition function for specified arguments.
      * @param var variable
      * @param value variable value in node
      * @param label tree label of node
@@ -83,7 +83,7 @@ public abstract class TopDownTreeAutomaton
     }
 
     /**
-     * Calling a transition function with given arguments.
+     * Calling a transition function with specified arguments.
      * @param var variable
      * @param value variable value in node
      * @param label tree label of node

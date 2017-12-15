@@ -13,14 +13,14 @@ public interface TreeAutomaton
     void setTree(TreeVertex tree);
 
     /**
-     * Testing of label for presence in alphabet recognised by the automaton.
+     * Testing if label is present in alphabet recognised by the automaton.
      * @param label label to test
      * @return {@code true} if label is present in alphabet, otherwise {@code false}
      */
     boolean isInAlphabet(String label);
 
     /**
-     * Testing if given tree is accepted by the automaton.
+     * Testing if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      */
     boolean isAccepted();

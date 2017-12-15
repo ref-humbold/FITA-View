@@ -18,7 +18,7 @@ public class TopDownBFS
         if(!hasNext())
             throw new NoSuchElementException();
 
-        TreeVertex vertex = vertexDeque.pollFirst();
+        TreeVertex vertex = vertexDeque.removeFirst();
 
         if(vertex.hasChildren())
         {

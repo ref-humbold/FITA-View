@@ -9,11 +9,14 @@ public abstract class TreeVertex
 {
     final int index;
 
-    TreeVertex(int index)
+    public TreeVertex(int index)
     {
         this.index = index;
     }
 
+    /**
+     * @return index of the vertex
+     */
     public int getIndex()
     {
         return this.index;

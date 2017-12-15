@@ -16,13 +16,13 @@ public class BottomUpLevel
             throw new NoSuchElementException();
 
         ArrayList<TreeVertex> vertices = new ArrayList<>();
-        int index = vertexQueue.peek().getSecond();
+        int index = vertexQueue.element().getSecond();
 
         canAddParent = false;
 
         while(index >= 1 << maxDepth)
         {
-            Pair<TreeVertex, Integer> vertexPair = vertexQueue.poll();
+            Pair<TreeVertex, Integer> vertexPair = vertexQueue.remove();
             TreeVertex vertex = vertexPair.getFirst();
 
             index = vertexPair.getSecond();
@@ -32,7 +32,7 @@ public class BottomUpLevel
                 vertexQueue.add(Pair.make(vertex.getParent(), index / 2));
 
             canAddParent = !canAddParent;
-            index = hasNext() ? vertexQueue.peek().getSecond() : -1;
+            index = hasNext() ? vertexQueue.element().getSecond() : -1;
         }
 
         --maxDepth;

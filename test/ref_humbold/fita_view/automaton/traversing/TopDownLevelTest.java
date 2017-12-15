@@ -1,8 +1,6 @@
 package ref_humbold.fita_view.automaton.traversing;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Deque;
 
 import org.junit.After;
@@ -69,7 +67,18 @@ public class TopDownLevelTest
     }
 
     @Test
-    public void testInitializeSingleWhenDoubleInvoke()
+    public void testInitialize()
+    {
+        testObject.initialize(finiteTreeNode1);
+
+        Deque<TreeVertex> deque = testObject.vertexDeque;
+
+        Assert.assertEquals(1, deque.size());
+        Assert.assertTrue(deque.contains(finiteTreeNode1));
+    }
+
+    @Test
+    public void testInitializeWhenDoubleInvoke()
     {
         testObject.initialize(finiteTreeNode1);
         testObject.initialize(finiteTreeNode2);
@@ -79,33 +88,6 @@ public class TopDownLevelTest
         Assert.assertEquals(1, deque.size());
         Assert.assertFalse(deque.contains(finiteTreeNode1));
         Assert.assertTrue(deque.contains(finiteTreeNode2));
-    }
-
-    @Test
-    public void testInitializeCollection()
-    {
-        testObject.initialize(Arrays.asList(finiteTreeNode2, finiteTreeNode3));
-
-        Deque<TreeVertex> deque = testObject.vertexDeque;
-
-        Assert.assertEquals(2, deque.size());
-        Assert.assertTrue(deque.contains(finiteTreeNode2));
-        Assert.assertTrue(deque.contains(finiteTreeNode3));
-    }
-
-    @Test
-    public void testInitializeCollectionWhenDoubleInvoke()
-    {
-        testObject.initialize(Arrays.asList(finiteTreeNode4, finiteTreeNode5));
-        testObject.initialize(Arrays.asList(finiteTreeNode6, finiteTreeNode7));
-
-        Deque<TreeVertex> deque = testObject.vertexDeque;
-
-        Assert.assertEquals(2, deque.size());
-        Assert.assertFalse(deque.contains(finiteTreeNode4));
-        Assert.assertFalse(deque.contains(finiteTreeNode5));
-        Assert.assertTrue(deque.contains(finiteTreeNode6));
-        Assert.assertTrue(deque.contains(finiteTreeNode7));
     }
 
     @Test
@@ -119,7 +101,7 @@ public class TopDownLevelTest
     @Test
     public void testHasNextWhenNotEmpty()
     {
-        testObject.initialize(Collections.singletonList(finiteTreeNode11));
+        testObject.initialize(finiteTreeNode11);
 
         boolean result = testObject.hasNext();
 

@@ -82,33 +82,7 @@ public class BottomUpBFSTest
     }
 
     @Test
-    public void testInitializeSingle()
-    {
-        testObject.initialize(verticesDepths.get(7));
-
-        Queue<Pair<TreeVertex, Integer>> queue = testObject.vertexQueue;
-
-        Assert.assertEquals(1, queue.size());
-        Assert.assertTrue(queue.contains(verticesDepths.get(7)));
-        Assert.assertEquals(3, testObject.maxDepth);
-    }
-
-    @Test
-    public void testInitializeSingleWhenDoubleInvoke()
-    {
-        testObject.initialize(verticesDepths.get(7));
-        testObject.initialize(verticesDepths.get(6));
-
-        Queue<Pair<TreeVertex, Integer>> queue = testObject.vertexQueue;
-
-        Assert.assertEquals(1, queue.size());
-        Assert.assertFalse(queue.contains(verticesDepths.get(7)));
-        Assert.assertTrue(queue.contains(verticesDepths.get(6)));
-        Assert.assertEquals(2, testObject.maxDepth);
-    }
-
-    @Test
-    public void testInitializeCollection()
+    public void testInitialize()
     {
         testObject.initialize(Arrays.asList(verticesDepths.get(7), verticesDepths.get(8)));
 
@@ -121,7 +95,7 @@ public class BottomUpBFSTest
     }
 
     @Test
-    public void testInitializeCollectionWhenDoubleInvoke()
+    public void testInitializeWhenDoubleInvoke()
     {
         testObject.initialize(Arrays.asList(verticesDepths.get(7), verticesDepths.get(8)));
         testObject.initialize(Arrays.asList(verticesDepths.get(6), verticesDepths.get(3)));
