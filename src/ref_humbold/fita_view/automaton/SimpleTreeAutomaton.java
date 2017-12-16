@@ -6,6 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
+import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
+import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
+import ref_humbold.fita_view.automaton.traversing.TraversingMode;
+import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public abstract class SimpleTreeAutomaton
@@ -14,6 +19,7 @@ public abstract class SimpleTreeAutomaton
     protected Set<String> alphabet;
     protected List<Variable> variables;
     protected TreeVertex tree;
+    boolean isRunning = false;
 
     public SimpleTreeAutomaton(Collection<String> alphabet, Collection<Variable> variables)
     {
@@ -33,11 +39,46 @@ public abstract class SimpleTreeAutomaton
         return alphabet.contains(label);
     }
 
+    @Override
+    public void run()
+        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException
+    {
+        if(getTraversing() == null)
+            throw new NoTraversingException("Automaton has no traversing strategy.");
+
+        initialize();
+
+        try
+        {
+            while(getTraversing().hasNext())
+                makeStepForward();
+        }
+        finally
+        {
+            isRunning = false;
+        }
+    }
+
     /**
-     * Setting initial state of variables in tree.
+     * @return current traversing strategy of the automaton
      */
-    protected abstract void initializeTree()
-        throws IllegalVariableValueException;
+    protected abstract TreeTraversing getTraversing();
+
+    /**
+     * Initializing automaton and tree before running on tree.
+     */
+    protected void initialize()
+        throws IllegalVariableValueException
+    {
+        TopDownTraversing t =
+            TraversingFactory.getInstance().getTopDownTraversing(TraversingMode.DFS);
+
+        t.initialize(tree);
+
+        while(t.hasNext())
+            for(TreeVertex v : t.next())
+                v.deleteFullState();
+    }
 
     @Override
     public int hashCode()

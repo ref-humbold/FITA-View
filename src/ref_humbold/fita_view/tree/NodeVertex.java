@@ -122,6 +122,12 @@ public class NodeVertex
     }
 
     @Override
+    public void deleteFullState()
+    {
+        state.clear();
+    }
+
+    @Override
     public String toString()
     {
         String leftString = left == null ? "#" : left.toString();

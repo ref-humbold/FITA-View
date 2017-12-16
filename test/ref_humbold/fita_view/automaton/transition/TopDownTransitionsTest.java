@@ -93,6 +93,14 @@ public class TopDownTransitionsTest
     }
 
     @Test
+    public void testContainsEntryWhenKeyHasNull()
+    {
+        boolean result = testObject.containsEntry(v, Pair.make(null, "0"));
+
+        Assert.assertFalse(result);
+    }
+
+    @Test
     public void testAddWhenDirectKey()
     {
         try
@@ -206,5 +214,12 @@ public class TopDownTransitionsTest
 
         Assert.assertNotNull(result);
         Assert.assertEquals(Pair.make(Wildcard.SAME_VALUE, Wildcard.SAME_VALUE), result);
+    }
+
+    @Test(expected = NoSuchTransitionException.class)
+    public void testGetWhenKeyHasNull()
+        throws NoSuchTransitionException
+    {
+        testObject.get(v, Pair.make(null, "0"));
     }
 }

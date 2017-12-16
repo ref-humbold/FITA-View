@@ -24,7 +24,6 @@ import ref_humbold.fita_view.tree.TreeVertex;
 public class BottomUpDFTA
     extends SimpleTreeAutomaton
 {
-    private boolean isRunning = false;
     private BottomUpTraversing traversing;
     private BottomUpTransitions transitions = new BottomUpTransitions();
     private Set<Map<Variable, String>> acceptingStates = new HashSet<>();
@@ -44,6 +43,12 @@ public class BottomUpDFTA
     }
 
     @Override
+    protected BottomUpTraversing getTraversing()
+    {
+        return traversing;
+    }
+
+    @Override
     public void setTraversing(TraversingMode traversingMode)
         throws IncorrectTraversingException
     {
@@ -52,28 +57,12 @@ public class BottomUpDFTA
 
     @Override
     public boolean isAccepted()
+        throws UndefinedAcceptanceException
     {
+        if(acceptingStates.isEmpty())
+            throw new UndefinedAcceptanceException("Automaton has no acccepting states defined.");
+
         return acceptingStates.contains(tree.getFullState());
-    }
-
-    @Override
-    public void run()
-        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException
-    {
-        if(traversing == null)
-            throw new NoTraversingException("Automaton has no traversing strategy.");
-
-        initializeTree();
-
-        try
-        {
-            while(traversing.hasNext())
-                makeStepForward();
-        }
-        finally
-        {
-            isRunning = false;
-        }
     }
 
     @Override
@@ -86,11 +75,14 @@ public class BottomUpDFTA
             throw new NoTraversingException("Automaton has no traversing strategy.");
         }
 
-        if(!traversing.hasNext())
-            return;
-
         if(!isRunning)
-            initializeTree();
+            initialize();
+
+        if(!traversing.hasNext())
+        {
+            isRunning = false;
+            return;
+        }
 
         for(TreeVertex vertex : traversing.next())
             for(Variable var : variables)
@@ -104,9 +96,10 @@ public class BottomUpDFTA
 
                     vertex.setState(var, result);
                 }
-                finally
+                catch(Exception e)
                 {
                     isRunning = false;
+                    throw e;
                 }
     }
 
@@ -117,12 +110,10 @@ public class BottomUpDFTA
     }
 
     @Override
-    protected void initializeTree()
+    protected void initialize()
         throws IllegalVariableValueException
     {
-        for(TreeVertex leaf : leaves)
-            for(Variable var : variables)
-                leaf.setState(var, var.getInitValue());
+        super.initialize();
 
         List<Pair<TreeVertex, Integer>> indexedLeaves = new ArrayList<>();
 
@@ -133,31 +124,13 @@ public class BottomUpDFTA
         isRunning = true;
     }
 
+    /**
+     * Adding an accepting state of automaton
+     * @param accept mapping from variables to their accepting values
+     */
     void addAcceptingState(Map<Variable, String> accept)
     {
         acceptingStates.add(accept);
-    }
-
-    /**
-     * Getting a result of transition function for specified arguments.
-     * @param var variable
-     * @param leftValue variable value in left son
-     * @param rightValue variable value in right son
-     * @param label tree label of node
-     * @return variable value in node
-     */
-    private String doTransition(Variable var, String leftValue, String rightValue, String label)
-        throws NoSuchTransitionException
-    {
-        String result = transitions.get(var, Triple.make(leftValue, rightValue, label));
-
-        if(result.equals(Wildcard.LEFT_VALUE))
-            return leftValue;
-
-        if(result.equals(Wildcard.RIGHT_VALUE))
-            return rightValue;
-
-        return result;
     }
 
     /**
@@ -175,12 +148,28 @@ public class BottomUpDFTA
         transitions.add(var, Triple.make(leftValue, rightValue, label), result);
     }
 
+    private String doTransition(Variable var, String leftValue, String rightValue, String label)
+        throws NoSuchTransitionException
+    {
+        String result = transitions.get(var, Triple.make(leftValue, rightValue, label));
+
+        if(result.equals(Wildcard.LEFT_VALUE))
+            return leftValue;
+
+        if(result.equals(Wildcard.RIGHT_VALUE))
+            return rightValue;
+
+        return result;
+    }
+
     private void findLeaves()
     {
         leaves.clear();
 
         TopDownTraversing t =
             TraversingFactory.getInstance().getTopDownTraversing(TraversingMode.DFS);
+
+        t.initialize(tree);
 
         while(t.hasNext())
             for(TreeVertex v : t.next())

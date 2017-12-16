@@ -22,33 +22,46 @@ public abstract class TopDownTreeAutomaton
     }
 
     @Override
-    public void run()
-        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException
-    {
-        if(traversing == null)
-            throw new NoTraversingException("Automaton has no traversing strategy.");
-
-        while(traversing.hasNext())
-            makeStepForward();
-    }
-
-    @Override
     public void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException
     {
         if(traversing == null)
+        {
+            isRunning = false;
             throw new NoTraversingException("Automaton has no traversing strategy.");
+        }
+
+        if(!isRunning)
+            initialize();
+
+        if(!traversing.hasNext())
+        {
+            isRunning = false;
+            return;
+        }
 
         for(TreeVertex vertex : traversing.next())
             if(vertex.hasChildren())
                 for(Variable v : variables)
-                {
-                    Pair<String, String> result =
-                        doTransition(v, vertex.getState(v), vertex.getLabel());
+                    try
+                    {
+                        Pair<String, String> result =
+                            doTransition(v, vertex.getState(v), vertex.getLabel());
 
-                    vertex.getLeft().setState(v, result.getFirst());
-                    vertex.getRight().setState(v, result.getSecond());
-                }
+                        vertex.getLeft().setState(v, result.getFirst());
+                        vertex.getRight().setState(v, result.getSecond());
+                    }
+                    catch(Exception e)
+                    {
+                        isRunning = false;
+                        throw e;
+                    }
+    }
+
+    @Override
+    protected TopDownTraversing getTraversing()
+    {
+        return traversing;
     }
 
     @Override
@@ -58,39 +71,16 @@ public abstract class TopDownTreeAutomaton
     }
 
     @Override
-    protected void initializeTree()
+    protected void initialize()
         throws IllegalVariableValueException
     {
+        super.initialize();
+
         for(Variable var : variables)
             tree.setState(var, var.getInitValue());
 
         traversing.initialize(tree);
     }
-
-    /**
-     * Getting a result of transition function for specified arguments.
-     * @param var variable
-     * @param value variable value in node
-     * @param label tree label of node
-     * @return pair of variable values in sons (first left, second right)
-     */
-    private Pair<String, String> doTransition(Variable var, String value, String label)
-        throws NoSuchTransitionException
-    {
-        Pair<String, String> result = getTransition(var, value, label);
-
-        return removeWildcard(value, result);
-    }
-
-    /**
-     * Calling a transition function with specified arguments.
-     * @param var variable
-     * @param value variable value in node
-     * @param label tree label of node
-     * @return pair of variable values in sons (first left, second right)
-     */
-    protected abstract Pair<String, String> getTransition(Variable var, String value, String label)
-        throws NoSuchTransitionException;
 
     /**
      * Adding new transition entry to transition function of automaton.
@@ -103,6 +93,24 @@ public abstract class TopDownTreeAutomaton
     protected abstract void addTransition(Variable var, String value, String label,
                                           String leftResult, String rightResult)
         throws DuplicatedTransitionException, IllegalTransitionException;
+
+    /**
+     * Calling a transition function with specified arguments.
+     * @param var variable
+     * @param value variable value in node
+     * @param label tree label of node
+     * @return pair of variable values in sons (first left, second right)
+     */
+    protected abstract Pair<String, String> getTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException;
+
+    private Pair<String, String> doTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException
+    {
+        Pair<String, String> result = getTransition(var, value, label);
+
+        return removeWildcard(value, result);
+    }
 
     private Pair<String, String> removeWildcard(String value, Pair<String, String> trans)
     {

@@ -2,6 +2,7 @@ package ref_humbold.fita_view.automaton.traversing;
 
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.NoSuchElementException;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -63,6 +64,17 @@ public class TopDownDFSTest
                              finiteTreeNode12, finiteTreeNode13, finiteTreeNode7};
 
         Assert.assertArrayEquals(expected, result.toArray());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testNextWhenOutOfBounds()
+    {
+        testObject.initialize(finiteTreeNode1);
+
+        while(true)
+        {
+            testObject.next();
+        }
     }
 
     @Test

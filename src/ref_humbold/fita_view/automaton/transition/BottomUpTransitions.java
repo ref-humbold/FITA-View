@@ -13,6 +13,9 @@ public class BottomUpTransitions
     @Override
     public boolean containsEntry(Variable var, Triple<String, String, String> key)
     {
+        if(hasNull(key))
+            return false;
+
         if(map.containsKey(Pair.make(var, key)))
             return true;
 
@@ -61,6 +64,9 @@ public class BottomUpTransitions
     public String get(Variable var, Triple<String, String, String> key)
         throws NoSuchTransitionException
     {
+        if(hasNull(key))
+            throw new NoSuchTransitionException("Key contains a null value");
+
         if(key.getFirst().equals(key.getSecond()))
         {
             for(String mask : sameMasks)
@@ -84,6 +90,12 @@ public class BottomUpTransitions
 
         throw new NoSuchTransitionException(
             "No entry for arguments " + key + " with variable " + var + ".");
+    }
+
+    @Override
+    protected boolean hasNull(Triple<String, String, String> key)
+    {
+        return key.getFirst() == null || key.getSecond() == null || key.getThird() == null;
     }
 
     private Triple<String, String, String> setWildcardEvery(int mask,

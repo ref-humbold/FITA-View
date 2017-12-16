@@ -9,7 +9,7 @@ import ref_humbold.fita_view.automaton.Variable;
 
 public abstract class Transitions<K, V>
 {
-    protected Map<Pair<Variable, K>, V> map = new HashMap<>();
+    Map<Pair<Variable, K>, V> map = new HashMap<>();
 
     /**
      * Testing if specified variable and arguments are present in transition function.
@@ -51,6 +51,8 @@ public abstract class Transitions<K, V>
      */
     public abstract V get(Variable var, K key)
         throws NoSuchTransitionException;
+
+    protected abstract boolean hasNull(K key);
 
     @Override
     public String toString()

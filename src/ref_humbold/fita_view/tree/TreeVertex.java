@@ -55,7 +55,7 @@ public abstract class TreeVertex
 
     /**
      * @param var state variable
-     * @return variable value in node
+     * @return variable value in the vertex
      */
     public abstract String getState(Variable var);
 
@@ -67,9 +67,14 @@ public abstract class TreeVertex
         throws IllegalVariableValueException;
 
     /**
-     * @return values of all variables in node
+     * @return values of all variables in the vertex
      */
     public abstract Map<Variable, String> getFullState();
+
+    /**
+     * Removing values of all state variables in the vertex.
+     */
+    public abstract void deleteFullState();
 
     /**
      * @return {@code true} if vertex has both left and right children, otherwise {@code false}

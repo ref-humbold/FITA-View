@@ -102,6 +102,14 @@ public class BottomUpTransitionsTest
     }
 
     @Test
+    public void testContainsEntryWhenKeyHasNull()
+    {
+        boolean result = testObject.containsEntry(v, Triple.make(null, "B", "0"));
+
+        Assert.assertFalse(result);
+    }
+
+    @Test
     public void testAddWhenDirectKey()
     {
         try
@@ -249,5 +257,12 @@ public class BottomUpTransitionsTest
 
         Assert.assertNotNull(result);
         Assert.assertEquals(Wildcard.RIGHT_VALUE, result);
+    }
+
+    @Test(expected = NoSuchTransitionException.class)
+    public void testGetWhenKeyHasNull()
+        throws NoSuchTransitionException
+    {
+        testObject.get(v, Triple.make(null, "B", "0"));
     }
 }

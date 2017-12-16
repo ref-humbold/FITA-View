@@ -23,7 +23,8 @@ public interface TreeAutomaton
      * Testing if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      */
-    boolean isAccepted();
+    boolean isAccepted()
+        throws UndefinedAcceptanceException;
 
     void run()
         throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException;

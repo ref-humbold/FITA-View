@@ -10,6 +10,9 @@ public class TopDownTransitions<V>
     @Override
     public boolean containsEntry(Variable var, Pair<String, String> key)
     {
+        if(hasNull(key))
+            return false;
+
         for(int i = 0; i < 1 << key.size(); ++i)
         {
             Pair<String, String> kv = setWildcard(i, key);
@@ -36,6 +39,9 @@ public class TopDownTransitions<V>
     public V get(Variable var, Pair<String, String> key)
         throws NoSuchTransitionException
     {
+        if(hasNull(key))
+            throw new NoSuchTransitionException("Key contains a null value");
+
         for(int i = 0; i < 1 << key.size(); ++i)
         {
             Pair<String, String> kv = setWildcard(i, key);
@@ -47,6 +53,12 @@ public class TopDownTransitions<V>
 
         throw new NoSuchTransitionException(
             "No entry for arguments " + key + " with variable " + var + ".");
+    }
+
+    @Override
+    protected boolean hasNull(Pair<String, String> key)
+    {
+        return key.getFirst() == null || key.getSecond() == null;
     }
 
     private Pair<String, String> setWildcard(int mask, Pair<String, String> k)

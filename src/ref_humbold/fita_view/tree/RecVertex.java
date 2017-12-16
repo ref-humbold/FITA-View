@@ -94,6 +94,12 @@ public class RecVertex
     }
 
     @Override
+    public void deleteFullState()
+    {
+        recursive.deleteFullState();
+    }
+
+    @Override
     public String toString()
     {
         return "<$ REC $>";

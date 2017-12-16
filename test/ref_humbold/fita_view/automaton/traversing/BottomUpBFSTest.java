@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 import org.junit.After;
@@ -79,6 +80,19 @@ public class BottomUpBFSTest
                              finiteTreeNode2, finiteTreeNode3, finiteTreeNode1};
 
         Assert.assertArrayEquals(expected, result.toArray());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testNextWhenOutOfBounds()
+    {
+        testObject.initialize(
+            Arrays.asList(verticesDepths.get(3), verticesDepths.get(6), verticesDepths.get(7),
+                          verticesDepths.get(8), verticesDepths.get(9), verticesDepths.get(10)));
+
+        while(true)
+        {
+            testObject.next();
+        }
     }
 
     @Test
