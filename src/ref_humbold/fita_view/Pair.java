@@ -34,12 +34,15 @@ public class Pair<F, S>
     }
 
     @Override
-    public String toString()
+    public int hashCode()
     {
-        String firstString = first == null ? "null" : first.toString();
-        String secondString = second == null ? "null" : second.toString();
+        int prime = 37;
+        int result = 1;
 
-        return "(" + firstString + ", " + secondString + ")";
+        result = prime * result + (first == null ? 0 : first.hashCode());
+        result = prime * result + (second == null ? 0 : second.hashCode());
+
+        return result;
     }
 
     @Override
@@ -57,14 +60,11 @@ public class Pair<F, S>
     }
 
     @Override
-    public int hashCode()
+    public String toString()
     {
-        int prime = 37;
-        int result = 1;
+        String firstString = first == null ? "null" : first.toString();
+        String secondString = second == null ? "null" : second.toString();
 
-        result = prime * result + (first == null ? 0 : first.hashCode());
-        result = prime * result + (second == null ? 0 : second.hashCode());
-
-        return result;
+        return "(" + firstString + ", " + secondString + ")";
     }
 }

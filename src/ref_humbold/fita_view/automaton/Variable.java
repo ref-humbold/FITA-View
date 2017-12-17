@@ -63,9 +63,9 @@ public class Variable
     }
 
     @Override
-    public String toString()
+    public int hashCode()
     {
-        return "Variable::" + values.toString();
+        return initValue.hashCode() * 37 + values.hashCode();
     }
 
     @Override
@@ -84,8 +84,8 @@ public class Variable
     }
 
     @Override
-    public int hashCode()
+    public String toString()
     {
-        return initValue.hashCode() * 37 + values.hashCode();
+        return "Variable::" + values.toString();
     }
 }

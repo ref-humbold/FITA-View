@@ -33,28 +33,6 @@ public class TopDownDFTA
     }
 
     @Override
-    protected Pair<String, String> getTransition(Variable var, String value, String label)
-        throws NoSuchTransitionException
-    {
-        return transitions.get(var, Pair.make(value, label));
-    }
-
-    @Override
-    protected void addTransition(Variable var, String value, String label, String leftResult,
-                                 String rightResult)
-        throws DuplicatedTransitionException, IllegalTransitionException
-    {
-        transitions.add(var, Pair.make(value, label), Pair.make(leftResult, rightResult));
-    }
-
-    @Override
-    public String toString()
-    {
-        return "TopDownDFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
-            + transitions.toString();
-    }
-
-    @Override
     public boolean equals(Object o)
     {
         if(this == o)
@@ -68,5 +46,27 @@ public class TopDownDFTA
         return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
                                                                                other.variables)
             && Objects.equals(this.transitions, other.transitions);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "TopDownDFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
+            + transitions.toString();
+    }
+
+    @Override
+    protected void addTransition(Variable var, String value, String label, String leftResult,
+                                 String rightResult)
+        throws DuplicatedTransitionException, IllegalTransitionException
+    {
+        transitions.add(var, Pair.make(value, label), Pair.make(leftResult, rightResult));
+    }
+
+    @Override
+    protected Pair<String, String> getTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException
+    {
+        return transitions.get(var, Pair.make(value, label));
     }
 }

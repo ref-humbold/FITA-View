@@ -59,6 +59,12 @@ public abstract class SimpleTreeAutomaton
         }
     }
 
+    @Override
+    public int hashCode()
+    {
+        return alphabet.hashCode() * 37 + variables.hashCode();
+    }
+
     /**
      * @return current traversing strategy of the automaton
      */
@@ -78,11 +84,5 @@ public abstract class SimpleTreeAutomaton
         while(t.hasNext())
             for(TreeVertex v : t.next())
                 v.deleteFullState();
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return alphabet.hashCode() * 37 + variables.hashCode();
     }
 }

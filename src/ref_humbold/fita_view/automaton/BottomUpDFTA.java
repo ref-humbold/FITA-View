@@ -1,12 +1,6 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
@@ -35,34 +29,36 @@ public class BottomUpDFTA
     }
 
     @Override
-    public void setTree(TreeVertex tree)
-    {
-        super.setTree(tree);
-        this.findLeaves();
-        this.isRunning = false;
-    }
-
-    @Override
-    protected BottomUpTraversing getTraversing()
-    {
-        return traversing;
-    }
-
-    @Override
-    public void setTraversing(TraversingMode traversingMode)
-        throws IncorrectTraversingException
-    {
-        this.traversing = TraversingFactory.getInstance().getBottomUpTraversing(traversingMode);
-    }
-
-    @Override
     public boolean isAccepted()
         throws UndefinedAcceptanceException
     {
         if(acceptingStates.isEmpty())
             throw new UndefinedAcceptanceException("Automaton has no acccepting states defined.");
 
-        return acceptingStates.contains(tree.getFullState());
+        Map<Variable, String> treeState = tree.getFullState();
+
+        for(Map<Variable, String> accept : acceptingStates)
+        {
+            boolean contained = true;
+
+            for(Variable var : accept.keySet())
+                contained &= accept.get(var).equals(treeState.get(var)) || accept.get(var)
+                                                                                 .equals(
+                                                                                     Wildcard.EVERY_VALUE);
+
+            if(contained)
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void setTree(TreeVertex tree)
+    {
+        super.setTree(tree);
+        this.findLeaves();
+        this.isRunning = false;
     }
 
     @Override
@@ -107,6 +103,43 @@ public class BottomUpDFTA
     public TreeVertex generateTree()
     {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o)
+            return true;
+
+        if(o == null || !(o instanceof BottomUpDFTA))
+            return false;
+
+        BottomUpDFTA other = (BottomUpDFTA)o;
+
+        return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
+                                                                               other.variables)
+            && Objects.equals(this.acceptingStates, other.acceptingStates) && Objects.equals(
+            this.transitions, other.transitions);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "BottomUpDFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
+            + transitions.toString();
+    }
+
+    @Override
+    protected BottomUpTraversing getTraversing()
+    {
+        return traversing;
+    }
+
+    @Override
+    public void setTraversing(TraversingMode traversingMode)
+        throws IncorrectTraversingException
+    {
+        this.traversing = TraversingFactory.getInstance().getBottomUpTraversing(traversingMode);
     }
 
     @Override
@@ -175,29 +208,5 @@ public class BottomUpDFTA
             for(TreeVertex v : t.next())
                 if(!v.hasChildren())
                     leaves.add(v);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "BottomUpDFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
-            + transitions.toString();
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if(this == o)
-            return true;
-
-        if(o == null || !(o instanceof BottomUpDFTA))
-            return false;
-
-        BottomUpDFTA other = (BottomUpDFTA)o;
-
-        return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
-                                                                               other.variables)
-            && Objects.equals(this.acceptingStates, other.acceptingStates) && Objects.equals(
-            this.transitions, other.transitions);
     }
 }

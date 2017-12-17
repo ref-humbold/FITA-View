@@ -41,13 +41,16 @@ public class Triple<F, S, T>
     }
 
     @Override
-    public String toString()
+    public int hashCode()
     {
-        String firstString = first == null ? "null" : first.toString();
-        String secondString = second == null ? "null" : second.toString();
-        String thirdString = third == null ? "null" : third.toString();
+        int prime = 37;
+        int result = 1;
 
-        return "(" + firstString + ", " + secondString + ", " + thirdString + ")";
+        result = prime * result + (first == null ? 0 : first.hashCode());
+        result = prime * result + (second == null ? 0 : second.hashCode());
+        result = prime * result + (third == null ? 0 : third.hashCode());
+
+        return result;
     }
 
     @Override
@@ -66,15 +69,12 @@ public class Triple<F, S, T>
     }
 
     @Override
-    public int hashCode()
+    public String toString()
     {
-        int prime = 37;
-        int result = 1;
+        String firstString = first == null ? "null" : first.toString();
+        String secondString = second == null ? "null" : second.toString();
+        String thirdString = third == null ? "null" : third.toString();
 
-        result = prime * result + (first == null ? 0 : first.hashCode());
-        result = prime * result + (second == null ? 0 : second.hashCode());
-        result = prime * result + (third == null ? 0 : third.hashCode());
-
-        return result;
+        return "(" + firstString + ", " + secondString + ", " + thirdString + ")";
     }
 }

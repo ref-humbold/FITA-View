@@ -21,6 +21,40 @@ public abstract class TopDownTreeAutomaton
         super(alphabet, variables);
     }
 
+    /**
+     * Adding new transition entry to transition function of automaton.
+     * @param var variable
+     * @param value variable value in node
+     * @param label tree label of node
+     * @param leftResult variable value in left son
+     * @param rightResult variable value in right son
+     */
+    protected abstract void addTransition(Variable var, String value, String label,
+                                          String leftResult, String rightResult)
+        throws DuplicatedTransitionException, IllegalTransitionException;
+
+    /**
+     * Calling a transition function with specified arguments.
+     * @param var variable
+     * @param value variable value in node
+     * @param label tree label of node
+     * @return pair of variable values in sons (first left, second right)
+     */
+    protected abstract Pair<String, String> getTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException;
+
+    @Override
+    protected TopDownTraversing getTraversing()
+    {
+        return traversing;
+    }
+
+    @Override
+    public void setTraversing(TraversingMode traversingMode)
+    {
+        this.traversing = TraversingFactory.getInstance().getTopDownTraversing(traversingMode);
+    }
+
     @Override
     public void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException
@@ -59,18 +93,6 @@ public abstract class TopDownTreeAutomaton
     }
 
     @Override
-    protected TopDownTraversing getTraversing()
-    {
-        return traversing;
-    }
-
-    @Override
-    public void setTraversing(TraversingMode traversingMode)
-    {
-        this.traversing = TraversingFactory.getInstance().getTopDownTraversing(traversingMode);
-    }
-
-    @Override
     protected void initialize()
         throws IllegalVariableValueException
     {
@@ -81,28 +103,6 @@ public abstract class TopDownTreeAutomaton
 
         traversing.initialize(tree);
     }
-
-    /**
-     * Adding new transition entry to transition function of automaton.
-     * @param var variable
-     * @param value variable value in node
-     * @param label tree label of node
-     * @param leftResult variable value in left son
-     * @param rightResult variable value in right son
-     */
-    protected abstract void addTransition(Variable var, String value, String label,
-                                          String leftResult, String rightResult)
-        throws DuplicatedTransitionException, IllegalTransitionException;
-
-    /**
-     * Calling a transition function with specified arguments.
-     * @param var variable
-     * @param value variable value in node
-     * @param label tree label of node
-     * @return pair of variable values in sons (first left, second right)
-     */
-    protected abstract Pair<String, String> getTransition(Variable var, String value, String label)
-        throws NoSuchTransitionException;
 
     private Pair<String, String> doTransition(Variable var, String value, String label)
         throws NoSuchTransitionException

@@ -11,10 +11,6 @@ public class RandomChoice
 {
     private static final Random random = new Random();
 
-    public RandomChoice()
-    {
-    }
-
     /**
      * Non-deterministically choosing variable values.
      * @param states possible state variable values

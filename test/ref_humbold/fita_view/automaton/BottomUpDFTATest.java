@@ -1,9 +1,9 @@
 package ref_humbold.fita_view.automaton;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,66 +17,49 @@ import ref_humbold.fita_view.tree.TreeVertex;
 public class BottomUpDFTATest
 {
     private BottomUpDFTA testObject;
-    private Variable variable;
+    private List<Variable> variables;
     private List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
-
-    private TreeVertex finiteTreeNode13a = new NodeVertex("1", 13, null, null);
-    private TreeVertex finiteTreeNode12a = new NodeVertex("1", 12, null, null);
-    private TreeVertex finiteTreeNode11a = new NodeVertex("1", 11, null, null);
-    private TreeVertex finiteTreeNode10a = new NodeVertex("0", 10, null, null);
-    private TreeVertex finiteTreeNode7a = new NodeVertex("1", 7, null, null);
-    private TreeVertex finiteTreeNode6a =
-        new NodeVertex("or", 6, finiteTreeNode13a, finiteTreeNode12a);
-    private TreeVertex finiteTreeNode5a =
-        new NodeVertex("and", 5, finiteTreeNode11a, finiteTreeNode10a);
-    private TreeVertex finiteTreeNode4a = new NodeVertex("0", 4, null, null);
-    private TreeVertex finiteTreeNode3a =
-        new NodeVertex("and", 3, finiteTreeNode7a, finiteTreeNode6a);
-    private TreeVertex finiteTreeNode2a =
-        new NodeVertex("or", 2, finiteTreeNode5a, finiteTreeNode4a);
-    private TreeVertex finiteTreeNode1a =
-        new NodeVertex("impl", 1, finiteTreeNode3a, finiteTreeNode2a);
-
-    private TreeVertex finiteTreeNode13b = new NodeVertex("1", 13, null, null);
-    private TreeVertex finiteTreeNode12b = new NodeVertex("1", 12, null, null);
-    private TreeVertex finiteTreeNode11b = new NodeVertex("1", 11, null, null);
-    private TreeVertex finiteTreeNode10b = new NodeVertex("1", 10, null, null);
-    private TreeVertex finiteTreeNode7b = new NodeVertex("1", 7, null, null);
-    private TreeVertex finiteTreeNode6b =
-        new NodeVertex("or", 6, finiteTreeNode13b, finiteTreeNode12b);
-    private TreeVertex finiteTreeNode5b =
-        new NodeVertex("and", 5, finiteTreeNode11b, finiteTreeNode10b);
-    private TreeVertex finiteTreeNode4b = new NodeVertex("0", 4, null, null);
-    private TreeVertex finiteTreeNode3b =
-        new NodeVertex("and", 3, finiteTreeNode7b, finiteTreeNode6b);
-    private TreeVertex finiteTreeNode2b =
-        new NodeVertex("or", 2, finiteTreeNode5b, finiteTreeNode4b);
-    private TreeVertex finiteTreeNode1b =
-        new NodeVertex("impl", 1, finiteTreeNode3b, finiteTreeNode2b);
 
     public BottomUpDFTATest()
         throws Exception
     {
-        variable = new Variable("X", "T", "F");
+        variables =
+            Arrays.asList(new Variable("X", "T", "F"), new Variable("#", "!", "@", "$", "&"));
     }
 
     @Before
     public void setUp()
         throws Exception
     {
-        testObject = new BottomUpDFTA(alphabet, Collections.singletonList(variable));
+        Map<Variable, String> accepts = new HashMap<>();
+
+        accepts.put(variables.get(0), "T");
+        accepts.put(variables.get(1), Wildcard.EVERY_VALUE);
+
+        testObject = new BottomUpDFTA(alphabet, variables);
         testObject.setTraversing(TraversingMode.LEVEL);
-        testObject.addTransition(variable, "X", "X", "0", "F");
-        testObject.addTransition(variable, "X", "X", "1", "T");
-        testObject.addTransition(variable, "T", "T", "and", "T");
-        testObject.addTransition(variable, "F", "(*)", "and", "F");
-        testObject.addTransition(variable, "(*)", "F", "and", "F");
-        testObject.addTransition(variable, "T", "(*)", "or", "T");
-        testObject.addTransition(variable, "(*)", "T", "or", "T");
-        testObject.addTransition(variable, "F", "F", "or", "F");
-        testObject.addTransition(variable, "T", "(*)", "impl", "(=^)");
-        testObject.addTransition(variable, "F", "(*)", "impl", "T");
-        testObject.addAcceptingState(Collections.singletonMap(variable, "T"));
+        testObject.addAcceptingState(accepts);
+        testObject.addTransition(variables.get(0), "X", "X", "0", "F");
+        testObject.addTransition(variables.get(0), "X", "X", "1", "T");
+        testObject.addTransition(variables.get(0), "T", "T", "and", "T");
+        testObject.addTransition(variables.get(0), "F", Wildcard.EVERY_VALUE, "and", "F");
+        testObject.addTransition(variables.get(0), Wildcard.EVERY_VALUE, "F", "and", "F");
+        testObject.addTransition(variables.get(0), "T", Wildcard.EVERY_VALUE, "or", "T");
+        testObject.addTransition(variables.get(0), Wildcard.EVERY_VALUE, "T", "or", "T");
+        testObject.addTransition(variables.get(0), "F", "F", "or", "F");
+        testObject.addTransition(variables.get(0), "T", Wildcard.EVERY_VALUE, "impl",
+                                 Wildcard.RIGHT_VALUE);
+        testObject.addTransition(variables.get(0), "F", Wildcard.EVERY_VALUE, "impl", "T");
+        testObject.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "0",
+                                 "!");
+        testObject.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "1",
+                                 "!");
+        testObject.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE,
+                                 "and", "&");
+        testObject.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "or",
+                                 "$");
+        testObject.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE,
+                                 "impl", "@");
     }
 
     @After
@@ -88,7 +71,19 @@ public class BottomUpDFTATest
     @Test
     public void testRun()
     {
-        testObject.setTree(finiteTreeNode1a);
+        TreeVertex node13 = new NodeVertex("1", 13, null, null);
+        TreeVertex node12 = new NodeVertex("1", 12, null, null);
+        TreeVertex node11 = new NodeVertex("1", 11, null, null);
+        TreeVertex node10 = new NodeVertex("0", 10, null, null);
+        TreeVertex node7 = new NodeVertex("1", 7, null, null);
+        TreeVertex node6 = new NodeVertex("or", 6, node13, node12);
+        TreeVertex node5 = new NodeVertex("and", 5, node11, node10);
+        TreeVertex node4 = new NodeVertex("0", 4, null, null);
+        TreeVertex node3 = new NodeVertex("and", 3, node7, node6);
+        TreeVertex node2 = new NodeVertex("or", 2, node5, node4);
+        TreeVertex node1 = new NodeVertex("impl", 1, node3, node2);
+
+        testObject.setTree(node1);
 
         Assert.assertFalse(testObject.isRunning);
 
@@ -103,23 +98,46 @@ public class BottomUpDFTATest
         }
 
         Assert.assertFalse(testObject.isRunning);
-        Assert.assertEquals("T", finiteTreeNode13a.getState(variable));
-        Assert.assertEquals("T", finiteTreeNode12a.getState(variable));
-        Assert.assertEquals("T", finiteTreeNode11a.getState(variable));
-        Assert.assertEquals("F", finiteTreeNode10a.getState(variable));
-        Assert.assertEquals("T", finiteTreeNode7a.getState(variable));
-        Assert.assertEquals("T", finiteTreeNode6a.getState(variable));
-        Assert.assertEquals("F", finiteTreeNode5a.getState(variable));
-        Assert.assertEquals("F", finiteTreeNode4a.getState(variable));
-        Assert.assertEquals("T", finiteTreeNode3a.getState(variable));
-        Assert.assertEquals("F", finiteTreeNode2a.getState(variable));
-        Assert.assertEquals("F", finiteTreeNode1a.getState(variable));
+        Assert.assertEquals("T", node13.getState(variables.get(0)));
+        Assert.assertEquals("!", node13.getState(variables.get(1)));
+        Assert.assertEquals("T", node12.getState(variables.get(0)));
+        Assert.assertEquals("!", node12.getState(variables.get(1)));
+        Assert.assertEquals("T", node11.getState(variables.get(0)));
+        Assert.assertEquals("!", node11.getState(variables.get(1)));
+        Assert.assertEquals("F", node10.getState(variables.get(0)));
+        Assert.assertEquals("!", node10.getState(variables.get(1)));
+        Assert.assertEquals("T", node7.getState(variables.get(0)));
+        Assert.assertEquals("!", node7.getState(variables.get(1)));
+        Assert.assertEquals("T", node6.getState(variables.get(0)));
+        Assert.assertEquals("$", node6.getState(variables.get(1)));
+        Assert.assertEquals("F", node5.getState(variables.get(0)));
+        Assert.assertEquals("&", node5.getState(variables.get(1)));
+        Assert.assertEquals("F", node4.getState(variables.get(0)));
+        Assert.assertEquals("!", node4.getState(variables.get(1)));
+        Assert.assertEquals("T", node3.getState(variables.get(0)));
+        Assert.assertEquals("&", node3.getState(variables.get(1)));
+        Assert.assertEquals("F", node2.getState(variables.get(0)));
+        Assert.assertEquals("$", node2.getState(variables.get(1)));
+        Assert.assertEquals("F", node1.getState(variables.get(0)));
+        Assert.assertEquals("@", node1.getState(variables.get(1)));
     }
 
     @Test
     public void testMakeStepForward()
     {
-        testObject.setTree(finiteTreeNode1a);
+        TreeVertex node13 = new NodeVertex("1", 13, null, null);
+        TreeVertex node12 = new NodeVertex("1", 12, null, null);
+        TreeVertex node11 = new NodeVertex("1", 11, null, null);
+        TreeVertex node10 = new NodeVertex("0", 10, null, null);
+        TreeVertex node7 = new NodeVertex("1", 7, null, null);
+        TreeVertex node6 = new NodeVertex("or", 6, node13, node12);
+        TreeVertex node5 = new NodeVertex("and", 5, node11, node10);
+        TreeVertex node4 = new NodeVertex("0", 4, null, null);
+        TreeVertex node3 = new NodeVertex("and", 3, node7, node6);
+        TreeVertex node2 = new NodeVertex("or", 2, node5, node4);
+        TreeVertex node1 = new NodeVertex("impl", 1, node3, node2);
+
+        testObject.setTree(node1);
 
         Assert.assertFalse(testObject.isRunning);
 
@@ -134,10 +152,28 @@ public class BottomUpDFTATest
         }
 
         Assert.assertTrue(testObject.isRunning);
-        Assert.assertEquals("T", finiteTreeNode13a.getState(variable));
-        Assert.assertEquals("T", finiteTreeNode12a.getState(variable));
-        Assert.assertEquals("T", finiteTreeNode11a.getState(variable));
-        Assert.assertEquals("F", finiteTreeNode10a.getState(variable));
+        Assert.assertEquals("T", node13.getState(variables.get(0)));
+        Assert.assertEquals("!", node13.getState(variables.get(1)));
+        Assert.assertEquals("T", node12.getState(variables.get(0)));
+        Assert.assertEquals("!", node12.getState(variables.get(1)));
+        Assert.assertEquals("T", node11.getState(variables.get(0)));
+        Assert.assertEquals("!", node11.getState(variables.get(1)));
+        Assert.assertEquals("F", node10.getState(variables.get(0)));
+        Assert.assertEquals("!", node10.getState(variables.get(1)));
+        Assert.assertNull(node7.getState(variables.get(0)));
+        Assert.assertNull(node7.getState(variables.get(1)));
+        Assert.assertNull(node6.getState(variables.get(0)));
+        Assert.assertNull(node6.getState(variables.get(1)));
+        Assert.assertNull(node5.getState(variables.get(0)));
+        Assert.assertNull(node5.getState(variables.get(1)));
+        Assert.assertNull(node4.getState(variables.get(0)));
+        Assert.assertNull(node4.getState(variables.get(1)));
+        Assert.assertNull(node3.getState(variables.get(0)));
+        Assert.assertNull(node3.getState(variables.get(1)));
+        Assert.assertNull(node2.getState(variables.get(0)));
+        Assert.assertNull(node2.getState(variables.get(1)));
+        Assert.assertNull(node1.getState(variables.get(0)));
+        Assert.assertNull(node1.getState(variables.get(1)));
 
         try
         {
@@ -150,16 +186,47 @@ public class BottomUpDFTATest
         }
 
         Assert.assertTrue(testObject.isRunning);
-        Assert.assertEquals("T", finiteTreeNode7a.getState(variable));
-        Assert.assertEquals("T", finiteTreeNode6a.getState(variable));
-        Assert.assertEquals("F", finiteTreeNode5a.getState(variable));
-        Assert.assertEquals("F", finiteTreeNode4a.getState(variable));
+        Assert.assertEquals("T", node7.getState(variables.get(0)));
+        Assert.assertEquals("!", node7.getState(variables.get(1)));
+        Assert.assertEquals("T", node6.getState(variables.get(0)));
+        Assert.assertEquals("$", node6.getState(variables.get(1)));
+        Assert.assertEquals("F", node5.getState(variables.get(0)));
+        Assert.assertEquals("&", node5.getState(variables.get(1)));
+        Assert.assertEquals("F", node4.getState(variables.get(0)));
+        Assert.assertEquals("!", node4.getState(variables.get(1)));
+        Assert.assertNull(node3.getState(variables.get(0)));
+        Assert.assertNull(node3.getState(variables.get(1)));
+        Assert.assertNull(node2.getState(variables.get(0)));
+        Assert.assertNull(node2.getState(variables.get(1)));
+        Assert.assertNull(node1.getState(variables.get(0)));
+        Assert.assertNull(node1.getState(variables.get(1)));
     }
 
     @Test
     public void testIsAcceptedWhenAutomatonHasRunAndNotAccepts()
     {
-        testObject.setTree(finiteTreeNode1a);
+        TreeVertex node = new NodeVertex("impl", 1, new NodeVertex("and", 3,
+                                                                   new NodeVertex("1", 7, null,
+                                                                                  null),
+                                                                   new NodeVertex("or", 6,
+                                                                                  new NodeVertex(
+                                                                                      "1", 13, null,
+                                                                                      null),
+                                                                                  new NodeVertex(
+                                                                                      "1", 12, null,
+                                                                                      null))),
+                                         new NodeVertex("or", 2, new NodeVertex("and", 5,
+                                                                                new NodeVertex("1",
+                                                                                               11,
+                                                                                               null,
+                                                                                               null),
+                                                                                new NodeVertex("0",
+                                                                                               10,
+                                                                                               null,
+                                                                                               null)),
+                                                        new NodeVertex("0", 4, null, null)));
+
+        testObject.setTree(node);
 
         try
         {
@@ -189,7 +256,28 @@ public class BottomUpDFTATest
     @Test
     public void testIsAcceptedWhenAutomatonHasRunAndAccepts()
     {
-        testObject.setTree(finiteTreeNode1b);
+        TreeVertex node = new NodeVertex("impl", 1, new NodeVertex("and", 3,
+                                                                   new NodeVertex("1", 7, null,
+                                                                                  null),
+                                                                   new NodeVertex("or", 6,
+                                                                                  new NodeVertex(
+                                                                                      "1", 13, null,
+                                                                                      null),
+                                                                                  new NodeVertex(
+                                                                                      "1", 12, null,
+                                                                                      null))),
+                                         new NodeVertex("or", 2, new NodeVertex("and", 5,
+                                                                                new NodeVertex("1",
+                                                                                               11,
+                                                                                               null,
+                                                                                               null),
+                                                                                new NodeVertex("1",
+                                                                                               10,
+                                                                                               null,
+                                                                                               null)),
+                                                        new NodeVertex("0", 4, null, null)));
+
+        testObject.setTree(node);
 
         try
         {
@@ -219,7 +307,28 @@ public class BottomUpDFTATest
     @Test
     public void testIsAcceptedWhenAutomatonHasNotRun()
     {
-        testObject.setTree(finiteTreeNode1a);
+        TreeVertex node = new NodeVertex("impl", 1, new NodeVertex("and", 3,
+                                                                   new NodeVertex("1", 7, null,
+                                                                                  null),
+                                                                   new NodeVertex("or", 6,
+                                                                                  new NodeVertex(
+                                                                                      "1", 13, null,
+                                                                                      null),
+                                                                                  new NodeVertex(
+                                                                                      "1", 12, null,
+                                                                                      null))),
+                                         new NodeVertex("or", 2, new NodeVertex("and", 5,
+                                                                                new NodeVertex("1",
+                                                                                               11,
+                                                                                               null,
+                                                                                               null),
+                                                                                new NodeVertex("0",
+                                                                                               10,
+                                                                                               null,
+                                                                                               null)),
+                                                        new NodeVertex("0", 4, null, null)));
+
+        testObject.setTree(node);
 
         boolean result = true;
 

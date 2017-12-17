@@ -44,27 +44,32 @@ public class TopDownNFTA
     }
 
     @Override
-    public void run()
-    {
-
-    }
-
-    @Override
-    public void makeStepForward()
-    {
-    }
-
-    @Override
     public TreeVertex generateTree()
     {
         return null;
     }
 
     @Override
-    protected Pair<String, String> getTransition(Variable var, String value, String label)
-        throws NoSuchTransitionException
+    public boolean equals(Object o)
     {
-        return choice.chooseState(transitions.get(var, Pair.make(value, label)));
+        if(this == o)
+            return true;
+
+        if(o == null || !(o instanceof TopDownNFTA))
+            return false;
+
+        TopDownNFTA other = (TopDownNFTA)o;
+
+        return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
+                                                                               other.variables)
+            && Objects.equals(this.transitions, other.transitions);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "TopDownNFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
+            + transitions.toString();
     }
 
     @Override
@@ -88,25 +93,9 @@ public class TopDownNFTA
     }
 
     @Override
-    public String toString()
+    protected Pair<String, String> getTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException
     {
-        return "TopDownNFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
-            + transitions.toString();
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if(this == o)
-            return true;
-
-        if(o == null || !(o instanceof TopDownNFTA))
-            return false;
-
-        TopDownNFTA other = (TopDownNFTA)o;
-
-        return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
-                                                                               other.variables)
-            && Objects.equals(this.transitions, other.transitions);
+        return choice.chooseState(transitions.get(var, Pair.make(value, label)));
     }
 }

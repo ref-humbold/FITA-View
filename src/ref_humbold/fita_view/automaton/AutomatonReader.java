@@ -13,7 +13,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -91,13 +90,6 @@ public class AutomatonReader
         public abstract TreeAutomaton getAutomaton();
 
         @Override
-        public void error(SAXParseException e)
-            throws SAXException
-        {
-            throw new AutomatonParsingException(e.getMessage(), e);
-        }
-
-        @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes)
             throws SAXException
         {
@@ -130,12 +122,6 @@ public class AutomatonReader
                 default:
                     throw new AutomatonParsingException("Unexpected tag: \'" + qName + "\'");
             }
-        }
-
-        @Override
-        public void characters(char[] chars, int start, int length)
-        {
-            content.append(chars, start, length);
         }
 
         @Override
@@ -175,6 +161,19 @@ public class AutomatonReader
                 default:
                     throw new AutomatonParsingException("Unexpected tag: \'" + qName + "\'");
             }
+        }
+
+        @Override
+        public void characters(char[] chars, int start, int length)
+        {
+            content.append(chars, start, length);
+        }
+
+        @Override
+        public void error(SAXParseException e)
+            throws SAXException
+        {
+            throw new AutomatonParsingException(e.getMessage(), e);
         }
     }
 

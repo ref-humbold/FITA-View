@@ -52,12 +52,10 @@ public abstract class Transitions<K, V>
     public abstract V get(Variable var, K key)
         throws NoSuchTransitionException;
 
-    protected abstract boolean hasNull(K key);
-
     @Override
-    public String toString()
+    public int hashCode()
     {
-        return "Transitions::" + map.toString();
+        return map.hashCode();
     }
 
     @Override
@@ -75,8 +73,10 @@ public abstract class Transitions<K, V>
     }
 
     @Override
-    public int hashCode()
+    public String toString()
     {
-        return map.hashCode();
+        return "Transitions::" + map.toString();
     }
+
+    protected abstract boolean hasNull(K key);
 }
