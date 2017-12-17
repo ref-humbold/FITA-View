@@ -27,6 +27,11 @@ public abstract class SimpleTreeAutomaton
         this.variables = new ArrayList<>(variables);
     }
 
+    /**
+     * @return current traversing strategy of the automaton
+     */
+    protected abstract TreeTraversing getTraversing();
+
     @Override
     public void setTree(TreeVertex tree)
     {
@@ -64,11 +69,6 @@ public abstract class SimpleTreeAutomaton
     {
         return alphabet.hashCode() * 37 + variables.hashCode();
     }
-
-    /**
-     * @return current traversing strategy of the automaton
-     */
-    protected abstract TreeTraversing getTraversing();
 
     /**
      * Initializing automaton and tree before running on tree.

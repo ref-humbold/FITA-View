@@ -81,11 +81,11 @@ public class AutomatonReader
         extends DefaultHandler
     {
         Collection<String> alphabet = new ArrayList<>();
-        List<String> varValues = new ArrayList<>();
         Map<Integer, Variable> variables = new HashMap<>();
         String tagName = null;
         StringBuilder content = null;
         Integer varID;
+        private List<String> varValues = new ArrayList<>();
 
         public abstract TreeAutomaton getAutomaton();
 
@@ -366,6 +366,13 @@ public class AutomatonReader
                     break;
 
                 case "accept":
+                    for(Integer id : variables.keySet())
+                    {
+                        if(accept.get(variables.get(id)) == null)
+                            throw new NoAcceptingForVariableException(
+                                "Variable with ID " + id + "has no accepting value.");
+                    }
+
                     automaton.addAcceptingState(accept);
                     accept = null;
                     break;

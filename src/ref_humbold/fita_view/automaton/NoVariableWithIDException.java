@@ -11,9 +11,4 @@ public class NoVariableWithIDException
     {
         super(s);
     }
-
-    public NoVariableWithIDException(String s, Exception e)
-    {
-        super(s, e);
-    }
 }

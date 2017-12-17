@@ -11,9 +11,4 @@ public class IllegalTransitionException
     {
         super(s);
     }
-
-    public IllegalTransitionException(String s, Exception e)
-    {
-        super(s, e);
-    }
 }

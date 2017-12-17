@@ -21,28 +21,6 @@ public abstract class TopDownTreeAutomaton
         super(alphabet, variables);
     }
 
-    /**
-     * Adding new transition entry to transition function of automaton.
-     * @param var variable
-     * @param value variable value in node
-     * @param label tree label of node
-     * @param leftResult variable value in left son
-     * @param rightResult variable value in right son
-     */
-    protected abstract void addTransition(Variable var, String value, String label,
-                                          String leftResult, String rightResult)
-        throws DuplicatedTransitionException, IllegalTransitionException;
-
-    /**
-     * Calling a transition function with specified arguments.
-     * @param var variable
-     * @param value variable value in node
-     * @param label tree label of node
-     * @return pair of variable values in sons (first left, second right)
-     */
-    protected abstract Pair<String, String> getTransition(Variable var, String value, String label)
-        throws NoSuchTransitionException;
-
     @Override
     protected TopDownTraversing getTraversing()
     {
@@ -92,6 +70,28 @@ public abstract class TopDownTreeAutomaton
                     }
     }
 
+    /**
+     * Adding new transition entry to transition function of automaton.
+     * @param var variable
+     * @param value variable value in node
+     * @param label tree label of node
+     * @param leftResult variable value in left son
+     * @param rightResult variable value in right son
+     */
+    protected abstract void addTransition(Variable var, String value, String label,
+                                          String leftResult, String rightResult)
+        throws DuplicatedTransitionException, IllegalTransitionException;
+
+    /**
+     * Calling a transition function with specified arguments.
+     * @param var variable
+     * @param value variable value in node
+     * @param label tree label of node
+     * @return pair of variable values in sons (first left, second right)
+     */
+    protected abstract Pair<String, String> getTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException;
+
     @Override
     protected void initialize()
         throws IllegalVariableValueException
@@ -109,10 +109,10 @@ public abstract class TopDownTreeAutomaton
     {
         Pair<String, String> result = getTransition(var, value, label);
 
-        return removeWildcard(value, result);
+        return removeSameWildcard(value, result);
     }
 
-    private Pair<String, String> removeWildcard(String value, Pair<String, String> trans)
+    private Pair<String, String> removeSameWildcard(String value, Pair<String, String> trans)
     {
         if(trans.getFirst().equals(Wildcard.SAME_VALUE) && trans.getSecond()
                                                                 .equals((Wildcard.SAME_VALUE)))

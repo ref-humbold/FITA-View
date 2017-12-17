@@ -11,9 +11,4 @@ public class DuplicatedAcceptingValueException
     {
         super(s);
     }
-
-    public DuplicatedAcceptingValueException(String s, Exception e)
-    {
-        super(s, e);
-    }
 }

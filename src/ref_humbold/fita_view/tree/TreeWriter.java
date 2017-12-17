@@ -48,7 +48,7 @@ public class TreeWriter
         private TreeXMLBuilder parent;
         private StringBuilder body = new StringBuilder();
 
-        TreeXMLBuilder()
+        private TreeXMLBuilder()
         {
         }
 
@@ -56,19 +56,6 @@ public class TreeWriter
         {
             this.tree = tree;
             this.parent = parent;
-        }
-
-        TreeXMLBuilder build(TreeVertex tree)
-        {
-            if(tree == null)
-                return this;
-
-            TreeXMLBuilder builder = startTree(tree);
-
-            if(!isRec(tree) && hasChildren(tree))
-                builder = builder.build(tree.getLeft()).build(tree.getRight());
-
-            return builder.endTree();
         }
 
         @Override
@@ -82,14 +69,14 @@ public class TreeWriter
             output.append("<");
             output.append(getNodeName(tree));
 
-            if(!isRec(tree))
+            if(isNode(tree))
             {
                 output.append(" label=\"");
                 output.append(tree.getLabel());
                 output.append("\"");
             }
 
-            if(hasChildren(tree))
+            if(isNode(tree) && tree.hasChildren())
             {
                 output.append(">");
                 output.append(indentBody().toString());
@@ -101,6 +88,19 @@ public class TreeWriter
                 output.append(" />\n");
 
             return output.toString();
+        }
+
+        private TreeXMLBuilder build(TreeVertex tree)
+        {
+            if(tree == null)
+                return this;
+
+            TreeXMLBuilder builder = startTree(tree);
+
+            if(isNode(tree) && tree.hasChildren())
+                builder = builder.build(tree.getLeft()).build(tree.getRight());
+
+            return builder.endTree();
         }
 
         private StringBuilder indentBody()
@@ -145,14 +145,9 @@ public class TreeWriter
             body.append(content);
         }
 
-        private boolean isRec(TreeVertex tree)
+        private boolean isNode(TreeVertex tree)
         {
-            return tree.getType() == VertexType.REC;
-        }
-
-        private boolean hasChildren(TreeVertex tree)
-        {
-            return !isRec(tree) && tree.getLeft() != null && tree.getRight() != null;
+            return tree.getType() == VertexType.NODE || tree.getType() == VertexType.REPEAT;
         }
 
         private String getNodeName(TreeVertex tree)

@@ -54,6 +54,19 @@ public class BottomUpDFTA
     }
 
     @Override
+    protected BottomUpTraversing getTraversing()
+    {
+        return traversing;
+    }
+
+    @Override
+    public void setTraversing(TraversingMode traversingMode)
+        throws IncorrectTraversingException
+    {
+        this.traversing = TraversingFactory.getInstance().getBottomUpTraversing(traversingMode);
+    }
+
+    @Override
     public void setTree(TreeVertex tree)
     {
         super.setTree(tree);
@@ -127,19 +140,6 @@ public class BottomUpDFTA
     {
         return "BottomUpDFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
             + transitions.toString();
-    }
-
-    @Override
-    protected BottomUpTraversing getTraversing()
-    {
-        return traversing;
-    }
-
-    @Override
-    public void setTraversing(TraversingMode traversingMode)
-        throws IncorrectTraversingException
-    {
-        this.traversing = TraversingFactory.getInstance().getBottomUpTraversing(traversingMode);
     }
 
     @Override

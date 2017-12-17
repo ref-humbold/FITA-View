@@ -9,9 +9,4 @@ public class NoTraversingException
     {
         super(s);
     }
-
-    public NoTraversingException(String s, Throwable t)
-    {
-        super(s, t);
-    }
 }

@@ -9,7 +9,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -159,6 +158,9 @@ public class TreeReader
                             case RIGHT:
                                 parent.getFirst().setRight(node.getFirst());
                                 nodes.push(Pair.make(parent.getFirst(), TreeChild.NONE));
+                                break;
+
+                            case NONE:
                                 break;
                         }
 

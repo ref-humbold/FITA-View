@@ -9,9 +9,4 @@ public class NoSuchTransitionException
     {
         super(s);
     }
-
-    public NoSuchTransitionException(String s, Throwable t)
-    {
-        super(s, t);
-    }
 }

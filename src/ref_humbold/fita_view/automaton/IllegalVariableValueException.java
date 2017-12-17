@@ -11,9 +11,4 @@ public class IllegalVariableValueException
     {
         super(s);
     }
-
-    public IllegalVariableValueException(String s, Exception e)
-    {
-        super(s, e);
-    }
 }

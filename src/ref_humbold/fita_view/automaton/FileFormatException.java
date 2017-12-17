@@ -9,9 +9,4 @@ public class FileFormatException
     {
         super(s);
     }
-
-    public FileFormatException(String s, Throwable t)
-    {
-        super(s, t);
-    }
 }

@@ -11,9 +11,4 @@ public class DuplicatedTransitionException
     {
         super(s);
     }
-
-    public DuplicatedTransitionException(String s, Exception e)
-    {
-        super(s, e);
-    }
 }

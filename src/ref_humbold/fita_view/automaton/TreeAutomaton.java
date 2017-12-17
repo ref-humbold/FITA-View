@@ -26,11 +26,27 @@ public interface TreeAutomaton
      */
     boolean isInAlphabet(String label);
 
+    /**
+     * Running full traversing of the automaton over the tree.
+     * @throws IllegalVariableValueException if state of any node in tree is illegal
+     * @throws NoSuchTransitionException if no transition entry was found
+     * @throws NoTraversingException if no traversing strategy was set
+     */
     void run()
         throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException;
 
+    /**
+     * Making a single traversing step of the automaton over the tree.
+     * @throws IllegalVariableValueException if state of any node in tree is illegal
+     * @throws NoSuchTransitionException if no transition entry was found
+     * @throws NoTraversingException if no traversing strategy was set
+     */
     void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException;
 
+    /**
+     * Generating a sample tree that could be accepted by the automaton.
+     * @return sample accepted tree
+     */
     TreeVertex generateTree();
 }

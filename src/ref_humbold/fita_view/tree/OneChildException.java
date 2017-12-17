@@ -11,9 +11,4 @@ public class OneChildException
     {
         super(s);
     }
-
-    public OneChildException(String s, Exception e)
-    {
-        super(s, e);
-    }
 }

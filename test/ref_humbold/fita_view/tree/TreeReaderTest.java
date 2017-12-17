@@ -2,7 +2,6 @@ package ref_humbold.fita_view.tree;
 
 import java.io.File;
 import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,6 +10,7 @@ import org.xml.sax.SAXException;
 
 public class TreeReaderTest
 {
+    public static final String DIRECTORY = "test/ref_humbold/fita_view/tree/";
     private TreeReader testObject;
 
     @Before
@@ -31,8 +31,7 @@ public class TreeReaderTest
 
         try
         {
-            testObject = new TreeReader(
-                new File("test/ref_humbold/fita_view/tree/testReadEmptyTree.tree.xml"));
+            testObject = new TreeReader(new File(DIRECTORY + "testReadEmptyTree.tree.xml"));
             result = testObject.read();
         }
         catch(Exception e)
@@ -51,8 +50,7 @@ public class TreeReaderTest
 
         try
         {
-            testObject = new TreeReader(
-                new File("test/ref_humbold/fita_view/tree/testReadFiniteTree.tree.xml"));
+            testObject = new TreeReader(new File(DIRECTORY + "testReadFiniteTree.tree.xml"));
             result = testObject.read();
         }
         catch(Exception e)
@@ -76,8 +74,7 @@ public class TreeReaderTest
 
         try
         {
-            testObject = new TreeReader(
-                new File("test/ref_humbold/fita_view/tree/testReadWhenSingleRepeat.tree.xml"));
+            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenSingleRepeat.tree.xml"));
             result = testObject.read();
         }
         catch(Exception e)
@@ -106,8 +103,7 @@ public class TreeReaderTest
 
         try
         {
-            testObject = new TreeReader(
-                new File("test/ref_humbold/fita_view/tree/testReadWhenNestedRepeats.tree.xml"));
+            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenNestedRepeats.tree.xml"));
             result = testObject.read();
         }
         catch(Exception e)
@@ -141,8 +137,7 @@ public class TreeReaderTest
     {
         try
         {
-            testObject = new TreeReader(
-                new File("test/ref_humbold/fita_view/tree/testReadWhenRecOutOfScope.tree.xml"));
+            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenRecOutOfScope.tree.xml"));
         }
         catch(Exception e)
         {
@@ -167,8 +162,7 @@ public class TreeReaderTest
     {
         try
         {
-            testObject = new TreeReader(
-                new File("test/ref_humbold/fita_view/tree/testReadWhenOneChild.tree.xml"));
+            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenOneChild.tree.xml"));
         }
         catch(Exception e)
         {
@@ -193,8 +187,7 @@ public class TreeReaderTest
     {
         try
         {
-            testObject = new TreeReader(
-                new File("test/ref_humbold/fita_view/tree/testReadWhenNullIsChild.tree.xml"));
+            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenNullIsChild.tree.xml"));
         }
         catch(Exception e)
         {
@@ -219,8 +212,7 @@ public class TreeReaderTest
     {
         try
         {
-            testObject = new TreeReader(
-                new File("test/ref_humbold/fita_view/tree/testReadWhenThreeChildren.tree.xml"));
+            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenThreeChildren.tree.xml"));
         }
         catch(Exception e)
         {

@@ -9,9 +9,4 @@ public class UndefinedAcceptanceException
     {
         super(s);
     }
-
-    public UndefinedAcceptanceException(String s, Exception e)
-    {
-        super(s, e);
-    }
 }

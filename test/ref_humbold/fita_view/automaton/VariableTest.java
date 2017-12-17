@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.automaton;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -100,6 +102,22 @@ public class VariableTest
         boolean result = testObject.contains("");
 
         Assert.assertFalse(result);
+    }
+
+    @Test
+    public void testIterator()
+    {
+        Iterator<String> iterator = testObject.iterator();
+
+        ArrayList<String> result = new ArrayList<>();
+
+        while(iterator.hasNext())
+            result.add(iterator.next());
+        
+        Assert.assertEquals(3, result.size());
+        Assert.assertTrue(result.contains("A"));
+        Assert.assertTrue(result.contains("B"));
+        Assert.assertTrue(result.contains("C"));
     }
 
     @Test

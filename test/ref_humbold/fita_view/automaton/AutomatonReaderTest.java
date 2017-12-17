@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,6 +16,7 @@ import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 
 public class AutomatonReaderTest
 {
+    private static final String DIRECTORY = "test/ref_humbold/fita_view/automaton/";
     private AutomatonReader testObject;
 
     @Before
@@ -30,7 +30,23 @@ public class AutomatonReaderTest
         testObject = null;
     }
 
-    // TopDownDFTA
+    @Test(expected = FileFormatException.class)
+    public void testReadWhenIncorrectFileExtension()
+        throws FileFormatException
+    {
+        try
+        {
+            testObject =
+                new AutomatonReader(new File(DIRECTORY + "testReadWhenIncorrectFileExtension.xml"));
+        }
+        catch(SAXException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    // region TopDownDFTA
 
     @Test
     public void testReadTopDownDFTA()
@@ -39,8 +55,7 @@ public class AutomatonReaderTest
 
         try
         {
-            testObject = new AutomatonReader(
-                new File("test/ref_humbold/fita_view/automaton/testReadTopDownDFTA.tda.xml"));
+            testObject = new AutomatonReader(new File(DIRECTORY + "testReadTopDownDFTA.tda.xml"));
             result = testObject.read();
         }
         catch(Exception e)
@@ -90,8 +105,8 @@ public class AutomatonReaderTest
 
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenWildcards.tda.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenWildcards.tda.xml"));
             result = testObject.read();
         }
         catch(Exception e)
@@ -140,8 +155,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenMultipleTransitions.tda.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenMultipleTransitions.tda.xml"));
         }
         catch(Exception e)
         {
@@ -166,8 +181,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenIncorrectAlphabetWord.tda.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenIncorrectAlphabetWord.tda.xml"));
         }
         catch(Exception e)
         {
@@ -192,8 +207,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenIncorrectVariableValue.tda.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenIncorrectVariableValue.tda.xml"));
         }
         catch(Exception e)
         {
@@ -218,8 +233,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchLabel.tda.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenNoSuchLabel.tda.xml"));
         }
         catch(Exception e)
         {
@@ -244,8 +259,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchVariableValue.tda.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenNoSuchVariableValue.tda.xml"));
         }
         catch(Exception e)
         {
@@ -270,8 +285,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadTopDownDFTAWhenNoSuchVariableId.tda.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenNoSuchVariableId.tda.xml"));
         }
         catch(Exception e)
         {
@@ -290,7 +305,35 @@ public class AutomatonReaderTest
         }
     }
 
-    // TopDownNFTA
+    @Test(expected = AutomatonParsingException.class)
+    public void testReadTopDownDFTAWhenVariableValueIsEmpty()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenVariableValueIsEmpty.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    // endregion
+
+    // region TopDownNFTA
 
     @Test
     public void testReadTopDownNFTA()
@@ -299,8 +342,7 @@ public class AutomatonReaderTest
 
         try
         {
-            testObject = new AutomatonReader(
-                new File("test/ref_humbold/fita_view/automaton/testReadTopDownNFTA.tda.xml"));
+            testObject = new AutomatonReader(new File(DIRECTORY + "testReadTopDownNFTA.tda.xml"));
             result = testObject.read();
         }
         catch(Exception e)
@@ -347,7 +389,9 @@ public class AutomatonReaderTest
         Assert.assertEquals(expected, result);
     }
 
-    // BottomUpDFTA
+    // endregion
+
+    // region BottomUpDFTA
 
     @Test
     public void testReadBottomUpDFTA()
@@ -356,8 +400,7 @@ public class AutomatonReaderTest
 
         try
         {
-            testObject = new AutomatonReader(
-                new File("test/ref_humbold/fita_view/automaton/testReadBottomUpDFTA.bua.xml"));
+            testObject = new AutomatonReader(new File(DIRECTORY + "testReadBottomUpDFTA.bua.xml"));
             result = testObject.read();
         }
         catch(Exception e)
@@ -422,8 +465,8 @@ public class AutomatonReaderTest
 
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenWildcards.bua.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenWildcards.bua.xml"));
             result = testObject.read();
         }
         catch(Exception e)
@@ -477,8 +520,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenDoubleSameWildcard.bua.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenDoubleSameWildcard.bua.xml"));
         }
         catch(Exception e)
         {
@@ -504,7 +547,7 @@ public class AutomatonReaderTest
         try
         {
             testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenSameWildcardWithoutEveryWildcard.bua.xml"));
+                DIRECTORY + "testReadBottomUpDFTAWhenSameWildcardWithoutEveryWildcard.bua.xml"));
         }
         catch(Exception e)
         {
@@ -529,8 +572,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenMultipleTransitions.bua.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenMultipleTransitions.bua.xml"));
         }
         catch(Exception e)
         {
@@ -555,8 +598,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenIncorrectAlphabetWord.bua.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenIncorrectAlphabetWord.bua.xml"));
         }
         catch(Exception e)
         {
@@ -581,8 +624,60 @@ public class AutomatonReaderTest
     {
         try
         {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenIncorrectVariableValue.bua.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = NoAcceptingForVariableException.class)
+    public void testReadBottomUpDFTAWhenNoAcceptingValueForVariable()
+        throws SAXException
+    {
+        try
+        {
             testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenIncorrectVariableValue.bua.xml"));
+                DIRECTORY + "testReadBottomUpDFTAWhenNoAcceptingValueForVariable.bua.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = DuplicatedAcceptingValueException.class)
+    public void testReadBottomUpDFTAWhenDuplicatedAcceptingValueForVariable()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                DIRECTORY + "testReadBottomUpDFTAWhenDuplicatedAcceptingValueForVariable.bua.xml"));
         }
         catch(Exception e)
         {
@@ -607,8 +702,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenNoSuchLabel.bua.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenNoSuchLabel.bua.xml"));
         }
         catch(Exception e)
         {
@@ -633,8 +728,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenNoSuchVariableValue.bua.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenNoSuchVariableValue.bua.xml"));
         }
         catch(Exception e)
         {
@@ -659,8 +754,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject = new AutomatonReader(new File(
-                "test/ref_humbold/fita_view/automaton/testReadBottomUpDFTAWhenNoSuchVariableId.bua.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenNoSuchVariableId.bua.xml"));
         }
         catch(Exception e)
         {
@@ -679,15 +774,43 @@ public class AutomatonReaderTest
         }
     }
 
-    @Ignore
+    @Test(expected = AutomatonParsingException.class)
+    public void testReadBottomUpDFTAWhenVariableValueIsEmpty()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenVariableValueIsEmpty.bua.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    // endregion
+
+    @Ignore(value = "Easter Egg \'TopDown.bua.xml\' not implemented yet.")
     @Test(expected = FileFormatException.class)
     public void testReadWhenExpectedBottomUpButNamedTopDown()
         throws FileFormatException
     {
         try
         {
-            testObject = new AutomatonReader(
-                new File("test/ref_humbold/fita_view/automaton/testReadTopDownAutomaton.bua.xml"));
+            testObject =
+                new AutomatonReader(new File(DIRECTORY + "testReadTopDownAutomaton.bua.xml"));
         }
         catch(SAXException e)
         {
@@ -696,15 +819,15 @@ public class AutomatonReaderTest
         }
     }
 
-    @Ignore
+    @Ignore(value = "Easter Egg \'BottomUp.tda.xml\' not implemented yet.")
     @Test(expected = FileFormatException.class)
     public void testReadWhenExpectedTopDownButNamedBottomUp()
         throws FileFormatException
     {
         try
         {
-            testObject = new AutomatonReader(
-                new File("test/ref_humbold/fita_view/automaton/testReadBottomUpAutomaton.tda.xml"));
+            testObject =
+                new AutomatonReader(new File(DIRECTORY + "testReadBottomUpAutomaton.tda.xml"));
         }
         catch(SAXException e)
         {

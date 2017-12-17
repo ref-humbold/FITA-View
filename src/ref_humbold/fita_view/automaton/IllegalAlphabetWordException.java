@@ -11,9 +11,4 @@ public class IllegalAlphabetWordException
     {
         super(s);
     }
-
-    public IllegalAlphabetWordException(String s, Exception e)
-    {
-        super(s, e);
-    }
 }
