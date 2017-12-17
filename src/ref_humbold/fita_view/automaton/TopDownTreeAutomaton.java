@@ -89,7 +89,7 @@ public abstract class TopDownTreeAutomaton
      * @param label tree label of node
      * @return pair of variable values in sons (first left, second right)
      */
-    protected abstract Pair<String, String> getTransition(Variable var, String value, String label)
+    protected abstract Pair<String, String> getTransitionResult(Variable var, String value, String label)
         throws NoSuchTransitionException;
 
     @Override
@@ -107,7 +107,7 @@ public abstract class TopDownTreeAutomaton
     private Pair<String, String> doTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
-        Pair<String, String> result = getTransition(var, value, label);
+        Pair<String, String> result = getTransitionResult(var, value, label);
 
         return removeSameWildcard(value, result);
     }

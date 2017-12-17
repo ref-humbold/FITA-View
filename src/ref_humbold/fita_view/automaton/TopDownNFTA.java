@@ -77,19 +77,19 @@ public class TopDownNFTA
                                  String rightResult)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
-        Set<Pair<String, String>> resultsSet = getTransitionResultSet(var, Pair.make(value, label));
+        Set<Pair<String, String>> entrySet = getTransitionEntrySet(var, Pair.make(value, label));
 
-        resultsSet.add(Pair.make(leftResult, rightResult));
+        entrySet.add(Pair.make(leftResult, rightResult));
     }
 
     @Override
-    protected Pair<String, String> getTransition(Variable var, String value, String label)
+    protected Pair<String, String> getTransitionResult(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
         return choice.chooseState(transitions.get(var, Pair.make(value, label)));
     }
 
-    private Set<Pair<String, String>> getTransitionResultSet(Variable var, Pair<String, String> key)
+    private Set<Pair<String, String>> getTransitionEntrySet(Variable var, Pair<String, String> key)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
         try
@@ -99,7 +99,7 @@ public class TopDownNFTA
         catch(NoSuchTransitionException e)
         {
             transitions.add(var, key, new HashSet<>());
-            return getTransitionResultSet(var, key);
+            return getTransitionEntrySet(var, key);
         }
     }
 }

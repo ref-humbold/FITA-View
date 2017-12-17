@@ -28,13 +28,9 @@ public class AutomatonReader
         throws SAXException, FileFormatException
     {
         if(file.getName().endsWith(".bua.xml"))
-        {
             this.isTopDown = false;
-        }
         else if(file.getName().endsWith(".tda.xml"))
-        {
             this.isTopDown = true;
-        }
         else
             throw new FileFormatException(
                 "File extension is not recognizable, should be one of \'.bua.xml\' or \'.tda.xml\'.");
@@ -87,7 +83,7 @@ public class AutomatonReader
         Integer varID;
         private List<String> varValues = new ArrayList<>();
 
-        public abstract TreeAutomaton getAutomaton();
+        protected abstract TreeAutomaton getAutomaton();
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes)
