@@ -7,7 +7,7 @@ import ref_humbold.fita_view.automaton.Variable;
 
 public abstract class TreeVertex
 {
-    final int index;
+    protected final int index;
 
     public TreeVertex(int index)
     {
@@ -54,6 +54,11 @@ public abstract class TreeVertex
     public abstract String getLabel();
 
     /**
+     * @return values of all variables in the vertex
+     */
+    public abstract Map<Variable, String> getFullState();
+
+    /**
      * @param var state variable
      * @return variable value in the vertex
      */
@@ -65,11 +70,6 @@ public abstract class TreeVertex
      */
     public abstract void setState(Variable var, String value)
         throws IllegalVariableValueException;
-
-    /**
-     * @return values of all variables in the vertex
-     */
-    public abstract Map<Variable, String> getFullState();
 
     /**
      * Removing values of all state variables in the vertex.

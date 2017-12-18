@@ -1,8 +1,11 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.transition.BottomUpTransitions;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
@@ -12,7 +15,6 @@ import ref_humbold.fita_view.automaton.traversing.BottomUpTraversing;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
-import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class BottomUpDFTA
@@ -20,7 +22,6 @@ public class BottomUpDFTA
 {
     private BottomUpTraversing traversing;
     private BottomUpTransitions transitions = new BottomUpTransitions();
-    private Set<Map<Variable, String>> acceptingStates = new HashSet<>();
     private List<TreeVertex> leaves = new ArrayList<>();
 
     public BottomUpDFTA(Collection<String> alphabet, Collection<Variable> variables)
@@ -60,10 +61,10 @@ public class BottomUpDFTA
     }
 
     @Override
-    public void setTraversing(TraversingMode traversingMode)
+    public void setTraversing(TraversingFactory.Mode mode)
         throws IncorrectTraversingException
     {
-        this.traversing = TraversingFactory.getInstance().getBottomUpTraversing(traversingMode);
+        this.traversing = TraversingFactory.getInstance().getBottomUpTraversing(mode);
     }
 
     @Override
@@ -148,22 +149,8 @@ public class BottomUpDFTA
     {
         super.initialize();
 
-        List<Pair<TreeVertex, Integer>> indexedLeaves = new ArrayList<>();
-
-        for(TreeVertex v : leaves)
-            indexedLeaves.add(Pair.make(v, v.getIndex()));
-
-        traversing.initialize(indexedLeaves);
+        traversing.initialize(leaves.toArray(new TreeVertex[0]));
         isRunning = true;
-    }
-
-    /**
-     * Adding an accepting state of automaton
-     * @param accept mapping from variables to their accepting values
-     */
-    void addAcceptingState(Map<Variable, String> accept)
-    {
-        acceptingStates.add(accept);
     }
 
     /**
@@ -200,7 +187,7 @@ public class BottomUpDFTA
         leaves.clear();
 
         TopDownTraversing t =
-            TraversingFactory.getInstance().getTopDownTraversing(TraversingMode.DFS);
+            TraversingFactory.getInstance().getTopDownTraversing(TraversingFactory.Mode.DFS);
 
         t.initialize(tree);
 

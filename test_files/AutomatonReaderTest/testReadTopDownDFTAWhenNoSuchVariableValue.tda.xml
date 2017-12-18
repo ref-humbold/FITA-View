@@ -9,6 +9,11 @@
       <value>C</value>
     </var>
   </variables>
+  <accepting>
+    <accept>
+      <var-acc var-id="0" value="B" />
+    </accept>
+  </accepting>
   <transitions>
     <trans var-id="0">
       <node-value>A</node-value>

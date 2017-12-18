@@ -1,56 +1,41 @@
 package ref_humbold.fita_view.automaton.traversing;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.tree.NodeVertex;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class BottomUpLevelTest
 {
     private BottomUpLevel testObject;
-    private TreeVertex finiteTreeNode13 = new NodeVertex("13", null, null);
-    private TreeVertex finiteTreeNode12 = new NodeVertex("12", null, null);
-    private TreeVertex finiteTreeNode11 = new NodeVertex("11", null, null);
-    private TreeVertex finiteTreeNode10 = new NodeVertex("10", null, null);
-    private TreeVertex finiteTreeNode7 = new NodeVertex("7", null, null);
-    private TreeVertex finiteTreeNode6 = new NodeVertex("6", finiteTreeNode12, finiteTreeNode13);
-    private TreeVertex finiteTreeNode5 = new NodeVertex("5", finiteTreeNode10, finiteTreeNode11);
-    private TreeVertex finiteTreeNode4 = new NodeVertex("4", null, null);
-    private TreeVertex finiteTreeNode3 = new NodeVertex("3", finiteTreeNode6, finiteTreeNode7);
-    private TreeVertex finiteTreeNode2 = new NodeVertex("2", finiteTreeNode4, finiteTreeNode5);
-    private TreeVertex finiteTreeNode1 = new NodeVertex("1", finiteTreeNode2, finiteTreeNode3);
-    private List<Pair<TreeVertex, Integer>> verticesDepths;
+    private TreeVertex node13 = new NodeVertex("13", 13, null, null);
+    private TreeVertex node12 = new NodeVertex("12", 12, null, null);
+    private TreeVertex node11 = new NodeVertex("11", 11, null, null);
+    private TreeVertex node10 = new NodeVertex("10", 10, null, null);
+    private TreeVertex node7 = new NodeVertex("7", 7, null, null);
+    private TreeVertex node6 = new NodeVertex("6", 6, node13, node12);
+    private TreeVertex node5 = new NodeVertex("5", 5, node11, node10);
+    private TreeVertex node4 = new NodeVertex("4", 4, null, null);
+    private TreeVertex node3 = new NodeVertex("3", 3, node7, node6);
+    private TreeVertex node2 = new NodeVertex("2", 2, node5, node4);
+    private TreeVertex node1 = new NodeVertex("1", 1, node3, node2);
 
     @Before
     public void setUp()
     {
         testObject = new BottomUpLevel();
-        verticesDepths = Arrays.asList(Pair.make(finiteTreeNode1, 1), Pair.make(finiteTreeNode2, 3),
-                                       Pair.make(finiteTreeNode3, 2), Pair.make(finiteTreeNode4, 7),
-                                       Pair.make(finiteTreeNode5, 6), Pair.make(finiteTreeNode6, 5),
-                                       Pair.make(finiteTreeNode7, 4),
-                                       Pair.make(finiteTreeNode10, 11),
-                                       Pair.make(finiteTreeNode11, 10),
-                                       Pair.make(finiteTreeNode12, 9),
-                                       Pair.make(finiteTreeNode13, 8));
     }
 
     @After
     public void tearDown()
     {
         testObject = null;
-        verticesDepths = null;
     }
 
     @Test
@@ -58,9 +43,7 @@ public class BottomUpLevelTest
     {
         ArrayList<Object[]> result = new ArrayList<>();
 
-        testObject.initialize(
-            Arrays.asList(verticesDepths.get(3), verticesDepths.get(6), verticesDepths.get(7),
-                          verticesDepths.get(8), verticesDepths.get(9), verticesDepths.get(10)));
+        testObject.initialize(node4, node7, node10, node11, node12, node13);
 
         while(testObject.hasNext())
         {
@@ -75,9 +58,8 @@ public class BottomUpLevelTest
         }
 
         TreeVertex[][] expected =
-            {{finiteTreeNode10, finiteTreeNode11, finiteTreeNode12, finiteTreeNode13},
-             {finiteTreeNode4, finiteTreeNode5, finiteTreeNode6, finiteTreeNode7},
-             {finiteTreeNode2, finiteTreeNode3}, {finiteTreeNode1}};
+            {{node13, node12, node11, node10}, {node7, node6, node5, node4}, {node3, node2},
+             {node1}};
 
         Assert.assertArrayEquals(expected, result.toArray());
     }
@@ -85,43 +67,44 @@ public class BottomUpLevelTest
     @Test(expected = NoSuchElementException.class)
     public void testNextWhenOutOfBounds()
     {
-        testObject.initialize(
-            Arrays.asList(verticesDepths.get(3), verticesDepths.get(6), verticesDepths.get(7),
-                          verticesDepths.get(8), verticesDepths.get(9), verticesDepths.get(10)));
+        testObject.initialize(node4, node7, node10, node11, node12, node13);
 
-        while(true)
+        while(testObject.hasNext())
         {
             testObject.next();
         }
+
+        testObject.next();
     }
 
     @Test
     public void testInitialize()
     {
-        testObject.initialize(Arrays.asList(verticesDepths.get(7), verticesDepths.get(8)));
+        testObject.initialize(node7, node4);
 
-        Queue<Pair<TreeVertex, Integer>> queue = testObject.vertexQueue;
+        Queue<TreeVertex> queue = testObject.vertexQueue;
 
         Assert.assertEquals(2, queue.size());
-        Assert.assertTrue(queue.contains(verticesDepths.get(7)));
-        Assert.assertTrue(queue.contains(verticesDepths.get(8)));
-        Assert.assertEquals(3, testObject.maxDepth);
+        Assert.assertTrue(queue.contains(node7));
+        Assert.assertTrue(queue.contains(node4));
+        Assert.assertEquals(2, testObject.currentDepth);
     }
 
     @Test
     public void testInitializeWhenDoubleInvoke()
     {
-        testObject.initialize(Arrays.asList(verticesDepths.get(7), verticesDepths.get(8)));
-        testObject.initialize(Arrays.asList(verticesDepths.get(6), verticesDepths.get(3)));
+        testObject.initialize(node7, node4);
+        testObject.initialize(node10, node11, node12);
 
-        Queue<Pair<TreeVertex, Integer>> queue = testObject.vertexQueue;
+        Queue<TreeVertex> queue = testObject.vertexQueue;
 
-        Assert.assertEquals(2, queue.size());
-        Assert.assertFalse(queue.contains(verticesDepths.get(7)));
-        Assert.assertFalse(queue.contains(verticesDepths.get(8)));
-        Assert.assertTrue(queue.contains(verticesDepths.get(6)));
-        Assert.assertTrue(queue.contains(verticesDepths.get(3)));
-        Assert.assertEquals(2, testObject.maxDepth);
+        Assert.assertEquals(3, queue.size());
+        Assert.assertFalse(queue.contains(node7));
+        Assert.assertFalse(queue.contains(node4));
+        Assert.assertTrue(queue.contains(node12));
+        Assert.assertTrue(queue.contains(node11));
+        Assert.assertTrue(queue.contains(node10));
+        Assert.assertEquals(3, testObject.currentDepth);
     }
 
     @Test
@@ -135,7 +118,7 @@ public class BottomUpLevelTest
     @Test
     public void testHasNextWhenNotEmpty()
     {
-        testObject.initialize(Collections.singletonList(verticesDepths.get(9)));
+        testObject.initialize(node13);
 
         boolean result = testObject.hasNext();
 

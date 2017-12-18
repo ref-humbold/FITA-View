@@ -16,7 +16,7 @@ import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 
 public class AutomatonReaderTest
 {
-    private static final String DIRECTORY = "test/ref_humbold/fita_view/automaton/";
+    private static final String DIRECTORY = "test_files/AutomatonReaderTest/";
     private AutomatonReader testObject;
 
     @Before
@@ -149,32 +149,6 @@ public class AutomatonReaderTest
         Assert.assertEquals(expected, result);
     }
 
-    @Test(expected = DuplicatedTransitionException.class)
-    public void testReadTopDownDFTAWhenMultipleTransitions()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(
-                new File(DIRECTORY + "testReadTopDownDFTAWhenMultipleTransitions.tda.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
     @Test(expected = AutomatonParsingException.class)
     public void testReadTopDownDFTAWhenIncorrectAlphabetWord()
         throws SAXException
@@ -183,32 +157,6 @@ public class AutomatonReaderTest
         {
             testObject = new AutomatonReader(
                 new File(DIRECTORY + "testReadTopDownDFTAWhenIncorrectAlphabetWord.tda.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
-    @Test(expected = AutomatonParsingException.class)
-    public void testReadTopDownDFTAWhenIncorrectVariableValue()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(
-                new File(DIRECTORY + "testReadTopDownDFTAWhenIncorrectVariableValue.tda.xml"));
         }
         catch(Exception e)
         {
@@ -306,6 +254,32 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = AutomatonParsingException.class)
+    public void testReadTopDownDFTAWhenIncorrectVariableValue()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenIncorrectVariableValue.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = AutomatonParsingException.class)
     public void testReadTopDownDFTAWhenVariableValueIsEmpty()
         throws SAXException
     {
@@ -313,6 +287,84 @@ public class AutomatonReaderTest
         {
             testObject = new AutomatonReader(
                 new File(DIRECTORY + "testReadTopDownDFTAWhenVariableValueIsEmpty.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = NoAcceptingForVariableException.class)
+    public void testReadTopDownDFTAWhenNoAcceptingValueForVariable()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenNoAcceptingValueForVariable.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = DuplicatedAcceptingValueException.class)
+    public void testReadTopDownDFTAWhenDuplicatedAcceptingValueForVariable()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                DIRECTORY + "testReadTopDownDFTAWhenDuplicatedAcceptingValueForVariable.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = DuplicatedTransitionException.class)
+    public void testReadTopDownDFTAWhenMultipleTransitions()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenMultipleTransitions.tda.xml"));
         }
         catch(Exception e)
         {
@@ -566,32 +618,6 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = DuplicatedTransitionException.class)
-    public void testReadBottomUpDFTAWhenMultipleTransitions()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(
-                new File(DIRECTORY + "testReadBottomUpDFTAWhenMultipleTransitions.bua.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
     @Test(expected = AutomatonParsingException.class)
     public void testReadBottomUpDFTAWhenIncorrectAlphabetWord()
         throws SAXException
@@ -618,84 +644,6 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = AutomatonParsingException.class)
-    public void testReadBottomUpDFTAWhenIncorrectVariableValue()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(
-                new File(DIRECTORY + "testReadBottomUpDFTAWhenIncorrectVariableValue.bua.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
-    @Test(expected = NoAcceptingForVariableException.class)
-    public void testReadBottomUpDFTAWhenNoAcceptingValueForVariable()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(new File(
-                DIRECTORY + "testReadBottomUpDFTAWhenNoAcceptingValueForVariable.bua.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
-    @Test(expected = DuplicatedAcceptingValueException.class)
-    public void testReadBottomUpDFTAWhenDuplicatedAcceptingValueForVariable()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new AutomatonReader(new File(
-                DIRECTORY + "testReadBottomUpDFTAWhenDuplicatedAcceptingValueForVariable.bua.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
     @Test(expected = IllegalAlphabetWordException.class)
     public void testReadBottomUpDFTAWhenNoSuchLabel()
         throws SAXException
@@ -704,6 +652,32 @@ public class AutomatonReaderTest
         {
             testObject = new AutomatonReader(
                 new File(DIRECTORY + "testReadBottomUpDFTAWhenNoSuchLabel.bua.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = AutomatonParsingException.class)
+    public void testReadBottomUpDFTAWhenIncorrectVariableValue()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenIncorrectVariableValue.bua.xml"));
         }
         catch(Exception e)
         {
@@ -782,6 +756,84 @@ public class AutomatonReaderTest
         {
             testObject = new AutomatonReader(
                 new File(DIRECTORY + "testReadBottomUpDFTAWhenVariableValueIsEmpty.bua.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = NoAcceptingForVariableException.class)
+    public void testReadBottomUpDFTAWhenNoAcceptingValueForVariable()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                DIRECTORY + "testReadBottomUpDFTAWhenNoAcceptingValueForVariable.bua.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = DuplicatedAcceptingValueException.class)
+    public void testReadBottomUpDFTAWhenDuplicatedAcceptingValueForVariable()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                DIRECTORY + "testReadBottomUpDFTAWhenDuplicatedAcceptingValueForVariable.bua.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = DuplicatedTransitionException.class)
+    public void testReadBottomUpDFTAWhenMultipleTransitions()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpDFTAWhenMultipleTransitions.bua.xml"));
         }
         catch(Exception e)
         {

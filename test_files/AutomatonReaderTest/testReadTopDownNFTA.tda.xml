@@ -1,7 +1,7 @@
-<automaton determinism="true">
+<automaton determinism="false">
   <alphabet>
     <word>0</word>
-    <word>-</word>
+    <word>1</word>
   </alphabet>
   <variables>
     <var id="0" init="A">
@@ -9,6 +9,11 @@
       <value>C</value>
     </var>
   </variables>
+  <accepting>
+    <accept>
+      <var-acc var-id="0" value="B" />
+    </accept>
+  </accepting>
   <transitions>
     <trans var-id="0">
       <node-value>A</node-value>
@@ -18,9 +23,15 @@
     </trans>
     <trans var-id="0">
       <node-value>A</node-value>
-      <label>-</label>
+      <label>1</label>
       <left-result>A</left-result>
       <right-result>A</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>A</node-value>
+      <label>1</label>
+      <left-result>A</left-result>
+      <right-result>B</right-result>
     </trans>
     <trans var-id="0">
       <node-value>B</node-value>
@@ -30,7 +41,13 @@
     </trans>
     <trans var-id="0">
       <node-value>B</node-value>
-      <label>-</label>
+      <label>0</label>
+      <left-result>B</left-result>
+      <right-result>C</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>B</node-value>
+      <label>1</label>
       <left-result>B</left-result>
       <right-result>B</right-result>
     </trans>
@@ -42,9 +59,21 @@
     </trans>
     <trans var-id="0">
       <node-value>C</node-value>
-      <label>-</label>
+      <label>1</label>
       <left-result>C</left-result>
       <right-result>C</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>C</node-value>
+      <label>1</label>
+      <left-result>B</left-result>
+      <right-result>B</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>C</node-value>
+      <label>1</label>
+      <left-result>A</left-result>
+      <right-result>A</right-result>
     </trans>
   </transitions>
 </automaton>

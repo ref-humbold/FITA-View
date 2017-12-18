@@ -6,15 +6,20 @@
   <variables>
     <var id="0" init="A">
       <value>B</value>
-      <value>-</value>
+      <value>C</value>
     </var>
   </variables>
+  <accepting>
+    <accept>
+      <var-acc var-id="0" value="B" />
+    </accept>
+  </accepting>
   <transitions>
     <trans var-id="0">
       <node-value>A</node-value>
       <label>0</label>
       <left-result>B</left-result>
-      <right-result>-</right-result>
+      <right-result>C</right-result>
     </trans>
     <trans var-id="0">
       <node-value>A</node-value>
@@ -25,7 +30,7 @@
     <trans var-id="0">
       <node-value>B</node-value>
       <label>0</label>
-      <left-result>-</left-result>
+      <left-result>C</left-result>
       <right-result>A</right-result>
     </trans>
     <trans var-id="0">
@@ -35,16 +40,16 @@
       <right-result>B</right-result>
     </trans>
     <trans var-id="0">
-      <node-value>-</node-value>
+      <node-value>C</node-value>
       <label>0</label>
       <left-result>A</left-result>
       <right-result>B</right-result>
     </trans>
     <trans var-id="0">
-      <node-value>-</node-value>
+      <node-value>C</node-value>
       <label>1</label>
-      <left-result>-</left-result>
-      <right-result>-</right-result>
+      <left-result>C</left-result>
+      <right-result>C</right-result>
     </trans>
   </transitions>
 </automaton>

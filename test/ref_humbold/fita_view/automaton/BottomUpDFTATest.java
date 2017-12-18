@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
-import ref_humbold.fita_view.automaton.traversing.TraversingMode;
+import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.tree.NodeVertex;
 import ref_humbold.fita_view.tree.TreeVertex;
 
@@ -37,7 +37,7 @@ public class BottomUpDFTATest
         accepts.put(variables.get(1), Wildcard.EVERY_VALUE);
 
         testObject = new BottomUpDFTA(alphabet, variables);
-        testObject.setTraversing(TraversingMode.LEVEL);
+        testObject.setTraversing(TraversingFactory.Mode.LEVEL);
         testObject.addAcceptingState(accepts);
         testObject.addTransition(variables.get(0), "X", "X", "0", "F");
         testObject.addTransition(variables.get(0), "X", "X", "1", "T");

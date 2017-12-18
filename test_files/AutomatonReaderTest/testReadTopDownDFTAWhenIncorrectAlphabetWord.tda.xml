@@ -1,7 +1,7 @@
 <automaton determinism="true">
   <alphabet>
     <word>0</word>
-    <word>1</word>
+    <word>-</word>
   </alphabet>
   <variables>
     <var id="0" init="A">
@@ -9,6 +9,11 @@
       <value>C</value>
     </var>
   </variables>
+  <accepting>
+    <accept>
+      <var-acc var-id="0" value="B" />
+    </accept>
+  </accepting>
   <transitions>
     <trans var-id="0">
       <node-value>A</node-value>
@@ -18,7 +23,7 @@
     </trans>
     <trans var-id="0">
       <node-value>A</node-value>
-      <label>1</label>
+      <label>-</label>
       <left-result>A</left-result>
       <right-result>A</right-result>
     </trans>
@@ -30,7 +35,7 @@
     </trans>
     <trans var-id="0">
       <node-value>B</node-value>
-      <label>1</label>
+      <label>-</label>
       <left-result>B</left-result>
       <right-result>B</right-result>
     </trans>
@@ -42,15 +47,9 @@
     </trans>
     <trans var-id="0">
       <node-value>C</node-value>
-      <label>1</label>
+      <label>-</label>
       <left-result>C</left-result>
       <right-result>C</right-result>
-    </trans>
-    <trans var-id="0">
-      <node-value>C</node-value>
-      <label>2</label>
-      <left-result>B</left-result>
-      <right-result>B</right-result>
     </trans>
   </transitions>
 </automaton>

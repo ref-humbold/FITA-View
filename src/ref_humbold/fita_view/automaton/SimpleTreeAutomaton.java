@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
-import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
 import ref_humbold.fita_view.tree.TreeVertex;
 
@@ -19,7 +19,8 @@ public abstract class SimpleTreeAutomaton
     protected Set<String> alphabet;
     protected List<Variable> variables;
     protected TreeVertex tree;
-    boolean isRunning = false;
+    protected Set<Map<Variable, String>> acceptingStates = new HashSet<>();
+    protected boolean isRunning = false;
 
     public SimpleTreeAutomaton(Collection<String> alphabet, Collection<Variable> variables)
     {
@@ -77,12 +78,21 @@ public abstract class SimpleTreeAutomaton
         throws IllegalVariableValueException
     {
         TopDownTraversing t =
-            TraversingFactory.getInstance().getTopDownTraversing(TraversingMode.DFS);
+            TraversingFactory.getInstance().getTopDownTraversing(TraversingFactory.Mode.DFS);
 
         t.initialize(tree);
 
         while(t.hasNext())
             for(TreeVertex v : t.next())
                 v.deleteFullState();
+    }
+
+    /**
+     * Adding an accepting state of automaton
+     * @param accept mapping from variables to their accepting values
+     */
+    protected void addAcceptingState(Map<Variable, String> accept)
+    {
+        acceptingStates.add(accept);
     }
 }

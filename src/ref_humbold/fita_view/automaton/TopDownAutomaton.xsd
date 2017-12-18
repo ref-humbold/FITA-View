@@ -26,6 +26,24 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="accepting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="accept" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="var-acc" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="var-id" type="xs:int" />
+                        <xs:attribute name="value" type="everyWildcardType" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
         <xs:element name="transitions">
           <xs:complexType>
             <xs:sequence>

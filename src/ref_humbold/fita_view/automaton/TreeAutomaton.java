@@ -2,7 +2,7 @@ package ref_humbold.fita_view.automaton;
 
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
-import ref_humbold.fita_view.automaton.traversing.TraversingMode;
+import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public interface TreeAutomaton
@@ -14,7 +14,7 @@ public interface TreeAutomaton
     boolean isAccepted()
         throws UndefinedAcceptanceException;
 
-    void setTraversing(TraversingMode traversingMode)
+    void setTraversing(TraversingFactory.Mode mode)
         throws IncorrectTraversingException;
 
     void setTree(TreeVertex tree);

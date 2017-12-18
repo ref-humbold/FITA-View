@@ -10,7 +10,7 @@ import org.xml.sax.SAXException;
 
 public class TreeReaderTest
 {
-    public static final String DIRECTORY = "test/ref_humbold/fita_view/tree/";
+    public static final String DIRECTORY = "test_files/TreeReaderTest/";
     private TreeReader testObject;
 
     @Before

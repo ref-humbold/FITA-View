@@ -7,9 +7,13 @@
     <var id="0" init="A">
       <value>B</value>
       <value>C</value>
-      <value />
     </var>
   </variables>
+  <accepting>
+    <accept>
+      <var-acc var-id="0" value="B" />
+    </accept>
+  </accepting>
   <transitions>
     <trans var-id="0">
       <node-value>A</node-value>
@@ -42,6 +46,12 @@
       <right-result>B</right-result>
     </trans>
     <trans var-id="0">
+      <node-value>C</node-value>
+      <label>1</label>
+      <left-result>C</left-result>
+      <right-result>C</right-result>
+    </trans>
+    <trans var-id="1">
       <node-value>C</node-value>
       <label>1</label>
       <left-result>C</left-result>

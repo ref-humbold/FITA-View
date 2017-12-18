@@ -4,12 +4,12 @@ import java.util.Iterator;
 
 import ref_humbold.fita_view.tree.TreeVertex;
 
-public interface TreeTraversing<T>
+public interface TreeTraversing
     extends Iterator<Iterable<TreeVertex>>
 {
     /**
-     * Setting place in tree to start traversing from.
-     * @param place initial place
+     * Setting vertices in tree to start traversing from.
+     * @param vertices initial vertices
      */
-    void initialize(T place);
+    void initialize(TreeVertex... vertices);
 }

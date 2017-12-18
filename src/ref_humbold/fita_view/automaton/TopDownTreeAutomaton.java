@@ -8,7 +8,6 @@ import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
-import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public abstract class TopDownTreeAutomaton
@@ -28,9 +27,9 @@ public abstract class TopDownTreeAutomaton
     }
 
     @Override
-    public void setTraversing(TraversingMode traversingMode)
+    public void setTraversing(TraversingFactory.Mode mode)
     {
-        this.traversing = TraversingFactory.getInstance().getTopDownTraversing(traversingMode);
+        this.traversing = TraversingFactory.getInstance().getTopDownTraversing(mode);
     }
 
     @Override
@@ -89,7 +88,8 @@ public abstract class TopDownTreeAutomaton
      * @param label tree label of node
      * @return pair of variable values in sons (first left, second right)
      */
-    protected abstract Pair<String, String> getTransitionResult(Variable var, String value, String label)
+    protected abstract Pair<String, String> getTransitionResult(Variable var, String value,
+                                                                String label)
         throws NoSuchTransitionException;
 
     @Override
