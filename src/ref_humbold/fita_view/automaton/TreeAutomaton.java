@@ -4,15 +4,17 @@ import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public interface TreeAutomaton
 {
     /**
      * Testing if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
+     * @throws UndefinedAcceptanceException if no accepting states were defined
      */
     boolean isAccepted()
-        throws UndefinedAcceptanceException;
+        throws UndefinedAcceptanceException, UndefinedTreeStateException;
 
     void setTraversing(TraversingFactory.Mode mode)
         throws IncorrectTraversingException;
@@ -33,7 +35,8 @@ public interface TreeAutomaton
      * @throws NoTraversingException if no traversing strategy was set
      */
     void run()
-        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException;
+        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException,
+               UndefinedTreeStateException;
 
     /**
      * Making a single traversing step of the automaton over the tree.
@@ -42,7 +45,8 @@ public interface TreeAutomaton
      * @throws NoTraversingException if no traversing strategy was set
      */
     void makeStepForward()
-        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException;
+        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
+               UndefinedTreeStateException;
 
     /**
      * Generating a sample tree that could be accepted by the automaton.

@@ -75,9 +75,15 @@ public class RecVertex
     }
 
     @Override
-    public String getState(Variable var)
+    public Map<Variable, String> getFullState()
     {
-        return recursive.getState(var);
+        return recursive.getFullState();
+    }
+
+    @Override
+    public String getStateOrNull(Variable var)
+    {
+        return recursive.getStateOrNull(var);
     }
 
     @Override
@@ -85,12 +91,6 @@ public class RecVertex
         throws IllegalVariableValueException
     {
         recursive.setState(var, value);
-    }
-
-    @Override
-    public Map<Variable, String> getFullState()
-    {
-        return recursive.getFullState();
     }
 
     @Override

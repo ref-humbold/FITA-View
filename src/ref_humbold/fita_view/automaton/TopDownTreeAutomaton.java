@@ -1,6 +1,10 @@
 package ref_humbold.fita_view.automaton;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
@@ -9,11 +13,13 @@ import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public abstract class TopDownTreeAutomaton
     extends SimpleTreeAutomaton
 {
     private TopDownTraversing traversing;
+    private List<Map<Variable, String>> leafStates = new ArrayList<>();
 
     public TopDownTreeAutomaton(Collection<String> alphabet, Collection<Variable> variables)
     {
@@ -33,8 +39,26 @@ public abstract class TopDownTreeAutomaton
     }
 
     @Override
+    public boolean isAccepted()
+        throws UndefinedAcceptanceException, UndefinedTreeStateException
+    {
+        if(acceptingStates.isEmpty())
+            throw new UndefinedAcceptanceException("Automaton has no accepting states defined.");
+
+        if(leafStates.isEmpty())
+            throw new UndefinedTreeStateException("States in tree leaves are undefined.");
+
+        for(Map<Variable, String> state : leafStates)
+            if(!checkAcceptance(state))
+                return false;
+
+        return true;
+    }
+
+    @Override
     public void makeStepForward()
-        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException
+        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
+               UndefinedTreeStateException
     {
         if(traversing == null)
         {
@@ -52,21 +76,37 @@ public abstract class TopDownTreeAutomaton
         }
 
         for(TreeVertex vertex : traversing.next())
-            if(vertex.hasChildren())
-                for(Variable v : variables)
-                    try
-                    {
-                        Pair<String, String> result =
-                            doTransition(v, vertex.getState(v), vertex.getLabel());
+        {
+            Map<Variable, String> lastState = new HashMap<>();
 
+            for(Variable v : variables)
+            {
+                try
+                {
+                    Pair<String, String> result =
+                        doTransition(v, vertex.getState(v), vertex.getLabel());
+
+                    if(vertex.hasChildren())
+                    {
                         vertex.getLeft().setState(v, result.getFirst());
                         vertex.getRight().setState(v, result.getSecond());
                     }
-                    catch(Exception e)
+                    else
                     {
-                        isRunning = false;
-                        throw e;
+                        lastState.put(v, result.getFirst());
+                        lastState.put(v, result.getSecond());
                     }
+                }
+                catch(Exception e)
+                {
+                    isRunning = false;
+                    throw e;
+                }
+
+                if(!lastState.isEmpty())
+                    leafStates.add(lastState);
+            }
+        }
     }
 
     /**
@@ -102,6 +142,7 @@ public abstract class TopDownTreeAutomaton
             tree.setState(var, var.getInitValue());
 
         traversing.initialize(tree);
+        leafStates.clear();
     }
 
     private Pair<String, String> doTransition(Variable var, String value, String label)

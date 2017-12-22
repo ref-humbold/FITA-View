@@ -38,12 +38,6 @@ public class TopDownNFTA
     }
 
     @Override
-    public boolean isAccepted()
-    {
-        return false;
-    }
-
-    @Override
     public TreeVertex generateTree()
     {
         return null;

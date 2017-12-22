@@ -61,8 +61,25 @@ public abstract class TreeVertex
     /**
      * @param var state variable
      * @return variable value in the vertex
+     * @throws UndefinedTreeStateException if variable value is undefined
      */
-    public abstract String getState(Variable var);
+    public String getState(Variable var)
+        throws UndefinedTreeStateException
+    {
+        String value = getStateOrNull(var);
+
+        if(value == null)
+            throw new UndefinedTreeStateException(
+                "Node has undefined state for variable " + var + ".");
+
+        return value;
+    }
+
+    /**
+     * @param var state variable
+     * @return variable value in the vertex or {@code null} if variable value is undefined
+     */
+    public abstract String getStateOrNull(Variable var);
 
     /**
      * @param var state variable

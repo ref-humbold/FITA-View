@@ -100,7 +100,13 @@ public class NodeVertex
     }
 
     @Override
-    public String getState(Variable var)
+    public Map<Variable, String> getFullState()
+    {
+        return state;
+    }
+
+    @Override
+    public String getStateOrNull(Variable var)
     {
         return state.get(var);
     }
@@ -113,12 +119,6 @@ public class NodeVertex
             throw new IllegalVariableValueException(value);
 
         state.put(var, value);
-    }
-
-    @Override
-    public Map<Variable, String> getFullState()
-    {
-        return state;
     }
 
     @Override

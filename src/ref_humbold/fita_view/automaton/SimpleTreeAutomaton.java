@@ -12,6 +12,7 @@ import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
 import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public abstract class SimpleTreeAutomaton
     implements TreeAutomaton
@@ -47,7 +48,8 @@ public abstract class SimpleTreeAutomaton
 
     @Override
     public void run()
-        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException
+        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException,
+               UndefinedTreeStateException
     {
         if(getTraversing() == null)
             throw new NoTraversingException("Automaton has no traversing strategy.");
@@ -72,6 +74,36 @@ public abstract class SimpleTreeAutomaton
     }
 
     /**
+     * Testing if specified tree node state is an accepting state.
+     * @param state state of a tree node
+     * @return {@code true} if state can be accepted, otherwise {@code false}
+     */
+    protected boolean checkAcceptance(Map<Variable, String> state)
+        throws UndefinedTreeStateException
+    {
+        for(Map<Variable, String> accept : acceptingStates)
+        {
+            boolean contained = true;
+
+            for(Variable var : accept.keySet())
+            {
+                if(state.get(var) == null)
+                    throw new UndefinedTreeStateException(
+                        "Node has an undefined state variable value.");
+
+                contained &= accept.get(var).equals(state.get(var)) || accept.get(var)
+                                                                             .equals(
+                                                                                 Wildcard.EVERY_VALUE);
+            }
+
+            if(contained)
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Initializing automaton and tree before running on tree.
      */
     protected void initialize()
@@ -85,6 +117,8 @@ public abstract class SimpleTreeAutomaton
         while(t.hasNext())
             for(TreeVertex v : t.next())
                 v.deleteFullState();
+
+        isRunning = true;
     }
 
     /**

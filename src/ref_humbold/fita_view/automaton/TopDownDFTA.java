@@ -21,12 +21,6 @@ public class TopDownDFTA
     }
 
     @Override
-    public boolean isAccepted()
-    {
-        return false;
-    }
-
-    @Override
     public TreeVertex generateTree()
     {
         return null;

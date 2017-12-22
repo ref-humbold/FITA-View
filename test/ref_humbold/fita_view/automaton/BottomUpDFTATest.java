@@ -9,10 +9,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.tree.NodeVertex;
 import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public class BottomUpDFTATest
 {
@@ -91,35 +91,35 @@ public class BottomUpDFTATest
         {
             testObject.run();
         }
-        catch(IllegalVariableValueException | NoSuchTransitionException | NoTraversingException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         Assert.assertFalse(testObject.isRunning);
-        Assert.assertEquals("T", node13.getState(variables.get(0)));
-        Assert.assertEquals("!", node13.getState(variables.get(1)));
-        Assert.assertEquals("T", node12.getState(variables.get(0)));
-        Assert.assertEquals("!", node12.getState(variables.get(1)));
-        Assert.assertEquals("T", node11.getState(variables.get(0)));
-        Assert.assertEquals("!", node11.getState(variables.get(1)));
-        Assert.assertEquals("F", node10.getState(variables.get(0)));
-        Assert.assertEquals("!", node10.getState(variables.get(1)));
-        Assert.assertEquals("T", node7.getState(variables.get(0)));
-        Assert.assertEquals("!", node7.getState(variables.get(1)));
-        Assert.assertEquals("T", node6.getState(variables.get(0)));
-        Assert.assertEquals("$", node6.getState(variables.get(1)));
-        Assert.assertEquals("F", node5.getState(variables.get(0)));
-        Assert.assertEquals("&", node5.getState(variables.get(1)));
-        Assert.assertEquals("F", node4.getState(variables.get(0)));
-        Assert.assertEquals("!", node4.getState(variables.get(1)));
-        Assert.assertEquals("T", node3.getState(variables.get(0)));
-        Assert.assertEquals("&", node3.getState(variables.get(1)));
-        Assert.assertEquals("F", node2.getState(variables.get(0)));
-        Assert.assertEquals("$", node2.getState(variables.get(1)));
-        Assert.assertEquals("F", node1.getState(variables.get(0)));
-        Assert.assertEquals("@", node1.getState(variables.get(1)));
+        Assert.assertEquals("T", node13.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node13.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("T", node12.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node12.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("T", node11.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node11.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("F", node10.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node10.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("T", node7.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node7.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("T", node6.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("$", node6.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("F", node5.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("&", node5.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("F", node4.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node4.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("T", node3.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("&", node3.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("F", node2.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("$", node2.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("F", node1.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("@", node1.getStateOrNull(variables.get(1)));
     }
 
     @Test
@@ -145,112 +145,61 @@ public class BottomUpDFTATest
         {
             testObject.makeStepForward();
         }
-        catch(IllegalVariableValueException | NoSuchTransitionException | NoTraversingException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         Assert.assertTrue(testObject.isRunning);
-        Assert.assertEquals("T", node13.getState(variables.get(0)));
-        Assert.assertEquals("!", node13.getState(variables.get(1)));
-        Assert.assertEquals("T", node12.getState(variables.get(0)));
-        Assert.assertEquals("!", node12.getState(variables.get(1)));
-        Assert.assertEquals("T", node11.getState(variables.get(0)));
-        Assert.assertEquals("!", node11.getState(variables.get(1)));
-        Assert.assertEquals("F", node10.getState(variables.get(0)));
-        Assert.assertEquals("!", node10.getState(variables.get(1)));
-        Assert.assertNull(node7.getState(variables.get(0)));
-        Assert.assertNull(node7.getState(variables.get(1)));
-        Assert.assertNull(node6.getState(variables.get(0)));
-        Assert.assertNull(node6.getState(variables.get(1)));
-        Assert.assertNull(node5.getState(variables.get(0)));
-        Assert.assertNull(node5.getState(variables.get(1)));
-        Assert.assertNull(node4.getState(variables.get(0)));
-        Assert.assertNull(node4.getState(variables.get(1)));
-        Assert.assertNull(node3.getState(variables.get(0)));
-        Assert.assertNull(node3.getState(variables.get(1)));
-        Assert.assertNull(node2.getState(variables.get(0)));
-        Assert.assertNull(node2.getState(variables.get(1)));
-        Assert.assertNull(node1.getState(variables.get(0)));
-        Assert.assertNull(node1.getState(variables.get(1)));
+        Assert.assertEquals("T", node13.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node13.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("T", node12.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node12.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("T", node11.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node11.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("F", node10.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node10.getStateOrNull(variables.get(1)));
+        Assert.assertNull(node7.getStateOrNull(variables.get(0)));
+        Assert.assertNull(node7.getStateOrNull(variables.get(1)));
+        Assert.assertNull(node6.getStateOrNull(variables.get(0)));
+        Assert.assertNull(node6.getStateOrNull(variables.get(1)));
+        Assert.assertNull(node5.getStateOrNull(variables.get(0)));
+        Assert.assertNull(node5.getStateOrNull(variables.get(1)));
+        Assert.assertNull(node4.getStateOrNull(variables.get(0)));
+        Assert.assertNull(node4.getStateOrNull(variables.get(1)));
+        Assert.assertNull(node3.getStateOrNull(variables.get(0)));
+        Assert.assertNull(node3.getStateOrNull(variables.get(1)));
+        Assert.assertNull(node2.getStateOrNull(variables.get(0)));
+        Assert.assertNull(node2.getStateOrNull(variables.get(1)));
+        Assert.assertNull(node1.getStateOrNull(variables.get(0)));
+        Assert.assertNull(node1.getStateOrNull(variables.get(1)));
 
         try
         {
             testObject.makeStepForward();
         }
-        catch(IllegalVariableValueException | NoSuchTransitionException | NoTraversingException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         Assert.assertTrue(testObject.isRunning);
-        Assert.assertEquals("T", node7.getState(variables.get(0)));
-        Assert.assertEquals("!", node7.getState(variables.get(1)));
-        Assert.assertEquals("T", node6.getState(variables.get(0)));
-        Assert.assertEquals("$", node6.getState(variables.get(1)));
-        Assert.assertEquals("F", node5.getState(variables.get(0)));
-        Assert.assertEquals("&", node5.getState(variables.get(1)));
-        Assert.assertEquals("F", node4.getState(variables.get(0)));
-        Assert.assertEquals("!", node4.getState(variables.get(1)));
-        Assert.assertNull(node3.getState(variables.get(0)));
-        Assert.assertNull(node3.getState(variables.get(1)));
-        Assert.assertNull(node2.getState(variables.get(0)));
-        Assert.assertNull(node2.getState(variables.get(1)));
-        Assert.assertNull(node1.getState(variables.get(0)));
-        Assert.assertNull(node1.getState(variables.get(1)));
-    }
-
-    @Test
-    public void testIsAcceptedWhenAutomatonHasRunAndNotAccepts()
-    {
-        TreeVertex node = new NodeVertex("impl", 1, new NodeVertex("and", 3,
-                                                                   new NodeVertex("1", 7, null,
-                                                                                  null),
-                                                                   new NodeVertex("or", 6,
-                                                                                  new NodeVertex(
-                                                                                      "1", 13, null,
-                                                                                      null),
-                                                                                  new NodeVertex(
-                                                                                      "1", 12, null,
-                                                                                      null))),
-                                         new NodeVertex("or", 2, new NodeVertex("and", 5,
-                                                                                new NodeVertex("1",
-                                                                                               11,
-                                                                                               null,
-                                                                                               null),
-                                                                                new NodeVertex("0",
-                                                                                               10,
-                                                                                               null,
-                                                                                               null)),
-                                                        new NodeVertex("0", 4, null, null)));
-
-        testObject.setTree(node);
-
-        try
-        {
-            testObject.run();
-        }
-        catch(IllegalVariableValueException | NoSuchTransitionException | NoTraversingException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        boolean result = false;
-
-        try
-        {
-            result = testObject.isAccepted();
-        }
-        catch(UndefinedAcceptanceException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        Assert.assertFalse(result);
+        Assert.assertEquals("T", node7.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node7.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("T", node6.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("$", node6.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("F", node5.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("&", node5.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("F", node4.getStateOrNull(variables.get(0)));
+        Assert.assertEquals("!", node4.getStateOrNull(variables.get(1)));
+        Assert.assertNull(node3.getStateOrNull(variables.get(0)));
+        Assert.assertNull(node3.getStateOrNull(variables.get(1)));
+        Assert.assertNull(node2.getStateOrNull(variables.get(0)));
+        Assert.assertNull(node2.getStateOrNull(variables.get(1)));
+        Assert.assertNull(node1.getStateOrNull(variables.get(0)));
+        Assert.assertNull(node1.getStateOrNull(variables.get(1)));
     }
 
     @Test
@@ -283,7 +232,7 @@ public class BottomUpDFTATest
         {
             testObject.run();
         }
-        catch(IllegalVariableValueException | NoSuchTransitionException | NoTraversingException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -295,7 +244,7 @@ public class BottomUpDFTATest
         {
             result = testObject.isAccepted();
         }
-        catch(UndefinedAcceptanceException e)
+        catch(UndefinedAcceptanceException | UndefinedTreeStateException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -305,7 +254,7 @@ public class BottomUpDFTATest
     }
 
     @Test
-    public void testIsAcceptedWhenAutomatonHasNotRun()
+    public void testIsAcceptedWhenAutomatonHasRunAndNotAccepts()
     {
         TreeVertex node = new NodeVertex("impl", 1, new NodeVertex("and", 3,
                                                                    new NodeVertex("1", 7, null,
@@ -330,19 +279,67 @@ public class BottomUpDFTATest
 
         testObject.setTree(node);
 
-        boolean result = true;
+        try
+        {
+            testObject.run();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        boolean result = false;
 
         try
         {
             result = testObject.isAccepted();
         }
-        catch(UndefinedAcceptanceException e)
+        catch(UndefinedAcceptanceException | UndefinedTreeStateException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         Assert.assertFalse(result);
+    }
+
+    @Test(expected = UndefinedTreeStateException.class)
+    public void testIsAcceptedWhenAutomatonHasNotRun()
+        throws UndefinedTreeStateException
+    {
+        TreeVertex node = new NodeVertex("impl", 1, new NodeVertex("and", 3,
+                                                                   new NodeVertex("1", 7, null,
+                                                                                  null),
+                                                                   new NodeVertex("or", 6,
+                                                                                  new NodeVertex(
+                                                                                      "1", 13, null,
+                                                                                      null),
+                                                                                  new NodeVertex(
+                                                                                      "1", 12, null,
+                                                                                      null))),
+                                         new NodeVertex("or", 2, new NodeVertex("and", 5,
+                                                                                new NodeVertex("1",
+                                                                                               11,
+                                                                                               null,
+                                                                                               null),
+                                                                                new NodeVertex("0",
+                                                                                               10,
+                                                                                               null,
+                                                                                               null)),
+                                                        new NodeVertex("0", 4, null, null)));
+
+        testObject.setTree(node);
+
+        try
+        {
+            testObject.isAccepted();
+        }
+        catch(UndefinedAcceptanceException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
     }
 
     @Test

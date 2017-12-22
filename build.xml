@@ -10,13 +10,19 @@
   <property name="target" value="1.8" />
   <property name="source" value="1.8" />
 
-  <path id="JUnit4.userclasspath">
+  <path id="JUnit4.libraryclasspath">
     <pathelement location="/usr/share/java/hamcrest-core.jar" />
     <pathelement location="/usr/share/java/junit4.jar" />
   </path>
+  <path id="Mockito.libraryclasspath">
+    <pathelement location="/usr/share/java/mockito-core.jar" />
+  </path>
   <path id="FITA-View.classpath">
-    <path refid="JUnit4.userclasspath" />
     <pathelement location="${build.dir}" />
+  </path>
+  <path id="FITA-View_test.classpath">
+    <path refid="JUnit4.libraryclasspath" />
+    <path refid="FITA-View.classpath" />
   </path>
 
   <target name="clean">
@@ -51,7 +57,7 @@
       <src path="${src.dir}" />
       <src path="${test.dir}" />
       <compilerarg line="-Xlint" />
-      <classpath refid="FITA-View.classpath" />
+      <classpath refid="FITA-View_test.classpath" />
     </javac>
   </target>
 
@@ -72,7 +78,7 @@
       <batchtest todir="${junit.output.dir}">
         <fileset dir="${test.dir}" includes="**/*Test.java" />
       </batchtest>
-      <classpath refid="FITA-View.classpath" />
+      <classpath refid="FITA-View_test.classpath" />
     </junit>
     <delete dir="${junit.report.dir}" />
     <mkdir dir="${junit.report.dir}" />

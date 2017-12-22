@@ -3,7 +3,6 @@ package ref_humbold.fita_view.automaton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import ref_humbold.fita_view.Triple;
@@ -16,6 +15,7 @@ import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public class BottomUpDFTA
     extends SimpleTreeAutomaton
@@ -27,31 +27,6 @@ public class BottomUpDFTA
     public BottomUpDFTA(Collection<String> alphabet, Collection<Variable> variables)
     {
         super(alphabet, variables);
-    }
-
-    @Override
-    public boolean isAccepted()
-        throws UndefinedAcceptanceException
-    {
-        if(acceptingStates.isEmpty())
-            throw new UndefinedAcceptanceException("Automaton has no acccepting states defined.");
-
-        Map<Variable, String> treeState = tree.getFullState();
-
-        for(Map<Variable, String> accept : acceptingStates)
-        {
-            boolean contained = true;
-
-            for(Variable var : accept.keySet())
-                contained &= accept.get(var).equals(treeState.get(var)) || accept.get(var)
-                                                                                 .equals(
-                                                                                     Wildcard.EVERY_VALUE);
-
-            if(contained)
-                return true;
-        }
-
-        return false;
     }
 
     @Override
@@ -68,6 +43,16 @@ public class BottomUpDFTA
     }
 
     @Override
+    public boolean isAccepted()
+        throws UndefinedAcceptanceException, UndefinedTreeStateException
+    {
+        if(acceptingStates.isEmpty())
+            throw new UndefinedAcceptanceException("Automaton has no accepting states defined.");
+
+        return checkAcceptance(tree.getFullState());
+    }
+
+    @Override
     public void setTree(TreeVertex tree)
     {
         super.setTree(tree);
@@ -77,7 +62,8 @@ public class BottomUpDFTA
 
     @Override
     public void makeStepForward()
-        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException
+        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
+               UndefinedTreeStateException
     {
         if(traversing == null)
         {
@@ -150,7 +136,6 @@ public class BottomUpDFTA
         super.initialize();
 
         traversing.initialize(leaves.toArray(new TreeVertex[0]));
-        isRunning = true;
     }
 
     /**
