@@ -15,15 +15,15 @@ import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.tree.TreeVertex;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
-public abstract class TopDownTreeAutomaton
-    extends SimpleTreeAutomaton
+public abstract class TopDownFiniteTreeAutomaton
+    extends FiniteTreeAutomaton
 {
     private TopDownTraversing traversing;
     private List<Map<Variable, String>> leafStates = new ArrayList<>();
 
-    public TopDownTreeAutomaton(Collection<String> alphabet, Collection<Variable> variables)
+    public TopDownFiniteTreeAutomaton(Collection<String> alphabet, Collection<Variable> variables)
     {
-        super(alphabet, variables);
+        super(variables, alphabet);
     }
 
     @Override

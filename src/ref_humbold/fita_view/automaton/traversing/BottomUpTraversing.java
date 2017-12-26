@@ -10,7 +10,7 @@ import ref_humbold.fita_view.tree.TreeVertex;
 public abstract class BottomUpTraversing
     implements TreeTraversing
 {
-    protected Queue<TreeVertex> vertexQueue = new PriorityQueue<>(16, new VertexComparator());
+    protected Queue<TreeVertex> vertexQueue = new PriorityQueue<>(16, new VertexIndexComparator());
 
     @Override
     public void initialize(TreeVertex... vertices)
@@ -25,7 +25,7 @@ public abstract class BottomUpTraversing
         return !vertexQueue.isEmpty();
     }
 
-    private class VertexComparator
+    private class VertexIndexComparator
         implements Comparator<TreeVertex>
     {
         @Override

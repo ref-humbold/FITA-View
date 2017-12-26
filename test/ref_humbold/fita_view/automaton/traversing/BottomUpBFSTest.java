@@ -14,14 +14,14 @@ import ref_humbold.fita_view.tree.TreeVertex;
 public class BottomUpBFSTest
 {
     private BottomUpBFS testObject;
-    private TreeVertex node13 = new NodeVertex("13", 13, null, null);
-    private TreeVertex node12 = new NodeVertex("12", 12, null, null);
-    private TreeVertex node11 = new NodeVertex("11", 11, null, null);
-    private TreeVertex node10 = new NodeVertex("10", 10, null, null);
-    private TreeVertex node7 = new NodeVertex("7", 7, null, null);
+    private TreeVertex node13 = new NodeVertex("13", 13);
+    private TreeVertex node12 = new NodeVertex("12", 12);
+    private TreeVertex node11 = new NodeVertex("11", 11);
+    private TreeVertex node10 = new NodeVertex("10", 10);
+    private TreeVertex node7 = new NodeVertex("7", 7);
     private TreeVertex node6 = new NodeVertex("6", 6, node13, node12);
     private TreeVertex node5 = new NodeVertex("5", 5, node11, node10);
-    private TreeVertex node4 = new NodeVertex("4", 4, null, null);
+    private TreeVertex node4 = new NodeVertex("4", 4);
     private TreeVertex node3 = new NodeVertex("3", 3, node7, node6);
     private TreeVertex node2 = new NodeVertex("2", 2, node5, node4);
     private TreeVertex node1 = new NodeVertex("1", 1, node3, node2);

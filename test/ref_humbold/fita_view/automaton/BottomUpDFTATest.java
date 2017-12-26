@@ -11,6 +11,8 @@ import org.junit.Test;
 
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.tree.NodeVertex;
+import ref_humbold.fita_view.tree.RecVertex;
+import ref_humbold.fita_view.tree.RepeatVertex;
 import ref_humbold.fita_view.tree.TreeVertex;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
@@ -68,22 +70,69 @@ public class BottomUpDFTATest
         testObject = null;
     }
 
+    @Test(expected = EmptyTreeException.class)
+    public void testSetTreeWhenEmptyTree()
+        throws EmptyTreeException
+    {
+        try
+        {
+            testObject.setTree(null);
+        }
+        catch(TreeFinitenessException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = TreeFinitenessException.class)
+    public void testSetTreeWhenInfiniteTree()
+        throws TreeFinitenessException
+    {
+        RepeatVertex node2 = new RepeatVertex("0", 2);
+        TreeVertex node4 = new NodeVertex("1", 4);
+        TreeVertex node5 =
+            new NodeVertex("3", 5, new NodeVertex("1", 11), new RecVertex(node2, 10));
+        TreeVertex node1 = new NodeVertex("2", 1, new NodeVertex("0", 3), node2);
+
+        node2.setLeft(node5);
+        node2.setRight(node4);
+
+        try
+        {
+            testObject.setTree(node1);
+        }
+        catch(EmptyTreeException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
     @Test
     public void testRun()
     {
-        TreeVertex node13 = new NodeVertex("1", 13, null, null);
-        TreeVertex node12 = new NodeVertex("1", 12, null, null);
-        TreeVertex node11 = new NodeVertex("1", 11, null, null);
-        TreeVertex node10 = new NodeVertex("0", 10, null, null);
-        TreeVertex node7 = new NodeVertex("1", 7, null, null);
+        TreeVertex node13 = new NodeVertex("1", 13);
+        TreeVertex node12 = new NodeVertex("1", 12);
+        TreeVertex node11 = new NodeVertex("1", 11);
+        TreeVertex node10 = new NodeVertex("0", 10);
+        TreeVertex node7 = new NodeVertex("1", 7);
         TreeVertex node6 = new NodeVertex("or", 6, node13, node12);
         TreeVertex node5 = new NodeVertex("and", 5, node11, node10);
-        TreeVertex node4 = new NodeVertex("0", 4, null, null);
+        TreeVertex node4 = new NodeVertex("0", 4);
         TreeVertex node3 = new NodeVertex("and", 3, node7, node6);
         TreeVertex node2 = new NodeVertex("or", 2, node5, node4);
         TreeVertex node1 = new NodeVertex("impl", 1, node3, node2);
 
-        testObject.setTree(node1);
+        try
+        {
+            testObject.setTree(node1);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         Assert.assertFalse(testObject.isRunning);
 
@@ -125,19 +174,27 @@ public class BottomUpDFTATest
     @Test
     public void testMakeStepForward()
     {
-        TreeVertex node13 = new NodeVertex("1", 13, null, null);
-        TreeVertex node12 = new NodeVertex("1", 12, null, null);
-        TreeVertex node11 = new NodeVertex("1", 11, null, null);
-        TreeVertex node10 = new NodeVertex("0", 10, null, null);
-        TreeVertex node7 = new NodeVertex("1", 7, null, null);
+        TreeVertex node13 = new NodeVertex("1", 13);
+        TreeVertex node12 = new NodeVertex("1", 12);
+        TreeVertex node11 = new NodeVertex("1", 11);
+        TreeVertex node10 = new NodeVertex("0", 10);
+        TreeVertex node7 = new NodeVertex("1", 7);
         TreeVertex node6 = new NodeVertex("or", 6, node13, node12);
         TreeVertex node5 = new NodeVertex("and", 5, node11, node10);
-        TreeVertex node4 = new NodeVertex("0", 4, null, null);
+        TreeVertex node4 = new NodeVertex("0", 4);
         TreeVertex node3 = new NodeVertex("and", 3, node7, node6);
         TreeVertex node2 = new NodeVertex("or", 2, node5, node4);
         TreeVertex node1 = new NodeVertex("impl", 1, node3, node2);
 
-        testObject.setTree(node1);
+        try
+        {
+            testObject.setTree(node1);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         Assert.assertFalse(testObject.isRunning);
 
@@ -224,9 +281,17 @@ public class BottomUpDFTATest
                                                                                                10,
                                                                                                null,
                                                                                                null)),
-                                                        new NodeVertex("0", 4, null, null)));
+                                                        new NodeVertex("0", 4)));
 
-        testObject.setTree(node);
+        try
+        {
+            testObject.setTree(node);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         try
         {
@@ -275,9 +340,17 @@ public class BottomUpDFTATest
                                                                                                10,
                                                                                                null,
                                                                                                null)),
-                                                        new NodeVertex("0", 4, null, null)));
+                                                        new NodeVertex("0", 4)));
 
-        testObject.setTree(node);
+        try
+        {
+            testObject.setTree(node);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         try
         {
@@ -327,9 +400,17 @@ public class BottomUpDFTATest
                                                                                                10,
                                                                                                null,
                                                                                                null)),
-                                                        new NodeVertex("0", 4, null, null)));
+                                                        new NodeVertex("0", 4)));
 
-        testObject.setTree(node);
+        try
+        {
+            testObject.setTree(node);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         try
         {

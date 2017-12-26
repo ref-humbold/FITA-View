@@ -19,7 +19,8 @@ public interface TreeAutomaton
     void setTraversing(TraversingFactory.Mode mode)
         throws IncorrectTraversingException;
 
-    void setTree(TreeVertex tree);
+    void setTree(TreeVertex tree)
+        throws TreeFinitenessException, EmptyTreeException;
 
     /**
      * Testing if label is present in alphabet recognised by the automaton.

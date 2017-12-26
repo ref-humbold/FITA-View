@@ -14,7 +14,7 @@ import ref_humbold.fita_view.automaton.transition.TopDownTransitions;
 import ref_humbold.fita_view.tree.TreeVertex;
 
 public class TopDownNFTA
-    extends TopDownTreeAutomaton
+    extends TopDownFiniteTreeAutomaton
     implements NonDeterministicAutomaton
 {
     private StateChoice choice;

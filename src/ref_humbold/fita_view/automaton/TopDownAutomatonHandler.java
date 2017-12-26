@@ -6,7 +6,7 @@ import org.xml.sax.SAXException;
 class TopDownAutomatonHandler
     extends AutomatonHandler
 {
-    private TopDownTreeAutomaton automaton;
+    private TopDownFiniteTreeAutomaton automaton;
     private boolean isDeterministic;
     private String nodeValue;
     private String label;

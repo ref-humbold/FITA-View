@@ -39,7 +39,7 @@ public class RecVertex
     }
 
     @Override
-    protected void setLeft(TreeVertex vertex)
+    public void setLeft(TreeVertex vertex)
     {
         recursive.setLeft(vertex);
     }
@@ -51,7 +51,7 @@ public class RecVertex
     }
 
     @Override
-    protected void setRight(TreeVertex vertex)
+    public void setRight(TreeVertex vertex)
     {
         recursive.setRight(vertex);
     }

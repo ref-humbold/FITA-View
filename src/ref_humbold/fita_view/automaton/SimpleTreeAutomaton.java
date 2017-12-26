@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
@@ -13,6 +12,7 @@ import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
 import ref_humbold.fita_view.tree.TreeVertex;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
+import ref_humbold.fita_view.tree.VertexType;
 
 public abstract class SimpleTreeAutomaton
     implements TreeAutomaton
@@ -20,13 +20,12 @@ public abstract class SimpleTreeAutomaton
     protected Set<String> alphabet;
     protected List<Variable> variables;
     protected TreeVertex tree;
-    protected Set<Map<Variable, String>> acceptingStates = new HashSet<>();
     protected boolean isRunning = false;
 
-    public SimpleTreeAutomaton(Collection<String> alphabet, Collection<Variable> variables)
+    public SimpleTreeAutomaton(Collection<Variable> variables, Collection<String> alphabet)
     {
-        this.alphabet = new HashSet<>(alphabet);
         this.variables = new ArrayList<>(variables);
+        this.alphabet = new HashSet<>(alphabet);
     }
 
     /**
@@ -36,7 +35,11 @@ public abstract class SimpleTreeAutomaton
 
     @Override
     public void setTree(TreeVertex tree)
+        throws TreeFinitenessException, EmptyTreeException
     {
+        if(tree == null)
+            throw new EmptyTreeException("Tree is empty.");
+
         this.tree = tree;
     }
 
@@ -74,36 +77,6 @@ public abstract class SimpleTreeAutomaton
     }
 
     /**
-     * Testing if specified tree node state is an accepting state.
-     * @param state state of a tree node
-     * @return {@code true} if state can be accepted, otherwise {@code false}
-     */
-    protected boolean checkAcceptance(Map<Variable, String> state)
-        throws UndefinedTreeStateException
-    {
-        for(Map<Variable, String> accept : acceptingStates)
-        {
-            boolean contained = true;
-
-            for(Variable var : accept.keySet())
-            {
-                if(state.get(var) == null)
-                    throw new UndefinedTreeStateException(
-                        "Node has an undefined state variable value.");
-
-                contained &= accept.get(var).equals(state.get(var)) || accept.get(var)
-                                                                             .equals(
-                                                                                 Wildcard.EVERY_VALUE);
-            }
-
-            if(contained)
-                return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Initializing automaton and tree before running on tree.
      */
     protected void initialize()
@@ -122,11 +95,13 @@ public abstract class SimpleTreeAutomaton
     }
 
     /**
-     * Adding an accepting state of automaton
-     * @param accept mapping from variables to their accepting values
+     * Testing if specified tree contains a recursive node.
+     * @param node tree node
+     * @return {@code true} if tree has a recursive node, otherwise {@code false}
      */
-    protected void addAcceptingState(Map<Variable, String> accept)
+    protected boolean containsRecursiveNode(TreeVertex node)
     {
-        acceptingStates.add(accept);
+        return node != null && (node.getType() == VertexType.REC || containsRecursiveNode(
+            node.getLeft()) || containsRecursiveNode(node.getRight()));
     }
 }

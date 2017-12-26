@@ -18,4 +18,13 @@ public class RepeatVertex
     {
         return VertexType.REPEAT;
     }
+
+    @Override
+    public String toString()
+    {
+        String leftString = getLeft() == null ? "#" : getLeft().toString();
+        String rightString = getRight() == null ? "#" : getRight().toString();
+
+        return "<& " + getLabel() + "," + leftString + ", " + rightString + " &>";
+    }
 }

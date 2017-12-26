@@ -3,7 +3,6 @@ package ref_humbold.fita_view.automaton.traversing;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.NoSuchElementException;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,14 +14,14 @@ import ref_humbold.fita_view.tree.TreeVertex;
 public class TopDownBFSTest
 {
     private TopDownBFS testObject;
-    private TreeVertex finiteTreeNode13 = new NodeVertex("13", null, null);
-    private TreeVertex finiteTreeNode12 = new NodeVertex("12", null, null);
-    private TreeVertex finiteTreeNode11 = new NodeVertex("11", null, null);
-    private TreeVertex finiteTreeNode10 = new NodeVertex("10", null, null);
-    private TreeVertex finiteTreeNode7 = new NodeVertex("7", null, null);
+    private TreeVertex finiteTreeNode13 = new NodeVertex("13");
+    private TreeVertex finiteTreeNode12 = new NodeVertex("12");
+    private TreeVertex finiteTreeNode11 = new NodeVertex("11");
+    private TreeVertex finiteTreeNode10 = new NodeVertex("10");
+    private TreeVertex finiteTreeNode7 = new NodeVertex("7");
     private TreeVertex finiteTreeNode6 = new NodeVertex("6", finiteTreeNode12, finiteTreeNode13);
     private TreeVertex finiteTreeNode5 = new NodeVertex("5", finiteTreeNode10, finiteTreeNode11);
-    private TreeVertex finiteTreeNode4 = new NodeVertex("4", null, null);
+    private TreeVertex finiteTreeNode4 = new NodeVertex("4");
     private TreeVertex finiteTreeNode3 = new NodeVertex("3", finiteTreeNode6, finiteTreeNode7);
     private TreeVertex finiteTreeNode2 = new NodeVertex("2", finiteTreeNode4, finiteTreeNode5);
     private TreeVertex finiteTreeNode1 = new NodeVertex("1", finiteTreeNode2, finiteTreeNode3);

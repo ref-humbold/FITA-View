@@ -13,7 +13,7 @@ public class RandomChoice
 
     /**
      * Non-deterministically choosing variable values.
-     * @param states possible state variable values
+     * @param states set of possible state variable values
      * @return variable value chosen randomly
      */
     @Override

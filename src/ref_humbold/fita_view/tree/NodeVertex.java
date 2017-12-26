@@ -58,11 +58,14 @@ public class NodeVertex
     }
 
     @Override
-    protected void setLeft(TreeVertex vertex)
+    public void setLeft(TreeVertex vertex)
     {
+        if(left != null)
+            left.setParent(null);
+
         left = vertex;
 
-        if(vertex != null)
+        if(left != null)
             left.setParent(this);
     }
 
@@ -73,11 +76,14 @@ public class NodeVertex
     }
 
     @Override
-    protected void setRight(TreeVertex vertex)
+    public void setRight(TreeVertex vertex)
     {
+        if(right != null)
+            right.setParent(null);
+
         right = vertex;
 
-        if(vertex != null)
+        if(right != null)
             right.setParent(this);
     }
 

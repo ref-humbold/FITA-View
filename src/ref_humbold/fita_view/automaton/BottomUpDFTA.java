@@ -18,7 +18,7 @@ import ref_humbold.fita_view.tree.TreeVertex;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public class BottomUpDFTA
-    extends SimpleTreeAutomaton
+    extends FiniteTreeAutomaton
 {
     private BottomUpTraversing traversing;
     private BottomUpTransitions transitions = new BottomUpTransitions();
@@ -26,7 +26,7 @@ public class BottomUpDFTA
 
     public BottomUpDFTA(Collection<String> alphabet, Collection<Variable> variables)
     {
-        super(alphabet, variables);
+        super(variables, alphabet);
     }
 
     @Override
@@ -54,6 +54,7 @@ public class BottomUpDFTA
 
     @Override
     public void setTree(TreeVertex tree)
+        throws TreeFinitenessException, EmptyTreeException
     {
         super.setTree(tree);
         this.findLeaves();

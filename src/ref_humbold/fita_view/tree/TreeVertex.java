@@ -32,14 +32,20 @@ public abstract class TreeVertex
      */
     public abstract TreeVertex getLeft();
 
-    protected abstract void setLeft(TreeVertex vertex);
+    /**
+     * @param vertex new left son of the vertex
+     */
+    public abstract void setLeft(TreeVertex vertex);
 
     /**
      * @return right son of the vertex
      */
     public abstract TreeVertex getRight();
 
-    protected abstract void setRight(TreeVertex vertex);
+    /**
+     * @param vertex new right son of the vertex
+     */
+    public abstract void setRight(TreeVertex vertex);
 
     /**
      * @return parent of the vertex
