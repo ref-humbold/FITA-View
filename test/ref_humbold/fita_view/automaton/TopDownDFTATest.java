@@ -7,7 +7,6 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
@@ -39,9 +38,9 @@ public class TopDownDFTATest
         accepts.get(0).put(variables.get(0), "A");
         accepts.get(0).put(variables.get(1), "@");
         accepts.get(1).put(variables.get(0), "B");
-        accepts.get(1).put(variables.get(1), "#");
+        accepts.get(1).put(variables.get(1), "$");
         accepts.get(2).put(variables.get(0), Wildcard.EVERY_VALUE);
-        accepts.get(2).put(variables.get(1), "$");
+        accepts.get(2).put(variables.get(1), "#");
 
         testObject = new TopDownDFTA(alphabet, variables);
         testObject.setTraversing(TraversingFactory.Mode.LEVEL);
@@ -287,34 +286,18 @@ public class TopDownDFTATest
         Assert.assertNull(node13.getStateOrNull(variables.get(1)));
     }
 
-    @Ignore
     @Test
     public void testIsAcceptedWhenAutomatonHasRunAndAccepts()
     {
-        TreeVertex node13 = new NodeVertex("2", 13);
-        TreeVertex node12 = new NodeVertex("1", 12);
-        TreeVertex node11 = new NodeVertex("0", 11);
-        TreeVertex node10 = new NodeVertex("4", 10);
-        TreeVertex node7 = new NodeVertex("3", 7);
-        TreeVertex node6 = new NodeVertex("3", 6, node13, node12);
-        TreeVertex node5 = new NodeVertex("2", 5, node11, node10);
-        TreeVertex node4 = new NodeVertex("0", 4);
-        TreeVertex node3 = new NodeVertex("4", 3, node7, node6);
-        TreeVertex node2 = new NodeVertex("1", 2, node5, node4);
-        TreeVertex node = new NodeVertex("2", 1, node3, node2);
+        TreeVertex node7 = new NodeVertex("0", 7);
+        TreeVertex node6 = new NodeVertex("4", 6);
+        TreeVertex node3 = new NodeVertex("3", 3, node7, node6);
+        TreeVertex node2 = new NodeVertex("2", 2);
+        TreeVertex node = new NodeVertex("0", 1, node3, node2);
 
         try
         {
             testObject.setTree(node);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
             testObject.run();
         }
         catch(Exception e)
@@ -335,7 +318,7 @@ public class TopDownDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertFalse(result);
+        Assert.assertTrue(result);
     }
 
     @Test
@@ -365,15 +348,6 @@ public class TopDownDFTATest
         try
         {
             testObject.setTree(node);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
             testObject.run();
         }
         catch(Exception e)
@@ -382,7 +356,7 @@ public class TopDownDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        boolean result = false;
+        boolean result = true;
 
         try
         {

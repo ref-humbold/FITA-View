@@ -286,15 +286,6 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTree(node);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
             testObject.run();
         }
         catch(Exception e)
@@ -345,15 +336,6 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTree(node);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
             testObject.run();
         }
         catch(Exception e)
