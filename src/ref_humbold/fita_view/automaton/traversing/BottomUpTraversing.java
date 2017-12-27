@@ -5,33 +5,33 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public abstract class BottomUpTraversing
     implements TreeTraversing
 {
-    protected Queue<TreeVertex> vertexQueue = new PriorityQueue<>(16, new VertexIndexComparator());
+    protected Queue<TreeNode> nodeQueue = new PriorityQueue<>(16, new NodeIndexComparator());
 
     @Override
-    public void initialize(TreeVertex... vertices)
+    public void initialize(TreeNode... nodes)
     {
-        vertexQueue.clear();
-        vertexQueue.addAll(Arrays.asList(vertices));
+        nodeQueue.clear();
+        nodeQueue.addAll(Arrays.asList(nodes));
     }
 
     @Override
     public boolean hasNext()
     {
-        return !vertexQueue.isEmpty();
+        return !nodeQueue.isEmpty();
     }
 
-    private class VertexIndexComparator
-        implements Comparator<TreeVertex>
+    private class NodeIndexComparator
+        implements Comparator<TreeNode>
     {
         @Override
-        public int compare(TreeVertex vertex1, TreeVertex vertex2)
+        public int compare(TreeNode node1, TreeNode node2)
         {
-            return -Integer.compare(vertex1.getIndex(), vertex2.getIndex());
+            return -Integer.compare(node1.getIndex(), node2.getIndex());
         }
     }
 }

@@ -27,7 +27,7 @@ public class TreeReaderTest
     @Test
     public void testReadEmptyTree()
     {
-        TreeVertex result = null;
+        TreeNode result = null;
 
         try
         {
@@ -46,22 +46,22 @@ public class TreeReaderTest
     @Test
     public void testReadFiniteTree()
     {
-        TreeVertex result = null;
+        TreeNode result = null;
+        TreeNode expected = null;
 
         try
         {
             testObject = new TreeReader(new File(DIRECTORY + "testReadFiniteTree.tree.xml"));
             result = testObject.read();
+            expected = new StandardNode("1", 1, new StandardNode("2", 3, new StandardNode("3", 7),
+                                                                 new StandardNode("4", 6)),
+                                        new StandardNode("5", 2));
         }
         catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
-
-        TreeVertex expected = new NodeVertex("1", 1, new NodeVertex("2", 3, new NodeVertex("3", 7),
-                                                                    new NodeVertex("4", 6)),
-                                             new NodeVertex("5", 2));
 
         Assert.assertNotNull(result);
         Assert.assertEquals(expected, result);
@@ -70,7 +70,7 @@ public class TreeReaderTest
     @Test
     public void testReadWhenSingleRepeat()
     {
-        TreeVertex result = null;
+        TreeNode result = null;
 
         try
         {
@@ -83,14 +83,23 @@ public class TreeReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        TreeVertex repeat = new RepeatVertex("5", 2);
+        TreeNode expected = null;
 
-        repeat.setLeft(new NodeVertex("6", 5));
-        repeat.setRight(new NodeVertex("7", 4, new RecVertex(repeat, 9), new NodeVertex("9", 8)));
+        try
+        {
+            RepeatNode repeat = new RepeatNode("5", 2);
 
-        TreeVertex expected = new NodeVertex("1", 1, new NodeVertex("2", 3, new NodeVertex("3", 7),
-                                                                    new NodeVertex("4", 6)),
-                                             repeat);
+            repeat.setLeft(new StandardNode("6", 5));
+            repeat.setRight(
+                new StandardNode("7", 4, new RecNode(repeat, 9), new StandardNode("9", 8)));
+            expected = new StandardNode("1", 1, new StandardNode("2", 3, new StandardNode("3", 7),
+                                                                 new StandardNode("4", 6)), repeat);
+        }
+        catch(NodeHasParentException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         Assert.assertNotNull(result);
         Assert.assertEquals(expected, result);
@@ -99,7 +108,7 @@ public class TreeReaderTest
     @Test
     public void testReadWhenNestedRepeats()
     {
-        TreeVertex result = null;
+        TreeNode result = null;
 
         try
         {
@@ -112,20 +121,30 @@ public class TreeReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        TreeVertex repeat5 = new RepeatVertex("5", 2);
-        TreeVertex repeat7 = new RepeatVertex("7", 11);
+        TreeNode expected = null;
 
-        repeat7.setLeft(
-            new NodeVertex("8", 23, new RecVertex(repeat7, 47), new RecVertex(repeat7, 46)));
-        repeat7.setRight(new NodeVertex("11", 22));
+        try
+        {
+            RepeatNode repeat5 = new RepeatNode("5", 2);
+            RepeatNode repeat7 = new RepeatNode("7", 11);
 
-        repeat5.setLeft(new NodeVertex("6", 5, repeat7, new RecVertex(repeat5, 10)));
-        repeat5.setRight(
-            new NodeVertex("13", 4, new RecVertex(repeat5, 9), new NodeVertex("15", 8)));
+            repeat7.setLeft(
+                new StandardNode("8", 23, new RecNode(repeat7, 47), new RecNode(repeat7, 46)));
+            repeat7.setRight(new StandardNode("11", 22));
 
-        TreeVertex expected = new NodeVertex("1", 1, new NodeVertex("2", 3, new NodeVertex("3", 7),
-                                                                    new NodeVertex("4", 6)),
-                                             repeat5);
+            repeat5.setLeft(new StandardNode("6", 5, repeat7, new RecNode(repeat5, 10)));
+            repeat5.setRight(
+                new StandardNode("13", 4, new RecNode(repeat5, 9), new StandardNode("15", 8)));
+
+            expected = new StandardNode("1", 1, new StandardNode("2", 3, new StandardNode("3", 7),
+                                                                 new StandardNode("4", 6)),
+                                        repeat5);
+        }
+        catch(NodeHasParentException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         Assert.assertNotNull(result);
         Assert.assertEquals(expected, result);

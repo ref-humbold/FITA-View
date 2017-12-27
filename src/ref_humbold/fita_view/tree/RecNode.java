@@ -5,18 +5,13 @@ import java.util.Map;
 import ref_humbold.fita_view.automaton.IllegalVariableValueException;
 import ref_humbold.fita_view.automaton.Variable;
 
-public class RecVertex
-    extends TreeVertex
+public class RecNode
+    extends TreeNode
 {
-    private TreeVertex recursive;
-    private TreeVertex parent;
+    private TreeNode recursive;
+    private TreeNode parent;
 
-    public RecVertex(TreeVertex recursive)
-    {
-        this(recursive, 0);
-    }
-
-    public RecVertex(TreeVertex recursive, int index)
+    public RecNode(TreeNode recursive, int index)
     {
         super(index);
 
@@ -27,45 +22,33 @@ public class RecVertex
     }
 
     @Override
-    public VertexType getType()
+    public NodeType getType()
     {
-        return VertexType.REC;
+        return NodeType.REC;
     }
 
     @Override
-    public TreeVertex getLeft()
+    public TreeNode getLeft()
     {
         return recursive.getLeft();
     }
 
     @Override
-    public void setLeft(TreeVertex vertex)
-    {
-        recursive.setLeft(vertex);
-    }
-
-    @Override
-    public TreeVertex getRight()
+    public TreeNode getRight()
     {
         return recursive.getRight();
     }
 
     @Override
-    public void setRight(TreeVertex vertex)
-    {
-        recursive.setRight(vertex);
-    }
-
-    @Override
-    public TreeVertex getParent()
+    public TreeNode getParent()
     {
         return parent;
     }
 
     @Override
-    protected void setParent(TreeVertex vertex)
+    protected void setParent(TreeNode node)
     {
-        parent = vertex;
+        parent = node;
     }
 
     @Override
@@ -75,28 +58,28 @@ public class RecVertex
     }
 
     @Override
-    public Map<Variable, String> getFullState()
+    public Map<Variable, String> getState()
     {
-        return recursive.getFullState();
+        return recursive.getState();
     }
 
     @Override
-    public String getStateOrNull(Variable var)
+    public String getStateValueOrNull(Variable var)
     {
-        return recursive.getStateOrNull(var);
+        return recursive.getStateValueOrNull(var);
     }
 
     @Override
-    public void setState(Variable var, String value)
+    public void setStateValue(Variable var, String value)
         throws IllegalVariableValueException
     {
-        recursive.setState(var, value);
+        recursive.setStateValue(var, value);
     }
 
     @Override
-    public void deleteFullState()
+    public void deleteState()
     {
-        recursive.deleteFullState();
+        recursive.deleteState();
     }
 
     @Override
@@ -111,10 +94,10 @@ public class RecVertex
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof RecVertex))
+        if(o == null || !(o instanceof RecNode))
             return false;
 
-        RecVertex other = (RecVertex)o;
+        RecNode other = (RecNode)o;
 
         return this.recursive.index == other.recursive.index;
     }

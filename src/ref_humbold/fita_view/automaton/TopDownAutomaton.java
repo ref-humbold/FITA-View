@@ -8,7 +8,7 @@ import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public abstract class TopDownAutomaton
     extends AbstractTreeAutomaton
@@ -33,7 +33,7 @@ public abstract class TopDownAutomaton
     }
 
     @Override
-    public void setTree(TreeVertex tree)
+    public void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException
     {
         if(containsRecursiveNode(tree))
@@ -80,7 +80,7 @@ public abstract class TopDownAutomaton
         super.initialize();
 
         for(Variable var : variables)
-            tree.setState(var, var.getInitValue());
+            tree.setStateValue(var, var.getInitValue());
 
         traversing.initialize(tree);
     }

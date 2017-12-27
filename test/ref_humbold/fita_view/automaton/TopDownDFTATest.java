@@ -10,11 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
-import ref_humbold.fita_view.tree.NodeVertex;
-import ref_humbold.fita_view.tree.RecVertex;
-import ref_humbold.fita_view.tree.RepeatVertex;
-import ref_humbold.fita_view.tree.TreeVertex;
-import ref_humbold.fita_view.tree.UndefinedTreeStateException;
+import ref_humbold.fita_view.tree.*;
 
 public class TopDownDFTATest
 {
@@ -108,20 +104,20 @@ public class TopDownDFTATest
     public void testSetTreeWhenInfiniteTree()
         throws TreeFinitenessException
     {
-        RepeatVertex node2 = new RepeatVertex("0", 2);
-        TreeVertex node4 = new NodeVertex("1", 4);
-        TreeVertex node5 =
-            new NodeVertex("3", 5, new NodeVertex("1", 11), new RecVertex(node2, 10));
-        TreeVertex node1 = new NodeVertex("2", 1, new NodeVertex("0", 3), node2);
-
-        node2.setLeft(node5);
-        node2.setRight(node4);
-
         try
         {
+            RepeatNode node2 = new RepeatNode("0", 2);
+            TreeNode node4 = new StandardNode("1", 4);
+            TreeNode node5 =
+                new StandardNode("3", 5, new StandardNode("1", 11), new RecNode(node2, 10));
+            TreeNode node1 = new StandardNode("2", 1, new StandardNode("0", 3), node2);
+
+            node2.setLeft(node5);
+            node2.setRight(node4);
+
             testObject.setTree(node1);
         }
-        catch(EmptyTreeException e)
+        catch(NodeHasParentException | EmptyTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -131,20 +127,23 @@ public class TopDownDFTATest
     @Test
     public void testRun()
     {
-        TreeVertex node13 = new NodeVertex("2", 13);
-        TreeVertex node12 = new NodeVertex("1", 12);
-        TreeVertex node11 = new NodeVertex("0", 11);
-        TreeVertex node10 = new NodeVertex("4", 10);
-        TreeVertex node7 = new NodeVertex("3", 7);
-        TreeVertex node6 = new NodeVertex("3", 6, node13, node12);
-        TreeVertex node5 = new NodeVertex("2", 5, node11, node10);
-        TreeVertex node4 = new NodeVertex("0", 4);
-        TreeVertex node3 = new NodeVertex("4", 3, node7, node6);
-        TreeVertex node2 = new NodeVertex("1", 2, node5, node4);
-        TreeVertex node1 = new NodeVertex("2", 1, node3, node2);
+        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 =
+            null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
 
         try
         {
+            node13 = new StandardNode("2", 13);
+            node12 = new StandardNode("1", 12);
+            node11 = new StandardNode("0", 11);
+            node10 = new StandardNode("4", 10);
+            node7 = new StandardNode("3", 7);
+            node6 = new StandardNode("3", 6, node13, node12);
+            node5 = new StandardNode("2", 5, node11, node10);
+            node4 = new StandardNode("0", 4);
+            node3 = new StandardNode("4", 3, node7, node6);
+            node2 = new StandardNode("1", 2, node5, node4);
+            node1 = new StandardNode("2", 1, node3, node2);
+
             testObject.setTree(node1);
         }
         catch(Exception e)
@@ -166,47 +165,50 @@ public class TopDownDFTATest
         }
 
         Assert.assertFalse(testObject.isRunning);
-        Assert.assertEquals("A", node1.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("!", node1.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("B", node2.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("#", node2.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("B", node3.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("@", node3.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("B", node4.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("$", node4.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("B", node5.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("#", node5.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("A", node6.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("@", node6.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("A", node7.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("!", node7.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("A", node10.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("!", node10.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("A", node11.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("$", node11.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("A", node12.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("!", node12.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("A", node13.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("$", node13.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("#", node2.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node3.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("@", node3.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node4.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node4.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node5.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("#", node5.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node6.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("@", node6.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node7.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node7.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node10.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node10.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node11.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node11.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node12.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node12.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node13.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node13.getStateValueOrNull(variables.get(1)));
     }
 
     @Test
     public void testMakeStepForward()
     {
-        TreeVertex node13 = new NodeVertex("2", 13);
-        TreeVertex node12 = new NodeVertex("1", 12);
-        TreeVertex node11 = new NodeVertex("0", 11);
-        TreeVertex node10 = new NodeVertex("4", 10);
-        TreeVertex node7 = new NodeVertex("3", 7);
-        TreeVertex node6 = new NodeVertex("3", 6, node13, node12);
-        TreeVertex node5 = new NodeVertex("2", 5, node11, node10);
-        TreeVertex node4 = new NodeVertex("0", 4);
-        TreeVertex node3 = new NodeVertex("4", 3, node7, node6);
-        TreeVertex node2 = new NodeVertex("1", 2, node5, node4);
-        TreeVertex node1 = new NodeVertex("2", 1, node3, node2);
+        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 =
+            null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
 
         try
         {
+            node13 = new StandardNode("2", 13);
+            node12 = new StandardNode("1", 12);
+            node11 = new StandardNode("0", 11);
+            node10 = new StandardNode("4", 10);
+            node7 = new StandardNode("3", 7);
+            node6 = new StandardNode("3", 6, node13, node12);
+            node5 = new StandardNode("2", 5, node11, node10);
+            node4 = new StandardNode("0", 4);
+            node3 = new StandardNode("4", 3, node7, node6);
+            node2 = new StandardNode("1", 2, node5, node4);
+            node1 = new StandardNode("2", 1, node3, node2);
+
             testObject.setTree(node1);
         }
         catch(Exception e)
@@ -228,28 +230,28 @@ public class TopDownDFTATest
         }
 
         Assert.assertTrue(testObject.isRunning);
-        Assert.assertEquals("A", node1.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("!", node1.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("B", node2.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("#", node2.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("B", node3.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("@", node3.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node4.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node4.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node5.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node5.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node6.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node6.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node7.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node7.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node10.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node10.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node11.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node11.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node12.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node12.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node13.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node13.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("#", node2.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node3.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("@", node3.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node4.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node4.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node5.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node5.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node6.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node6.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node7.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node7.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node10.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node10.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node11.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node11.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node12.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node12.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node13.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node13.getStateValueOrNull(variables.get(1)));
 
         try
         {
@@ -262,41 +264,40 @@ public class TopDownDFTATest
         }
 
         Assert.assertTrue(testObject.isRunning);
-        Assert.assertEquals("A", node1.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("!", node1.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("B", node2.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("#", node2.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("B", node3.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("@", node3.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("B", node4.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("$", node4.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("B", node5.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("#", node5.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("A", node6.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("@", node6.getStateOrNull(variables.get(1)));
-        Assert.assertEquals("A", node7.getStateOrNull(variables.get(0)));
-        Assert.assertEquals("!", node7.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node10.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node10.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node11.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node11.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node12.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node12.getStateOrNull(variables.get(1)));
-        Assert.assertNull(node13.getStateOrNull(variables.get(0)));
-        Assert.assertNull(node13.getStateOrNull(variables.get(1)));
+        Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("#", node2.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node3.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("@", node3.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node4.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node4.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node5.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("#", node5.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node6.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("@", node6.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node7.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node7.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node10.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node10.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node11.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node11.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node12.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node12.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node13.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node13.getStateValueOrNull(variables.get(1)));
     }
 
     @Test
     public void testIsAcceptedWhenAutomatonHasRunAndAccepts()
     {
-        TreeVertex node7 = new NodeVertex("0", 7);
-        TreeVertex node6 = new NodeVertex("4", 6);
-        TreeVertex node3 = new NodeVertex("3", 3, node7, node6);
-        TreeVertex node2 = new NodeVertex("2", 2);
-        TreeVertex node = new NodeVertex("0", 1, node3, node2);
-
         try
         {
+            TreeNode node = new StandardNode("0", 1,
+                                             new StandardNode("3", 3, new StandardNode("0", 7),
+                                                              new StandardNode("4", 6)),
+                                             new StandardNode("2", 2));
+
             testObject.setTree(node);
             testObject.run();
         }
@@ -324,29 +325,30 @@ public class TopDownDFTATest
     @Test
     public void testIsAcceptedWhenAutomatonHasRunAndNotAccepts()
     {
-        TreeVertex node = new NodeVertex("2", 1, new NodeVertex("4", 3, new NodeVertex("3", 7),
-                                                                new NodeVertex("3", 6,
-                                                                               new NodeVertex("2",
-                                                                                              13,
-                                                                                              null,
-                                                                                              null),
-                                                                               new NodeVertex("1",
-                                                                                              12,
-                                                                                              null,
-                                                                                              null))),
-                                         new NodeVertex("1", 2, new NodeVertex("2", 5,
-                                                                               new NodeVertex("0",
-                                                                                              11,
-                                                                                              null,
-                                                                                              null),
-                                                                               new NodeVertex("4",
-                                                                                              10,
-                                                                                              null,
-                                                                                              null)),
-                                                        new NodeVertex("0", 4)));
-
         try
         {
+            TreeNode node = new StandardNode("2", 1,
+                                             new StandardNode("4", 3, new StandardNode("3", 7),
+                                                              new StandardNode("3", 6,
+                                                                               new StandardNode("2",
+                                                                                                13,
+                                                                                                null,
+                                                                                                null),
+                                                                               new StandardNode("1",
+                                                                                                12,
+                                                                                                null,
+                                                                                                null))),
+                                             new StandardNode("1", 2, new StandardNode("2", 5,
+                                                                                       new StandardNode(
+                                                                                           "0", 11,
+                                                                                           null,
+                                                                                           null),
+                                                                                       new StandardNode(
+                                                                                           "4", 10,
+                                                                                           null,
+                                                                                           null)),
+                                                              new StandardNode("0", 4)));
+
             testObject.setTree(node);
             testObject.run();
         }
@@ -375,29 +377,30 @@ public class TopDownDFTATest
     public void testIsAcceptedWhenAutomatonHasNotRun()
         throws UndefinedTreeStateException
     {
-        TreeVertex node = new NodeVertex("2", 1, new NodeVertex("4", 3, new NodeVertex("3", 7),
-                                                                new NodeVertex("3", 6,
-                                                                               new NodeVertex("2",
-                                                                                              13,
-                                                                                              null,
-                                                                                              null),
-                                                                               new NodeVertex("1",
-                                                                                              12,
-                                                                                              null,
-                                                                                              null))),
-                                         new NodeVertex("1", 2, new NodeVertex("2", 5,
-                                                                               new NodeVertex("0",
-                                                                                              11,
-                                                                                              null,
-                                                                                              null),
-                                                                               new NodeVertex("4",
-                                                                                              10,
-                                                                                              null,
-                                                                                              null)),
-                                                        new NodeVertex("0", 4)));
-
         try
         {
+            TreeNode node = new StandardNode("2", 1,
+                                             new StandardNode("4", 3, new StandardNode("3", 7),
+                                                              new StandardNode("3", 6,
+                                                                               new StandardNode("2",
+                                                                                                13,
+                                                                                                null,
+                                                                                                null),
+                                                                               new StandardNode("1",
+                                                                                                12,
+                                                                                                null,
+                                                                                                null))),
+                                             new StandardNode("1", 2, new StandardNode("2", 5,
+                                                                                       new StandardNode(
+                                                                                           "0", 11,
+                                                                                           null,
+                                                                                           null),
+                                                                                       new StandardNode(
+                                                                                           "4", 10,
+                                                                                           null,
+                                                                                           null)),
+                                                              new StandardNode("0", 4)));
+
             testObject.setTree(node);
         }
         catch(Exception e)

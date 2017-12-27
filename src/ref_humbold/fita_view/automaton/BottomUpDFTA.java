@@ -11,7 +11,7 @@ import ref_humbold.fita_view.automaton.traversing.BottomUpTraversing;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public class BottomUpDFTA
@@ -20,7 +20,7 @@ public class BottomUpDFTA
     private Set<Map<Variable, String>> acceptingStates = new HashSet<>();
     private BottomUpTraversing traversing;
     private BottomUpTransitions transitions = new BottomUpTransitions();
-    private List<TreeVertex> leaves = new ArrayList<>();
+    private List<TreeNode> leaves = new ArrayList<>();
 
     public BottomUpDFTA(Collection<String> alphabet, Collection<Variable> variables)
     {
@@ -47,11 +47,11 @@ public class BottomUpDFTA
         if(acceptingStates.isEmpty())
             throw new UndefinedAcceptanceException("Automaton has no accepting states defined.");
 
-        return checkAcceptance(tree.getFullState());
+        return checkAcceptance(tree.getState());
     }
 
     @Override
-    public void setTree(TreeVertex tree)
+    public void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException
     {
         if(containsRecursiveNode(tree))
@@ -82,17 +82,18 @@ public class BottomUpDFTA
             return;
         }
 
-        for(TreeVertex vertex : traversing.next())
+        for(TreeNode node : traversing.next())
             for(Variable var : variables)
                 try
                 {
-                    String leftValue = vertex.getLeft() == null ? var.getInitValue()
-                                                                : vertex.getLeft().getState(var);
-                    String rightValue = vertex.getRight() == null ? var.getInitValue()
-                                                                  : vertex.getRight().getState(var);
-                    String result = doTransition(var, leftValue, rightValue, vertex.getLabel());
+                    String leftValue = node.getLeft() == null ? var.getInitValue()
+                                                              : node.getLeft().getStateValue(var);
+                    String rightValue = node.getRight() == null ? var.getInitValue()
+                                                                : node.getRight()
+                                                                      .getStateValue(var);
+                    String result = doTransition(var, leftValue, rightValue, node.getLabel());
 
-                    vertex.setState(var, result);
+                    node.setStateValue(var, result);
                 }
                 catch(Exception e)
                 {
@@ -102,7 +103,7 @@ public class BottomUpDFTA
     }
 
     @Override
-    public TreeVertex generateTree()
+    public TreeNode generateTree()
     {
         return null;
     }
@@ -137,7 +138,7 @@ public class BottomUpDFTA
     {
         super.initialize();
 
-        traversing.initialize(leaves.toArray(new TreeVertex[0]));
+        traversing.initialize(leaves.toArray(new TreeNode[0]));
     }
 
     @Override
@@ -214,7 +215,7 @@ public class BottomUpDFTA
         t.initialize(tree);
 
         while(t.hasNext())
-            for(TreeVertex v : t.next())
+            for(TreeNode v : t.next())
                 if(!v.hasChildren())
                     leaves.add(v);
     }

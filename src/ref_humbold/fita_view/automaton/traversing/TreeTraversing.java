@@ -2,14 +2,14 @@ package ref_humbold.fita_view.automaton.traversing;
 
 import java.util.Iterator;
 
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public interface TreeTraversing
-    extends Iterator<Iterable<TreeVertex>>
+    extends Iterator<Iterable<TreeNode>>
 {
     /**
-     * Setting vertices in tree to start traversing from.
-     * @param vertices initial vertices
+     * Setting nodes in tree to start traversing from.
+     * @param nodes initial nodes
      */
-    void initialize(TreeVertex... vertices);
+    void initialize(TreeNode... nodes);
 }

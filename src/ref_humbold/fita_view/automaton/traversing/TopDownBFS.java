@@ -3,29 +3,29 @@ package ref_humbold.fita_view.automaton.traversing;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public class TopDownBFS
     extends TopDownTraversing
 {
     /**
-     * Getting next vertex in breadth-first search order.
-     * @return next vertex
+     * Getting next node in breadth-first search order.
+     * @return next node
      */
     @Override
-    public Iterable<TreeVertex> next()
+    public Iterable<TreeNode> next()
     {
         if(!hasNext())
             throw new NoSuchElementException();
 
-        TreeVertex vertex = vertexDeque.removeFirst();
+        TreeNode node = nodeDeque.removeFirst();
 
-        if(vertex.hasChildren())
+        if(node.hasChildren())
         {
-            vertexDeque.addLast(vertex.getLeft());
-            vertexDeque.addLast(vertex.getRight());
+            nodeDeque.addLast(node.getLeft());
+            nodeDeque.addLast(node.getRight());
         }
 
-        return Collections.singletonList(vertex);
+        return Collections.singletonList(node);
     }
 }

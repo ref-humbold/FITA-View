@@ -8,7 +8,7 @@ import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.transition.TopDownTransitions;
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public class TopDownDITA
     extends TopDownInfiniteTreeAutomaton
@@ -21,7 +21,7 @@ public class TopDownDITA
     }
 
     @Override
-    public TreeVertex generateTree()
+    public TreeNode generateTree()
     {
         return null;
     }

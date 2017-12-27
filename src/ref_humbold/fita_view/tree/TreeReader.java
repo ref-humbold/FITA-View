@@ -49,7 +49,7 @@ public class TreeReader
      * @throws IOException if any IO error occurs
      * @throws SAXException if any parsing error occurs
      */
-    public TreeVertex read()
+    public TreeNode read()
         throws IOException, SAXException
     {
         TreeHandler handler = new TreeHandler();

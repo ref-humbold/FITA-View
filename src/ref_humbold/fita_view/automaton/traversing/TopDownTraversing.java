@@ -4,23 +4,23 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public abstract class TopDownTraversing
     implements TreeTraversing
 {
-    protected Deque<TreeVertex> vertexDeque = new ArrayDeque<>();
+    protected Deque<TreeNode> nodeDeque = new ArrayDeque<>();
 
     @Override
-    public void initialize(TreeVertex... vertices)
+    public void initialize(TreeNode... nodes)
     {
-        vertexDeque.clear();
-        vertexDeque.addAll(Arrays.asList(vertices));
+        nodeDeque.clear();
+        nodeDeque.addAll(Arrays.asList(nodes));
     }
 
     @Override
     public boolean hasNext()
     {
-        return !vertexDeque.isEmpty();
+        return !nodeDeque.isEmpty();
     }
 }

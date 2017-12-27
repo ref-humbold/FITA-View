@@ -3,7 +3,7 @@ package ref_humbold.fita_view.automaton.traversing;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public class BottomUpBFS
     extends BottomUpTraversing
@@ -11,25 +11,25 @@ public class BottomUpBFS
     private boolean canAddParent = false;
 
     @Override
-    public void initialize(TreeVertex... vertices)
+    public void initialize(TreeNode... nodes)
     {
-        super.initialize(vertices);
+        super.initialize(nodes);
         canAddParent = false;
     }
 
     @Override
-    public Iterable<TreeVertex> next()
+    public Iterable<TreeNode> next()
     {
         if(!hasNext())
             throw new NoSuchElementException();
 
-        TreeVertex vertex = vertexQueue.remove();
+        TreeNode node = nodeQueue.remove();
 
-        if(vertex.getParent() != null && canAddParent)
-            vertexQueue.add(vertex.getParent());
+        if(node.getParent() != null && canAddParent)
+            nodeQueue.add(node.getParent());
 
         canAddParent = !canAddParent;
 
-        return Collections.singletonList(vertex);
+        return Collections.singletonList(node);
     }
 }

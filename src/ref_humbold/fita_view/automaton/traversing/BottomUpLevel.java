@@ -3,7 +3,7 @@ package ref_humbold.fita_view.automaton.traversing;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public class BottomUpLevel
     extends BottomUpTraversing
@@ -11,42 +11,42 @@ public class BottomUpLevel
     int currentDepth;
 
     @Override
-    public void initialize(TreeVertex... vertices)
+    public void initialize(TreeNode... nodes)
     {
-        super.initialize(vertices);
+        super.initialize(nodes);
         currentDepth = -1;
 
-        for(TreeVertex place : vertices)
+        for(TreeNode place : nodes)
             currentDepth = Math.max(currentDepth, countDepth(place.getIndex()));
     }
 
     @Override
-    public Iterable<TreeVertex> next()
+    public Iterable<TreeNode> next()
     {
         if(!hasNext())
             throw new NoSuchElementException();
 
-        ArrayList<TreeVertex> vertices = new ArrayList<>();
-        int index = vertexQueue.element().getIndex();
+        ArrayList<TreeNode> nodes = new ArrayList<>();
+        int index = nodeQueue.element().getIndex();
 
         boolean canAddParent = false;
 
         while(index >= 1 << currentDepth)
         {
-            TreeVertex vertex = vertexQueue.remove();
+            TreeNode node = nodeQueue.remove();
 
-            vertices.add(vertex);
+            nodes.add(node);
 
-            if(vertex.getParent() != null && canAddParent)
-                vertexQueue.add(vertex.getParent());
+            if(node.getParent() != null && canAddParent)
+                nodeQueue.add(node.getParent());
 
             canAddParent = !canAddParent;
-            index = hasNext() ? vertexQueue.element().getIndex() : -1;
+            index = hasNext() ? nodeQueue.element().getIndex() : -1;
         }
 
         --currentDepth;
 
-        return vertices;
+        return nodes;
     }
 
     private Integer countDepth(Integer index)

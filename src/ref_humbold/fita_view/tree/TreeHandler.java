@@ -11,12 +11,12 @@ import ref_humbold.fita_view.Pair;
 class TreeHandler
     extends DefaultHandler
 {
-    private Stack<TreeVertex> repeats = new Stack<>();
-    private Stack<Pair<TreeVertex, TreeChild>> nodes = new Stack<>();
-    private TreeVertex tree = null;
+    private Stack<Pair<StandardNode, TreeChild>> nodes = new Stack<>();
+    private Stack<RepeatNode> repeats = new Stack<>();
+    private TreeNode tree = null;
     private int index = 1;
 
-    public TreeVertex getTree()
+    public TreeNode getTree()
     {
         return tree;
     }
@@ -32,30 +32,37 @@ class TreeHandler
     public void startElement(String uri, String localName, String qName, Attributes attributes)
         throws SAXException
     {
+        String label;
+
         switch(qName)
         {
             case "null":
+            case "rec":
                 break;
 
             case "node":
-            case "repeat":
-                String label = attributes.getValue("label");
+                label = attributes.getValue("label");
 
                 if(label == null)
                     throw new SAXException();
 
-                NodeVertex node = qName.equals("repeat") ? new RepeatVertex(label, index)
-                                                         : new NodeVertex(label, index);
+                StandardNode standardNode = new StandardNode(label, index);
 
-                nodes.push(Pair.make(node, TreeChild.LEFT));
+                nodes.push(Pair.make(standardNode, TreeChild.LEFT));
                 index += index + 1;
-
-                if(qName.equals("repeat"))
-                    repeats.push(node);
                 break;
 
-            case "rec":
-                nodes.push(Pair.make(new RecVertex(repeats.peek(), index), null));
+            case "repeat":
+                label = attributes.getValue("label");
+
+                if(label == null)
+                    throw new SAXException();
+
+                RepeatNode repeatNode = new RepeatNode(label, index);
+
+                nodes.push(Pair.make(repeatNode, TreeChild.LEFT));
+                repeats.push(repeatNode);
+                index += index + 1;
                 break;
 
             default:
@@ -72,35 +79,52 @@ class TreeHandler
             case "null":
                 break;
 
+            case "rec":
             case "node":
             case "repeat":
-            case "rec":
                 if(nodes.size() > 1)
                 {
-                    Pair<TreeVertex, TreeChild> node = nodes.pop();
-                    Pair<TreeVertex, TreeChild> parent = nodes.pop();
+                    TreeNode node;
 
-                    if(node.getSecond() == TreeChild.RIGHT)
-                        throw new OneChildException(
-                            "Node must have zero or two children, but it has one.");
+                    if(qName.equals("rec"))
+                        node = new RecNode(repeats.peek(), index);
+                    else
+                    {
+                        Pair<StandardNode, TreeChild> nodesPair = nodes.pop();
+
+                        if(nodesPair.getSecond() == TreeChild.RIGHT)
+                            throw new OneChildException(
+                                "Node must have zero or two children, but it has one.");
+
+                        node = nodesPair.getFirst();
+                    }
+
+                    Pair<StandardNode, TreeChild> parent = nodes.pop();
 
                     index /= 2;
 
-                    switch(parent.getSecond())
+                    try
                     {
-                        case LEFT:
-                            parent.getFirst().setLeft(node.getFirst());
-                            nodes.push(Pair.make(parent.getFirst(), TreeChild.RIGHT));
-                            --index;
-                            break;
+                        switch(parent.getSecond())
+                        {
+                            case LEFT:
+                                parent.getFirst().setLeft(node);
+                                nodes.push(Pair.make(parent.getFirst(), TreeChild.RIGHT));
+                                --index;
+                                break;
 
-                        case RIGHT:
-                            parent.getFirst().setRight(node.getFirst());
-                            nodes.push(Pair.make(parent.getFirst(), TreeChild.NONE));
-                            break;
+                            case RIGHT:
+                                parent.getFirst().setRight(node);
+                                nodes.push(Pair.make(parent.getFirst(), TreeChild.NONE));
+                                break;
 
-                        case NONE:
-                            break;
+                            case NONE:
+                                break;
+                        }
+                    }
+                    catch(NodeHasParentException e)
+                    {
+                        throw new TreeParsingException("Child node has parent.", e);
                     }
 
                     if(qName.equals("repeat"))

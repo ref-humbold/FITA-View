@@ -15,7 +15,7 @@ import org.xml.sax.SAXException;
 
 import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.tree.TreeReader;
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public class TreePanel
     extends JPanel
@@ -23,7 +23,7 @@ public class TreePanel
 {
     private static final long serialVersionUID = 5944023926285119879L;
 
-    private TreeVertex tree = null;
+    private TreeNode tree = null;
     private JFileChooser fileChooser = new JFileChooser();
     private JButton openFileButton = new JButton("Load tree from file");
 
@@ -68,7 +68,7 @@ public class TreePanel
         return null;
     }
 
-    private TreeVertex loadTree(File file)
+    private TreeNode loadTree(File file)
         throws FileFormatException, SAXException, IOException
     {
         TreeReader reader = new TreeReader(file);

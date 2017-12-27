@@ -8,23 +8,29 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ref_humbold.fita_view.tree.NodeVertex;
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.NodeHasParentException;
+import ref_humbold.fita_view.tree.StandardNode;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public class BottomUpLevelTest
 {
     private BottomUpLevel testObject;
-    private TreeVertex node13 = new NodeVertex("13", 13);
-    private TreeVertex node12 = new NodeVertex("12", 12);
-    private TreeVertex node11 = new NodeVertex("11", 11);
-    private TreeVertex node10 = new NodeVertex("10", 10);
-    private TreeVertex node7 = new NodeVertex("7", 7);
-    private TreeVertex node6 = new NodeVertex("6", 6, node13, node12);
-    private TreeVertex node5 = new NodeVertex("5", 5, node11, node10);
-    private TreeVertex node4 = new NodeVertex("4", 4);
-    private TreeVertex node3 = new NodeVertex("3", 3, node7, node6);
-    private TreeVertex node2 = new NodeVertex("2", 2, node5, node4);
-    private TreeVertex node1 = new NodeVertex("1", 1, node3, node2);
+    private TreeNode node13 = new StandardNode("13", 13);
+    private TreeNode node12 = new StandardNode("12", 12);
+    private TreeNode node11 = new StandardNode("11", 11);
+    private TreeNode node10 = new StandardNode("10", 10);
+    private TreeNode node7 = new StandardNode("7", 7);
+    private TreeNode node6 = new StandardNode("6", 6, node13, node12);
+    private TreeNode node5 = new StandardNode("5", 5, node11, node10);
+    private TreeNode node4 = new StandardNode("4", 4);
+    private TreeNode node3 = new StandardNode("3", 3, node7, node6);
+    private TreeNode node2 = new StandardNode("2", 2, node5, node4);
+    private TreeNode node1 = new StandardNode("1", 1, node3, node2);
+
+    public BottomUpLevelTest()
+        throws NodeHasParentException
+    {
+    }
 
     @Before
     public void setUp()
@@ -47,17 +53,17 @@ public class BottomUpLevelTest
 
         while(testObject.hasNext())
         {
-            ArrayList<TreeVertex> vertices = new ArrayList<>();
+            ArrayList<TreeNode> nodes = new ArrayList<>();
 
-            for(TreeVertex v : testObject.next())
-                vertices.add(v);
+            for(TreeNode v : testObject.next())
+                nodes.add(v);
 
-            Assert.assertTrue(vertices.size() > 0);
+            Assert.assertTrue(nodes.size() > 0);
 
-            result.add(vertices.toArray());
+            result.add(nodes.toArray());
         }
 
-        TreeVertex[][] expected =
+        TreeNode[][] expected =
             {{node13, node12, node11, node10}, {node7, node6, node5, node4}, {node3, node2},
              {node1}};
 
@@ -82,7 +88,7 @@ public class BottomUpLevelTest
     {
         testObject.initialize(node7, node4);
 
-        Queue<TreeVertex> queue = testObject.vertexQueue;
+        Queue<TreeNode> queue = testObject.nodeQueue;
 
         Assert.assertEquals(2, queue.size());
         Assert.assertTrue(queue.contains(node7));
@@ -96,7 +102,7 @@ public class BottomUpLevelTest
         testObject.initialize(node7, node4);
         testObject.initialize(node10, node11, node12);
 
-        Queue<TreeVertex> queue = testObject.vertexQueue;
+        Queue<TreeNode> queue = testObject.nodeQueue;
 
         Assert.assertEquals(3, queue.size());
         Assert.assertFalse(queue.contains(node7));

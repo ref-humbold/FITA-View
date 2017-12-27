@@ -4,7 +4,7 @@ import java.util.Collections;
 
 class TreeXMLBuilder
 {
-    private TreeVertex tree;
+    private TreeNode tree;
     private TreeXMLBuilder parent;
     private StringBuilder body = new StringBuilder();
 
@@ -12,7 +12,7 @@ class TreeXMLBuilder
     {
     }
 
-    private TreeXMLBuilder(TreeVertex tree, TreeXMLBuilder parent)
+    private TreeXMLBuilder(TreeNode tree, TreeXMLBuilder parent)
     {
         this.tree = tree;
         this.parent = parent;
@@ -50,7 +50,7 @@ class TreeXMLBuilder
         return output.toString();
     }
 
-    TreeXMLBuilder build(TreeVertex tree)
+    TreeXMLBuilder build(TreeNode tree)
     {
         if(tree == null)
             return this;
@@ -88,7 +88,7 @@ class TreeXMLBuilder
         return indented;
     }
 
-    private TreeXMLBuilder startTree(TreeVertex tree)
+    private TreeXMLBuilder startTree(TreeNode tree)
     {
         return new TreeXMLBuilder(tree, this);
     }
@@ -105,12 +105,12 @@ class TreeXMLBuilder
         body.append(content);
     }
 
-    private boolean isNode(TreeVertex tree)
+    private boolean isNode(TreeNode tree)
     {
-        return tree.getType() == VertexType.NODE || tree.getType() == VertexType.REPEAT;
+        return tree.getType() == NodeType.NODE || tree.getType() == NodeType.REPEAT;
     }
 
-    private String getNodeName(TreeVertex tree)
+    private String getNodeName(TreeNode tree)
     {
         return tree.getType().toString().toLowerCase();
     }

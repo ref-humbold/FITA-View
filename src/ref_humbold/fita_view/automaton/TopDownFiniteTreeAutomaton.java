@@ -4,7 +4,7 @@ import java.util.*;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public abstract class TopDownFiniteTreeAutomaton
@@ -55,7 +55,7 @@ public abstract class TopDownFiniteTreeAutomaton
             return;
         }
 
-        for(TreeVertex vertex : traversing.next())
+        for(TreeNode node : traversing.next())
         {
             Map<Variable, String> lastState = new HashMap<>();
 
@@ -64,12 +64,12 @@ public abstract class TopDownFiniteTreeAutomaton
                 try
                 {
                     Pair<String, String> result =
-                        doTransition(v, vertex.getState(v), vertex.getLabel());
+                        doTransition(v, node.getStateValue(v), node.getLabel());
 
-                    if(vertex.hasChildren())
+                    if(node.hasChildren())
                     {
-                        vertex.getLeft().setState(v, result.getFirst());
-                        vertex.getRight().setState(v, result.getSecond());
+                        node.getLeft().setStateValue(v, result.getFirst());
+                        node.getRight().setStateValue(v, result.getSecond());
                     }
                     else
                     {

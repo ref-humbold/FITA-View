@@ -6,16 +6,16 @@ import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
-import ref_humbold.fita_view.tree.VertexType;
+import ref_humbold.fita_view.tree.NodeType;
 
 public abstract class AbstractTreeAutomaton
     implements TreeAutomaton
 {
     protected Set<String> alphabet;
     protected List<Variable> variables;
-    protected TreeVertex tree;
+    protected TreeNode tree;
     protected boolean isRunning = false;
 
     public AbstractTreeAutomaton(Collection<Variable> variables, Collection<String> alphabet)
@@ -30,7 +30,7 @@ public abstract class AbstractTreeAutomaton
     protected abstract TreeTraversing getTraversing();
 
     @Override
-    public void setTree(TreeVertex tree)
+    public void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException
     {
         if(tree == null)
@@ -84,8 +84,8 @@ public abstract class AbstractTreeAutomaton
         t.initialize(tree);
 
         while(t.hasNext())
-            for(TreeVertex v : t.next())
-                v.deleteFullState();
+            for(TreeNode v : t.next())
+                v.deleteState();
 
         isRunning = true;
     }
@@ -95,9 +95,9 @@ public abstract class AbstractTreeAutomaton
      * @param node tree node
      * @return {@code true} if tree has a recursive node, otherwise {@code false}
      */
-    protected boolean containsRecursiveNode(TreeVertex node)
+    protected boolean containsRecursiveNode(TreeNode node)
     {
-        return node != null && (node.getType() == VertexType.REC || containsRecursiveNode(
+        return node != null && (node.getType() == NodeType.REC || containsRecursiveNode(
             node.getLeft()) || containsRecursiveNode(node.getRight()));
     }
 

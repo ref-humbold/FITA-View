@@ -7,28 +7,16 @@ import java.util.Objects;
 import ref_humbold.fita_view.automaton.IllegalVariableValueException;
 import ref_humbold.fita_view.automaton.Variable;
 
-public class NodeVertex
-    extends TreeVertex
+public class StandardNode
+    extends TreeNode
 {
-    private TreeVertex left = null;
-    private TreeVertex right = null;
-    private TreeVertex parent = null;
+    private TreeNode left = null;
+    private TreeNode right = null;
+    private TreeNode parent = null;
     private String label;
     private Map<Variable, String> state = new HashMap<>();
 
-    public NodeVertex(String label)
-    {
-        this(label, 0);
-    }
-
-    public NodeVertex(String label, TreeVertex left, TreeVertex right)
-    {
-        this(label);
-        this.setLeft(left);
-        this.setRight(right);
-    }
-
-    public NodeVertex(String label, int index)
+    public StandardNode(String label, int index)
     {
         super(index);
 
@@ -38,7 +26,8 @@ public class NodeVertex
         this.label = label;
     }
 
-    public NodeVertex(String label, int index, TreeVertex left, TreeVertex right)
+    public StandardNode(String label, int index, TreeNode left, TreeNode right)
+        throws NodeHasParentException
     {
         this(label, index);
         this.setLeft(left);
@@ -46,57 +35,65 @@ public class NodeVertex
     }
 
     @Override
-    public VertexType getType()
+    public NodeType getType()
     {
-        return VertexType.NODE;
+        return NodeType.NODE;
     }
 
     @Override
-    public TreeVertex getLeft()
+    public TreeNode getLeft()
     {
         return left;
     }
 
-    @Override
-    public void setLeft(TreeVertex vertex)
+    protected void setLeft(TreeNode node)
+        throws NodeHasParentException
     {
+        if(node != null && node.getParent() != null)
+            throw new NodeHasParentException(
+                "Node has already got a parent, so it cannot be assigned as a child.");
+
         if(left != null)
             left.setParent(null);
 
-        left = vertex;
+        left = node;
 
         if(left != null)
             left.setParent(this);
     }
 
     @Override
-    public TreeVertex getRight()
+    public TreeNode getRight()
     {
         return right;
     }
 
-    @Override
-    public void setRight(TreeVertex vertex)
+    protected void setRight(TreeNode node)
+        throws NodeHasParentException
     {
+        if(node != null && node.getParent() != null)
+            throw new NodeHasParentException(
+                "Node has already got a parent, so it cannot be assigned as a child.");
+
         if(right != null)
             right.setParent(null);
 
-        right = vertex;
+        right = node;
 
         if(right != null)
             right.setParent(this);
     }
 
     @Override
-    public TreeVertex getParent()
+    public TreeNode getParent()
     {
         return parent;
     }
 
     @Override
-    protected void setParent(TreeVertex vertex)
+    protected void setParent(TreeNode node)
     {
-        parent = vertex;
+        parent = node;
     }
 
     @Override
@@ -106,19 +103,19 @@ public class NodeVertex
     }
 
     @Override
-    public Map<Variable, String> getFullState()
+    public Map<Variable, String> getState()
     {
         return state;
     }
 
     @Override
-    public String getStateOrNull(Variable var)
+    public String getStateValueOrNull(Variable var)
     {
         return state.get(var);
     }
 
     @Override
-    public void setState(Variable var, String value)
+    public void setStateValue(Variable var, String value)
         throws IllegalVariableValueException
     {
         if(!var.contains(value))
@@ -128,7 +125,7 @@ public class NodeVertex
     }
 
     @Override
-    public void deleteFullState()
+    public void deleteState()
     {
         state.clear();
     }
@@ -148,10 +145,10 @@ public class NodeVertex
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof NodeVertex))
+        if(o == null || !(o instanceof StandardNode))
             return false;
 
-        NodeVertex other = (NodeVertex)o;
+        StandardNode other = (StandardNode)o;
 
         return Objects.equals(this.label, other.label) && Objects.equals(this.left, other.left)
             && Objects.equals(this.right, other.right);

@@ -6,9 +6,9 @@ import java.io.IOException;
 
 public class TreeWriter
 {
-    private TreeVertex tree;
+    private TreeNode tree;
 
-    public TreeWriter(TreeVertex tree)
+    public TreeWriter(TreeNode tree)
     {
         this.tree = tree;
     }

@@ -8,23 +8,29 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ref_humbold.fita_view.tree.NodeVertex;
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.NodeHasParentException;
+import ref_humbold.fita_view.tree.StandardNode;
+import ref_humbold.fita_view.tree.TreeNode;
 
 public class TopDownBFSTest
 {
     private TopDownBFS testObject;
-    private TreeVertex finiteTreeNode13 = new NodeVertex("13");
-    private TreeVertex finiteTreeNode12 = new NodeVertex("12");
-    private TreeVertex finiteTreeNode11 = new NodeVertex("11");
-    private TreeVertex finiteTreeNode10 = new NodeVertex("10");
-    private TreeVertex finiteTreeNode7 = new NodeVertex("7");
-    private TreeVertex finiteTreeNode6 = new NodeVertex("6", finiteTreeNode12, finiteTreeNode13);
-    private TreeVertex finiteTreeNode5 = new NodeVertex("5", finiteTreeNode10, finiteTreeNode11);
-    private TreeVertex finiteTreeNode4 = new NodeVertex("4");
-    private TreeVertex finiteTreeNode3 = new NodeVertex("3", finiteTreeNode6, finiteTreeNode7);
-    private TreeVertex finiteTreeNode2 = new NodeVertex("2", finiteTreeNode4, finiteTreeNode5);
-    private TreeVertex finiteTreeNode1 = new NodeVertex("1", finiteTreeNode2, finiteTreeNode3);
+    private TreeNode node13 = new StandardNode("13", 13);
+    private TreeNode node12 = new StandardNode("12", 12);
+    private TreeNode node11 = new StandardNode("11", 11);
+    private TreeNode node10 = new StandardNode("10", 10);
+    private TreeNode node7 = new StandardNode("7", 7);
+    private TreeNode node6 = new StandardNode("6", 6, node13, node12);
+    private TreeNode node5 = new StandardNode("5", 5, node11, node10);
+    private TreeNode node4 = new StandardNode("4", 4);
+    private TreeNode node3 = new StandardNode("3", 3, node7, node6);
+    private TreeNode node2 = new StandardNode("2", 2, node5, node4);
+    private TreeNode node1 = new StandardNode("1", 1, node3, node2);
+
+    public TopDownBFSTest()
+        throws NodeHasParentException
+    {
+    }
 
     @Before
     public void setUp()
@@ -41,26 +47,25 @@ public class TopDownBFSTest
     @Test
     public void testNext()
     {
-        ArrayList<TreeVertex> result = new ArrayList<>();
+        ArrayList<TreeNode> result = new ArrayList<>();
 
-        testObject.initialize(finiteTreeNode1);
+        testObject.initialize(node1);
 
         while(testObject.hasNext())
         {
-            ArrayList<TreeVertex> vertices = new ArrayList<>();
+            ArrayList<TreeNode> nodes = new ArrayList<>();
 
-            for(TreeVertex v : testObject.next())
-                vertices.add(v);
+            for(TreeNode v : testObject.next())
+                nodes.add(v);
 
-            Assert.assertEquals(1, vertices.size());
+            Assert.assertEquals(1, nodes.size());
 
-            result.add(vertices.get(0));
+            result.add(nodes.get(0));
         }
 
-        TreeVertex[] expected =
-            new TreeVertex[]{finiteTreeNode1, finiteTreeNode2, finiteTreeNode3, finiteTreeNode4,
-                             finiteTreeNode5, finiteTreeNode6, finiteTreeNode7, finiteTreeNode10,
-                             finiteTreeNode11, finiteTreeNode12, finiteTreeNode13};
+        TreeNode[] expected =
+            new TreeNode[]{node1, node3, node2, node7, node6, node5, node4, node13, node12, node11,
+                           node10};
 
         Assert.assertArrayEquals(expected, result.toArray());
     }
@@ -68,7 +73,7 @@ public class TopDownBFSTest
     @Test(expected = NoSuchElementException.class)
     public void testNextWhenOutOfBounds()
     {
-        testObject.initialize(finiteTreeNode1);
+        testObject.initialize(node1);
 
         while(true)
         {
@@ -79,25 +84,25 @@ public class TopDownBFSTest
     @Test
     public void testInitialize()
     {
-        testObject.initialize(finiteTreeNode1);
+        testObject.initialize(node1);
 
-        Deque<TreeVertex> deque = testObject.vertexDeque;
+        Deque<TreeNode> deque = testObject.nodeDeque;
 
         Assert.assertEquals(1, deque.size());
-        Assert.assertTrue(deque.contains(finiteTreeNode1));
+        Assert.assertTrue(deque.contains(node1));
     }
 
     @Test
     public void testInitializeWhenDoubleInvoke()
     {
-        testObject.initialize(finiteTreeNode1);
-        testObject.initialize(finiteTreeNode2);
+        testObject.initialize(node1);
+        testObject.initialize(node2);
 
-        Deque<TreeVertex> deque = testObject.vertexDeque;
+        Deque<TreeNode> deque = testObject.nodeDeque;
 
         Assert.assertEquals(1, deque.size());
-        Assert.assertFalse(deque.contains(finiteTreeNode1));
-        Assert.assertTrue(deque.contains(finiteTreeNode2));
+        Assert.assertFalse(deque.contains(node1));
+        Assert.assertTrue(deque.contains(node2));
     }
 
     @Test
@@ -111,7 +116,7 @@ public class TopDownBFSTest
     @Test
     public void testHasNextWhenNotEmpty()
     {
-        testObject.initialize(finiteTreeNode11);
+        testObject.initialize(node11);
 
         boolean result = testObject.hasNext();
 

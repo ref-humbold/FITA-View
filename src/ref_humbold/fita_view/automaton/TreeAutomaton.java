@@ -3,7 +3,7 @@ package ref_humbold.fita_view.automaton;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
-import ref_humbold.fita_view.tree.TreeVertex;
+import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public interface TreeAutomaton
@@ -19,7 +19,7 @@ public interface TreeAutomaton
     void setTraversing(TraversingFactory.Mode mode)
         throws IncorrectTraversingException;
 
-    void setTree(TreeVertex tree)
+    void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException;
 
     /**
@@ -53,5 +53,5 @@ public interface TreeAutomaton
      * Generating a sample tree that could be accepted by the automaton.
      * @return sample accepted tree
      */
-    TreeVertex generateTree();
+    TreeNode generateTree();
 }

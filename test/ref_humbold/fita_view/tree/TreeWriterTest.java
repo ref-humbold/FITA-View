@@ -33,9 +33,19 @@ public class TreeWriterTest
     @Test
     public void testToStringWhenSimpleTree()
     {
-        TreeVertex tree =
-            new NodeVertex("1", new NodeVertex("2", new NodeVertex("3"), new NodeVertex("4")),
-                           new NodeVertex("5"));
+        TreeNode tree = null;
+
+        try
+        {
+            tree = new StandardNode("1", 0, new StandardNode("2", 0, new StandardNode("3", 0),
+                                                             new StandardNode("4", 0)),
+                                    new StandardNode("5", 0));
+        }
+        catch(NodeHasParentException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         testObject = new TreeWriter(tree);
 
@@ -50,14 +60,24 @@ public class TreeWriterTest
     @Test
     public void testToStringWhenRepeat()
     {
-        TreeVertex repeat = new RepeatVertex("5");
+        TreeNode tree = null;
 
-        repeat.setLeft(new NodeVertex("6"));
-        repeat.setRight(new NodeVertex("7", new RecVertex(repeat), new NodeVertex("9")));
+        try
+        {
+            RepeatNode repeat = new RepeatNode("5", 0);
 
-        TreeVertex tree =
-            new NodeVertex("1", new NodeVertex("2", new NodeVertex("3"), new NodeVertex("4")),
-                           repeat);
+            repeat.setLeft(new StandardNode("6", 0));
+            repeat.setRight(
+                new StandardNode("7", 0, new RecNode(repeat, 0), new StandardNode("9", 0)));
+
+            tree = new StandardNode("1", 0, new StandardNode("2", 0, new StandardNode("3", 0),
+                                                             new StandardNode("4", 0)), repeat);
+        }
+        catch(NodeHasParentException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         testObject = new TreeWriter(tree);
 
