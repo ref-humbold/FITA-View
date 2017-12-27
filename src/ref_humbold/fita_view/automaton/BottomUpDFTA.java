@@ -1,9 +1,6 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.transition.BottomUpTransitions;
@@ -18,8 +15,9 @@ import ref_humbold.fita_view.tree.TreeVertex;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public class BottomUpDFTA
-    extends FiniteTreeAutomaton
+    extends AbstractTreeAutomaton
 {
+    private Set<Map<Variable, String>> acceptingStates = new HashSet<>();
     private BottomUpTraversing traversing;
     private BottomUpTransitions transitions = new BottomUpTransitions();
     private List<TreeVertex> leaves = new ArrayList<>();
@@ -56,6 +54,9 @@ public class BottomUpDFTA
     public void setTree(TreeVertex tree)
         throws TreeFinitenessException, EmptyTreeException
     {
+        if(containsRecursiveNode(tree))
+            throw new TreeFinitenessException("Specified tree is infinite.");
+
         super.setTree(tree);
         this.findLeaves();
         this.isRunning = false;
@@ -137,6 +138,41 @@ public class BottomUpDFTA
         super.initialize();
 
         traversing.initialize(leaves.toArray(new TreeVertex[0]));
+    }
+
+    @Override
+    protected boolean checkAcceptance(Map<Variable, String> state)
+        throws UndefinedTreeStateException
+    {
+        for(Map<Variable, String> accept : acceptingStates)
+        {
+            boolean contained = true;
+
+            for(Variable var : accept.keySet())
+            {
+                if(state.get(var) == null)
+                    throw new UndefinedTreeStateException(
+                        "Node has an undefined state variable value.");
+
+                contained &= accept.get(var).equals(state.get(var)) || accept.get(var)
+                                                                             .equals(
+                                                                                 Wildcard.EVERY_VALUE);
+            }
+
+            if(contained)
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Adding an accepting state of automaton.
+     * @param accept mapping from variables to their accepting values
+     */
+    protected void addAcceptingState(Map<Variable, String> accept)
+    {
+        acceptingStates.add(accept);
     }
 
     /**

@@ -1,41 +1,21 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import ref_humbold.fita_view.Pair;
-import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
-import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
-import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
-import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.tree.TreeVertex;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public abstract class TopDownFiniteTreeAutomaton
-    extends FiniteTreeAutomaton
+    extends TopDownAutomaton
 {
-    private TopDownTraversing traversing;
+    private Set<Map<Variable, String>> acceptingStates = new HashSet<>();
     private List<Map<Variable, String>> leafStates = new ArrayList<>();
 
-    public TopDownFiniteTreeAutomaton(Collection<String> alphabet, Collection<Variable> variables)
+    public TopDownFiniteTreeAutomaton(Collection<Variable> variables, Collection<String> alphabet)
     {
         super(variables, alphabet);
-    }
-
-    @Override
-    protected TopDownTraversing getTraversing()
-    {
-        return traversing;
-    }
-
-    @Override
-    public void setTraversing(TraversingFactory.Mode mode)
-    {
-        this.traversing = TraversingFactory.getInstance().getTopDownTraversing(mode);
     }
 
     @Override
@@ -109,62 +89,46 @@ public abstract class TopDownFiniteTreeAutomaton
         }
     }
 
-    /**
-     * Adding new transition entry to transition function of automaton.
-     * @param var variable
-     * @param value variable value in node
-     * @param label tree label of node
-     * @param leftResult variable value in left son
-     * @param rightResult variable value in right son
-     */
-    protected abstract void addTransition(Variable var, String value, String label,
-                                          String leftResult, String rightResult)
-        throws DuplicatedTransitionException, IllegalTransitionException;
-
-    /**
-     * Calling a transition function with specified arguments.
-     * @param var variable
-     * @param value variable value in node
-     * @param label tree label of node
-     * @return pair of variable values in sons (first left, second right)
-     */
-    protected abstract Pair<String, String> getTransitionResult(Variable var, String value,
-                                                                String label)
-        throws NoSuchTransitionException;
-
     @Override
     protected void initialize()
         throws IllegalVariableValueException
     {
         super.initialize();
-
-        for(Variable var : variables)
-            tree.setState(var, var.getInitValue());
-
-        traversing.initialize(tree);
         leafStates.clear();
     }
 
-    private Pair<String, String> doTransition(Variable var, String value, String label)
-        throws NoSuchTransitionException
+    @Override
+    protected boolean checkAcceptance(Map<Variable, String> state)
+        throws UndefinedTreeStateException
     {
-        Pair<String, String> result = getTransitionResult(var, value, label);
+        for(Map<Variable, String> accept : acceptingStates)
+        {
+            boolean contained = true;
 
-        return removeSameWildcard(value, result);
+            for(Variable var : accept.keySet())
+            {
+                if(state.get(var) == null)
+                    throw new UndefinedTreeStateException(
+                        "Node has an undefined state variable value.");
+
+                contained &= accept.get(var).equals(state.get(var)) || accept.get(var)
+                                                                             .equals(
+                                                                                 Wildcard.EVERY_VALUE);
+            }
+
+            if(contained)
+                return true;
+        }
+
+        return false;
     }
 
-    private Pair<String, String> removeSameWildcard(String value, Pair<String, String> trans)
+    /**
+     * Adding an accepting state of automaton.
+     * @param accept mapping from variables to their accepting values
+     */
+    protected void addAcceptingState(Map<Variable, String> accept)
     {
-        if(trans.getFirst().equals(Wildcard.SAME_VALUE) && trans.getSecond()
-                                                                .equals((Wildcard.SAME_VALUE)))
-            return Pair.make(value, value);
-
-        if(trans.getFirst().equals(Wildcard.SAME_VALUE))
-            return Pair.make(value, trans.getSecond());
-
-        if(trans.getSecond().equals(Wildcard.SAME_VALUE))
-            return Pair.make(trans.getFirst(), value);
-
-        return trans;
+        acceptingStates.add(accept);
     }
 }

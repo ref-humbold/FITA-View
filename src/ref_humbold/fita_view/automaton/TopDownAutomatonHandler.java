@@ -50,8 +50,8 @@ class TopDownAutomatonHandler
         switch(qName)
         {
             case "variables":
-                automaton = isDeterministic ? new TopDownDFTA(alphabet, variables.values())
-                                            : new TopDownNFTA(alphabet, variables.values());
+                automaton = isDeterministic ? new TopDownDFTA(variables.values(), alphabet)
+                                            : new TopDownNFTA(variables.values(), alphabet);
                 break;
 
             case "trans":

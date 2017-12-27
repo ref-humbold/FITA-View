@@ -15,9 +15,9 @@ public class TopDownDFTA
 {
     private TopDownTransitions<Pair<String, String>> transitions = new TopDownTransitions<>();
 
-    public TopDownDFTA(Collection<String> alphabet, Collection<Variable> variables)
+    public TopDownDFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
-        super(alphabet, variables);
+        super(variables, alphabet);
     }
 
     @Override

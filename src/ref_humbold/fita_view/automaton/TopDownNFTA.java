@@ -20,9 +20,9 @@ public class TopDownNFTA
     private StateChoice choice;
     private TopDownTransitions<Set<Pair<String, String>>> transitions = new TopDownTransitions<>();
 
-    public TopDownNFTA(Collection<String> alphabet, Collection<Variable> variables)
+    public TopDownNFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
-        super(alphabet, variables);
+        super(variables, alphabet);
     }
 
     @Override

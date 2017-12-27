@@ -1,10 +1,6 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
@@ -14,7 +10,7 @@ import ref_humbold.fita_view.tree.TreeVertex;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 import ref_humbold.fita_view.tree.VertexType;
 
-public abstract class SimpleTreeAutomaton
+public abstract class AbstractTreeAutomaton
     implements TreeAutomaton
 {
     protected Set<String> alphabet;
@@ -22,7 +18,7 @@ public abstract class SimpleTreeAutomaton
     protected TreeVertex tree;
     protected boolean isRunning = false;
 
-    public SimpleTreeAutomaton(Collection<Variable> variables, Collection<String> alphabet)
+    public AbstractTreeAutomaton(Collection<Variable> variables, Collection<String> alphabet)
     {
         this.variables = new ArrayList<>(variables);
         this.alphabet = new HashSet<>(alphabet);
@@ -104,4 +100,12 @@ public abstract class SimpleTreeAutomaton
         return node != null && (node.getType() == VertexType.REC || containsRecursiveNode(
             node.getLeft()) || containsRecursiveNode(node.getRight()));
     }
+
+    /**
+     * Testing if specified tree node state is an accepting state.
+     * @param state state of a tree node
+     * @return {@code true} if state is accepted, otherwise {@code false}
+     */
+    protected abstract boolean checkAcceptance(Map<Variable, String> state)
+        throws UndefinedTreeStateException;
 }

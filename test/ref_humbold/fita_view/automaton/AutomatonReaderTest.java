@@ -76,7 +76,7 @@ public class AutomatonReaderTest
         }
 
         TopDownDFTA expected =
-            new TopDownDFTA(Arrays.asList("0", "1"), Collections.singletonList(v));
+            new TopDownDFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         try
         {
@@ -127,7 +127,7 @@ public class AutomatonReaderTest
         }
 
         TopDownDFTA expected =
-            new TopDownDFTA(Arrays.asList("0", "1"), Collections.singletonList(v));
+            new TopDownDFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         try
         {
@@ -415,7 +415,7 @@ public class AutomatonReaderTest
         }
 
         TopDownNFTA expected =
-            new TopDownNFTA(Arrays.asList("0", "1"), Collections.singletonList(v));
+            new TopDownNFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         try
         {

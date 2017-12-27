@@ -42,7 +42,7 @@ public class TopDownDFTATest
         accepts.get(2).put(variables.get(0), Wildcard.EVERY_VALUE);
         accepts.get(2).put(variables.get(1), "#");
 
-        testObject = new TopDownDFTA(alphabet, variables);
+        testObject = new TopDownDFTA(variables, alphabet);
         testObject.setTraversing(TraversingFactory.Mode.LEVEL);
         testObject.addAcceptingState(accepts.get(0));
         testObject.addAcceptingState(accepts.get(1));
