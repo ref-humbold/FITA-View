@@ -4,7 +4,7 @@ Finite and Infinite Tree Automata Viewer
 ----
 
 ### **How to build?**
-FITA-View can be built with Apache ANT.
+FITA-View can be built with [Apache ANT](http://ant.apache.org/).
 
 Possible targets are:
  * `ant` - same as `ant all`
@@ -15,13 +15,14 @@ Possible targets are:
  * `ant javadocs` - generate Javadocs
  * `ant all` - compile source and tests files, create executable jar, run all tests and generate Javadocs
 
-### **And how to run?**
-FITA-View can be run directly from JAR:
+### **How to run?**
+FITA-View can be run by an executable sh script:
+```sh
+$ /path/to/directory/FITA-View
+```
+
+Antoher way is to directly execute jar file:
 ```sh
 $ java -jar path/to/directory/fita_view.jar
 ```
 
-Moreover this can be done with an executable sh script:
-```sh
-$ /path/to/directory/FITA-View
-```
