@@ -1,4 +1,4 @@
-package ref_humbold.fita_view.viewer;
+package ref_humbold.fita_view.viewer.tree;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -7,17 +7,16 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.xml.sax.SAXException;
 
 import ref_humbold.fita_view.automaton.FileFormatException;
-import ref_humbold.fita_view.tree.TreeReader;
 import ref_humbold.fita_view.tree.TreeNode;
+import ref_humbold.fita_view.tree.TreeReader;
+import ref_humbold.fita_view.viewer.MessageBox;
 
-public class TreePanel
+public class TreeMainPanel
     extends JPanel
     implements ActionListener
 {
@@ -27,12 +26,14 @@ public class TreePanel
     private JFileChooser fileChooser = new JFileChooser();
     private JButton openFileButton = new JButton("Load tree from file");
 
-    public TreePanel()
+    public TreeMainPanel()
     {
         super();
 
-        this.initComponents();
+        this.initializeComponents();
         this.setBackground(new Color(0xFF0000));
+
+        this.add(openFileButton);
     }
 
     @Override
@@ -46,14 +47,11 @@ public class TreePanel
                 try
                 {
                     tree = loadTree(file);
-                    JOptionPane.showMessageDialog(null, "Successfully loaded " + file.getName(),
-                                                  "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    MessageBox.showInfoBox("SUCCESS", "Successfully loaded file " + file.getName());
                 }
-                catch(FileFormatException | IOException | SAXException e)
+                catch(Exception e)
                 {
-                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(),
-                                                  e.getClass().getSimpleName(),
-                                                  JOptionPane.ERROR_MESSAGE);
+                    MessageBox.showExceptionBox(e);
                 }
         }
     }
@@ -76,10 +74,9 @@ public class TreePanel
         return reader.read();
     }
 
-    private void initComponents()
+    private void initializeComponents()
     {
-        this.openFileButton.addActionListener(this);
-        this.add(openFileButton);
+        openFileButton.addActionListener(this);
 
         fileChooser.setFileFilter(new FileNameExtensionFilter("XML tree file", "tree.xml", "xml"));
         fileChooser.setMultiSelectionEnabled(false);

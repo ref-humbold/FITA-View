@@ -13,7 +13,7 @@ import ref_humbold.fita_view.automaton.Wildcard;
 public class BottomUpTransitionsTest
 {
     private BottomUpTransitions testObject;
-    private Variable v = new Variable("A", "B", "C", "D");
+    private Variable v = new Variable(0, "A", "B", "C", "D");
 
     public BottomUpTransitionsTest()
         throws IllegalVariableValueException

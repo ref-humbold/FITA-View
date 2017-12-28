@@ -7,10 +7,7 @@ import ref_humbold.fita_view.automaton.transition.BottomUpTransitions;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
-import ref_humbold.fita_view.automaton.traversing.BottomUpTraversing;
-import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
-import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
-import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
+import ref_humbold.fita_view.automaton.traversing.*;
 import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
@@ -34,7 +31,7 @@ public class BottomUpDFTA
     }
 
     @Override
-    public void setTraversing(TraversingFactory.Mode mode)
+    public void setTraversing(TraversingMode mode)
         throws IncorrectTraversingException
     {
         this.traversing = TraversingFactory.getInstance().getBottomUpTraversing(mode);
@@ -209,8 +206,8 @@ public class BottomUpDFTA
     {
         leaves.clear();
 
-        TopDownTraversing t =
-            TraversingFactory.getInstance().getTopDownTraversing(TraversingFactory.Mode.DFS);
+        TopDownTraversing t = TraversingFactory.getInstance()
+                                               .getTopDownTraversing(TraversingMode.DFS);
 
         t.initialize(tree);
 

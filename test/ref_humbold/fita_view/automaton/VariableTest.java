@@ -16,7 +16,7 @@ public class VariableTest
     {
         try
         {
-            testObject = new Variable("A", "B", "C");
+            testObject = new Variable(1, "A", "B", "C");
         }
         catch(IllegalVariableValueException e)
         {
@@ -35,28 +35,40 @@ public class VariableTest
     public void testConstructorWhenInitIsNull()
         throws IllegalVariableValueException
     {
-        testObject = new Variable(null);
+        testObject = new Variable(2, null);
     }
 
     @Test(expected = IllegalVariableValueException.class)
     public void testConstructorWhenInitIsEmpty()
         throws IllegalVariableValueException
     {
-        testObject = new Variable("");
+        testObject = new Variable(2, "");
     }
 
     @Test(expected = IllegalVariableValueException.class)
     public void testConstructorWhenValueIsNull()
         throws IllegalVariableValueException
     {
-        testObject = new Variable("A", "B", "C", null);
+        testObject = new Variable(2, "A", "B", "C", null);
     }
 
     @Test(expected = IllegalVariableValueException.class)
     public void testConstructorWhenValueIsEmpty()
         throws IllegalVariableValueException
     {
-        testObject = new Variable("A", "B", "C", "");
+        testObject = new Variable(2, "A", "B", "C", "");
+    }
+
+    @Test(expected = IllegalVariableValueException.class)
+    public void testConstructorWhenInitValueIsInValuesList()
+        throws IllegalVariableValueException
+    {
+        testObject = new Variable(2, "A", "B", "C", "A");
+
+        Assert.assertEquals(3, testObject.size());
+        Assert.assertTrue(testObject.contains("A"));
+        Assert.assertTrue(testObject.contains("B"));
+        Assert.assertTrue(testObject.contains("C"));
     }
 
     @Test
@@ -105,6 +117,14 @@ public class VariableTest
     }
 
     @Test
+    public void testSize()
+    {
+        int result = testObject.size();
+
+        Assert.assertEquals(3, result);
+    }
+
+    @Test
     public void testIterator()
     {
         Iterator<String> iterator = testObject.iterator();
@@ -113,7 +133,7 @@ public class VariableTest
 
         while(iterator.hasNext())
             result.add(iterator.next());
-        
+
         Assert.assertEquals(3, result.size());
         Assert.assertTrue(result.contains("A"));
         Assert.assertTrue(result.contains("B"));
@@ -125,6 +145,6 @@ public class VariableTest
     {
         String result = testObject.toString();
 
-        Assert.assertEquals("Variable::[A, B, C]", result);
+        Assert.assertEquals("Var_1::[A, B, C]", result);
     }
 }

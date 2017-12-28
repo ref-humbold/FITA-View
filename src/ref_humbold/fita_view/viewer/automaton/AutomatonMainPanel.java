@@ -1,4 +1,4 @@
-package ref_humbold.fita_view.viewer;
+package ref_humbold.fita_view.viewer.automaton;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -7,32 +7,37 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.xml.sax.SAXException;
 
-import ref_humbold.fita_view.automaton.FileFormatException;
+import ref_humbold.fita_view.automaton.AutomatonNullableProxy;
 import ref_humbold.fita_view.automaton.AutomatonReader;
+import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
+import ref_humbold.fita_view.viewer.MessageBox;
 
-public class AutomatonPanel
+public class AutomatonMainPanel
     extends JPanel
     implements ActionListener
 {
     private static final long serialVersionUID = -7678389910832412322L;
 
-    private TreeAutomaton automaton = null;
     private JFileChooser fileChooser = new JFileChooser();
     private JButton openFileButton = new JButton("Load automaton from file");
+    private AutomatonTreeView treeView = new AutomatonTreeView();
+    private TraversingRadioButtonPanel buttonGroup = new TraversingRadioButtonPanel();
 
-    public AutomatonPanel()
+    public AutomatonMainPanel()
     {
         super();
 
-        this.initComponents();
+        this.initializeComponents();
         this.setBackground(new Color(0x0000FF));
+
+        this.add(openFileButton);
+        this.add(treeView);
+        this.add(buttonGroup);
     }
 
     @Override
@@ -45,15 +50,14 @@ public class AutomatonPanel
             if(file != null)
                 try
                 {
-                    automaton = loadAutomaton(file);
-                    JOptionPane.showMessageDialog(null, "Successfully loaded " + file.getName(),
-                                                  "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    TreeAutomaton automaton = loadAutomaton(file);
+
+                    AutomatonNullableProxy.getInstance().setAutomaton(automaton);
+                    MessageBox.showInfoBox("SUCCESS", "Successfully loaded file " + file.getName());
                 }
-                catch(FileFormatException | IOException | SAXException e)
+                catch(Exception e)
                 {
-                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(),
-                                                  e.getClass().getSimpleName(),
-                                                  JOptionPane.ERROR_MESSAGE);
+                    MessageBox.showExceptionBox(e);
                 }
         }
     }
@@ -76,10 +80,9 @@ public class AutomatonPanel
         return reader.read();
     }
 
-    private void initComponents()
+    private void initializeComponents()
     {
         openFileButton.addActionListener(this);
-        add(openFileButton);
 
         fileChooser.addChoosableFileFilter(
             new FileNameExtensionFilter("XML bottom-up automaton file", "bua.xml", "xml"));

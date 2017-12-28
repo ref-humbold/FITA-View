@@ -1,10 +1,6 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -109,7 +105,7 @@ abstract class AutomatonHandler
             case "var":
                 try
                 {
-                    variables.put(varID, new Variable(varValues.get(0), varValues));
+                    variables.put(varID, new Variable(varID, varValues.get(0), varValues));
                 }
                 catch(IllegalVariableValueException e)
                 {

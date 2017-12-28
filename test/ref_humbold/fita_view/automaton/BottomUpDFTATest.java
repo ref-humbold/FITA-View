@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
+import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.*;
 
 public class BottomUpDFTATest
@@ -21,8 +21,8 @@ public class BottomUpDFTATest
     public BottomUpDFTATest()
         throws Exception
     {
-        variables =
-            Arrays.asList(new Variable("X", "T", "F"), new Variable("#", "!", "@", "$", "&"));
+        variables = Arrays.asList(new Variable(1, "X", "T", "F"),
+                                  new Variable(2, "#", "!", "@", "$", "&"));
     }
 
     @Before
@@ -35,7 +35,7 @@ public class BottomUpDFTATest
         accepts.put(variables.get(1), Wildcard.EVERY_VALUE);
 
         testObject = new BottomUpDFTA(alphabet, variables);
-        testObject.setTraversing(TraversingFactory.Mode.LEVEL);
+        testObject.setTraversing(TraversingMode.LEVEL);
         testObject.addAcceptingState(accepts);
         testObject.addTransition(variables.get(0), "X", "X", "0", "F");
         testObject.addTransition(variables.get(0), "X", "X", "1", "T");
@@ -89,8 +89,8 @@ public class BottomUpDFTATest
         {
             RepeatNode node2 = new RepeatNode("0", 2);
             TreeNode node4 = new StandardNode("1", 4);
-            TreeNode node5 =
-                new StandardNode("3", 5, new StandardNode("1", 11), new RecNode(node2, 10));
+            TreeNode node5 = new StandardNode("3", 5, new StandardNode("1", 11),
+                                              new RecNode(node2, 10));
             TreeNode node1 = new StandardNode("2", 1, new StandardNode("0", 3), node2);
 
             node2.setLeft(node5);
@@ -108,8 +108,7 @@ public class BottomUpDFTATest
     @Test
     public void testRun()
     {
-        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 =
-            null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
+        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
 
         try
         {
@@ -173,8 +172,7 @@ public class BottomUpDFTATest
     @Test
     public void testMakeStepForward()
     {
-        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 =
-            null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
+        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
 
         try
         {

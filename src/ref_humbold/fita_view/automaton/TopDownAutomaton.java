@@ -8,6 +8,7 @@ import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
+import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.TreeNode;
 
 public abstract class TopDownAutomaton
@@ -27,7 +28,7 @@ public abstract class TopDownAutomaton
     }
 
     @Override
-    public void setTraversing(TraversingFactory.Mode mode)
+    public void setTraversing(TraversingMode mode)
     {
         this.traversing = TraversingFactory.getInstance().getTopDownTraversing(mode);
     }

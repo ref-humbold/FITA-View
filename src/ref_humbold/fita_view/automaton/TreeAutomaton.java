@@ -1,13 +1,26 @@
 package ref_humbold.fita_view.automaton;
 
+import java.util.List;
+import java.util.Set;
+
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
-import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
+import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public interface TreeAutomaton
 {
+    /**
+     * @return list of all variables in the automaton
+     */
+    List<Variable> getVariables();
+
+    /**
+     * @return label alphabet recognized by the automaton
+     */
+    Set<String> getAlphabet();
+
     /**
      * Testing if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
@@ -16,9 +29,18 @@ public interface TreeAutomaton
     boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedTreeStateException;
 
-    void setTraversing(TraversingFactory.Mode mode)
+    /**
+     * @param mode new traversing mode for the automaton
+     * @throws IncorrectTraversingException if traversing mode is not supported
+     */
+    void setTraversing(TraversingMode mode)
         throws IncorrectTraversingException;
 
+    /**
+     * @param tree new tree to run automaton on
+     * @throws TreeFinitenessException if tree finiteness is not suitable for the automaton
+     * @throws EmptyTreeException if tree is empty
+     */
     void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException;
 

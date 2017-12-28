@@ -1,32 +1,35 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Variable
     implements Iterable<String>
 {
+    private int index;
     private String initValue;
     private Set<String> values = new HashSet<>();
 
-    public Variable(String init)
+    public Variable(int index, String init)
         throws IllegalVariableValueException
     {
         if(init == null || init.isEmpty())
             throw new IllegalVariableValueException("Initial value is null or empty.");
 
+        this.index = index;
         this.initValue = init;
         this.values.add(this.initValue);
     }
 
-    public Variable(String init, Collection<String> values)
+    public Variable(int index, String init, String... values)
         throws IllegalVariableValueException
     {
-        this(init);
+        this(index, init, Arrays.asList(values));
+    }
+
+    public Variable(int index, String init, Collection<String> values)
+        throws IllegalVariableValueException
+    {
+        this(index, init);
 
         for(String v : values)
             if(v == null || v.isEmpty())
@@ -35,15 +38,19 @@ public class Variable
         this.values.addAll(values);
     }
 
-    public Variable(String init, String... values)
-        throws IllegalVariableValueException
+    public List<String> getValues()
     {
-        this(init, Arrays.asList(values));
+        return new ArrayList<>(values);
     }
 
     public String getInitValue()
     {
         return initValue;
+    }
+
+    public String getVarName()
+    {
+        return "Var_" + Integer.toString(index);
     }
 
     /**
@@ -54,6 +61,14 @@ public class Variable
     public boolean contains(String value)
     {
         return values.contains(value);
+    }
+
+    /**
+     * @return number of possible values
+     */
+    public int size()
+    {
+        return values.size();
     }
 
     @Override
@@ -86,6 +101,6 @@ public class Variable
     @Override
     public String toString()
     {
-        return "Variable::" + values.toString();
+        return getVarName() + "::" + values.toString();
     }
 }

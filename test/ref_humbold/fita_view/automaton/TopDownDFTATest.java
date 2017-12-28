@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
+import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.*;
 
 public class TopDownDFTATest
@@ -21,15 +21,15 @@ public class TopDownDFTATest
     public TopDownDFTATest()
         throws Exception
     {
-        variables = Arrays.asList(new Variable("A", "B"), new Variable("!", "@", "#", "$"));
+        variables = Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "!", "@", "#", "$"));
     }
 
     @Before
     public void setUp()
         throws Exception
     {
-        List<Map<Variable, String>> accepts =
-            Arrays.asList(new HashMap<>(), new HashMap<>(), new HashMap<>());
+        List<Map<Variable, String>> accepts = Arrays.asList(new HashMap<>(), new HashMap<>(),
+                                                            new HashMap<>());
 
         accepts.get(0).put(variables.get(0), "A");
         accepts.get(0).put(variables.get(1), "@");
@@ -39,7 +39,7 @@ public class TopDownDFTATest
         accepts.get(2).put(variables.get(1), "#");
 
         testObject = new TopDownDFTA(variables, alphabet);
-        testObject.setTraversing(TraversingFactory.Mode.LEVEL);
+        testObject.setTraversing(TraversingMode.LEVEL);
         testObject.addAcceptingState(accepts.get(0));
         testObject.addAcceptingState(accepts.get(1));
         testObject.addAcceptingState(accepts.get(2));
@@ -108,8 +108,8 @@ public class TopDownDFTATest
         {
             RepeatNode node2 = new RepeatNode("0", 2);
             TreeNode node4 = new StandardNode("1", 4);
-            TreeNode node5 =
-                new StandardNode("3", 5, new StandardNode("1", 11), new RecNode(node2, 10));
+            TreeNode node5 = new StandardNode("3", 5, new StandardNode("1", 11),
+                                              new RecNode(node2, 10));
             TreeNode node1 = new StandardNode("2", 1, new StandardNode("0", 3), node2);
 
             node2.setLeft(node5);
@@ -127,8 +127,7 @@ public class TopDownDFTATest
     @Test
     public void testRun()
     {
-        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 =
-            null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
+        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
 
         try
         {
@@ -192,8 +191,7 @@ public class TopDownDFTATest
     @Test
     public void testMakeStepForward()
     {
-        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 =
-            null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
+        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
 
         try
         {

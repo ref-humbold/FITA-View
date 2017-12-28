@@ -5,10 +5,11 @@ import java.util.*;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
+import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
+import ref_humbold.fita_view.tree.NodeType;
 import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
-import ref_humbold.fita_view.tree.NodeType;
 
 public abstract class AbstractTreeAutomaton
     implements TreeAutomaton
@@ -22,6 +23,18 @@ public abstract class AbstractTreeAutomaton
     {
         this.variables = new ArrayList<>(variables);
         this.alphabet = new HashSet<>(alphabet);
+    }
+
+    @Override
+    public Set<String> getAlphabet()
+    {
+        return this.alphabet;
+    }
+
+    @Override
+    public List<Variable> getVariables()
+    {
+        return this.variables;
     }
 
     /**
@@ -78,8 +91,8 @@ public abstract class AbstractTreeAutomaton
     protected void initialize()
         throws IllegalVariableValueException
     {
-        TopDownTraversing t =
-            TraversingFactory.getInstance().getTopDownTraversing(TraversingFactory.Mode.DFS);
+        TopDownTraversing t = TraversingFactory.getInstance()
+                                               .getTopDownTraversing(TraversingMode.DFS);
 
         t.initialize(tree);
 

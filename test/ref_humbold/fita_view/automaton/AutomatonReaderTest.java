@@ -4,11 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.xml.sax.SAXException;
 
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
@@ -36,8 +32,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject =
-                new AutomatonReader(new File(DIRECTORY + "testReadWhenIncorrectFileExtension.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadWhenIncorrectFileExtension.xml"));
         }
         catch(SAXException e)
         {
@@ -65,9 +61,10 @@ public class AutomatonReaderTest
         }
 
         Variable v = null;
+
         try
         {
-            v = new Variable("A", "B", "C");
+            v = new Variable(0, "A", "B", "C");
         }
         catch(IllegalVariableValueException e)
         {
@@ -75,8 +72,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        TopDownDFTA expected =
-            new TopDownDFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        TopDownDFTA expected = new TopDownDFTA(Collections.singletonList(v),
+                                               Arrays.asList("0", "1"));
 
         try
         {
@@ -116,9 +113,10 @@ public class AutomatonReaderTest
         }
 
         Variable v = null;
+
         try
         {
-            v = new Variable("A", "B", "C");
+            v = new Variable(0, "A", "B", "C");
         }
         catch(IllegalVariableValueException e)
         {
@@ -126,8 +124,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        TopDownDFTA expected =
-            new TopDownDFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        TopDownDFTA expected = new TopDownDFTA(Collections.singletonList(v),
+                                               Arrays.asList("0", "1"));
 
         try
         {
@@ -404,9 +402,10 @@ public class AutomatonReaderTest
         }
 
         Variable v = null;
+
         try
         {
-            v = new Variable("A", "B", "C");
+            v = new Variable(0, "A", "B", "C");
         }
         catch(IllegalVariableValueException e)
         {
@@ -414,8 +413,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        TopDownNFTA expected =
-            new TopDownNFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        TopDownNFTA expected = new TopDownNFTA(Collections.singletonList(v),
+                                               Arrays.asList("0", "1"));
 
         try
         {
@@ -465,7 +464,7 @@ public class AutomatonReaderTest
 
         try
         {
-            v = new Variable("A", "B", "C");
+            v = new Variable(0, "A", "B", "C");
         }
         catch(IllegalVariableValueException e)
         {
@@ -473,8 +472,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        BottomUpDFTA expected =
-            new BottomUpDFTA(Arrays.asList("0", "1"), Collections.singletonList(v));
+        BottomUpDFTA expected = new BottomUpDFTA(Arrays.asList("0", "1"),
+                                                 Collections.singletonList(v));
 
         expected.addAcceptingState(Collections.singletonMap(v, "C"));
 
@@ -531,7 +530,7 @@ public class AutomatonReaderTest
 
         try
         {
-            v = new Variable("A", "B", "C");
+            v = new Variable(0, "A", "B", "C");
         }
         catch(IllegalVariableValueException e)
         {
@@ -539,8 +538,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        BottomUpDFTA expected =
-            new BottomUpDFTA(Arrays.asList("0", "1"), Collections.singletonList(v));
+        BottomUpDFTA expected = new BottomUpDFTA(Arrays.asList("0", "1"),
+                                                 Collections.singletonList(v));
 
         expected.addAcceptingState(Collections.singletonMap(v, Wildcard.EVERY_VALUE));
 
@@ -861,8 +860,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject =
-                new AutomatonReader(new File(DIRECTORY + "testReadTopDownAutomaton.bua.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownAutomaton.bua.xml"));
         }
         catch(SAXException e)
         {
@@ -878,8 +877,8 @@ public class AutomatonReaderTest
     {
         try
         {
-            testObject =
-                new AutomatonReader(new File(DIRECTORY + "testReadBottomUpAutomaton.tda.xml"));
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpAutomaton.tda.xml"));
         }
         catch(SAXException e)
         {

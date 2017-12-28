@@ -16,7 +16,7 @@ public class TraversingFactory
         return instance;
     }
 
-    public BottomUpTraversing getBottomUpTraversing(Mode mode)
+    public BottomUpTraversing getBottomUpTraversing(TraversingMode mode)
         throws IncorrectTraversingException
     {
         switch(mode)
@@ -35,7 +35,7 @@ public class TraversingFactory
         return null;
     }
 
-    public TopDownTraversing getTopDownTraversing(Mode mode)
+    public TopDownTraversing getTopDownTraversing(TraversingMode mode)
     {
         switch(mode)
         {
@@ -50,10 +50,5 @@ public class TraversingFactory
         }
 
         return null;
-    }
-
-    public enum Mode
-    {
-        DFS, BFS, LEVEL
     }
 }
