@@ -59,7 +59,7 @@ public class VariableTest
         testObject = new Variable(2, "A", "B", "C", "");
     }
 
-    @Test(expected = IllegalVariableValueException.class)
+    @Test
     public void testConstructorWhenInitValueIsInValuesList()
         throws IllegalVariableValueException
     {
