@@ -22,22 +22,25 @@ public class AutomatonMainPanel
     implements ActionListener
 {
     private static final long serialVersionUID = -7678389910832412322L;
+    private static final Color COLOR = Color.BLUE;
 
     private JFileChooser fileChooser = new JFileChooser();
     private JButton openFileButton = new JButton("Load automaton from file");
     private AutomatonTreeView treeView = new AutomatonTreeView();
-    private TraversingRadioButtonPanel buttonGroup = new TraversingRadioButtonPanel();
+    private TraversingRadioButtonPanel radioButtonPanel = new TraversingRadioButtonPanel();
+    private RunningButtonsPanel buttonsPanel = new RunningButtonsPanel();
 
     public AutomatonMainPanel()
     {
         super();
 
         this.initializeComponents();
-        this.setBackground(new Color(0x0000FF));
+        this.setBackground(COLOR);
 
         this.add(openFileButton);
         this.add(treeView);
-        this.add(buttonGroup);
+        this.add(radioButtonPanel);
+        this.add(buttonsPanel);
     }
 
     @Override

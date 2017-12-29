@@ -21,6 +21,7 @@ public class TreeMainPanel
     implements ActionListener
 {
     private static final long serialVersionUID = 5944023926285119879L;
+    private static final Color COLOR = Color.RED;
 
     private TreeNode tree = null;
     private JFileChooser fileChooser = new JFileChooser();
@@ -31,7 +32,7 @@ public class TreeMainPanel
         super();
 
         this.initializeComponents();
-        this.setBackground(new Color(0xFF0000));
+        this.setBackground(COLOR);
 
         this.add(openFileButton);
     }

@@ -22,6 +22,7 @@ public class RunningButtonsPanel
         super();
 
         this.initializeButtons();
+        this.setOpaque(false);
 
         for(JButton button : buttons)
             this.add(button);
