@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.xml.sax.SAXException;
 
-import ref_humbold.fita_view.automaton.AutomatonNullableProxy;
 import ref_humbold.fita_view.automaton.AutomatonReader;
 import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
@@ -24,10 +23,13 @@ public class AutomatonMainPanel
     private static final long serialVersionUID = -7678389910832412322L;
     private static final Color COLOR = Color.BLUE;
 
+    private AutomatonPointer automatonPointer = new AutomatonPointer();
     private JFileChooser fileChooser = new JFileChooser();
     private JButton openFileButton = new JButton("Load automaton from file");
-    private AutomatonTreeView treeView = new AutomatonTreeView();
-    private TraversingRadioButtonPanel radioButtonPanel = new TraversingRadioButtonPanel();
+    private JButton removeButton = new JButton("Remove automaton");
+    private AutomatonTreeView treeView = new AutomatonTreeView(automatonPointer);
+    private TraversingRadioButtonPanel radioButtonPanel = new TraversingRadioButtonPanel(
+        automatonPointer);
     private RunningButtonsPanel buttonsPanel = new RunningButtonsPanel();
 
     public AutomatonMainPanel()
@@ -41,6 +43,7 @@ public class AutomatonMainPanel
         this.add(treeView);
         this.add(radioButtonPanel);
         this.add(buttonsPanel);
+        this.add(removeButton);
     }
 
     @Override
@@ -55,13 +58,17 @@ public class AutomatonMainPanel
                 {
                     TreeAutomaton automaton = loadAutomaton(file);
 
-                    AutomatonNullableProxy.getInstance().setAutomaton(automaton);
+                    automatonPointer.set(automaton);
                     MessageBox.showInfoBox("SUCCESS", "Successfully loaded file " + file.getName());
                 }
                 catch(Exception e)
                 {
                     MessageBox.showExceptionBox(e);
                 }
+        }
+        else if(actionEvent.getSource() == removeButton)
+        {
+            automatonPointer.delete();
         }
     }
 
@@ -86,6 +93,7 @@ public class AutomatonMainPanel
     private void initializeComponents()
     {
         openFileButton.addActionListener(this);
+        removeButton.addActionListener(this);
 
         fileChooser.addChoosableFileFilter(
             new FileNameExtensionFilter("XML bottom-up automaton file", "bua.xml", "xml"));

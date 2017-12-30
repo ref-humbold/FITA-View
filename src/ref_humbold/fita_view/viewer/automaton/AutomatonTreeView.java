@@ -10,26 +10,28 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
-import ref_humbold.fita_view.automaton.AutomatonNullableProxy;
 import ref_humbold.fita_view.automaton.Variable;
-import ref_humbold.fita_view.command.Command;
-import ref_humbold.fita_view.command.CommandReceiver;
+import ref_humbold.fita_view.message.Message;
+import ref_humbold.fita_view.message.MessageReceiver;
 
 public class AutomatonTreeView
     extends JTree
-    implements CommandReceiver<Void>
+    implements MessageReceiver
 {
     private static final long serialVersionUID = 5636100205267426054L;
 
-    private DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Automaton");
+    private AutomatonPointer automatonPointer;
+    private DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
     private DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
     private AutomatonTreeViewRenderer renderer = new AutomatonTreeViewRenderer();
 
-    public AutomatonTreeView()
+    public AutomatonTreeView(AutomatonPointer automatonPointer)
     {
         super();
 
-        AutomatonNullableProxy.getInstance().addReceiver(this);
+        this.automatonPointer = automatonPointer;
+        this.automatonPointer.addReceiver(this);
+        this.initializeTree();
         this.setModel(treeModel);
         this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         this.setShowsRootHandles(true);
@@ -37,20 +39,24 @@ public class AutomatonTreeView
     }
 
     @Override
-    public void receive(Command<Void> command)
+    public void receive(Message<Void> message)
     {
-        if(command.getSource() == AutomatonNullableProxy.getInstance())
-        {
-            rootNode.removeAllChildren();
-            loadAlphabet();
-            loadVariables();
-            treeModel.reload();
-        }
+        if(message.getSource() == automatonPointer)
+            initializeTree();
+    }
+
+    private void initializeTree()
+    {
+        rootNode.removeAllChildren();
+        rootNode.setUserObject(automatonPointer.get().getTypeName());
+        loadAlphabet();
+        loadVariables();
+        treeModel.reload();
     }
 
     private void loadAlphabet()
     {
-        Set<String> alphabet = AutomatonNullableProxy.getInstance().getAlphabet();
+        Set<String> alphabet = automatonPointer.get().getAlphabet();
         DefaultMutableTreeNode alphabetNode = new DefaultMutableTreeNode("Alphabet");
 
         for(String word : alphabet)
@@ -65,7 +71,7 @@ public class AutomatonTreeView
 
     private void loadVariables()
     {
-        List<Variable> variables = AutomatonNullableProxy.getInstance().getVariables();
+        List<Variable> variables = automatonPointer.get().getVariables();
         DefaultMutableTreeNode variablesNode = new DefaultMutableTreeNode("Variables");
 
         for(Variable var : variables)

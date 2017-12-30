@@ -38,6 +38,12 @@ public class TopDownNITA
     }
 
     @Override
+    public String getTypeName()
+    {
+        return "Top-down non-deterministic infinite tree automaton";
+    }
+
+    @Override
     public TreeNode generateTree()
     {
         return null;
@@ -62,8 +68,8 @@ public class TopDownNITA
     @Override
     public String toString()
     {
-        return "TopDownNFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
-            + transitions.toString();
+        return "TopDownNITA\n  alphabet = " + alphabet.toString() + "\n  variables = "
+            + variables.toString() + "\n  transitions = " + transitions.toString();
     }
 
     @Override

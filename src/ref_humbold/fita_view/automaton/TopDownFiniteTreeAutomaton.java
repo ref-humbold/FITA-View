@@ -10,8 +10,8 @@ import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 public abstract class TopDownFiniteTreeAutomaton
     extends TopDownAutomaton
 {
+    List<Map<Variable, String>> leafStates = new ArrayList<>();
     private Set<Map<Variable, String>> acceptingStates = new HashSet<>();
-    private List<Map<Variable, String>> leafStates = new ArrayList<>();
 
     public TopDownFiniteTreeAutomaton(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -38,7 +38,7 @@ public abstract class TopDownFiniteTreeAutomaton
     @Override
     public void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
-               UndefinedTreeStateException
+               UndefinedTreeStateException, EmptyTreeException
     {
         if(traversing == null)
         {
@@ -49,22 +49,16 @@ public abstract class TopDownFiniteTreeAutomaton
         if(!isRunning)
             initialize();
 
-        if(!traversing.hasNext())
-        {
-            isRunning = false;
-            return;
-        }
-
         for(TreeNode node : traversing.next())
         {
-            Map<Variable, String> lastState = new HashMap<>();
+            Map<Variable, String> leafLeftState = new HashMap<>();
+            Map<Variable, String> leafRightState = new HashMap<>();
 
             for(Variable v : variables)
-            {
                 try
                 {
-                    Pair<String, String> result =
-                        doTransition(v, node.getStateValue(v), node.getLabel());
+                    Pair<String, String> result = doTransition(v, node.getStateValue(v),
+                                                               node.getLabel());
 
                     if(node.hasChildren())
                     {
@@ -73,8 +67,8 @@ public abstract class TopDownFiniteTreeAutomaton
                     }
                     else
                     {
-                        lastState.put(v, result.getFirst());
-                        lastState.put(v, result.getSecond());
+                        leafLeftState.put(v, result.getFirst());
+                        leafRightState.put(v, result.getSecond());
                     }
                 }
                 catch(Exception e)
@@ -83,15 +77,19 @@ public abstract class TopDownFiniteTreeAutomaton
                     throw e;
                 }
 
-                if(!lastState.isEmpty())
-                    leafStates.add(lastState);
-            }
+            if(!leafLeftState.isEmpty())
+                leafStates.add(leafLeftState);
+
+            if(!leafRightState.isEmpty())
+                leafStates.add(leafRightState);
         }
+
+        isRunning = traversing.hasNext();
     }
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException
+        throws IllegalVariableValueException, EmptyTreeException
     {
         super.initialize();
         leafStates.clear();

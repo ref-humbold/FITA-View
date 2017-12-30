@@ -1,19 +1,29 @@
 package ref_humbold.fita_view.automaton;
 
-import ref_humbold.fita_view.command.DefaultCommandSender;
-import ref_humbold.fita_view.command.MultiParamsCommand;
+import ref_humbold.fita_view.message.DefaultParameterizedMessageSender;
+import ref_humbold.fita_view.message.Message;
 import ref_humbold.fita_view.tree.TreeNode;
 
 public class AutomatonRunningSender
-    extends DefaultCommandSender<Iterable<TreeNode>>
+    extends DefaultParameterizedMessageSender<Iterable<TreeNode>>
 {
-    public AutomatonRunningSender()
+    private static AutomatonRunningSender instance = null;
+
+    private AutomatonRunningSender()
     {
         super();
     }
 
-    public void send(String commandName, Iterable<TreeNode> nodes)
+    public static AutomatonRunningSender getInstance()
     {
-        send(new MultiParamsCommand<>(this, commandName, nodes));
+        if(instance == null)
+            instance = new AutomatonRunningSender();
+
+        return instance;
+    }
+
+    public void send(String messageName, Iterable<TreeNode> nodes)
+    {
+        send(new Message<>(this, messageName, nodes));
     }
 }

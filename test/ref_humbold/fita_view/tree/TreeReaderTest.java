@@ -24,15 +24,13 @@ public class TreeReaderTest
         testObject = null;
     }
 
-    @Test
+    @Test(expected = TreeParsingException.class)
     public void testReadEmptyTree()
+        throws SAXException
     {
-        TreeNode result = null;
-
         try
         {
             testObject = new TreeReader(new File(DIRECTORY + "testReadEmptyTree.tree.xml"));
-            result = testObject.read();
         }
         catch(Exception e)
         {
@@ -40,7 +38,15 @@ public class TreeReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertNull(result);
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
     }
 
     @Test

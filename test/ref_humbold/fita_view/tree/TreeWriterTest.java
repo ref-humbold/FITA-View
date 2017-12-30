@@ -27,7 +27,7 @@ public class TreeWriterTest
 
         String result = testObject.toString();
 
-        Assert.assertEquals("<null />", result);
+        Assert.assertEquals("", result);
     }
 
     @Test

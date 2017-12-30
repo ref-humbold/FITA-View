@@ -23,9 +23,11 @@ public class TreeMainPanel
     private static final long serialVersionUID = 5944023926285119879L;
     private static final Color COLOR = Color.RED;
 
-    private TreeNode tree = null;
+    private TreePointer treePointer = new TreePointer();
     private JFileChooser fileChooser = new JFileChooser();
     private JButton openFileButton = new JButton("Load tree from file");
+    private JButton removeButton = new JButton("Remove tree");
+    private TreeDrawingPanel drawingPanel = new TreeDrawingPanel(treePointer);
 
     public TreeMainPanel()
     {
@@ -35,6 +37,8 @@ public class TreeMainPanel
         this.setBackground(COLOR);
 
         this.add(openFileButton);
+        this.add(drawingPanel);
+        this.add(removeButton);
     }
 
     @Override
@@ -47,13 +51,19 @@ public class TreeMainPanel
             if(file != null)
                 try
                 {
-                    tree = loadTree(file);
+                    TreeNode tree = loadTree(file);
+
+                    treePointer.set(tree);
                     MessageBox.showInfoBox("SUCCESS", "Successfully loaded file " + file.getName());
                 }
                 catch(Exception e)
                 {
                     MessageBox.showExceptionBox(e);
                 }
+        }
+        else if(actionEvent.getSource() == removeButton)
+        {
+            treePointer.delete();
         }
     }
 
@@ -78,6 +88,7 @@ public class TreeMainPanel
     private void initializeComponents()
     {
         openFileButton.addActionListener(this);
+        removeButton.addActionListener(this);
 
         fileChooser.setFileFilter(new FileNameExtensionFilter("XML tree file", "tree.xml", "xml"));
         fileChooser.setMultiSelectionEnabled(false);

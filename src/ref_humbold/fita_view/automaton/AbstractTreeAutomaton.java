@@ -61,7 +61,7 @@ public abstract class AbstractTreeAutomaton
     @Override
     public void run()
         throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException,
-               UndefinedTreeStateException
+               UndefinedTreeStateException, EmptyTreeException
     {
         if(getTraversing() == null)
             throw new NoTraversingException("Automaton has no traversing strategy.");
@@ -89,8 +89,11 @@ public abstract class AbstractTreeAutomaton
      * Initializing automaton and tree before running on tree.
      */
     protected void initialize()
-        throws IllegalVariableValueException
+        throws IllegalVariableValueException, EmptyTreeException
     {
+        if(tree == null)
+            throw new EmptyTreeException("No tree specified.");
+
         TopDownTraversing t = TraversingFactory.getInstance()
                                                .getTopDownTraversing(TraversingMode.DFS);
 

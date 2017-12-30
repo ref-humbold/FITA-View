@@ -12,6 +12,11 @@ import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 public interface TreeAutomaton
 {
     /**
+     * @return name of automaton's type
+     */
+    String getTypeName();
+
+    /**
      * @return list of all variables in the automaton
      */
     List<Variable> getVariables();
@@ -59,7 +64,7 @@ public interface TreeAutomaton
      */
     void run()
         throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException,
-               UndefinedTreeStateException;
+               UndefinedTreeStateException, EmptyTreeException;
 
     /**
      * Making a single traversing step of the automaton over the tree.
@@ -69,7 +74,7 @@ public interface TreeAutomaton
      */
     void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
-               UndefinedTreeStateException;
+               UndefinedTreeStateException, EmptyTreeException;
 
     /**
      * Generating a sample tree that could be accepted by the automaton.

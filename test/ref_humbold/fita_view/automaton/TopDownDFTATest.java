@@ -1,14 +1,12 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.*;
 
@@ -17,32 +15,26 @@ public class TopDownDFTATest
     private TopDownDFTA testObject;
     private List<Variable> variables;
     private List<String> alphabet = Arrays.asList("0", "1", "2", "3", "4");
+    private List<Map<Variable, String>> accepts = Arrays.asList(new HashMap<>(), new HashMap<>(),
+                                                                new HashMap<>());
 
     public TopDownDFTATest()
         throws Exception
     {
         variables = Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "!", "@", "#", "$"));
-    }
-
-    @Before
-    public void setUp()
-        throws Exception
-    {
-        List<Map<Variable, String>> accepts = Arrays.asList(new HashMap<>(), new HashMap<>(),
-                                                            new HashMap<>());
-
         accepts.get(0).put(variables.get(0), "A");
         accepts.get(0).put(variables.get(1), "@");
         accepts.get(1).put(variables.get(0), "B");
         accepts.get(1).put(variables.get(1), "$");
         accepts.get(2).put(variables.get(0), Wildcard.EVERY_VALUE);
         accepts.get(2).put(variables.get(1), "#");
+    }
 
+    @Before
+    public void setUp()
+        throws Exception
+    {
         testObject = new TopDownDFTA(variables, alphabet);
-        testObject.setTraversing(TraversingMode.LEVEL);
-        testObject.addAcceptingState(accepts.get(0));
-        testObject.addAcceptingState(accepts.get(1));
-        testObject.addAcceptingState(accepts.get(2));
         testObject.addTransition(variables.get(0), "A", "0", "A", "B");
         testObject.addTransition(variables.get(0), "A", "1", "A", "A");
         testObject.addTransition(variables.get(0), "A", "2", "B", "B");
@@ -83,6 +75,14 @@ public class TopDownDFTATest
     public void tearDown()
     {
         testObject = null;
+    }
+
+    @Test
+    public void testGetTypeName()
+    {
+        String result = testObject.getTypeName();
+
+        Assert.assertEquals("Top-down deterministic finite tree automaton", result);
     }
 
     @Test(expected = EmptyTreeException.class)
@@ -131,6 +131,11 @@ public class TopDownDFTATest
 
         try
         {
+            testObject.setTraversing(TraversingMode.LEVEL);
+            testObject.addAcceptingState(accepts.get(0));
+            testObject.addAcceptingState(accepts.get(1));
+            testObject.addAcceptingState(accepts.get(2));
+
             node13 = new StandardNode("2", 13);
             node12 = new StandardNode("1", 12);
             node11 = new StandardNode("0", 11);
@@ -188,13 +193,55 @@ public class TopDownDFTATest
         Assert.assertEquals("$", node13.getStateValueOrNull(variables.get(1)));
     }
 
+    @Test(expected = NoTraversingException.class)
+    public void testRunWhenNoTraversing()
+        throws NoTraversingException
+    {
+        Assert.assertFalse(testObject.isRunning);
+
+        try
+        {
+            testObject.run();
+        }
+        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = EmptyTreeException.class)
+    public void testRunWhenNoTree()
+        throws EmptyTreeException
+    {
+        testObject.setTraversing(TraversingMode.LEVEL);
+
+        Assert.assertFalse(testObject.isRunning);
+
+        try
+        {
+            testObject.run();
+        }
+        catch(NoTraversingException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
     @Test
     public void testMakeStepForward()
     {
+        List<Map<Variable, String>> leavesResults = new ArrayList<>();
         TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
 
         try
         {
+            testObject.setTraversing(TraversingMode.LEVEL);
+            testObject.addAcceptingState(accepts.get(0));
+            testObject.addAcceptingState(accepts.get(1));
+            testObject.addAcceptingState(accepts.get(2));
+
             node13 = new StandardNode("2", 13);
             node12 = new StandardNode("1", 12);
             node11 = new StandardNode("0", 11);
@@ -250,6 +297,7 @@ public class TopDownDFTATest
         Assert.assertNull(node12.getStateValueOrNull(variables.get(1)));
         Assert.assertNull(node13.getStateValueOrNull(variables.get(0)));
         Assert.assertNull(node13.getStateValueOrNull(variables.get(1)));
+        Assert.assertTrue(testObject.leafStates.isEmpty());
 
         try
         {
@@ -262,12 +310,6 @@ public class TopDownDFTATest
         }
 
         Assert.assertTrue(testObject.isRunning);
-        Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("#", node2.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("B", node3.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("@", node3.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("B", node4.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("$", node4.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("B", node5.getStateValueOrNull(variables.get(0)));
@@ -284,6 +326,117 @@ public class TopDownDFTATest
         Assert.assertNull(node12.getStateValueOrNull(variables.get(1)));
         Assert.assertNull(node13.getStateValueOrNull(variables.get(0)));
         Assert.assertNull(node13.getStateValueOrNull(variables.get(1)));
+        Assert.assertTrue(testObject.leafStates.isEmpty());
+
+        try
+        {
+            testObject.makeStepForward();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(0).put(variables.get(0), "A");
+        leavesResults.get(0).put(variables.get(1), "#");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(1).put(variables.get(0), "A");
+        leavesResults.get(1).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(2).put(variables.get(0), "B");
+        leavesResults.get(2).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(3).put(variables.get(0), "A");
+        leavesResults.get(3).put(variables.get(1), "$");
+
+        Assert.assertTrue(testObject.isRunning);
+        Assert.assertEquals("A", node10.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node10.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node11.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node11.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node12.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node12.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node13.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node13.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals(4, testObject.leafStates.size());
+        Assert.assertArrayEquals(leavesResults.toArray(), testObject.leafStates.toArray());
+
+        try
+        {
+            testObject.makeStepForward();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(4).put(variables.get(0), "B");
+        leavesResults.get(4).put(variables.get(1), "!");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(5).put(variables.get(0), "B");
+        leavesResults.get(5).put(variables.get(1), "@");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(6).put(variables.get(0), "A");
+        leavesResults.get(6).put(variables.get(1), "!");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(7).put(variables.get(0), "A");
+        leavesResults.get(7).put(variables.get(1), "@");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(8).put(variables.get(0), "A");
+        leavesResults.get(8).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(9).put(variables.get(0), "B");
+        leavesResults.get(9).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(10).put(variables.get(0), "B");
+        leavesResults.get(10).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(11).put(variables.get(0), "B");
+        leavesResults.get(11).put(variables.get(1), "!");
+
+        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(12, testObject.leafStates.size());
+        Assert.assertArrayEquals(leavesResults.toArray(), testObject.leafStates.toArray());
+    }
+
+    @Test(expected = NoTraversingException.class)
+    public void testMakeStepForwardWhenNoTraversing()
+        throws NoTraversingException
+    {
+        Assert.assertFalse(testObject.isRunning);
+
+        try
+        {
+            testObject.makeStepForward();
+        }
+        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = EmptyTreeException.class)
+    public void testMakeStepForwardWhenNoTree()
+        throws EmptyTreeException
+    {
+        testObject.setTraversing(TraversingMode.LEVEL);
+
+        Assert.assertFalse(testObject.isRunning);
+
+        try
+        {
+            testObject.makeStepForward();
+        }
+        catch(NoTraversingException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
     }
 
     @Test
@@ -291,6 +444,11 @@ public class TopDownDFTATest
     {
         try
         {
+            testObject.setTraversing(TraversingMode.LEVEL);
+            testObject.addAcceptingState(accepts.get(0));
+            testObject.addAcceptingState(accepts.get(1));
+            testObject.addAcceptingState(accepts.get(2));
+
             TreeNode node = new StandardNode("0", 1,
                                              new StandardNode("3", 3, new StandardNode("0", 7),
                                                               new StandardNode("4", 6)),
@@ -325,6 +483,11 @@ public class TopDownDFTATest
     {
         try
         {
+            testObject.setTraversing(TraversingMode.LEVEL);
+            testObject.addAcceptingState(accepts.get(0));
+            testObject.addAcceptingState(accepts.get(1));
+            testObject.addAcceptingState(accepts.get(2));
+
             TreeNode node = new StandardNode("2", 1,
                                              new StandardNode("4", 3, new StandardNode("3", 7),
                                                               new StandardNode("3", 6,
@@ -377,6 +540,11 @@ public class TopDownDFTATest
     {
         try
         {
+            testObject.setTraversing(TraversingMode.LEVEL);
+            testObject.addAcceptingState(accepts.get(0));
+            testObject.addAcceptingState(accepts.get(1));
+            testObject.addAcceptingState(accepts.get(2));
+
             TreeNode node = new StandardNode("2", 1,
                                              new StandardNode("4", 3, new StandardNode("3", 7),
                                                               new StandardNode("3", 6,
@@ -412,6 +580,21 @@ public class TopDownDFTATest
             testObject.isAccepted();
         }
         catch(UndefinedAcceptanceException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = UndefinedAcceptanceException.class)
+    public void testIsAcceptedWhenAutomatonHasNoAcceptingStates()
+        throws UndefinedAcceptanceException
+    {
+        try
+        {
+            testObject.isAccepted();
+        }
+        catch(UndefinedTreeStateException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());

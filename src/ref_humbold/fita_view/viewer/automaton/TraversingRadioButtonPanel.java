@@ -10,7 +10,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import ref_humbold.fita_view.automaton.AutomatonNullableProxy;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.viewer.MessageBox;
@@ -23,11 +22,13 @@ public class TraversingRadioButtonPanel
 
     private Map<TraversingMode, JRadioButton> buttons = new HashMap<>();
     private ButtonGroup buttonGroup = new ButtonGroup();
+    private AutomatonPointer automatonPointer;
 
-    public TraversingRadioButtonPanel()
+    public TraversingRadioButtonPanel(AutomatonPointer automatonPointer)
     {
         super();
 
+        this.automatonPointer = automatonPointer;
         this.setLayout(new GridLayout(0, 1));
         this.initializeButtons();
 
@@ -43,9 +44,8 @@ public class TraversingRadioButtonPanel
     {
         try
         {
-            AutomatonNullableProxy.getInstance()
-                                  .setTraversing(
-                                      TraversingMode.valueOf(actionEvent.getActionCommand()));
+            automatonPointer.get()
+                            .setTraversing(TraversingMode.valueOf(actionEvent.getActionCommand()));
         }
         catch(IncorrectTraversingException e)
         {

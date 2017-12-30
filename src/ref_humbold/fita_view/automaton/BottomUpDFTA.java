@@ -38,6 +38,12 @@ public class BottomUpDFTA
     }
 
     @Override
+    public String getTypeName()
+    {
+        return "Bottom-up deterministic finite tree automaton";
+    }
+
+    @Override
     public boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedTreeStateException
     {
@@ -62,7 +68,7 @@ public class BottomUpDFTA
     @Override
     public void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
-               UndefinedTreeStateException
+               UndefinedTreeStateException, EmptyTreeException
     {
         if(traversing == null)
         {
@@ -72,12 +78,6 @@ public class BottomUpDFTA
 
         if(!isRunning)
             initialize();
-
-        if(!traversing.hasNext())
-        {
-            isRunning = false;
-            return;
-        }
 
         for(TreeNode node : traversing.next())
             for(Variable var : variables)
@@ -97,6 +97,8 @@ public class BottomUpDFTA
                     isRunning = false;
                     throw e;
                 }
+
+        isRunning = traversing.hasNext();
     }
 
     @Override
@@ -125,13 +127,13 @@ public class BottomUpDFTA
     @Override
     public String toString()
     {
-        return "BottomUpDFTA of " + alphabet.toString() + " & " + variables.toString() + " & "
-            + transitions.toString();
+        return "BottomUpDFTA:\n  alphabet = " + alphabet.toString() + "\n  variables = " + variables
+            .toString() + "\n  transitions = " + transitions.toString();
     }
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException
+        throws IllegalVariableValueException, EmptyTreeException
     {
         super.initialize();
 

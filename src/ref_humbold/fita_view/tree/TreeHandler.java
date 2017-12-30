@@ -36,7 +36,6 @@ class TreeHandler
 
         switch(qName)
         {
-            case "null":
             case "rec":
                 break;
 
@@ -76,9 +75,6 @@ class TreeHandler
     {
         switch(qName)
         {
-            case "null":
-                break;
-
             case "rec":
             case "node":
             case "repeat":
