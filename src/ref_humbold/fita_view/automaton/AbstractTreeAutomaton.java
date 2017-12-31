@@ -18,6 +18,7 @@ public abstract class AbstractTreeAutomaton
     protected List<Variable> variables;
     protected TreeNode tree;
     protected boolean isRunning = false;
+    protected boolean isSendingMessages = false;
 
     public AbstractTreeAutomaton(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -41,6 +42,12 @@ public abstract class AbstractTreeAutomaton
      * @return current traversing strategy of the automaton
      */
     protected abstract TreeTraversing getTraversing();
+
+    @Override
+    public void setSendingMessages(boolean sendingMessages)
+    {
+        this.isSendingMessages = sendingMessages;
+    }
 
     @Override
     public void setTree(TreeNode tree)
@@ -77,6 +84,30 @@ public abstract class AbstractTreeAutomaton
         {
             isRunning = false;
         }
+    }
+
+    @Override
+    public void makeStepForward()
+        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
+               UndefinedTreeStateException, EmptyTreeException
+    {
+        if(getTraversing() == null)
+        {
+            isRunning = false;
+            throw new NoTraversingException("Automaton has no traversing strategy.");
+        }
+
+        if(!isRunning)
+            initialize();
+
+        Iterable<TreeNode> nextNodes = getTraversing().next();
+
+        processNodes(nextNodes);
+
+        if(isSendingMessages)
+            AutomatonRunningSender.getInstance().send(nextNodes);
+
+        isRunning = getTraversing().hasNext();
     }
 
     @Override
@@ -124,4 +155,12 @@ public abstract class AbstractTreeAutomaton
      */
     protected abstract boolean checkAcceptance(Map<Variable, String> state)
         throws UndefinedTreeStateException;
+
+    /**
+     * Processing tree nodes in each step.
+     * @param nextNodes nodes to process
+     */
+    protected abstract void processNodes(Iterable<TreeNode> nextNodes)
+        throws NoSuchTransitionException, IllegalVariableValueException,
+               UndefinedTreeStateException;
 }

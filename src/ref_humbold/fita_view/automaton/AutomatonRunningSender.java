@@ -22,8 +22,8 @@ public class AutomatonRunningSender
         return instance;
     }
 
-    public void send(String messageName, Iterable<TreeNode> nodes)
+    public void send(Iterable<TreeNode> nodes)
     {
-        send(new Message<>(this, messageName, nodes));
+        send(new Message<>(this, nodes));
     }
 }

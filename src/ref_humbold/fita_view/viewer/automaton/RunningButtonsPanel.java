@@ -1,13 +1,12 @@
 package ref_humbold.fita_view.viewer.automaton;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.AbstractButton;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class RunningButtonsPanel
     extends JPanel
@@ -22,10 +21,19 @@ public class RunningButtonsPanel
         super();
 
         this.initializeButtons();
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.setOpaque(false);
 
+        this.add(Box.createHorizontalGlue());
+        this.add(Box.createRigidArea(new Dimension(10, 0)));
+
         for(JButton button : buttons)
+        {
             this.add(button);
+            this.add(Box.createRigidArea(new Dimension(10, 0)));
+        }
+
+        this.add(Box.createHorizontalGlue());
     }
 
     @Override

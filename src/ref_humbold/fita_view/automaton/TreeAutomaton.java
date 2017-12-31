@@ -35,6 +35,11 @@ public interface TreeAutomaton
         throws UndefinedAcceptanceException, UndefinedTreeStateException;
 
     /**
+     * @param sendingMessages when {@code true} then the automaton sends messages after making each step
+     */
+    void setSendingMessages(boolean sendingMessages);
+
+    /**
      * @param mode new traversing mode for the automaton
      * @throws IncorrectTraversingException if traversing mode is not supported
      */

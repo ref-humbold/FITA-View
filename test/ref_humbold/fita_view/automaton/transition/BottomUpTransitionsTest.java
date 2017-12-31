@@ -265,4 +265,11 @@ public class BottomUpTransitionsTest
     {
         testObject.get(v, Triple.make(null, "B", "0"));
     }
+
+    @Test(expected = NoSuchTransitionException.class)
+    public void testGetWhenKeyHasNoEntry()
+        throws NoSuchTransitionException
+    {
+        testObject.get(v, Triple.make("C", "C", "0"));
+    }
 }

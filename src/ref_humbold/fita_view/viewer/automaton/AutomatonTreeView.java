@@ -10,6 +10,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
+import ref_humbold.fita_view.Pointer;
+import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.Variable;
 import ref_humbold.fita_view.message.Message;
 import ref_humbold.fita_view.message.MessageReceiver;
@@ -20,12 +22,12 @@ public class AutomatonTreeView
 {
     private static final long serialVersionUID = 5636100205267426054L;
 
-    private AutomatonPointer automatonPointer;
+    private Pointer<TreeAutomaton> automatonPointer;
     private DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
     private DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
     private AutomatonTreeViewRenderer renderer = new AutomatonTreeViewRenderer();
 
-    public AutomatonTreeView(AutomatonPointer automatonPointer)
+    public AutomatonTreeView(Pointer<TreeAutomaton> automatonPointer)
     {
         super();
 

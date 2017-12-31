@@ -1,8 +1,11 @@
 package ref_humbold.fita_view.viewer.tree;
 
-import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import javax.swing.JPanel;
 
+import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonRunningSender;
 import ref_humbold.fita_view.message.Message;
 import ref_humbold.fita_view.message.MessageReceiver;
@@ -15,10 +18,9 @@ public class TreeDrawingPanel
 {
     private static final long serialVersionUID = -6588296156972565117L;
 
-    private TreePointer treePointer;
-    private JLabel testLabel = new JLabel("empty tree");
+    private Pointer<TreeNode> treePointer;
 
-    public TreeDrawingPanel(TreePointer treePointer)
+    public TreeDrawingPanel(Pointer<TreeNode> treePointer)
     {
         super();
 
@@ -26,7 +28,8 @@ public class TreeDrawingPanel
         this.treePointer.addReceiver(this);
         AutomatonRunningSender.getInstance().addReceiver(this);
 
-        this.add(testLabel);
+        this.setBackground(Color.WHITE);
+        this.setPreferredSize(new Dimension(300, 300));
     }
 
     @Override
@@ -39,6 +42,14 @@ public class TreeDrawingPanel
     public void receive(Message<Void> message)
     {
         if(message.getSource() == treePointer)
-            testLabel.setText(treePointer.isTreeEmpty() ? "empty tree" : "TREE");
+            this.repaint();
+    }
+
+    @Override
+    public void paintComponents(Graphics graphics)
+    {
+        super.paintComponents(graphics);
+
+        graphics.drawString("TREE", 10, 10);
     }
 }

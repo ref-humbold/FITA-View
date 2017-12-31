@@ -207,31 +207,6 @@ public class TreeReaderTest
     }
 
     @Test(expected = TreeParsingException.class)
-    public void testReadWhenNullIsChild()
-        throws SAXException
-    {
-        try
-        {
-            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenNullIsChild.tree.xml"));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
-    @Test(expected = TreeParsingException.class)
     public void testReadWhenThreeChildren()
         throws SAXException
     {

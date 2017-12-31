@@ -3,6 +3,8 @@ package ref_humbold.fita_view.automaton;
 import java.util.Collection;
 import java.util.Map;
 
+import ref_humbold.fita_view.tree.TreeNode;
+
 // TODO: implement infinite tree automaton
 
 public abstract class TopDownInfiniteTreeAutomaton
@@ -20,7 +22,7 @@ public abstract class TopDownInfiniteTreeAutomaton
     }
 
     @Override
-    public void makeStepForward()
+    protected void processNodes(Iterable<TreeNode> nextNodes)
     {
 
     }

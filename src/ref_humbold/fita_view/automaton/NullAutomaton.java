@@ -50,6 +50,11 @@ public class NullAutomaton
     }
 
     @Override
+    public void setSendingMessages(boolean sendingMessages)
+    {
+    }
+
+    @Override
     public void setTraversing(TraversingMode mode)
     {
     }

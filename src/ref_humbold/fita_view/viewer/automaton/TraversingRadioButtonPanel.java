@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.viewer.automaton;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import ref_humbold.fita_view.Pointer;
+import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.viewer.MessageBox;
@@ -22,15 +25,16 @@ public class TraversingRadioButtonPanel
 
     private Map<TraversingMode, JRadioButton> buttons = new HashMap<>();
     private ButtonGroup buttonGroup = new ButtonGroup();
-    private AutomatonPointer automatonPointer;
+    private Pointer<TreeAutomaton> automatonPointer;
 
-    public TraversingRadioButtonPanel(AutomatonPointer automatonPointer)
+    public TraversingRadioButtonPanel(Pointer<TreeAutomaton> automatonPointer)
     {
         super();
 
         this.automatonPointer = automatonPointer;
-        this.setLayout(new GridLayout(0, 1));
+
         this.initializeButtons();
+        this.setLayout(new GridLayout(0, 1));
 
         for(JRadioButton button : buttons.values())
         {
@@ -61,6 +65,8 @@ public class TraversingRadioButtonPanel
 
             button.setActionCommand(mode.toString());
             button.addActionListener(this);
+            button.setBackground(Color.CYAN);
+
             buttons.put(mode, button);
         }
 

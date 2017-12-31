@@ -222,4 +222,11 @@ public class TopDownTransitionsTest
     {
         testObject.get(v, Pair.make(null, "0"));
     }
+
+    @Test(expected = NoSuchTransitionException.class)
+    public void testGetWhenKeyHasNoEntry()
+        throws NoSuchTransitionException
+    {
+        testObject.get(v, Pair.make("C", "0"));
+    }
 }

@@ -36,20 +36,10 @@ public abstract class TopDownFiniteTreeAutomaton
     }
 
     @Override
-    public void makeStepForward()
-        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
-               UndefinedTreeStateException, EmptyTreeException
+    protected void processNodes(Iterable<TreeNode> nextNodes)
+        throws IllegalVariableValueException, UndefinedTreeStateException, NoSuchTransitionException
     {
-        if(traversing == null)
-        {
-            isRunning = false;
-            throw new NoTraversingException("Automaton has no traversing strategy.");
-        }
-
-        if(!isRunning)
-            initialize();
-
-        for(TreeNode node : traversing.next())
+        for(TreeNode node : nextNodes)
         {
             Map<Variable, String> leafLeftState = new HashMap<>();
             Map<Variable, String> leafRightState = new HashMap<>();
@@ -83,8 +73,6 @@ public abstract class TopDownFiniteTreeAutomaton
             if(!leafRightState.isEmpty())
                 leafStates.add(leafRightState);
         }
-
-        isRunning = traversing.hasNext();
     }
 
     @Override

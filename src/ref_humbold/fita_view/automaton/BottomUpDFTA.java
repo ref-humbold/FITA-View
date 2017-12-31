@@ -66,42 +66,6 @@ public class BottomUpDFTA
     }
 
     @Override
-    public void makeStepForward()
-        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
-               UndefinedTreeStateException, EmptyTreeException
-    {
-        if(traversing == null)
-        {
-            isRunning = false;
-            throw new NoTraversingException("Automaton has no traversing strategy.");
-        }
-
-        if(!isRunning)
-            initialize();
-
-        for(TreeNode node : traversing.next())
-            for(Variable var : variables)
-                try
-                {
-                    String leftValue = node.getLeft() == null ? var.getInitValue()
-                                                              : node.getLeft().getStateValue(var);
-                    String rightValue = node.getRight() == null ? var.getInitValue()
-                                                                : node.getRight()
-                                                                      .getStateValue(var);
-                    String result = doTransition(var, leftValue, rightValue, node.getLabel());
-
-                    node.setStateValue(var, result);
-                }
-                catch(Exception e)
-                {
-                    isRunning = false;
-                    throw e;
-                }
-
-        isRunning = traversing.hasNext();
-    }
-
-    @Override
     public TreeNode generateTree()
     {
         return null;
@@ -129,6 +93,30 @@ public class BottomUpDFTA
     {
         return "BottomUpDFTA:\n  alphabet = " + alphabet.toString() + "\n  variables = " + variables
             .toString() + "\n  transitions = " + transitions.toString();
+    }
+
+    @Override
+    protected void processNodes(Iterable<TreeNode> nextNodes)
+        throws IllegalVariableValueException, UndefinedTreeStateException, NoSuchTransitionException
+    {
+        for(TreeNode node : nextNodes)
+            for(Variable var : variables)
+                try
+                {
+                    String leftValue = node.getLeft() == null ? var.getInitValue()
+                                                              : node.getLeft().getStateValue(var);
+                    String rightValue = node.getRight() == null ? var.getInitValue()
+                                                                : node.getRight()
+                                                                      .getStateValue(var);
+                    String result = doTransition(var, leftValue, rightValue, node.getLabel());
+
+                    node.setStateValue(var, result);
+                }
+                catch(Exception e)
+                {
+                    isRunning = false;
+                    throw e;
+                }
     }
 
     @Override

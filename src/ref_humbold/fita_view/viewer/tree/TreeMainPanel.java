@@ -1,32 +1,32 @@
 package ref_humbold.fita_view.viewer.tree;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.xml.sax.SAXException;
 
+import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.FileFormatException;
+import ref_humbold.fita_view.message.Message;
+import ref_humbold.fita_view.message.ParameterizedMessageReceiver;
 import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.TreeReader;
 import ref_humbold.fita_view.viewer.MessageBox;
+import ref_humbold.fita_view.viewer.TitlePanel;
 
 public class TreeMainPanel
     extends JPanel
-    implements ActionListener
+    implements ParameterizedMessageReceiver<String>
 {
     private static final long serialVersionUID = 5944023926285119879L;
-    private static final Color COLOR = Color.RED;
 
-    private TreePointer treePointer = new TreePointer();
+    private Pointer<TreeNode> treePointer = new Pointer<>();
     private JFileChooser fileChooser = new JFileChooser();
-    private JButton openFileButton = new JButton("Load tree from file");
-    private JButton removeButton = new JButton("Remove tree");
+    private TitlePanel titlePanel = new TitlePanel("tree");
     private TreeDrawingPanel drawingPanel = new TreeDrawingPanel(treePointer);
 
     public TreeMainPanel()
@@ -34,17 +34,17 @@ public class TreeMainPanel
         super();
 
         this.initializeComponents();
-        this.setBackground(COLOR);
+        this.setBackground(Color.RED);
+        this.setLayout(new BorderLayout(10, 10));
 
-        this.add(openFileButton);
-        this.add(drawingPanel);
-        this.add(removeButton);
+        this.add(titlePanel, BorderLayout.PAGE_START);
+        this.add(drawingPanel, BorderLayout.CENTER);
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent)
+    public void receiveParameterized(Message<String> message)
     {
-        if(actionEvent.getSource() == openFileButton)
+        if(message.getParam().equals("openFileButton"))
         {
             File file = chooseFile();
 
@@ -61,7 +61,7 @@ public class TreeMainPanel
                     MessageBox.showExceptionBox(e);
                 }
         }
-        else if(actionEvent.getSource() == removeButton)
+        else if(message.getParam().equals("removeButton"))
         {
             treePointer.delete();
         }
@@ -87,8 +87,7 @@ public class TreeMainPanel
 
     private void initializeComponents()
     {
-        openFileButton.addActionListener(this);
-        removeButton.addActionListener(this);
+        titlePanel.addReceiver(this);
 
         fileChooser.setFileFilter(new FileNameExtensionFilter("XML tree file", "tree.xml", "xml"));
         fileChooser.setMultiSelectionEnabled(false);
