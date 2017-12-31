@@ -16,6 +16,7 @@ import ref_humbold.fita_view.automaton.NullAutomaton;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.message.Message;
 import ref_humbold.fita_view.message.ParameterizedMessageReceiver;
+import ref_humbold.fita_view.viewer.EmptyPanel;
 import ref_humbold.fita_view.viewer.MessageBox;
 import ref_humbold.fita_view.viewer.TitlePanel;
 
@@ -42,6 +43,7 @@ public class AutomatonMainPanel
         this.setLayout(new BorderLayout(10, 10));
 
         this.add(titlePanel, BorderLayout.PAGE_START);
+        this.add(new EmptyPanel(), BorderLayout.LINE_START);
         this.add(treeView, BorderLayout.CENTER);
         this.add(radioButtonPanel, BorderLayout.LINE_END);
         this.add(buttonsPanel, BorderLayout.PAGE_END);

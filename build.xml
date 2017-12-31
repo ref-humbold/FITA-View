@@ -14,9 +14,9 @@
     <pathelement location="/usr/share/java/hamcrest-core.jar" />
     <pathelement location="/usr/share/java/junit4.jar" />
   </path>
-  <path id="Mockito.libraryclasspath">
-    <pathelement location="/usr/share/java/mockito-core.jar" />
-  </path>
+  <!--path id="Mockito.libraryclasspath"-->
+  <!--pathelement location="/usr/share/java/mockito-core.jar" /-->
+  <!--/path-->
   <path id="FITA-View.classpath">
     <pathelement location="${build.dir}" />
   </path>

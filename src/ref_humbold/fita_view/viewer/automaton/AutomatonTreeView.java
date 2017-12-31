@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.List;
 import java.util.Set;
+import javax.swing.BorderFactory;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -38,6 +39,7 @@ public class AutomatonTreeView
         this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         this.setShowsRootHandles(true);
         this.setCellRenderer(renderer);
+        this.setBorder(BorderFactory.createLoweredBevelBorder());
     }
 
     @Override

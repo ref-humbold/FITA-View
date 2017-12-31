@@ -1,8 +1,8 @@
 package ref_humbold.fita_view.viewer.tree;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import ref_humbold.fita_view.Pointer;
@@ -19,6 +19,7 @@ public class TreeDrawingPanel
     private static final long serialVersionUID = -6588296156972565117L;
 
     private Pointer<TreeNode> treePointer;
+    private Iterable<TreeNode> currentNodes;
 
     public TreeDrawingPanel(Pointer<TreeNode> treePointer)
     {
@@ -29,27 +30,36 @@ public class TreeDrawingPanel
         AutomatonRunningSender.getInstance().addReceiver(this);
 
         this.setBackground(Color.WHITE);
-        this.setPreferredSize(new Dimension(300, 300));
+        this.setBorder(BorderFactory.createLoweredBevelBorder());
     }
 
     @Override
     public void receiveParameterized(Message<Iterable<TreeNode>> message)
     {
-
+        if(message.getSource() == AutomatonRunningSender.getInstance())
+        {
+            currentNodes = message.getParam();
+            repaint();
+        }
     }
 
     @Override
     public void receive(Message<Void> message)
     {
         if(message.getSource() == treePointer)
-            this.repaint();
+            repaint();
     }
 
     @Override
-    public void paintComponents(Graphics graphics)
+    public void paintComponent(Graphics graphics)
     {
-        super.paintComponents(graphics);
+        super.paintComponent(graphics);
 
-        graphics.drawString("TREE", 10, 10);
+        drawTree(graphics, treePointer.get());
+    }
+
+    private void drawTree(Graphics graphics, TreeNode tree)
+    {
+        //TODO: draw tree in component
     }
 }

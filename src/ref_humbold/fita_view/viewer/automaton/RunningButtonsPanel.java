@@ -23,6 +23,7 @@ public class RunningButtonsPanel
         this.initializeButtons();
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.setOpaque(false);
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
         this.add(Box.createHorizontalGlue());
         this.add(Box.createRigidArea(new Dimension(10, 0)));

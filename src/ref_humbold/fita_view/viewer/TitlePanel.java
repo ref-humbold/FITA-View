@@ -31,6 +31,7 @@ public class TitlePanel
         this.initializeComponents(name);
         this.setLayout(new GridLayout(2, 1));
         this.setOpaque(false);
+        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
         this.add(titleLabel);
         this.add(createButtonsPanel());
@@ -92,6 +93,7 @@ public class TitlePanel
         openFileButton.addActionListener(this);
 
         removeButton.setText("Remove " + name);
+        removeButton.setMnemonic(name.charAt(name.length() - 1));
         removeButton.addActionListener(this);
     }
 }
