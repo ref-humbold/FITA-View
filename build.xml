@@ -14,14 +14,19 @@
     <pathelement location="/usr/share/java/hamcrest-core.jar" />
     <pathelement location="/usr/share/java/junit4.jar" />
   </path>
-  <!--path id="Mockito.libraryclasspath"-->
-  <!--pathelement location="/usr/share/java/mockito-core.jar" /-->
-  <!--/path-->
+  <path id="Mockito_PowerMock.libraryclasspath">
+    <pathelement location="/usr/share/java/cglib-nodep-2.2.2.jar" />
+    <pathelement location="/usr/share/java/javassist-3.21.0-GA.jar" />
+    <pathelement location="/usr/share/java/mockito-core.jar" />
+    <pathelement location="/usr/share/java/objenesis-2.4.jar" />
+    <pathelement location="/usr/share/java/powermock-mockito-1.7.1-full.jar" />
+  </path>
   <path id="FITA-View.classpath">
     <pathelement location="${build.dir}" />
   </path>
   <path id="FITA-View_test.classpath">
     <path refid="JUnit4.libraryclasspath" />
+    <path refid="Mockito_PowerMock.libraryclasspath" />
     <path refid="FITA-View.classpath" />
   </path>
 
