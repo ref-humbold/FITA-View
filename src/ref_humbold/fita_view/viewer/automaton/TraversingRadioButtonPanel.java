@@ -12,7 +12,7 @@ import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
-import ref_humbold.fita_view.viewer.MessageBox;
+import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class TraversingRadioButtonPanel
     extends JPanel
@@ -49,7 +49,7 @@ public class TraversingRadioButtonPanel
         }
         catch(IncorrectTraversingException e)
         {
-            MessageBox.showExceptionBox(e);
+            UserMessageBox.showException(e);
         }
     }
 

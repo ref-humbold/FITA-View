@@ -127,6 +127,7 @@ public class TopDownDFTATest
     @Test
     public void testRun()
     {
+        List<Map<Variable, String>> leavesResults = new ArrayList<>();
         TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
 
         try
@@ -168,6 +169,43 @@ public class TopDownDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(0).put(variables.get(0), "A");
+        leavesResults.get(0).put(variables.get(1), "#");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(1).put(variables.get(0), "A");
+        leavesResults.get(1).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(2).put(variables.get(0), "B");
+        leavesResults.get(2).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(3).put(variables.get(0), "A");
+        leavesResults.get(3).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(4).put(variables.get(0), "B");
+        leavesResults.get(4).put(variables.get(1), "!");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(5).put(variables.get(0), "B");
+        leavesResults.get(5).put(variables.get(1), "@");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(6).put(variables.get(0), "A");
+        leavesResults.get(6).put(variables.get(1), "!");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(7).put(variables.get(0), "A");
+        leavesResults.get(7).put(variables.get(1), "@");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(8).put(variables.get(0), "A");
+        leavesResults.get(8).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(9).put(variables.get(0), "B");
+        leavesResults.get(9).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(10).put(variables.get(0), "B");
+        leavesResults.get(10).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(11).put(variables.get(0), "B");
+        leavesResults.get(11).put(variables.get(1), "!");
+
         Assert.assertFalse(testObject.isRunning);
         Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
@@ -191,6 +229,7 @@ public class TopDownDFTATest
         Assert.assertEquals("!", node12.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("A", node13.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("$", node13.getStateValueOrNull(variables.get(1)));
+        Assert.assertArrayEquals(leavesResults.toArray(), testObject.leafStates.toArray());
     }
 
     @Test(expected = NoTraversingException.class)
@@ -437,6 +476,149 @@ public class TopDownDFTATest
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
+    }
+
+    @Test
+    public void testMakeStepForwardThenRun()
+    {
+        List<Map<Variable, String>> leavesResults = new ArrayList<>();
+        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
+
+        try
+        {
+            testObject.setTraversing(TraversingMode.LEVEL);
+            testObject.addAcceptingState(accepts.get(0));
+            testObject.addAcceptingState(accepts.get(1));
+            testObject.addAcceptingState(accepts.get(2));
+
+            node13 = new StandardNode("2", 13);
+            node12 = new StandardNode("1", 12);
+            node11 = new StandardNode("0", 11);
+            node10 = new StandardNode("4", 10);
+            node7 = new StandardNode("3", 7);
+            node6 = new StandardNode("3", 6, node13, node12);
+            node5 = new StandardNode("2", 5, node11, node10);
+            node4 = new StandardNode("0", 4);
+            node3 = new StandardNode("4", 3, node7, node6);
+            node2 = new StandardNode("1", 2, node5, node4);
+            node1 = new StandardNode("2", 1, node3, node2);
+
+            testObject.setTree(node1);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertFalse(testObject.isRunning);
+
+        try
+        {
+            testObject.makeStepForward();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertTrue(testObject.isRunning);
+        Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("#", node2.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node3.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("@", node3.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node4.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node4.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node5.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node5.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node6.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node6.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node7.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node7.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node10.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node10.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node11.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node11.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node12.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node12.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node13.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node13.getStateValueOrNull(variables.get(1)));
+        Assert.assertTrue(testObject.leafStates.isEmpty());
+
+        try
+        {
+            testObject.run();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(0).put(variables.get(0), "A");
+        leavesResults.get(0).put(variables.get(1), "#");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(1).put(variables.get(0), "A");
+        leavesResults.get(1).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(2).put(variables.get(0), "B");
+        leavesResults.get(2).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(3).put(variables.get(0), "A");
+        leavesResults.get(3).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(4).put(variables.get(0), "B");
+        leavesResults.get(4).put(variables.get(1), "!");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(5).put(variables.get(0), "B");
+        leavesResults.get(5).put(variables.get(1), "@");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(6).put(variables.get(0), "A");
+        leavesResults.get(6).put(variables.get(1), "!");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(7).put(variables.get(0), "A");
+        leavesResults.get(7).put(variables.get(1), "@");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(8).put(variables.get(0), "A");
+        leavesResults.get(8).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(9).put(variables.get(0), "B");
+        leavesResults.get(9).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(10).put(variables.get(0), "B");
+        leavesResults.get(10).put(variables.get(1), "$");
+        leavesResults.add(new HashMap<>());
+        leavesResults.get(11).put(variables.get(0), "B");
+        leavesResults.get(11).put(variables.get(1), "!");
+
+        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("#", node2.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node3.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("@", node3.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node4.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node4.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("B", node5.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("#", node5.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node6.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("@", node6.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node7.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node7.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node10.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node10.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node11.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node11.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node12.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node12.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("A", node13.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node13.getStateValueOrNull(variables.get(1)));
+        Assert.assertArrayEquals(leavesResults.toArray(), testObject.leafStates.toArray());
     }
 
     @Test

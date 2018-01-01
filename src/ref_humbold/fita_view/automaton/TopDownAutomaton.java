@@ -22,7 +22,7 @@ public abstract class TopDownAutomaton
     }
 
     @Override
-    protected TopDownTraversing getTraversing()
+    public TopDownTraversing getTraversing()
     {
         return traversing;
     }
@@ -30,7 +30,7 @@ public abstract class TopDownAutomaton
     @Override
     public void setTraversing(TraversingMode mode)
     {
-        this.traversing = TraversingFactory.getInstance().getTopDownTraversing(mode);
+        this.traversing = TraversingFactory.getTopDownTraversing(mode);
     }
 
     @Override
@@ -76,7 +76,7 @@ public abstract class TopDownAutomaton
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, EmptyTreeException
+        throws IllegalVariableValueException, EmptyTreeException, NoTraversingException
     {
         super.initialize();
 

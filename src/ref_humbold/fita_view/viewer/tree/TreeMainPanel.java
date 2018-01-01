@@ -16,8 +16,8 @@ import ref_humbold.fita_view.message.ParameterizedMessageReceiver;
 import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.TreeReader;
 import ref_humbold.fita_view.viewer.EmptyPanel;
-import ref_humbold.fita_view.viewer.MessageBox;
 import ref_humbold.fita_view.viewer.TitlePanel;
+import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class TreeMainPanel
     extends JPanel
@@ -58,11 +58,12 @@ public class TreeMainPanel
                     TreeNode tree = loadTree(file);
 
                     treePointer.set(tree);
-                    MessageBox.showInfoBox("SUCCESS", "Successfully loaded file " + file.getName());
+                    UserMessageBox.showInfo("SUCCESS",
+                                            "Successfully loaded file " + file.getName());
                 }
                 catch(Exception e)
                 {
-                    MessageBox.showExceptionBox(e);
+                    UserMessageBox.showException(e);
                 }
         }
         else if(message.getParam().equals("removeButton"))

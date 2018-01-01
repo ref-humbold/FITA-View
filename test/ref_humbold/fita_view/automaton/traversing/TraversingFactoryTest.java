@@ -18,18 +18,9 @@ public class TraversingFactoryTest
     }
 
     @Test
-    public void testGetInstance()
-    {
-        TraversingFactory result = TraversingFactory.getInstance();
-
-        Assert.assertNotNull(result);
-    }
-
-    @Test
     public void testGetTraversingWhenTopDownDFS()
     {
-        TopDownTraversing result = TraversingFactory.getInstance()
-                                                    .getTopDownTraversing(TraversingMode.DFS);
+        TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.DFS);
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof TopDownDFS);
@@ -38,8 +29,7 @@ public class TraversingFactoryTest
     @Test
     public void testGetTraversingWhenTopDownBFS()
     {
-        TopDownTraversing result = TraversingFactory.getInstance()
-                                                    .getTopDownTraversing(TraversingMode.BFS);
+        TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.BFS);
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof TopDownBFS);
@@ -48,8 +38,7 @@ public class TraversingFactoryTest
     @Test
     public void testGetTraversingWhenTopDownLevel()
     {
-        TopDownTraversing result = TraversingFactory.getInstance()
-                                                    .getTopDownTraversing(TraversingMode.LEVEL);
+        TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.LEVEL);
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof TopDownLevel);
@@ -59,7 +48,7 @@ public class TraversingFactoryTest
     public void testGetTraversingWhenBottomUpDFS()
         throws IncorrectTraversingException
     {
-        TraversingFactory.getInstance().getBottomUpTraversing(TraversingMode.DFS);
+        TraversingFactory.getBottomUpTraversing(TraversingMode.DFS);
     }
 
     @Test
@@ -69,7 +58,7 @@ public class TraversingFactoryTest
 
         try
         {
-            result = TraversingFactory.getInstance().getBottomUpTraversing(TraversingMode.BFS);
+            result = TraversingFactory.getBottomUpTraversing(TraversingMode.BFS);
         }
         catch(IncorrectTraversingException e)
         {
@@ -88,7 +77,7 @@ public class TraversingFactoryTest
 
         try
         {
-            result = TraversingFactory.getInstance().getBottomUpTraversing(TraversingMode.LEVEL);
+            result = TraversingFactory.getBottomUpTraversing(TraversingMode.LEVEL);
         }
         catch(IncorrectTraversingException e)
         {

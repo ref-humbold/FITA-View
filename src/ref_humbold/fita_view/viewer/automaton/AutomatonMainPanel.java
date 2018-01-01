@@ -17,8 +17,8 @@ import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.message.Message;
 import ref_humbold.fita_view.message.ParameterizedMessageReceiver;
 import ref_humbold.fita_view.viewer.EmptyPanel;
-import ref_humbold.fita_view.viewer.MessageBox;
 import ref_humbold.fita_view.viewer.TitlePanel;
+import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class AutomatonMainPanel
     extends JPanel
@@ -62,11 +62,12 @@ public class AutomatonMainPanel
                     TreeAutomaton automaton = loadAutomaton(file);
 
                     automatonPointer.set(automaton);
-                    MessageBox.showInfoBox("SUCCESS", "Successfully loaded file " + file.getName());
+                    UserMessageBox.showInfo("SUCCESS",
+                                            "Successfully loaded file " + file.getName());
                 }
                 catch(Exception e)
                 {
-                    MessageBox.showExceptionBox(e);
+                    UserMessageBox.showException(e);
                 }
         }
         else if(message.getParam().equals("removeButton"))

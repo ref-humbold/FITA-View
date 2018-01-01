@@ -25,7 +25,7 @@ public class BottomUpDFTA
     }
 
     @Override
-    protected BottomUpTraversing getTraversing()
+    public BottomUpTraversing getTraversing()
     {
         return traversing;
     }
@@ -34,7 +34,7 @@ public class BottomUpDFTA
     public void setTraversing(TraversingMode mode)
         throws IncorrectTraversingException
     {
-        this.traversing = TraversingFactory.getInstance().getBottomUpTraversing(mode);
+        this.traversing = TraversingFactory.getBottomUpTraversing(mode);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class BottomUpDFTA
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, EmptyTreeException
+        throws IllegalVariableValueException, EmptyTreeException, NoTraversingException
     {
         super.initialize();
 
@@ -196,8 +196,7 @@ public class BottomUpDFTA
     {
         leaves.clear();
 
-        TopDownTraversing t = TraversingFactory.getInstance()
-                                               .getTopDownTraversing(TraversingMode.DFS);
+        TopDownTraversing t = TraversingFactory.getTopDownTraversing(TraversingMode.DFS);
 
         t.initialize(tree);
 

@@ -77,7 +77,7 @@ public abstract class TopDownFiniteTreeAutomaton
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, EmptyTreeException
+        throws IllegalVariableValueException, EmptyTreeException, NoTraversingException
     {
         super.initialize();
         leafStates.clear();

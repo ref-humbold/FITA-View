@@ -6,6 +6,7 @@ import java.util.Set;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
+import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
 import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
@@ -35,9 +36,9 @@ public interface TreeAutomaton
         throws UndefinedAcceptanceException, UndefinedTreeStateException;
 
     /**
-     * @param sendingMessages when {@code true} then the automaton sends messages after making each step
+     * @return current traversing strategy of the automaton
      */
-    void setSendingMessages(boolean sendingMessages);
+    TreeTraversing getTraversing();
 
     /**
      * @param mode new traversing mode for the automaton
@@ -45,6 +46,11 @@ public interface TreeAutomaton
      */
     void setTraversing(TraversingMode mode)
         throws IncorrectTraversingException;
+
+    /**
+     * @param sendingMessages when {@code true} then the automaton sends messages after making each step
+     */
+    void setSendingMessages(boolean sendingMessages);
 
     /**
      * @param tree new tree to run automaton on

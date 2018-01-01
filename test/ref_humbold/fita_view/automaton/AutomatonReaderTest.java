@@ -853,7 +853,7 @@ public class AutomatonReaderTest
 
     // endregion
 
-    @Ignore(value = "Easter Egg \'TopDown.bua.xml\' not implemented yet.")
+    @Ignore("Easter Egg \'TopDown.bua.xml\' not implemented yet.")
     @Test(expected = FileFormatException.class)
     public void testReadWhenExpectedBottomUpButNamedTopDown()
         throws FileFormatException
@@ -870,7 +870,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Ignore(value = "Easter Egg \'BottomUp.tda.xml\' not implemented yet.")
+    @Ignore("Easter Egg \'BottomUp.tda.xml\' not implemented yet.")
     @Test(expected = FileFormatException.class)
     public void testReadWhenExpectedTopDownButNamedBottomUp()
         throws FileFormatException

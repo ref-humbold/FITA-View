@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
+import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
 import ref_humbold.fita_view.tree.TreeNode;
 
 public class NullAutomaton
@@ -50,12 +51,18 @@ public class NullAutomaton
     }
 
     @Override
-    public void setSendingMessages(boolean sendingMessages)
+    public TreeTraversing getTraversing()
     {
+        return null;
     }
 
     @Override
     public void setTraversing(TraversingMode mode)
+    {
+    }
+
+    @Override
+    public void setSendingMessages(boolean sendingMessages)
     {
     }
 

@@ -2,21 +2,7 @@ package ref_humbold.fita_view.automaton.traversing;
 
 public class TraversingFactory
 {
-    private static TraversingFactory instance = null;
-
-    private TraversingFactory()
-    {
-    }
-
-    public static TraversingFactory getInstance()
-    {
-        if(instance == null)
-            instance = new TraversingFactory();
-
-        return instance;
-    }
-
-    public BottomUpTraversing getBottomUpTraversing(TraversingMode mode)
+    public static BottomUpTraversing getBottomUpTraversing(TraversingMode mode)
         throws IncorrectTraversingException
     {
         switch(mode)
@@ -35,7 +21,7 @@ public class TraversingFactory
         return null;
     }
 
-    public TopDownTraversing getTopDownTraversing(TraversingMode mode)
+    public static TopDownTraversing getTopDownTraversing(TraversingMode mode)
     {
         switch(mode)
         {

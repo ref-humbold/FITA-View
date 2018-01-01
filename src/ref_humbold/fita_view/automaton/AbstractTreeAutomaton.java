@@ -6,7 +6,6 @@ import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
-import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
 import ref_humbold.fita_view.tree.NodeType;
 import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
@@ -18,7 +17,7 @@ public abstract class AbstractTreeAutomaton
     protected List<Variable> variables;
     protected TreeNode tree;
     protected boolean isRunning = false;
-    protected boolean isSendingMessages = false;
+    private boolean isSendingMessages = false;
 
     public AbstractTreeAutomaton(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -37,11 +36,6 @@ public abstract class AbstractTreeAutomaton
     {
         return this.variables;
     }
-
-    /**
-     * @return current traversing strategy of the automaton
-     */
-    protected abstract TreeTraversing getTraversing();
 
     @Override
     public void setSendingMessages(boolean sendingMessages)
@@ -71,9 +65,13 @@ public abstract class AbstractTreeAutomaton
                UndefinedTreeStateException, EmptyTreeException
     {
         if(getTraversing() == null)
+        {
+            isRunning = false;
             throw new NoTraversingException("Automaton has no traversing strategy.");
+        }
 
-        initialize();
+        if(!isRunning)
+            initialize();
 
         try
         {
@@ -91,12 +89,6 @@ public abstract class AbstractTreeAutomaton
         throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
                UndefinedTreeStateException, EmptyTreeException
     {
-        if(getTraversing() == null)
-        {
-            isRunning = false;
-            throw new NoTraversingException("Automaton has no traversing strategy.");
-        }
-
         if(!isRunning)
             initialize();
 
@@ -120,13 +112,15 @@ public abstract class AbstractTreeAutomaton
      * Initializing automaton and tree before running on tree.
      */
     protected void initialize()
-        throws IllegalVariableValueException, EmptyTreeException
+        throws IllegalVariableValueException, EmptyTreeException, NoTraversingException
     {
+        if(getTraversing() == null)
+            throw new NoTraversingException("Automaton has no traversing strategy.");
+
         if(tree == null)
             throw new EmptyTreeException("No tree specified.");
 
-        TopDownTraversing t = TraversingFactory.getInstance()
-                                               .getTopDownTraversing(TraversingMode.DFS);
+        TopDownTraversing t = TraversingFactory.getTopDownTraversing(TraversingMode.DFS);
 
         t.initialize(tree);
 

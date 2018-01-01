@@ -398,6 +398,107 @@ public class BottomUpDFTATest
     }
 
     @Test
+    public void testMakeStepForwardThenRun()
+    {
+        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
+
+        try
+        {
+            testObject.setTraversing(TraversingMode.LEVEL);
+            testObject.addAcceptingState(accepts);
+
+            node13 = new StandardNode("1", 13);
+            node12 = new StandardNode("1", 12);
+            node11 = new StandardNode("1", 11);
+            node10 = new StandardNode("0", 10);
+            node7 = new StandardNode("1", 7);
+            node6 = new StandardNode("or", 6, node13, node12);
+            node5 = new StandardNode("and", 5, node11, node10);
+            node4 = new StandardNode("0", 4);
+            node3 = new StandardNode("and", 3, node7, node6);
+            node2 = new StandardNode("or", 2, node5, node4);
+            node1 = new StandardNode("impl", 1, node3, node2);
+
+            testObject.setTree(node1);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertFalse(testObject.isRunning);
+
+        try
+        {
+            testObject.makeStepForward();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertTrue(testObject.isRunning);
+        Assert.assertEquals("T", node13.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node13.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("T", node12.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node12.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("T", node11.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node11.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("F", node10.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node10.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node7.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node7.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node6.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node6.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node5.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node5.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node4.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node4.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node3.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node3.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node2.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node2.getStateValueOrNull(variables.get(1)));
+        Assert.assertNull(node1.getStateValueOrNull(variables.get(0)));
+        Assert.assertNull(node1.getStateValueOrNull(variables.get(1)));
+
+        try
+        {
+            testObject.run();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals("T", node13.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node13.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("T", node12.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node12.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("T", node11.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node11.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("F", node10.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node10.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("T", node7.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node7.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("T", node6.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node6.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("F", node5.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("&", node5.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("F", node4.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("!", node4.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("T", node3.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("&", node3.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("F", node2.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("$", node2.getStateValueOrNull(variables.get(1)));
+        Assert.assertEquals("F", node1.getStateValueOrNull(variables.get(0)));
+        Assert.assertEquals("@", node1.getStateValueOrNull(variables.get(1)));
+    }
+
+    @Test
     public void testIsAcceptedWhenAutomatonHasRunAndAccepts()
     {
         try
