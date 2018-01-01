@@ -54,7 +54,7 @@ class BottomUpAutomatonHandler
         switch(qName)
         {
             case "variables":
-                automaton = new BottomUpDFTA(alphabet, variables.values());
+                automaton = new BottomUpDFTA(variables.values(), alphabet);
                 break;
 
             case "accept":

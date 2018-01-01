@@ -9,11 +9,6 @@ public class Pointer<T>
     private final T nullElement;
     private T element;
 
-    public Pointer()
-    {
-        this(null);
-    }
-
     public Pointer(T nullElement)
     {
         super();
@@ -24,13 +19,13 @@ public class Pointer<T>
 
     public T get()
     {
-        return this.element;
+        return element;
     }
 
-    public void set(T element)
+    public void set(T newElement)
     {
-        this.element = element == null ? nullElement : element;
-        this.send(new Message<>(this));
+        element = newElement == null ? nullElement : newElement;
+        send(new Message<>(this));
     }
 
     public void delete()

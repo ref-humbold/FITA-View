@@ -472,8 +472,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        BottomUpDFTA expected = new BottomUpDFTA(Arrays.asList("0", "1"),
-                                                 Collections.singletonList(v));
+        BottomUpDFTA expected = new BottomUpDFTA(Collections.singletonList(v),
+                                                 Arrays.asList("0", "1"));
 
         expected.addAcceptingState(Collections.singletonMap(v, "C"));
 
@@ -538,8 +538,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        BottomUpDFTA expected = new BottomUpDFTA(Arrays.asList("0", "1"),
-                                                 Collections.singletonList(v));
+        BottomUpDFTA expected = new BottomUpDFTA(Collections.singletonList(v),
+                                                 Arrays.asList("0", "1"));
 
         expected.addAcceptingState(Collections.singletonMap(v, Wildcard.EVERY_VALUE));
 

@@ -23,8 +23,8 @@ public class AutomatonTreeView
 {
     private static final long serialVersionUID = 5636100205267426054L;
 
+    DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
     private Pointer<TreeAutomaton> automatonPointer;
-    private DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
     private DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
     private AutomatonTreeViewRenderer renderer = new AutomatonTreeViewRenderer();
 
@@ -34,12 +34,14 @@ public class AutomatonTreeView
 
         this.automatonPointer = automatonPointer;
         this.automatonPointer.addReceiver(this);
-        this.initializeTree();
+
         this.setModel(treeModel);
         this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         this.setShowsRootHandles(true);
         this.setCellRenderer(renderer);
         this.setBorder(BorderFactory.createLoweredBevelBorder());
+
+        this.initializeTree();
     }
 
     @Override

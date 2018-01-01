@@ -19,7 +19,7 @@ public class BottomUpDFTA
     private BottomUpTransitions transitions = new BottomUpTransitions();
     private List<TreeNode> leaves = new ArrayList<>();
 
-    public BottomUpDFTA(Collection<String> alphabet, Collection<Variable> variables)
+    public BottomUpDFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
         super(variables, alphabet);
     }

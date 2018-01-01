@@ -34,7 +34,7 @@ public class BottomUpDFTATest
     public void setUp()
         throws Exception
     {
-        testObject = new BottomUpDFTA(alphabet, variables);
+        testObject = new BottomUpDFTA(variables, alphabet);
         testObject.addTransition(variables.get(0), "X", "X", "0", "F");
         testObject.addTransition(variables.get(0), "X", "X", "1", "T");
         testObject.addTransition(variables.get(0), "T", "T", "and", "T");
