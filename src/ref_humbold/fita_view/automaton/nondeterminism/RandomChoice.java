@@ -11,6 +11,12 @@ public class RandomChoice
 {
     private static final Random random = new Random();
 
+    @Override
+    public StateChoiceMode getMode()
+    {
+        return StateChoiceMode.RANDOM;
+    }
+
     /**
      * Non-deterministically choosing variable values.
      * @param states set of possible state variable values

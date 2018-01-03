@@ -7,6 +7,12 @@ import ref_humbold.fita_view.Pair;
 public class FirstElementChoice
     implements StateChoice
 {
+    @Override
+    public StateChoiceMode getMode()
+    {
+        return StateChoiceMode.FIRST;
+    }
+
     /**
      * Non-deterministically choosing variable values.
      * @param states set of possible state variable values

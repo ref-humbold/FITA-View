@@ -29,10 +29,10 @@ public class AutomatonMainPanel
     private Pointer<TreeAutomaton> automatonPointer = new Pointer<>(NullAutomaton.getInstance());
     private JFileChooser fileChooser = new JFileChooser();
     private TitlePanel titlePanel = new TitlePanel("automaton");
-    private AutomatonTreeView treeView = new AutomatonTreeView(automatonPointer);
-    private TraversingRadioButtonPanel radioButtonPanel = new TraversingRadioButtonPanel(
+    private AutomatonScrollTreeView scrollTreeView = new AutomatonScrollTreeView(automatonPointer);
+    private ModifyingButtonsPanel modifyingButtonsPanel = new ModifyingButtonsPanel(
         automatonPointer);
-    private RunningButtonsPanel buttonsPanel = new RunningButtonsPanel();
+    private RunningButtonsPanel runningButtonsPanel = new RunningButtonsPanel();
 
     public AutomatonMainPanel()
     {
@@ -44,9 +44,9 @@ public class AutomatonMainPanel
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(new EmptyPanel(), BorderLayout.LINE_START);
-        this.add(treeView, BorderLayout.CENTER);
-        this.add(radioButtonPanel, BorderLayout.LINE_END);
-        this.add(buttonsPanel, BorderLayout.PAGE_END);
+        this.add(scrollTreeView, BorderLayout.CENTER);
+        this.add(modifyingButtonsPanel, BorderLayout.LINE_END);
+        this.add(runningButtonsPanel, BorderLayout.PAGE_END);
     }
 
     @Override

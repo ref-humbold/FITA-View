@@ -10,6 +10,12 @@ public class LeastHashCodeChoice
 {
     private static final PairHashCodeComparator COMPARATOR = new PairHashCodeComparator();
 
+    @Override
+    public StateChoiceMode getMode()
+    {
+        return StateChoiceMode.LEAST;
+    }
+
     /**
      * Non-deterministically choosing variable values.
      * @param states set of possible state variable values

@@ -37,4 +37,18 @@ public class TraversingFactory
 
         return null;
     }
+
+    public static boolean isCorrectMode(String name)
+    {
+        try
+        {
+            TraversingMode.valueOf(name);
+        }
+        catch(IllegalArgumentException e)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

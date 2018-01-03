@@ -10,6 +10,12 @@ public class GreatestHashCodeChoice
 {
     private static final PairHashCodeComparator COMPARATOR = new PairHashCodeComparator();
 
+    @Override
+    public StateChoiceMode getMode()
+    {
+        return StateChoiceMode.GREATEST;
+    }
+
     /**
      * Non-deterministically choosing variable values.
      * @param states set of possible state variable values

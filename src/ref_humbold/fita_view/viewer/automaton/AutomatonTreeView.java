@@ -14,6 +14,7 @@ import javax.swing.tree.TreeSelectionModel;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.Variable;
+import ref_humbold.fita_view.automaton.transition.Transitions;
 import ref_humbold.fita_view.message.Message;
 import ref_humbold.fita_view.message.MessageReceiver;
 

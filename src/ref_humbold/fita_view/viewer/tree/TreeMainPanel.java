@@ -28,7 +28,7 @@ public class TreeMainPanel
     private Pointer<TreeNode> treePointer = new Pointer<>(null);
     private JFileChooser fileChooser = new JFileChooser();
     private TitlePanel titlePanel = new TitlePanel("tree");
-    private TreeDrawingPanel drawingPanel = new TreeDrawingPanel(treePointer);
+    private TreeScrollDrawingArea scrollDrawingArea = new TreeScrollDrawingArea(treePointer);
 
     public TreeMainPanel()
     {
@@ -40,7 +40,7 @@ public class TreeMainPanel
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(new EmptyPanel(), BorderLayout.LINE_START);
-        this.add(drawingPanel, BorderLayout.CENTER);
+        this.add(scrollDrawingArea, BorderLayout.CENTER);
         this.add(new EmptyPanel(), BorderLayout.LINE_END);
         this.add(new EmptyPanel(), BorderLayout.PAGE_END);
     }
