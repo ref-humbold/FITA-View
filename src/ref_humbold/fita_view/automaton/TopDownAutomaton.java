@@ -85,14 +85,6 @@ public abstract class TopDownAutomaton
                                                                 String label)
         throws NoSuchTransitionException;
 
-    protected final Pair<String, String> doTransition(Variable var, String value, String label)
-        throws NoSuchTransitionException
-    {
-        Pair<String, String> result = getTransitionResult(var, value, label);
-
-        return removeSameWildcard(value, result);
-    }
-
     @Override
     protected void initialize()
         throws IllegalVariableValueException, EmptyTreeException, NoTraversingException
@@ -100,7 +92,7 @@ public abstract class TopDownAutomaton
         super.initialize();
 
         for(Variable var : variables)
-            tree.setStateValue(var, var.getInitValue());
+            tree.setStateInitValue(var);
 
         traversing.initialize(tree);
         leafStates.clear();
@@ -170,6 +162,14 @@ public abstract class TopDownAutomaton
         }
 
         return false;
+    }
+
+    private Pair<String, String> doTransition(Variable var, String value, String label)
+        throws NoSuchTransitionException
+    {
+        Pair<String, String> result = getTransitionResult(var, value, label);
+
+        return removeSameWildcard(value, result);
     }
 
     private Pair<String, String> removeSameWildcard(String value, Pair<String, String> trans)

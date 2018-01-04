@@ -85,6 +85,29 @@ public class TopDownDFTATest
         Assert.assertEquals("Top-down deterministic finite tree automaton", result);
     }
 
+    @Test
+    public void testSetTreeWhenFiniteTree()
+    {
+        TreeNode node = null;
+
+        try
+        {
+            node = new StandardNode("and", 1, new StandardNode("1", 3),
+                                    new StandardNode("or", 2, new StandardNode("0", 5),
+                                                     new StandardNode("1", 4)));
+
+            testObject.setTree(node);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertNotNull(testObject.tree);
+        Assert.assertSame(node, testObject.tree);
+    }
+
     @Test(expected = EmptyTreeException.class)
     public void testSetTreeWhenEmptyTree()
         throws EmptyTreeException

@@ -25,7 +25,7 @@ public class TreeMainPanel
 {
     private static final long serialVersionUID = 5944023926285119879L;
 
-    private Pointer<TreeNode> treePointer = new Pointer<>(null);
+    private Pointer<TreeNode> treePointer = new Pointer<>();
     private JFileChooser fileChooser = new JFileChooser();
     private TitlePanel titlePanel = new TitlePanel("tree");
     private TreeScrollDrawingArea scrollDrawingArea = new TreeScrollDrawingArea(treePointer);

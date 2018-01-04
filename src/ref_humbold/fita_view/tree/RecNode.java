@@ -64,6 +64,12 @@ public class RecNode
     }
 
     @Override
+    public void setStateInitValue(Variable var)
+    {
+        recursive.setStateInitValue(var);
+    }
+
+    @Override
     public String getStateValueOrNull(Variable var)
     {
         return recursive.getStateValueOrNull(var);
@@ -85,7 +91,7 @@ public class RecNode
     @Override
     public String toString()
     {
-        return "<$ REC $>";
+        return "<@ REC @>";
     }
 
     @Override

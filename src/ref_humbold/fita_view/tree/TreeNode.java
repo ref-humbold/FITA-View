@@ -56,6 +56,11 @@ public abstract class TreeNode
 
     /**
      * @param var state variable
+     */
+    public abstract void setStateInitValue(Variable var);
+
+    /**
+     * @param var state variable
      * @return variable value in the node
      * @throws UndefinedTreeStateException if variable value is undefined
      */

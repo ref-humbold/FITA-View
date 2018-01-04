@@ -20,7 +20,7 @@ public class StandardNode
     {
         super(index);
 
-        if(label == null)
+        if(label == null || label.isEmpty())
             throw new IllegalArgumentException("Label is null");
 
         this.label = label;
@@ -109,6 +109,12 @@ public class StandardNode
     }
 
     @Override
+    public void setStateInitValue(Variable var)
+    {
+        state.put(var, var.getInitValue());
+    }
+
+    @Override
     public String getStateValueOrNull(Variable var)
     {
         return state.get(var);
@@ -136,7 +142,7 @@ public class StandardNode
         String leftString = left == null ? "#" : left.toString();
         String rightString = right == null ? "#" : right.toString();
 
-        return "<$ " + label + "," + leftString + ", " + rightString + " $>";
+        return "<$ \'" + label + "\', " + leftString + ", " + rightString + " $>";
     }
 
     @Override

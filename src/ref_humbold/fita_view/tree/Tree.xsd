@@ -8,7 +8,7 @@
       <xs:element name="node" type="nodeType" />
       <xs:element name="repeat" type="nodeRecType" />
     </xs:choice>
-    <xs:attribute name="label" type="xs:string" use="required" />
+    <xs:attribute name="label" type="strType" use="required" />
   </xs:complexType>
 
   <xs:complexType name="nodeRecType">
@@ -17,8 +17,14 @@
       <xs:element name="repeat" type="nodeRecType" />
       <xs:element name="rec" type="emptyType" />
     </xs:choice>
-    <xs:attribute name="label" type="xs:string" use="required" />
+    <xs:attribute name="label" type="strType" use="required" />
   </xs:complexType>
 
   <xs:complexType name="emptyType" />
+
+  <xs:simpleType name="strType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+" />
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
