@@ -3,5 +3,8 @@ ref_humbold.fita_view.automaton
 ref_humbold.fita_view.automaton.nondeterminism
 ref_humbold.fita_view.automaton.transition
 ref_humbold.fita_view.automaton.traversing
+ref_humbold.fita_view.message
 ref_humbold.fita_view.tree
 ref_humbold.fita_view.viewer
+ref_humbold.fita_view.viewer.automaton
+ref_humbold.fita_view.viewer.tree

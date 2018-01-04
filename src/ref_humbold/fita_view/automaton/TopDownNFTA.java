@@ -14,11 +14,11 @@ import ref_humbold.fita_view.automaton.transition.TopDownTransitions;
 import ref_humbold.fita_view.tree.TreeNode;
 
 public class TopDownNFTA
-    extends TopDownFiniteTreeAutomaton
+    extends TopDownAutomaton
     implements NonDeterministicAutomaton
 {
+    protected TopDownTransitions<Set<Pair<String, String>>> transitions = new TopDownTransitions<>();
     private StateChoice choice;
-    private TopDownTransitions<Set<Pair<String, String>>> transitions = new TopDownTransitions<>();
 
     public TopDownNFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -77,9 +77,9 @@ public class TopDownNFTA
                                  String rightResult)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
-        Set<Pair<String, String>> entrySet = getTransitionEntrySet(var, Pair.make(value, label));
+        Set<Pair<String, String>> entry = getTransitionEntry(var, Pair.make(value, label));
 
-        entrySet.add(Pair.make(leftResult, rightResult));
+        entry.add(Pair.make(leftResult, rightResult));
     }
 
     @Override
@@ -89,7 +89,7 @@ public class TopDownNFTA
         return choice.chooseState(transitions.get(var, Pair.make(value, label)));
     }
 
-    private Set<Pair<String, String>> getTransitionEntrySet(Variable var, Pair<String, String> key)
+    private Set<Pair<String, String>> getTransitionEntry(Variable var, Pair<String, String> key)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
         try
@@ -99,7 +99,7 @@ public class TopDownNFTA
         catch(NoSuchTransitionException e)
         {
             transitions.add(var, key, new HashSet<>());
-            return getTransitionEntrySet(var, key);
+            return getTransitionEntry(var, key);
         }
     }
 }

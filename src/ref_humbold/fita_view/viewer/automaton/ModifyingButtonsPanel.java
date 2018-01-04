@@ -112,12 +112,12 @@ public class ModifyingButtonsPanel
             nonDeterminismGroup.add(button);
         }
 
-        traversingPanel.setLayout(new GridLayout(3, 1));
+        traversingPanel.setLayout(new GridLayout(TraversingMode.values().length, 1));
 
         for(JRadioButton button : traversingButtons)
             traversingPanel.add(button);
 
-        nonDeterminismPanel.setLayout(new GridLayout(4, 1));
+        nonDeterminismPanel.setLayout(new GridLayout(StateChoiceMode.values().length, 1));
 
         for(JRadioButton button : nonDeterminismButtons)
             nonDeterminismPanel.add(button);
@@ -129,13 +129,16 @@ public class ModifyingButtonsPanel
 
         this.add(Box.createVerticalGlue());
 
-        if(automaton instanceof AbstractTreeAutomaton)
-            this.add(traversingPanel);
-
-        if(automaton instanceof NonDeterministicAutomaton)
+        if(automaton != null)
         {
-            this.add(Box.createVerticalGlue());
-            this.add(nonDeterminismPanel);
+            if(automaton instanceof AbstractTreeAutomaton)
+                this.add(traversingPanel);
+
+            if(automaton instanceof NonDeterministicAutomaton)
+            {
+                this.add(Box.createVerticalGlue());
+                this.add(nonDeterminismPanel);
+            }
         }
 
         this.add(Box.createVerticalGlue());

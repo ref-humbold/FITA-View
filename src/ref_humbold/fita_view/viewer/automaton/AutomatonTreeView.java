@@ -14,7 +14,6 @@ import javax.swing.tree.TreeSelectionModel;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.Variable;
-import ref_humbold.fita_view.automaton.transition.Transitions;
 import ref_humbold.fita_view.message.Message;
 import ref_humbold.fita_view.message.MessageReceiver;
 
@@ -22,8 +21,8 @@ public class AutomatonTreeView
     extends JTree
     implements MessageReceiver
 {
+    static final String EMPTY_ROOT_TEXT = "No automaton specified...";
     private static final long serialVersionUID = 5636100205267426054L;
-
     DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
     private Pointer<TreeAutomaton> automatonPointer;
     private DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
@@ -54,16 +53,25 @@ public class AutomatonTreeView
 
     private void initializeTree()
     {
+        TreeAutomaton automaton = automatonPointer.get();
+
         rootNode.removeAllChildren();
-        rootNode.setUserObject(automatonPointer.get().getTypeName());
-        loadAlphabet();
-        loadVariables();
+
+        if(automaton != null)
+        {
+            rootNode.setUserObject(automaton.getTypeName());
+            loadAlphabet(automaton);
+            loadVariables(automaton);
+        }
+        else
+            rootNode.setUserObject(EMPTY_ROOT_TEXT);
+
         treeModel.reload();
     }
 
-    private void loadAlphabet()
+    private void loadAlphabet(TreeAutomaton automaton)
     {
-        Set<String> alphabet = automatonPointer.get().getAlphabet();
+        Set<String> alphabet = automaton.getAlphabet();
         DefaultMutableTreeNode alphabetNode = new DefaultMutableTreeNode("Alphabet");
 
         for(String word : alphabet)
@@ -76,9 +84,9 @@ public class AutomatonTreeView
         rootNode.add(alphabetNode);
     }
 
-    private void loadVariables()
+    private void loadVariables(TreeAutomaton automaton)
     {
-        List<Variable> variables = automatonPointer.get().getVariables();
+        List<Variable> variables = automaton.getVariables();
         DefaultMutableTreeNode variablesNode = new DefaultMutableTreeNode("Variables");
 
         for(Variable var : variables)

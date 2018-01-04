@@ -19,7 +19,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import ref_humbold.fita_view.Pointer;
-import ref_humbold.fita_view.automaton.*;
+import ref_humbold.fita_view.automaton.BottomUpDFTA;
+import ref_humbold.fita_view.automaton.TopDownDFTA;
+import ref_humbold.fita_view.automaton.TopDownNFTA;
+import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.nondeterminism.*;
 import ref_humbold.fita_view.automaton.traversing.*;
 import ref_humbold.fita_view.message.Message;
@@ -250,7 +253,7 @@ public class ModifyingButtonsPanelTest
     @Test
     public void testReceiveWhenNullAutomaton()
     {
-        Mockito.when(mockPointer.get()).thenReturn(NullAutomaton.getInstance());
+        Mockito.when(mockPointer.get()).thenReturn(null);
 
         testObject.receive(mockMessage);
 

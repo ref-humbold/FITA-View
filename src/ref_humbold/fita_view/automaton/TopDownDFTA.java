@@ -11,9 +11,9 @@ import ref_humbold.fita_view.automaton.transition.TopDownTransitions;
 import ref_humbold.fita_view.tree.TreeNode;
 
 public class TopDownDFTA
-    extends TopDownFiniteTreeAutomaton
+    extends TopDownAutomaton
 {
-    private TopDownTransitions<Pair<String, String>> transitions = new TopDownTransitions<>();
+    protected TopDownTransitions<Pair<String, String>> transitions = new TopDownTransitions<>();
 
     public TopDownDFTA(Collection<Variable> variables, Collection<String> alphabet)
     {

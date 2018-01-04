@@ -9,7 +9,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ref_humbold.fita_view.Pointer;
@@ -19,10 +22,8 @@ import ref_humbold.fita_view.message.Message;
 @RunWith(MockitoJUnitRunner.class)
 public class AutomatonTreeViewTest
 {
-    private TreeAutomaton automaton;
-
-    @Spy
-    private Pointer<TreeAutomaton> mockPointer = new Pointer<>(NullAutomaton.getInstance());
+    @Mock
+    private Pointer<TreeAutomaton> mockPointer;
 
     @Mock
     private Message<Void> mockMessage;
@@ -40,30 +41,21 @@ public class AutomatonTreeViewTest
     public void tearDown()
     {
         testObject = null;
-        automaton = null;
     }
 
     @Test
     public void testReceiveWhenNullAutomaton()
     {
-        automaton = NullAutomaton.getInstance();
-
-        Mockito.when(mockPointer.get()).thenReturn(automaton);
+        Mockito.when(mockPointer.get()).thenReturn(null);
 
         testObject.receive(mockMessage);
 
         DefaultMutableTreeNode rootNode = testObject.rootNode;
-        DefaultMutableTreeNode firstChild = (DefaultMutableTreeNode)rootNode.getChildAt(0);
-        DefaultMutableTreeNode secondChild = (DefaultMutableTreeNode)rootNode.getChildAt(1);
 
-        Assert.assertEquals(2, rootNode.getChildCount());
-        Assert.assertEquals(automaton.getTypeName(), rootNode.getUserObject());
-        Assert.assertEquals("Alphabet", firstChild.getUserObject());
-        Assert.assertEquals(automaton.getAlphabet().size(), firstChild.getChildCount());
-        Assert.assertEquals("Variables", secondChild.getUserObject());
-        Assert.assertEquals(automaton.getVariables().size(), secondChild.getChildCount());
+        Assert.assertEquals(0, rootNode.getChildCount());
+        Assert.assertEquals(AutomatonTreeView.EMPTY_ROOT_TEXT, rootNode.getUserObject());
         Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(6)).get();
+        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -83,7 +75,7 @@ public class AutomatonTreeViewTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        automaton = new BottomUpDFTA(variables, alphabet);
+        BottomUpDFTA automaton = new BottomUpDFTA(variables, alphabet);
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
 
@@ -128,7 +120,7 @@ public class AutomatonTreeViewTest
         Assert.assertArrayEquals(automaton.getVariables().get(1).getValues().toArray(),
                                  secondVariableValues.toArray());
         Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(6)).get();
+        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -148,7 +140,7 @@ public class AutomatonTreeViewTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        automaton = new TopDownDFTA(variables, alphabet);
+        TopDownDFTA automaton = new TopDownDFTA(variables, alphabet);
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
 
@@ -193,6 +185,6 @@ public class AutomatonTreeViewTest
         Assert.assertArrayEquals(automaton.getVariables().get(1).getValues().toArray(),
                                  secondVariableValues.toArray());
         Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(6)).get();
+        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 }

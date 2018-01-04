@@ -1,6 +1,7 @@
 package ref_humbold.fita_view.automaton;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
@@ -28,14 +29,6 @@ public interface TreeAutomaton
     Set<String> getAlphabet();
 
     /**
-     * Testing if associated tree is accepted by the automaton.
-     * @return {@code true} if automaton accepts tree, otherwise {@code false}
-     * @throws UndefinedAcceptanceException if no accepting states were defined
-     */
-    boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedTreeStateException;
-
-    /**
      * @return current traversing strategy of the automaton
      */
     TreeTraversing getTraversing();
@@ -48,9 +41,12 @@ public interface TreeAutomaton
         throws IncorrectTraversingException;
 
     /**
-     * @param sendingMessages when {@code true} then the automaton sends messages after making each step
+     * Testing if associated tree is accepted by the automaton.
+     * @return {@code true} if automaton accepts tree, otherwise {@code false}
+     * @throws UndefinedAcceptanceException if no accepting states were defined
      */
-    void setSendingMessages(boolean sendingMessages);
+    boolean isAccepted()
+        throws UndefinedAcceptanceException, UndefinedTreeStateException;
 
     /**
      * @param tree new tree to run automaton on
@@ -59,6 +55,17 @@ public interface TreeAutomaton
      */
     void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException;
+
+    /**
+     * @param sendingMessages when {@code true} then the automaton sends messages after making each step
+     */
+    void setSendingMessages(boolean sendingMessages);
+
+    /**
+     * Adding an accepting state of automaton.
+     * @param accept mapping from variables to their accepting values
+     */
+    void addAcceptingState(Map<Variable, String> accept);
 
     /**
      * Testing if label is present in alphabet recognised by the automaton.

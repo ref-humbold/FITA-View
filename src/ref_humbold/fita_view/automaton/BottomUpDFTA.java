@@ -14,7 +14,6 @@ import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 public class BottomUpDFTA
     extends AbstractTreeAutomaton
 {
-    private Set<Map<Variable, String>> acceptingStates = new HashSet<>();
     private BottomUpTraversing traversing;
     private BottomUpTransitions transitions = new BottomUpTransitions();
     private List<TreeNode> leaves = new ArrayList<>();
@@ -155,15 +154,6 @@ public class BottomUpDFTA
     }
 
     /**
-     * Adding an accepting state of automaton.
-     * @param accept mapping from variables to their accepting values
-     */
-    protected void addAcceptingState(Map<Variable, String> accept)
-    {
-        acceptingStates.add(accept);
-    }
-
-    /**
      * Adding new transition entry to transition function of automaton.
      * @param var variable
      * @param leftValue variable value in left son
@@ -194,10 +184,9 @@ public class BottomUpDFTA
 
     private void findLeaves()
     {
+        TopDownTraversing t = new TopDownDFS();
+
         leaves.clear();
-
-        TopDownTraversing t = TraversingFactory.getTopDownTraversing(TraversingMode.DFS);
-
         t.initialize(tree);
 
         while(t.hasNext())

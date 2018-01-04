@@ -12,7 +12,6 @@ import org.xml.sax.SAXException;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonReader;
 import ref_humbold.fita_view.automaton.FileFormatException;
-import ref_humbold.fita_view.automaton.NullAutomaton;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.message.Message;
 import ref_humbold.fita_view.message.ParameterizedMessageReceiver;
@@ -26,7 +25,7 @@ public class AutomatonMainPanel
 {
     private static final long serialVersionUID = -7678389910832412322L;
 
-    private Pointer<TreeAutomaton> automatonPointer = new Pointer<>(NullAutomaton.getInstance());
+    private Pointer<TreeAutomaton> automatonPointer = new Pointer<>();
     private JFileChooser fileChooser = new JFileChooser();
     private TitlePanel titlePanel = new TitlePanel("automaton");
     private AutomatonScrollTreeView scrollTreeView = new AutomatonScrollTreeView(automatonPointer);

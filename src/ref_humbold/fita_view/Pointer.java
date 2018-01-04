@@ -6,25 +6,28 @@ import ref_humbold.fita_view.message.Message;
 public class Pointer<T>
     extends DefaultMessageSender
 {
-    private final T nullElement;
     private T element;
 
-    public Pointer(T nullElement)
+    public Pointer()
+    {
+        this(null);
+    }
+
+    public Pointer(T element)
     {
         super();
 
-        this.nullElement = nullElement;
-        this.element = nullElement;
+        this.element = element;
     }
 
     public T get()
     {
-        return element;
+        return this.element;
     }
 
-    public void set(T newElement)
+    public void set(T element)
     {
-        element = newElement == null ? nullElement : newElement;
+        this.element = element;
         send(new Message<>(this));
     }
 

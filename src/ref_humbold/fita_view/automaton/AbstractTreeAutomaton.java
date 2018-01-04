@@ -3,9 +3,8 @@ package ref_humbold.fita_view.automaton;
 import java.util.*;
 
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
+import ref_humbold.fita_view.automaton.traversing.TopDownDFS;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
-import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
-import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.NodeType;
 import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
@@ -13,9 +12,10 @@ import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 public abstract class AbstractTreeAutomaton
     implements TreeAutomaton
 {
+    protected TreeNode tree;
     protected Set<String> alphabet;
     protected List<Variable> variables;
-    protected TreeNode tree;
+    protected Set<Map<Variable, String>> acceptingStates = new HashSet<>();
     protected boolean isRunning = false;
     private boolean isSendingMessages = false;
 
@@ -38,12 +38,6 @@ public abstract class AbstractTreeAutomaton
     }
 
     @Override
-    public void setSendingMessages(boolean sendingMessages)
-    {
-        this.isSendingMessages = sendingMessages;
-    }
-
-    @Override
     public void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException
     {
@@ -51,6 +45,18 @@ public abstract class AbstractTreeAutomaton
             throw new EmptyTreeException("Tree is empty.");
 
         this.tree = tree;
+    }
+
+    @Override
+    public void setSendingMessages(boolean sendingMessages)
+    {
+        this.isSendingMessages = sendingMessages;
+    }
+
+    @Override
+    public void addAcceptingState(Map<Variable, String> accept)
+    {
+        acceptingStates.add(accept);
     }
 
     @Override
@@ -120,7 +126,7 @@ public abstract class AbstractTreeAutomaton
         if(tree == null)
             throw new EmptyTreeException("No tree specified.");
 
-        TopDownTraversing t = TraversingFactory.getTopDownTraversing(TraversingMode.DFS);
+        TopDownTraversing t = new TopDownDFS();
 
         t.initialize(tree);
 
