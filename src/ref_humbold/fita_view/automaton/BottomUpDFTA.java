@@ -56,12 +56,8 @@ public class BottomUpDFTA
     public void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException
     {
-        if(containsRecursiveNode(tree))
-            throw new TreeFinitenessException("Specified tree is infinite.");
-
         super.setTree(tree);
         this.findLeaves();
-        this.isRunning = false;
     }
 
     @Override
@@ -95,6 +91,13 @@ public class BottomUpDFTA
     }
 
     @Override
+    protected void changeRunningMode()
+    {
+        runningMode = traversing.hasNext() ? AutomatonRunningMode.RUNNING
+                                           : AutomatonRunningMode.STOPPED;
+    }
+
+    @Override
     protected void processNodes(Iterable<TreeNode> nextNodes)
         throws IllegalVariableValueException, UndefinedTreeStateException, NoSuchTransitionException
     {
@@ -113,7 +116,7 @@ public class BottomUpDFTA
                 }
                 catch(Exception e)
                 {
-                    isRunning = false;
+                    runningMode = AutomatonRunningMode.STOPPED;
                     throw e;
                 }
     }
@@ -153,6 +156,14 @@ public class BottomUpDFTA
         return false;
     }
 
+    @Override
+    protected void assertFiniteness(TreeNode tree)
+        throws TreeFinitenessException
+    {
+        if(containsRecursiveNode(tree))
+            throw new TreeFinitenessException("Tree is infinite.");
+    }
+
     /**
      * Adding new transition entry to transition function of automaton.
      * @param var variable
@@ -173,10 +184,10 @@ public class BottomUpDFTA
     {
         String result = transitions.get(var, Triple.make(leftValue, rightValue, label));
 
-        if(result.equals(Wildcard.LEFT_VALUE))
+        if(Objects.equals(result, Wildcard.LEFT_VALUE))
             return leftValue;
 
-        if(result.equals(Wildcard.RIGHT_VALUE))
+        if(Objects.equals(result, Wildcard.RIGHT_VALUE))
             return rightValue;
 
         return result;

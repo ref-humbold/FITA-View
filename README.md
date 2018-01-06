@@ -4,7 +4,7 @@ Finite and Infinite Tree Automata Viewer
 ----
 
 ## About
-FITA-View is a system desired for visualizing workings of tree automata. Supported automata contain:
+FITA-View is a system desired for visualizing workings of tree automata. Supported automata:
 * Bottom-up deterministic finite tree automata
 * Top-down deterministic finite tree automata
 * Top-down non-deterministic finite tree automata
@@ -27,10 +27,10 @@ For unit testing in FITA-View following libraries are required:
 FITA-View can be built with **[Apache ANT](http://ant.apache.org/)**. Possible targets are:
  * `ant` - same as `ant all`
  * `ant make` - compile only source files, create executable jar
- * `ant make-test` - compile source and tests files, create executable jar
- * `ant test` - run all tests
+ * `ant make-test` - compile source and tests files, create executable jar *(libraries required)*
+ * `ant test` - run all tests *(libraries required)*
  * `ant javadocs` - generate Javadocs
- * `ant all` - compile source and tests files, run all tests and generate Javadocs
+ * `ant all` - compile source and tests files, run all tests and generate Javadocs *(libraries required)*
 
 ### How to run?
 FITA-View can be run by an executable sh script:

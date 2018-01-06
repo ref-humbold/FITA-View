@@ -41,6 +41,11 @@ public interface TreeAutomaton
         throws IncorrectTraversingException;
 
     /**
+     * @return running mode of the automaton
+     */
+    AutomatonRunningMode getRunningMode();
+
+    /**
      * Testing if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      * @throws UndefinedAcceptanceException if no accepting states were defined
@@ -75,7 +80,7 @@ public interface TreeAutomaton
     boolean isInAlphabet(String label);
 
     /**
-     * Running full traversing of the automaton over the tree.
+     * Running full traversing of the automaton over the tree until leaves or recursive nodes.
      * @throws IllegalVariableValueException if state of any node in tree is illegal
      * @throws NoSuchTransitionException if no transition entry was found
      * @throws NoTraversingException if no traversing strategy was set
@@ -93,6 +98,11 @@ public interface TreeAutomaton
     void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
                UndefinedTreeStateException, EmptyTreeException;
+
+    /**
+     * Ending of traversing of the automaton over the tree.
+     */
+    void stopTraversing();
 
     /**
      * Generating a sample tree that could be accepted by the automaton.

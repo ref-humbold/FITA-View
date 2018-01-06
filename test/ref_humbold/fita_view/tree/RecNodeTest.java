@@ -24,7 +24,7 @@ public class RecNodeTest
     public void setUp()
         throws IllegalVariableValueException
     {
-        testObject = new RecNode(new StandardNode("LABEL", 0), 10);
+        testObject = new RecNode(new RepeatNode("LABEL", 0), 10);
         testObject.setStateValue(variable1, "3");
     }
 
@@ -46,6 +46,15 @@ public class RecNodeTest
         String result = testObject.toString();
 
         Assert.assertEquals("<@ REC @>", result);
+    }
+
+    @Test
+    public void testGetLabel()
+    {
+        String result = testObject.getLabel();
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals("LABEL", result);
     }
 
     @Test(expected = UndefinedTreeStateException.class)

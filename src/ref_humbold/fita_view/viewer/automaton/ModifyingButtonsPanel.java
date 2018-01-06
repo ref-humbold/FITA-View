@@ -27,11 +27,11 @@ public class ModifyingButtonsPanel
 {
     private static final long serialVersionUID = -5817636533870146512L;
 
+    private Pointer<TreeAutomaton> automatonPointer;
     private ButtonGroup traversingGroup = new ButtonGroup();
     private ButtonGroup nonDeterminismGroup = new ButtonGroup();
     private JPanel traversingPanel = new JPanel();
     private JPanel nonDeterminismPanel = new JPanel();
-    private Pointer<TreeAutomaton> automatonPointer;
 
     public ModifyingButtonsPanel(Pointer<TreeAutomaton> automatonPointer)
     {

@@ -89,6 +89,21 @@ public class TopDownNFTA
         return choice.chooseState(transitions.get(var, Pair.make(value, label)));
     }
 
+    @Override
+    protected void assertFiniteness(TreeNode tree)
+        throws TreeFinitenessException
+    {
+        if(containsRecursiveNode(tree))
+            throw new TreeFinitenessException("Tree is infinite.");
+    }
+
+    @Override
+    protected void changeRunningMode()
+    {
+        runningMode = traversing.hasNext() ? AutomatonRunningMode.RUNNING
+                                           : AutomatonRunningMode.STOPPED;
+    }
+
     private Set<Pair<String, String>> getTransitionEntry(Variable var, Pair<String, String> key)
         throws DuplicatedTransitionException, IllegalTransitionException
     {

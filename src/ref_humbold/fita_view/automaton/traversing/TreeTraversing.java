@@ -12,4 +12,9 @@ public interface TreeTraversing
      * @param nodes initial nodes
      */
     void initialize(TreeNode... nodes);
+
+    /**
+     * Removing all active nodes in the traversing.
+     */
+    void clear();
 }

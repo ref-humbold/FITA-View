@@ -8,10 +8,10 @@ import ref_humbold.fita_view.automaton.Variable;
 public class RecNode
     extends TreeNode
 {
-    private TreeNode recursive;
+    private RepeatNode recursive;
     private TreeNode parent;
 
-    public RecNode(TreeNode recursive, int index)
+    public RecNode(RepeatNode recursive, int index)
     {
         super(index);
 

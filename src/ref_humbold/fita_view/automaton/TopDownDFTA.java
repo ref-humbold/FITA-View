@@ -69,4 +69,19 @@ public class TopDownDFTA
     {
         return transitions.get(var, Pair.make(value, label));
     }
+
+    @Override
+    protected void assertFiniteness(TreeNode tree)
+        throws TreeFinitenessException
+    {
+        if(containsRecursiveNode(tree))
+            throw new TreeFinitenessException("Tree is infinite.");
+    }
+
+    @Override
+    protected void changeRunningMode()
+    {
+        runningMode = traversing.hasNext() ? AutomatonRunningMode.RUNNING
+                                           : AutomatonRunningMode.STOPPED;
+    }
 }

@@ -52,16 +52,6 @@ public abstract class TopDownAutomaton
         return true;
     }
 
-    @Override
-    public void setTree(TreeNode tree)
-        throws TreeFinitenessException, EmptyTreeException
-    {
-        if(containsRecursiveNode(tree))
-            throw new TreeFinitenessException("Specified tree is infinite.");
-
-        super.setTree(tree);
-    }
-
     /**
      * Adding new transition entry to transition function of automaton.
      * @param var variable
@@ -126,7 +116,7 @@ public abstract class TopDownAutomaton
                 }
                 catch(Exception e)
                 {
-                    isRunning = false;
+                    runningMode = AutomatonRunningMode.STOPPED;
                     throw e;
                 }
 

@@ -15,8 +15,14 @@ public abstract class BottomUpTraversing
     @Override
     public void initialize(TreeNode... nodes)
     {
-        nodeQueue.clear();
+        this.clear();
         nodeQueue.addAll(Arrays.asList(nodes));
+    }
+
+    @Override
+    public void clear()
+    {
+        nodeQueue.clear();
     }
 
     @Override

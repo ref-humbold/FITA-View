@@ -31,7 +31,7 @@ public class AutomatonMainPanel
     private AutomatonScrollTreeView scrollTreeView = new AutomatonScrollTreeView(automatonPointer);
     private ModifyingButtonsPanel modifyingButtonsPanel = new ModifyingButtonsPanel(
         automatonPointer);
-    private RunningButtonsPanel runningButtonsPanel = new RunningButtonsPanel();
+    private RunningButtonsPanel runningButtonsPanel = new RunningButtonsPanel(automatonPointer);
 
     public AutomatonMainPanel()
     {

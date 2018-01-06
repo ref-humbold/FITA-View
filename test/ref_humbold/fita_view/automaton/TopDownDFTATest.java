@@ -151,7 +151,17 @@ public class TopDownDFTATest
     public void testRun()
     {
         List<Map<Variable, String>> leavesResults = new ArrayList<>();
-        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
+        TreeNode node13 = null;
+        TreeNode node12 = null;
+        TreeNode node11 = null;
+        TreeNode node10 = null;
+        TreeNode node7 = null;
+        TreeNode node6 = null;
+        TreeNode node5 = null;
+        TreeNode node4 = null;
+        TreeNode node3 = null;
+        TreeNode node2 = null;
+        TreeNode node1 = null;
 
         try
         {
@@ -180,7 +190,7 @@ public class TopDownDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
         try
         {
@@ -229,7 +239,7 @@ public class TopDownDFTATest
         leavesResults.get(11).put(variables.get(0), "B");
         leavesResults.get(11).put(variables.get(1), "!");
 
-        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
         Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));
@@ -259,7 +269,7 @@ public class TopDownDFTATest
     public void testRunWhenNoTraversing()
         throws NoTraversingException
     {
-        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
         try
         {
@@ -278,7 +288,7 @@ public class TopDownDFTATest
     {
         testObject.setTraversing(TraversingMode.LEVEL);
 
-        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
         try
         {
@@ -295,7 +305,17 @@ public class TopDownDFTATest
     public void testMakeStepForward()
     {
         List<Map<Variable, String>> leavesResults = new ArrayList<>();
-        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
+        TreeNode node13 = null;
+        TreeNode node12 = null;
+        TreeNode node11 = null;
+        TreeNode node10 = null;
+        TreeNode node7 = null;
+        TreeNode node6 = null;
+        TreeNode node5 = null;
+        TreeNode node4 = null;
+        TreeNode node3 = null;
+        TreeNode node2 = null;
+        TreeNode node1 = null;
 
         try
         {
@@ -324,7 +344,7 @@ public class TopDownDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
         try
         {
@@ -336,7 +356,7 @@ public class TopDownDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertTrue(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
         Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));
@@ -371,7 +391,7 @@ public class TopDownDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertTrue(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
         Assert.assertEquals("B", node4.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("$", node4.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("B", node5.getStateValueOrNull(variables.get(0)));
@@ -413,7 +433,7 @@ public class TopDownDFTATest
         leavesResults.get(3).put(variables.get(0), "A");
         leavesResults.get(3).put(variables.get(1), "$");
 
-        Assert.assertTrue(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
         Assert.assertEquals("A", node10.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("!", node10.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("A", node11.getStateValueOrNull(variables.get(0)));
@@ -460,7 +480,7 @@ public class TopDownDFTATest
         leavesResults.get(11).put(variables.get(0), "B");
         leavesResults.get(11).put(variables.get(1), "!");
 
-        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
         Assert.assertEquals(12, testObject.leafStates.size());
         Assert.assertArrayEquals(leavesResults.toArray(), testObject.leafStates.toArray());
     }
@@ -469,7 +489,7 @@ public class TopDownDFTATest
     public void testMakeStepForwardWhenNoTraversing()
         throws NoTraversingException
     {
-        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
         try
         {
@@ -488,7 +508,7 @@ public class TopDownDFTATest
     {
         testObject.setTraversing(TraversingMode.LEVEL);
 
-        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
         try
         {
@@ -505,7 +525,17 @@ public class TopDownDFTATest
     public void testMakeStepForwardThenRun()
     {
         List<Map<Variable, String>> leavesResults = new ArrayList<>();
-        TreeNode node13 = null, node12 = null, node11 = null, node10 = null, node7 = null, node6 = null, node5 = null, node4 = null, node3 = null, node2 = null, node1 = null;
+        TreeNode node13 = null;
+        TreeNode node12 = null;
+        TreeNode node11 = null;
+        TreeNode node10 = null;
+        TreeNode node7 = null;
+        TreeNode node6 = null;
+        TreeNode node5 = null;
+        TreeNode node4 = null;
+        TreeNode node3 = null;
+        TreeNode node2 = null;
+        TreeNode node1 = null;
 
         try
         {
@@ -534,7 +564,7 @@ public class TopDownDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
         try
         {
@@ -546,7 +576,7 @@ public class TopDownDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertTrue(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
         Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));
@@ -618,7 +648,7 @@ public class TopDownDFTATest
         leavesResults.get(11).put(variables.get(0), "B");
         leavesResults.get(11).put(variables.get(1), "!");
 
-        Assert.assertFalse(testObject.isRunning);
+        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
         Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));

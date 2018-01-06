@@ -63,11 +63,11 @@ public class BottomUpBFSTest
             result.add(nodes.get(0));
         }
 
-        TreeNode[] expected =
-            new TreeNode[]{node13, node12, node11, node10, node7, node6, node5, node4, node3, node2,
-                           node1};
+        TreeNode[] expected = new TreeNode[]{node13, node12, node11, node10, node7, node6, node5,
+                                             node4, node3, node2, node1};
 
         Assert.assertArrayEquals(expected, result.toArray());
+        Assert.assertFalse(testObject.hasNext());
     }
 
     @Test(expected = NoSuchElementException.class)

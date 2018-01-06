@@ -16,7 +16,7 @@ public abstract class AbstractTreeAutomaton
     protected Set<String> alphabet;
     protected List<Variable> variables;
     protected Set<Map<Variable, String>> acceptingStates = new HashSet<>();
-    protected boolean isRunning = false;
+    protected AutomatonRunningMode runningMode = AutomatonRunningMode.STOPPED;
     private boolean isSendingMessages = false;
 
     public AbstractTreeAutomaton(Collection<Variable> variables, Collection<String> alphabet)
@@ -38,13 +38,22 @@ public abstract class AbstractTreeAutomaton
     }
 
     @Override
+    public AutomatonRunningMode getRunningMode()
+    {
+        return this.runningMode;
+    }
+
+    @Override
     public void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException
     {
         if(tree == null)
             throw new EmptyTreeException("Tree is empty.");
 
+        assertFiniteness(tree);
+
         this.tree = tree;
+        this.runningMode = AutomatonRunningMode.STOPPED;
     }
 
     @Override
@@ -72,11 +81,11 @@ public abstract class AbstractTreeAutomaton
     {
         if(getTraversing() == null)
         {
-            isRunning = false;
+            runningMode = AutomatonRunningMode.STOPPED;
             throw new NoTraversingException("Automaton has no traversing strategy.");
         }
 
-        if(!isRunning)
+        if(runningMode == AutomatonRunningMode.STOPPED)
             initialize();
 
         try
@@ -86,7 +95,7 @@ public abstract class AbstractTreeAutomaton
         }
         finally
         {
-            isRunning = false;
+            runningMode = AutomatonRunningMode.STOPPED;
         }
     }
 
@@ -95,7 +104,7 @@ public abstract class AbstractTreeAutomaton
         throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
                UndefinedTreeStateException, EmptyTreeException
     {
-        if(!isRunning)
+        if(runningMode == AutomatonRunningMode.STOPPED)
             initialize();
 
         Iterable<TreeNode> nextNodes = getTraversing().next();
@@ -105,7 +114,14 @@ public abstract class AbstractTreeAutomaton
         if(isSendingMessages)
             AutomatonRunningSender.getInstance().send(nextNodes);
 
-        isRunning = getTraversing().hasNext();
+        changeRunningMode();
+    }
+
+    @Override
+    public void stopTraversing()
+    {
+        getTraversing().clear();
+        deleteTreeStates();
     }
 
     @Override
@@ -113,6 +129,16 @@ public abstract class AbstractTreeAutomaton
     {
         return alphabet.hashCode() * 37 + variables.hashCode();
     }
+
+    protected abstract void changeRunningMode();
+
+    /**
+     * Verifying finiteness of the tree.
+     * @param tree tree to verify
+     * @throws TreeFinitenessException if tree finiteness is violated
+     */
+    protected abstract void assertFiniteness(TreeNode tree)
+        throws TreeFinitenessException;
 
     /**
      * Initializing automaton and tree before running on tree.
@@ -126,6 +152,16 @@ public abstract class AbstractTreeAutomaton
         if(tree == null)
             throw new EmptyTreeException("No tree specified.");
 
+        deleteTreeStates();
+
+        runningMode = AutomatonRunningMode.RUNNING;
+    }
+
+    /**
+     * Deleting states from associated tree.
+     */
+    protected void deleteTreeStates()
+    {
         TopDownTraversing t = new TopDownDFS();
 
         t.initialize(tree);
@@ -133,8 +169,6 @@ public abstract class AbstractTreeAutomaton
         while(t.hasNext())
             for(TreeNode v : t.next())
                 v.deleteState();
-
-        isRunning = true;
     }
 
     /**

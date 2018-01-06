@@ -3,6 +3,7 @@ package ref_humbold.fita_view.automaton;
 import java.util.Collection;
 import java.util.Objects;
 
+import ref_humbold.fita_view.automaton.traversing.RecursiveContinuationException;
 import ref_humbold.fita_view.tree.TreeNode;
 
 public class TopDownNITA
@@ -18,6 +19,12 @@ public class TopDownNITA
     public String getTypeName()
     {
         return "Top-down non-deterministic infinite tree automaton";
+    }
+
+    @Override
+    public boolean canContinue()
+    {
+        return traversing.canContinue();
     }
 
     @Override
@@ -47,5 +54,25 @@ public class TopDownNITA
     {
         return "TopDownNITA\n  alphabet = " + alphabet.toString() + "\n  variables = "
             + variables.toString() + "\n  transitions = " + transitions.toString();
+    }
+
+    @Override
+    public void continueRecursive()
+        throws RecursiveContinuationException
+    {
+        traversing.continueRecursive();
+    }
+
+    @Override
+    protected void assertFiniteness(TreeNode tree)
+    {
+    }
+
+    @Override
+    protected void changeRunningMode()
+    {
+        runningMode = traversing.hasNext() ? AutomatonRunningMode.RUNNING : traversing.canContinue()
+                                                                            ? AutomatonRunningMode.CONTINUING
+                                                                            : AutomatonRunningMode.STOPPED;
     }
 }
