@@ -4,20 +4,20 @@ import ref_humbold.fita_view.message.DefaultParameterizedMessageSender;
 import ref_humbold.fita_view.message.Message;
 import ref_humbold.fita_view.tree.TreeNode;
 
-public class AutomatonRunningSender
+public class AutomatonCurrentNodesSender
     extends DefaultParameterizedMessageSender<Iterable<TreeNode>>
 {
-    private static AutomatonRunningSender instance = null;
+    private static AutomatonCurrentNodesSender instance = null;
 
-    private AutomatonRunningSender()
+    private AutomatonCurrentNodesSender()
     {
         super();
     }
 
-    public static AutomatonRunningSender getInstance()
+    public static AutomatonCurrentNodesSender getInstance()
     {
         if(instance == null)
-            instance = new AutomatonRunningSender();
+            instance = new AutomatonCurrentNodesSender();
 
         return instance;
     }

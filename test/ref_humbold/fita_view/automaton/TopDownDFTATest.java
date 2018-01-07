@@ -265,9 +265,9 @@ public class TopDownDFTATest
         Assert.assertArrayEquals(leavesResults.toArray(), testObject.leafStates.toArray());
     }
 
-    @Test(expected = NoTraversingException.class)
+    @Test(expected = NoTraversingStrategyException.class)
     public void testRunWhenNoTraversing()
-        throws NoTraversingException
+        throws NoTraversingStrategyException
     {
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
@@ -275,7 +275,7 @@ public class TopDownDFTATest
         {
             testObject.run();
         }
-        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException e)
+        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -294,7 +294,7 @@ public class TopDownDFTATest
         {
             testObject.run();
         }
-        catch(NoTraversingException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException e)
+        catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -485,9 +485,9 @@ public class TopDownDFTATest
         Assert.assertArrayEquals(leavesResults.toArray(), testObject.leafStates.toArray());
     }
 
-    @Test(expected = NoTraversingException.class)
+    @Test(expected = NoTraversingStrategyException.class)
     public void testMakeStepForwardWhenNoTraversing()
-        throws NoTraversingException
+        throws NoTraversingStrategyException
     {
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
@@ -495,7 +495,7 @@ public class TopDownDFTATest
         {
             testObject.makeStepForward();
         }
-        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException e)
+        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -514,7 +514,7 @@ public class TopDownDFTATest
         {
             testObject.makeStepForward();
         }
-        catch(NoTraversingException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException e)
+        catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());

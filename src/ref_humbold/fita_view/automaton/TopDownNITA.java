@@ -22,12 +22,6 @@ public class TopDownNITA
     }
 
     @Override
-    public boolean canContinue()
-    {
-        return traversing.canContinue();
-    }
-
-    @Override
     public TreeNode generateTree()
     {
         return null;
@@ -74,5 +68,8 @@ public class TopDownNITA
         runningMode = traversing.hasNext() ? AutomatonRunningMode.RUNNING : traversing.canContinue()
                                                                             ? AutomatonRunningMode.CONTINUING
                                                                             : AutomatonRunningMode.STOPPED;
+
+        if(isSendingMessages)
+            AutomatonRunningModeSender.getInstance().send(runningMode);
     }
 }

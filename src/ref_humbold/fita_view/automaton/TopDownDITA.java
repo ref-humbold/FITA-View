@@ -22,12 +22,6 @@ public class TopDownDITA
     }
 
     @Override
-    public boolean canContinue()
-    {
-        return traversing.canContinue();
-    }
-
-    @Override
     public TreeNode generateTree()
     {
         return null;

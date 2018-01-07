@@ -83,21 +83,23 @@ public interface TreeAutomaton
      * Running full traversing of the automaton over the tree until leaves or recursive nodes.
      * @throws IllegalVariableValueException if state of any node in tree is illegal
      * @throws NoSuchTransitionException if no transition entry was found
-     * @throws NoTraversingException if no traversing strategy was set
+     * @throws NoTraversingStrategyException if no traversing strategy was set
      */
     void run()
-        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException,
-               UndefinedTreeStateException, EmptyTreeException;
+        throws IllegalVariableValueException, NoSuchTransitionException,
+               NoTraversingStrategyException, UndefinedTreeStateException, EmptyTreeException,
+               NoNonDeterministicStrategyException;
 
     /**
      * Making a single traversing step of the automaton over the tree.
      * @throws IllegalVariableValueException if state of any node in tree is illegal
      * @throws NoSuchTransitionException if no transition entry was found
-     * @throws NoTraversingException if no traversing strategy was set
+     * @throws NoTraversingStrategyException if no traversing strategy was set
      */
     void makeStepForward()
-        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
-               UndefinedTreeStateException, EmptyTreeException;
+        throws NoSuchTransitionException, IllegalVariableValueException,
+               NoTraversingStrategyException, UndefinedTreeStateException, EmptyTreeException,
+               NoNonDeterministicStrategyException;
 
     /**
      * Ending of traversing of the automaton over the tree.

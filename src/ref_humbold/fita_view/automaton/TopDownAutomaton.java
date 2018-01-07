@@ -77,7 +77,8 @@ public abstract class TopDownAutomaton
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, EmptyTreeException, NoTraversingException
+        throws IllegalVariableValueException, EmptyTreeException, NoTraversingStrategyException,
+               NoNonDeterministicStrategyException
     {
         super.initialize();
 

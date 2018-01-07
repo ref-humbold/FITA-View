@@ -14,7 +14,6 @@ import ref_humbold.fita_view.automaton.NonDeterministicAutomaton;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceFactory;
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceMode;
-import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.message.Message;
@@ -43,6 +42,7 @@ public class ModifyingButtonsPanel
         this.initializeComponents();
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setOpaque(false);
+        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
         this.addComponents();
     }
@@ -57,7 +57,7 @@ public class ModifyingButtonsPanel
             {
                 automatonPointer.get().setTraversing(TraversingMode.valueOf(actionCommand));
             }
-            catch(IncorrectTraversingException e)
+            catch(Exception e)
             {
                 UserMessageBox.showException(e);
             }
@@ -73,13 +73,10 @@ public class ModifyingButtonsPanel
     @Override
     public void receive(Message<Void> message)
     {
-        if(message.getSource() == automatonPointer)
-        {
-            this.removeAll();
-            this.addComponents();
-            this.revalidate();
-            this.repaint();
-        }
+        removeAll();
+        addComponents();
+        revalidate();
+        repaint();
     }
 
     private void initializeComponents()
@@ -127,20 +124,20 @@ public class ModifyingButtonsPanel
     {
         TreeAutomaton automaton = automatonPointer.get();
 
-        this.add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
 
         if(automaton != null)
         {
             if(automaton instanceof AbstractTreeAutomaton)
-                this.add(traversingPanel);
+                add(traversingPanel);
 
             if(automaton instanceof NonDeterministicAutomaton)
             {
-                this.add(Box.createVerticalGlue());
-                this.add(nonDeterminismPanel);
+                add(Box.createVerticalGlue());
+                add(nonDeterminismPanel);
             }
         }
 
-        this.add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
     }
 }

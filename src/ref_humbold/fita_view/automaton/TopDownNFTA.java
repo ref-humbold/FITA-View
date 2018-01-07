@@ -98,6 +98,18 @@ public class TopDownNFTA
     }
 
     @Override
+    protected void initialize()
+        throws IllegalVariableValueException, EmptyTreeException, NoTraversingStrategyException,
+               NoNonDeterministicStrategyException
+    {
+        if(choice == null)
+            throw new NoNonDeterministicStrategyException(
+                "Automaton has no non-deterministic strategy.");
+
+        super.initialize();
+    }
+
+    @Override
     protected void changeRunningMode()
     {
         runningMode = traversing.hasNext() ? AutomatonRunningMode.RUNNING

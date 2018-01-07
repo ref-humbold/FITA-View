@@ -47,8 +47,7 @@ public class AutomatonTreeView
     @Override
     public void receive(Message<Void> message)
     {
-        if(message.getSource() == automatonPointer)
-            initializeTree();
+        initializeTree();
     }
 
     private void initializeTree()

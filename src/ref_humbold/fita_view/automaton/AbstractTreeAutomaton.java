@@ -17,7 +17,7 @@ public abstract class AbstractTreeAutomaton
     protected List<Variable> variables;
     protected Set<Map<Variable, String>> acceptingStates = new HashSet<>();
     protected AutomatonRunningMode runningMode = AutomatonRunningMode.STOPPED;
-    private boolean isSendingMessages = false;
+    protected boolean isSendingMessages = false;
 
     public AbstractTreeAutomaton(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -76,13 +76,14 @@ public abstract class AbstractTreeAutomaton
 
     @Override
     public void run()
-        throws IllegalVariableValueException, NoSuchTransitionException, NoTraversingException,
-               UndefinedTreeStateException, EmptyTreeException
+        throws IllegalVariableValueException, NoSuchTransitionException,
+               NoTraversingStrategyException, UndefinedTreeStateException, EmptyTreeException,
+               NoNonDeterministicStrategyException
     {
         if(getTraversing() == null)
         {
             runningMode = AutomatonRunningMode.STOPPED;
-            throw new NoTraversingException("Automaton has no traversing strategy.");
+            throw new NoTraversingStrategyException("Automaton has no traversing strategy.");
         }
 
         if(runningMode == AutomatonRunningMode.STOPPED)
@@ -101,8 +102,9 @@ public abstract class AbstractTreeAutomaton
 
     @Override
     public void makeStepForward()
-        throws NoSuchTransitionException, IllegalVariableValueException, NoTraversingException,
-               UndefinedTreeStateException, EmptyTreeException
+        throws NoSuchTransitionException, IllegalVariableValueException,
+               NoTraversingStrategyException, UndefinedTreeStateException, EmptyTreeException,
+               NoNonDeterministicStrategyException
     {
         if(runningMode == AutomatonRunningMode.STOPPED)
             initialize();
@@ -112,7 +114,7 @@ public abstract class AbstractTreeAutomaton
         processNodes(nextNodes);
 
         if(isSendingMessages)
-            AutomatonRunningSender.getInstance().send(nextNodes);
+            AutomatonCurrentNodesSender.getInstance().send(nextNodes);
 
         changeRunningMode();
     }
@@ -120,8 +122,11 @@ public abstract class AbstractTreeAutomaton
     @Override
     public void stopTraversing()
     {
-        getTraversing().clear();
-        deleteTreeStates();
+        if(getTraversing() != null)
+            getTraversing().clear();
+
+        if(tree != null)
+            deleteTreeStates();
     }
 
     @Override
@@ -144,10 +149,11 @@ public abstract class AbstractTreeAutomaton
      * Initializing automaton and tree before running on tree.
      */
     protected void initialize()
-        throws IllegalVariableValueException, EmptyTreeException, NoTraversingException
+        throws IllegalVariableValueException, EmptyTreeException, NoTraversingStrategyException,
+               NoNonDeterministicStrategyException
     {
         if(getTraversing() == null)
-            throw new NoTraversingException("Automaton has no traversing strategy.");
+            throw new NoTraversingStrategyException("Automaton has no traversing strategy.");
 
         if(tree == null)
             throw new EmptyTreeException("No tree specified.");
@@ -155,20 +161,6 @@ public abstract class AbstractTreeAutomaton
         deleteTreeStates();
 
         runningMode = AutomatonRunningMode.RUNNING;
-    }
-
-    /**
-     * Deleting states from associated tree.
-     */
-    protected void deleteTreeStates()
-    {
-        TopDownTraversing t = new TopDownDFS();
-
-        t.initialize(tree);
-
-        while(t.hasNext())
-            for(TreeNode v : t.next())
-                v.deleteState();
     }
 
     /**
@@ -197,4 +189,15 @@ public abstract class AbstractTreeAutomaton
     protected abstract void processNodes(Iterable<TreeNode> nextNodes)
         throws NoSuchTransitionException, IllegalVariableValueException,
                UndefinedTreeStateException;
+
+    private void deleteTreeStates()
+    {
+        TopDownTraversing t = new TopDownDFS();
+
+        t.initialize(tree);
+
+        while(t.hasNext())
+            for(TreeNode v : t.next())
+                v.deleteState();
+    }
 }

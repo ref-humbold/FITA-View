@@ -10,9 +10,4 @@ public interface InfiniteTreeAutomaton
      */
     void continueRecursive()
         throws RecursiveContinuationException;
-
-    /**
-     * @return {@code true} if the automaton can continue recursive traversing, otherwise {@code false}
-     */
-    boolean canContinue();
 }

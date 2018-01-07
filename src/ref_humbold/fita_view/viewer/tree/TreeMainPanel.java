@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -48,7 +49,7 @@ public class TreeMainPanel
     @Override
     public void receiveParameterized(Message<String> message)
     {
-        if(message.getParam().equals("openFileButton"))
+        if(Objects.equals(message.getParam(), "openFileButton"))
         {
             File file = chooseFile();
 
@@ -66,7 +67,7 @@ public class TreeMainPanel
                     UserMessageBox.showException(e);
                 }
         }
-        else if(message.getParam().equals("removeButton"))
+        else if(Objects.equals(message.getParam(), "removeButton"))
         {
             treePointer.delete();
         }

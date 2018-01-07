@@ -6,7 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import ref_humbold.fita_view.Pointer;
-import ref_humbold.fita_view.automaton.AutomatonRunningSender;
+import ref_humbold.fita_view.automaton.AutomatonCurrentNodesSender;
 import ref_humbold.fita_view.message.Message;
 import ref_humbold.fita_view.message.MessageReceiver;
 import ref_humbold.fita_view.message.ParameterizedMessageReceiver;
@@ -27,7 +27,7 @@ public class TreeDrawingArea
 
         this.treePointer = treePointer;
         this.treePointer.addReceiver(this);
-        AutomatonRunningSender.getInstance().addReceiver(this);
+        AutomatonCurrentNodesSender.getInstance().addReceiver(this);
 
         this.setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -36,18 +36,14 @@ public class TreeDrawingArea
     @Override
     public void receiveParameterized(Message<Iterable<TreeNode>> message)
     {
-        if(message.getSource() == AutomatonRunningSender.getInstance())
-        {
-            currentNodes = message.getParam();
-            repaint();
-        }
+        currentNodes = message.getParam();
+        repaint();
     }
 
     @Override
     public void receive(Message<Void> message)
     {
-        if(message.getSource() == treePointer)
-            repaint();
+        repaint();
     }
 
     @Override
