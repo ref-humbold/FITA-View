@@ -1,6 +1,6 @@
 package ref_humbold.fita_view.automaton.nondeterminism;
 
-import java.util.Set;
+import java.util.Collection;
 
 import ref_humbold.fita_view.Pair;
 
@@ -19,7 +19,7 @@ public class FirstElementChoice
      * @return variable value chosen as first value return by set iterator
      */
     @Override
-    public Pair<String, String> chooseState(Set<Pair<String, String>> states)
+    public Pair<String, String> chooseState(Collection<Pair<String, String>> states)
     {
         return states.iterator().next();
     }

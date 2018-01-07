@@ -1,8 +1,8 @@
 package ref_humbold.fita_view.automaton.nondeterminism;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
 
@@ -23,8 +23,11 @@ public class RandomChoice
      * @return variable value chosen randomly
      */
     @Override
-    public Pair<String, String> chooseState(Set<Pair<String, String>> states)
+    public Pair<String, String> chooseState(Collection<Pair<String, String>> states)
     {
+        if(states.size() == 1)
+            return states.iterator().next();
+
         int index = random.nextInt(states.size());
         Iterator<Pair<String, String>> iterator = states.iterator();
 

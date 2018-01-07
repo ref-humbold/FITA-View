@@ -66,7 +66,8 @@ public class ModifyingButtonsPanel
             NonDeterministicAutomaton automaton = (NonDeterministicAutomaton)automatonPointer.get();
 
             automaton.setChoice(
-                StateChoiceFactory.createChoice(StateChoiceMode.valueOf(actionCommand)));
+                StateChoiceFactory.createChoice(StateChoiceMode.valueOf(actionCommand),
+                                                (JFrame)SwingUtilities.windowForComponent(this)));
         }
     }
 

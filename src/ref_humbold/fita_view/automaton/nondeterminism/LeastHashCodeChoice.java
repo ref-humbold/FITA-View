@@ -1,7 +1,7 @@
 package ref_humbold.fita_view.automaton.nondeterminism;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
 
@@ -22,7 +22,7 @@ public class LeastHashCodeChoice
      * @return variable value chosen as value with least hash code
      */
     @Override
-    public Pair<String, String> chooseState(Set<Pair<String, String>> states)
+    public Pair<String, String> chooseState(Collection<Pair<String, String>> states)
     {
         return Collections.min(states, COMPARATOR);
     }
