@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.tree;
 
+import java.util.Objects;
 import java.util.Stack;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -11,6 +12,9 @@ import ref_humbold.fita_view.Pair;
 class TreeHandler
     extends DefaultHandler
 {
+    private static final int MAX_HEIGHT = 21;
+    private static final int MAX_INDEX = 1 << MAX_HEIGHT;
+
     private Stack<Pair<StandardNode, TreeChild>> nodes = new Stack<>();
     private Stack<RepeatNode> repeats = new Stack<>();
     private TreeNode tree = null;
@@ -34,6 +38,9 @@ class TreeHandler
     {
         String label;
 
+        if(index >= MAX_INDEX)
+            throw new TreeHeightException("Tree height is greater than allowed " + Integer.toString(MAX_HEIGHT) + ".");
+
         switch(qName)
         {
             case "rec":
@@ -43,7 +50,7 @@ class TreeHandler
                 label = attributes.getValue("label");
 
                 if(label == null)
-                    throw new SAXException();
+                    throw new TreeParsingException("Label is null");
 
                 StandardNode standardNode = new StandardNode(label, index);
 
@@ -55,7 +62,7 @@ class TreeHandler
                 label = attributes.getValue("label");
 
                 if(label == null)
-                    throw new SAXException();
+                    throw new TreeParsingException("Label is null");
 
                 RepeatNode repeatNode = new RepeatNode(label, index);
 
@@ -82,7 +89,7 @@ class TreeHandler
                 {
                     TreeNode node;
 
-                    if(qName.equals("rec"))
+                    if(Objects.equals(qName, "rec"))
                         node = new RecNode(repeats.peek(), index);
                     else
                     {
@@ -123,7 +130,7 @@ class TreeHandler
                         throw new TreeParsingException("Child node has parent.", e);
                     }
 
-                    if(qName.equals("repeat"))
+                    if(Objects.equals(qName, "repeat"))
                         repeats.pop();
                 }
                 break;
