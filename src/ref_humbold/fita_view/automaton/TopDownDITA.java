@@ -60,9 +60,10 @@ public class TopDownDITA
     @Override
     protected void changeRunningMode()
     {
-        runningMode = traversing.hasNext() ? AutomatonRunningMode.RUNNING : traversing.canContinue()
-                                                                            ? AutomatonRunningMode.CONTINUING
-                                                                            : AutomatonRunningMode.STOPPED;
+        setRunningMode(traversing.hasNext() ? AutomatonRunningMode.RUNNING
+                                            : traversing.canContinue()
+                                              ? AutomatonRunningMode.CONTINUING
+                                              : AutomatonRunningMode.FINISHED);
     }
 
     @Override

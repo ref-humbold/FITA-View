@@ -99,27 +99,21 @@ public abstract class TopDownAutomaton
             Map<Variable, String> leafRightState = new HashMap<>();
 
             for(Variable v : variables)
-                try
-                {
-                    Pair<String, String> result = doTransition(v, node.getStateValue(v),
-                                                               node.getLabel());
+            {
+                Pair<String, String> result = doTransition(v, node.getStateValue(v),
+                                                           node.getLabel());
 
-                    if(node.hasChildren())
-                    {
-                        node.getLeft().setStateValue(v, result.getFirst());
-                        node.getRight().setStateValue(v, result.getSecond());
-                    }
-                    else
-                    {
-                        leafLeftState.put(v, result.getFirst());
-                        leafRightState.put(v, result.getSecond());
-                    }
-                }
-                catch(Exception e)
+                if(node.hasChildren())
                 {
-                    runningMode = AutomatonRunningMode.STOPPED;
-                    throw e;
+                    node.getLeft().setStateValue(v, result.getFirst());
+                    node.getRight().setStateValue(v, result.getSecond());
                 }
+                else
+                {
+                    leafLeftState.put(v, result.getFirst());
+                    leafRightState.put(v, result.getSecond());
+                }
+            }
 
             if(!leafLeftState.isEmpty())
                 leafStates.add(leafLeftState);
@@ -165,14 +159,14 @@ public abstract class TopDownAutomaton
 
     private Pair<String, String> removeSameWildcard(String value, Pair<String, String> trans)
     {
-        if(trans.getFirst().equals(Wildcard.SAME_VALUE) && trans.getSecond()
-                                                                .equals((Wildcard.SAME_VALUE)))
+        if(Objects.equals(trans.getFirst(), Wildcard.SAME_VALUE) && Objects.equals(
+            trans.getSecond(), Wildcard.SAME_VALUE))
             return Pair.make(value, value);
 
-        if(trans.getFirst().equals(Wildcard.SAME_VALUE))
+        if(Objects.equals(trans.getFirst(), Wildcard.SAME_VALUE))
             return Pair.make(value, trans.getSecond());
 
-        if(trans.getSecond().equals(Wildcard.SAME_VALUE))
+        if(Objects.equals(trans.getSecond(), Wildcard.SAME_VALUE))
             return Pair.make(trans.getFirst(), value);
 
         return trans;

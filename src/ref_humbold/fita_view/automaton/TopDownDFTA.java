@@ -81,7 +81,7 @@ public class TopDownDFTA
     @Override
     protected void changeRunningMode()
     {
-        runningMode = traversing.hasNext() ? AutomatonRunningMode.RUNNING
-                                           : AutomatonRunningMode.STOPPED;
+        setRunningMode(
+            traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
     }
 }

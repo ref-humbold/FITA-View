@@ -10,4 +10,9 @@ public interface InfiniteTreeAutomaton
      */
     void continueRecursive()
         throws RecursiveContinuationException;
+
+    /**
+     * Adding an accepting condition of automaton.
+     */
+    // void addAcceptingCondition();
 }

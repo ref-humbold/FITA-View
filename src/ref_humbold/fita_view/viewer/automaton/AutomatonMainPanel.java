@@ -29,6 +29,7 @@ public class AutomatonMainPanel
     private Pointer<TreeAutomaton> automatonPointer = new Pointer<>();
     private JFileChooser fileChooser = new JFileChooser();
     private TitlePanel titlePanel = new TitlePanel("automaton");
+    private AcceptingPanel acceptingPanel = new AcceptingPanel(automatonPointer);
     private AutomatonScrollTreeView scrollTreeView = new AutomatonScrollTreeView(automatonPointer);
     private ModifyingButtonsPanel modifyingButtonsPanel = new ModifyingButtonsPanel(
         automatonPointer);
@@ -42,11 +43,7 @@ public class AutomatonMainPanel
         this.setBackground(Color.BLUE);
         this.setLayout(new BorderLayout(10, 10));
 
-        this.add(titlePanel, BorderLayout.PAGE_START);
-        this.add(new EmptyPanel(), BorderLayout.LINE_START);
-        this.add(scrollTreeView, BorderLayout.CENTER);
-        this.add(modifyingButtonsPanel, BorderLayout.LINE_END);
-        this.add(runningButtonsPanel, BorderLayout.PAGE_END);
+        this.addComponents();
     }
 
     @Override
@@ -74,6 +71,21 @@ public class AutomatonMainPanel
         {
             automatonPointer.delete();
         }
+    }
+
+    private void addComponents()
+    {
+        JPanel centralPanel = new JPanel(new BorderLayout(5, 5));
+
+        centralPanel.add(this.scrollTreeView, BorderLayout.CENTER);
+        centralPanel.add(this.acceptingPanel, BorderLayout.PAGE_END);
+        centralPanel.setOpaque(false);
+
+        this.add(this.titlePanel, BorderLayout.PAGE_START);
+        this.add(new EmptyPanel(), BorderLayout.LINE_START);
+        this.add(centralPanel, BorderLayout.CENTER);
+        this.add(this.modifyingButtonsPanel, BorderLayout.LINE_END);
+        this.add(this.runningButtonsPanel, BorderLayout.PAGE_END);
     }
 
     private File chooseFile()

@@ -93,8 +93,8 @@ public class BottomUpDFTA
     @Override
     protected void changeRunningMode()
     {
-        runningMode = traversing.hasNext() ? AutomatonRunningMode.RUNNING
-                                           : AutomatonRunningMode.STOPPED;
+        setRunningMode(
+            traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
     }
 
     @Override
@@ -103,22 +103,15 @@ public class BottomUpDFTA
     {
         for(TreeNode node : nextNodes)
             for(Variable var : variables)
-                try
-                {
-                    String leftValue = node.getLeft() == null ? var.getInitValue()
-                                                              : node.getLeft().getStateValue(var);
-                    String rightValue = node.getRight() == null ? var.getInitValue()
-                                                                : node.getRight()
-                                                                      .getStateValue(var);
-                    String result = doTransition(var, leftValue, rightValue, node.getLabel());
+            {
+                String leftValue = node.getLeft() == null ? var.getInitValue()
+                                                          : node.getLeft().getStateValue(var);
+                String rightValue = node.getRight() == null ? var.getInitValue()
+                                                            : node.getRight().getStateValue(var);
+                String result = doTransition(var, leftValue, rightValue, node.getLabel());
 
-                    node.setStateValue(var, result);
-                }
-                catch(Exception e)
-                {
-                    runningMode = AutomatonRunningMode.STOPPED;
-                    throw e;
-                }
+                node.setStateValue(var, result);
+            }
     }
 
     @Override

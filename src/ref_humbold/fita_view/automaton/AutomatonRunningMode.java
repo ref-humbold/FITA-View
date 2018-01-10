@@ -2,5 +2,5 @@ package ref_humbold.fita_view.automaton;
 
 public enum AutomatonRunningMode
 {
-    RUNNING, STOPPED, CONTINUING
+    RUNNING, STOPPED, FINISHED, CONTINUING
 }

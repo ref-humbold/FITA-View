@@ -112,8 +112,8 @@ public class TopDownNFTA
     @Override
     protected void changeRunningMode()
     {
-        runningMode = traversing.hasNext() ? AutomatonRunningMode.RUNNING
-                                           : AutomatonRunningMode.STOPPED;
+        setRunningMode(
+            traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
     }
 
     private Set<Pair<String, String>> getTransitionEntry(Variable var, Pair<String, String> key)

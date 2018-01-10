@@ -43,6 +43,14 @@ public abstract class AbstractTreeAutomaton
         return this.runningMode;
     }
 
+    protected void setRunningMode(AutomatonRunningMode runningMode)
+    {
+        this.runningMode = runningMode;
+
+        if(isSendingMessages)
+            AutomatonRunningModeSender.getInstance().send(runningMode);
+    }
+
     @Override
     public void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException
@@ -53,7 +61,7 @@ public abstract class AbstractTreeAutomaton
         assertFiniteness(tree);
 
         this.tree = tree;
-        this.runningMode = AutomatonRunningMode.STOPPED;
+        this.setRunningMode(AutomatonRunningMode.STOPPED);
     }
 
     @Override
@@ -82,21 +90,25 @@ public abstract class AbstractTreeAutomaton
     {
         if(getTraversing() == null)
         {
-            runningMode = AutomatonRunningMode.STOPPED;
+            setRunningMode(AutomatonRunningMode.STOPPED);
             throw new NoTraversingStrategyException("Automaton has no traversing strategy.");
         }
 
-        if(runningMode == AutomatonRunningMode.STOPPED)
+        if(runningMode == AutomatonRunningMode.STOPPED
+            || runningMode == AutomatonRunningMode.FINISHED)
             initialize();
 
         try
         {
             while(getTraversing().hasNext())
                 makeStepForward();
+
+            setRunningMode(AutomatonRunningMode.FINISHED);
         }
-        finally
+        catch(Exception e)
         {
-            runningMode = AutomatonRunningMode.STOPPED;
+            setRunningMode(AutomatonRunningMode.STOPPED);
+            throw e;
         }
     }
 
@@ -111,7 +123,15 @@ public abstract class AbstractTreeAutomaton
 
         Iterable<TreeNode> nextNodes = getTraversing().next();
 
-        processNodes(nextNodes);
+        try
+        {
+            processNodes(nextNodes);
+        }
+        catch(Exception e)
+        {
+            setRunningMode(AutomatonRunningMode.STOPPED);
+            throw e;
+        }
 
         if(isSendingMessages)
             AutomatonCurrentNodesSender.getInstance().send(nextNodes);
@@ -159,8 +179,7 @@ public abstract class AbstractTreeAutomaton
             throw new EmptyTreeException("No tree specified.");
 
         deleteTreeStates();
-
-        runningMode = AutomatonRunningMode.RUNNING;
+        setRunningMode(AutomatonRunningMode.RUNNING);
     }
 
     /**
