@@ -14,14 +14,14 @@ import ref_humbold.fita_view.automaton.AutomatonRunningMode;
 import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
 import ref_humbold.fita_view.automaton.InfiniteTreeAutomaton;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
-import ref_humbold.fita_view.message.Message;
-import ref_humbold.fita_view.message.MessageReceiver;
-import ref_humbold.fita_view.message.ParameterizedMessageReceiver;
+import ref_humbold.fita_view.messaging.Message;
+import ref_humbold.fita_view.messaging.MessageReceiver;
+import ref_humbold.fita_view.messaging.SignalReceiver;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class RunningButtonsPanel
     extends JPanel
-    implements ActionListener, MessageReceiver, ParameterizedMessageReceiver<AutomatonRunningMode>
+    implements ActionListener, SignalReceiver, MessageReceiver<AutomatonRunningMode>
 {
     private static final long serialVersionUID = 5921531603338297434L;
 
@@ -90,7 +90,7 @@ public class RunningButtonsPanel
     }
 
     @Override
-    public void receive(Message<Void> message)
+    public void receiveSignal(Message<Void> signal)
     {
         currentButtons = automatonPointer.get() == null ? Collections.emptyList() : runningButtons;
 
@@ -98,12 +98,13 @@ public class RunningButtonsPanel
     }
 
     @Override
-    public void receiveParameterized(Message<AutomatonRunningMode> message)
+    public void receiveMessage(Message<AutomatonRunningMode> message)
     {
         switch(message.getParam())
         {
             case RUNNING:
             case STOPPED:
+            case FINISHED:
                 currentButtons = runningButtons;
                 break;
 

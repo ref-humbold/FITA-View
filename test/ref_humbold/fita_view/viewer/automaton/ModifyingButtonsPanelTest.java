@@ -25,7 +25,7 @@ import ref_humbold.fita_view.automaton.TopDownNFTA;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.nondeterminism.*;
 import ref_humbold.fita_view.automaton.traversing.*;
-import ref_humbold.fita_view.message.Message;
+import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
 @RunWith(PowerMockRunner.class)
@@ -251,11 +251,11 @@ public class ModifyingButtonsPanelTest
     }
 
     @Test
-    public void testReceiveWhenNullAutomaton()
+    public void testReceiveSignalWhenNullAutomaton()
     {
         Mockito.when(mockPointer.get()).thenReturn(null);
 
-        testObject.receive(mockMessage);
+        testObject.receiveSignal(mockMessage);
 
         Assert.assertEquals(2, testObject.getComponentCount());
         Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
@@ -263,12 +263,12 @@ public class ModifyingButtonsPanelTest
     }
 
     @Test
-    public void testReceiveWhenBottomUpDFTA()
+    public void testReceiveSignalWhenBottomUpDFTA()
     {
         Mockito.when(mockPointer.get())
                .thenReturn(new BottomUpDFTA(Collections.emptySet(), Collections.emptySet()));
 
-        testObject.receive(mockMessage);
+        testObject.receiveSignal(mockMessage);
 
         Assert.assertEquals(3, testObject.getComponentCount());
         Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
@@ -276,12 +276,12 @@ public class ModifyingButtonsPanelTest
     }
 
     @Test
-    public void testReceiveWhenTopDownDFTA()
+    public void testReceiveSignalWhenTopDownDFTA()
     {
         Mockito.when(mockPointer.get())
                .thenReturn(new TopDownDFTA(Collections.emptySet(), Collections.emptySet()));
 
-        testObject.receive(mockMessage);
+        testObject.receiveSignal(mockMessage);
 
         Assert.assertEquals(3, testObject.getComponentCount());
         Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
@@ -289,12 +289,12 @@ public class ModifyingButtonsPanelTest
     }
 
     @Test
-    public void testReceiveWhenTopDownNFTA()
+    public void testReceiveSignalWhenTopDownNFTA()
     {
         Mockito.when(mockPointer.get())
                .thenReturn(new TopDownNFTA(Collections.emptySet(), Collections.emptySet()));
 
-        testObject.receive(mockMessage);
+        testObject.receiveSignal(mockMessage);
 
         Assert.assertEquals(5, testObject.getComponentCount());
         Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());

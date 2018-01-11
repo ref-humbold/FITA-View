@@ -14,12 +14,12 @@ import javax.swing.tree.TreeSelectionModel;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.Variable;
-import ref_humbold.fita_view.message.Message;
-import ref_humbold.fita_view.message.MessageReceiver;
+import ref_humbold.fita_view.messaging.Message;
+import ref_humbold.fita_view.messaging.SignalReceiver;
 
 public class AutomatonTreeView
     extends JTree
-    implements MessageReceiver
+    implements SignalReceiver
 {
     static final String EMPTY_ROOT_TEXT = "No automaton specified...";
     private static final long serialVersionUID = 5636100205267426054L;
@@ -45,7 +45,7 @@ public class AutomatonTreeView
     }
 
     @Override
-    public void receive(Message<Void> message)
+    public void receiveSignal(Message<Void> signal)
     {
         initializeTree();
     }

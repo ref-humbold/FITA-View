@@ -12,8 +12,7 @@ import ref_humbold.fita_view.Pair;
 class TreeHandler
     extends DefaultHandler
 {
-    private static final int MAX_HEIGHT = 21;
-    private static final int MAX_INDEX = 1 << MAX_HEIGHT;
+    private static final int MAX_INDEX = 1 << TreeNode.MAX_HEIGHT;
 
     private Stack<Pair<StandardNode, TreeChild>> nodes = new Stack<>();
     private Stack<RepeatNode> repeats = new Stack<>();
@@ -39,7 +38,9 @@ class TreeHandler
         String label;
 
         if(index >= MAX_INDEX)
-            throw new TreeHeightException("Tree height is greater than allowed " + Integer.toString(MAX_HEIGHT) + ".");
+            throw new TreeHeightException(
+                "Tree height is greater than allowed " + Integer.toString(TreeNode.MAX_HEIGHT)
+                    + ".");
 
         switch(qName)
         {

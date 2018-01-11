@@ -31,9 +31,9 @@ public class TopDownBFSTest
     private TreeNode infiniteNode11 = new StandardNode("11", 11);
     private TreeNode infiniteNode7 = new StandardNode("7", 7);
     private TreeNode infiniteNode6 = new StandardNode("6", 6, infiniteNode13, infiniteNode12);
-    private TreeNode infiniteNode4 = new StandardNode("4", 4);
     private TreeNode infiniteNode3 = new StandardNode("3", 3, infiniteNode7, infiniteNode6);
     private RepeatNode infiniteNode2 = new RepeatNode("2", 2);
+    private RecNode infiniteNode4 = new RecNode(infiniteNode2, 4);
     private RecNode infiniteNode10 = new RecNode(infiniteNode2, 10);
     private TreeNode infiniteNode5 = new StandardNode("5", 5, infiniteNode11, infiniteNode10);
     private TreeNode infiniteNode1 = new StandardNode("1", 1, infiniteNode3, infiniteNode2);
@@ -104,8 +104,7 @@ public class TopDownBFSTest
 
         TreeNode[] expected = new TreeNode[]{infiniteNode1, infiniteNode3, infiniteNode2,
                                              infiniteNode7, infiniteNode6, infiniteNode5,
-                                             infiniteNode4, infiniteNode13, infiniteNode12,
-                                             infiniteNode11};
+                                             infiniteNode13, infiniteNode12, infiniteNode11};
 
         Assert.assertArrayEquals(expected, result.toArray());
         Assert.assertFalse(testObject.hasNext());
@@ -156,11 +155,10 @@ public class TopDownBFSTest
 
         TreeNode[] expectedFirst = new TreeNode[]{infiniteNode1, infiniteNode3, infiniteNode2,
                                                   infiniteNode7, infiniteNode6, infiniteNode5,
-                                                  infiniteNode4, infiniteNode13, infiniteNode12,
-                                                  infiniteNode11};
+                                                  infiniteNode13, infiniteNode12, infiniteNode11};
 
-        TreeNode[] expectedSecond = new TreeNode[]{infiniteNode10, infiniteNode5, infiniteNode4,
-                                                   infiniteNode11};
+        TreeNode[] expectedSecond = new TreeNode[]{infiniteNode4, infiniteNode5, infiniteNode11,
+                                                   infiniteNode10, infiniteNode5, infiniteNode11};
 
         Assert.assertArrayEquals(expectedFirst, resultFirst.toArray());
         Assert.assertArrayEquals(expectedSecond, resultSecond.toArray());

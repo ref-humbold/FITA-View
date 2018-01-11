@@ -71,10 +71,7 @@ public class Triple<F, S, T>
     @Override
     public String toString()
     {
-        String firstString = first == null ? "null" : first.toString();
-        String secondString = second == null ? "null" : second.toString();
-        String thirdString = third == null ? "null" : third.toString();
-
-        return "(" + firstString + ", " + secondString + ", " + thirdString + ")";
+        return "(" + Objects.toString(first) + ", " + Objects.toString(second) + ", "
+            + Objects.toString(third) + ")";
     }
 }

@@ -17,7 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.*;
-import ref_humbold.fita_view.message.Message;
+import ref_humbold.fita_view.messaging.Message;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AutomatonTreeViewTest
@@ -44,11 +44,11 @@ public class AutomatonTreeViewTest
     }
 
     @Test
-    public void testReceiveWhenNullAutomaton()
+    public void testReceiveSignalWhenNullAutomaton()
     {
         Mockito.when(mockPointer.get()).thenReturn(null);
 
-        testObject.receive(mockMessage);
+        testObject.receiveSignal(mockMessage);
 
         DefaultMutableTreeNode rootNode = testObject.rootNode;
 
@@ -59,7 +59,7 @@ public class AutomatonTreeViewTest
     }
 
     @Test
-    public void testReceiveWhenBottomUpDFTA()
+    public void testReceiveSignalWhenBottomUpDFTA()
     {
         List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
         List<Variable> variables = null;
@@ -79,7 +79,7 @@ public class AutomatonTreeViewTest
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
 
-        testObject.receive(mockMessage);
+        testObject.receiveSignal(mockMessage);
 
         DefaultMutableTreeNode rootNode = testObject.rootNode;
         DefaultMutableTreeNode firstChild = (DefaultMutableTreeNode)rootNode.getChildAt(0);
@@ -124,7 +124,7 @@ public class AutomatonTreeViewTest
     }
 
     @Test
-    public void testReceiveWhenTopDownDFTA()
+    public void testReceiveSignalWhenTopDownDFTA()
     {
         List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
         List<Variable> variables = null;
@@ -144,7 +144,7 @@ public class AutomatonTreeViewTest
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
 
-        testObject.receive(mockMessage);
+        testObject.receiveSignal(mockMessage);
 
         DefaultMutableTreeNode rootNode = testObject.rootNode;
         DefaultMutableTreeNode firstChild = (DefaultMutableTreeNode)rootNode.getChildAt(0);

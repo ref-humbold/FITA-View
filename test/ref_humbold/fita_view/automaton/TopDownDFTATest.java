@@ -239,7 +239,7 @@ public class TopDownDFTATest
         leavesResults.get(11).put(variables.get(0), "B");
         leavesResults.get(11).put(variables.get(1), "!");
 
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
+        Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
         Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));
@@ -480,7 +480,7 @@ public class TopDownDFTATest
         leavesResults.get(11).put(variables.get(0), "B");
         leavesResults.get(11).put(variables.get(1), "!");
 
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
+        Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
         Assert.assertEquals(12, testObject.leafStates.size());
         Assert.assertArrayEquals(leavesResults.toArray(), testObject.leafStates.toArray());
     }
@@ -648,7 +648,7 @@ public class TopDownDFTATest
         leavesResults.get(11).put(variables.get(0), "B");
         leavesResults.get(11).put(variables.get(1), "!");
 
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
+        Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
         Assert.assertEquals("A", node1.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("!", node1.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("B", node2.getStateValueOrNull(variables.get(0)));

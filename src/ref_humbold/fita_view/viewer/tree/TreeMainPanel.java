@@ -12,8 +12,8 @@ import org.xml.sax.SAXException;
 
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.FileFormatException;
-import ref_humbold.fita_view.message.Message;
-import ref_humbold.fita_view.message.ParameterizedMessageReceiver;
+import ref_humbold.fita_view.messaging.Message;
+import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.TreeReader;
 import ref_humbold.fita_view.viewer.EmptyPanel;
@@ -22,7 +22,7 @@ import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class TreeMainPanel
     extends JPanel
-    implements ParameterizedMessageReceiver<String>
+    implements MessageReceiver<String>
 {
     private static final long serialVersionUID = 5944023926285119879L;
 
@@ -47,7 +47,7 @@ public class TreeMainPanel
     }
 
     @Override
-    public void receiveParameterized(Message<String> message)
+    public void receiveMessage(Message<String> message)
     {
         if(Objects.equals(message.getParam(), "openFileButton"))
         {

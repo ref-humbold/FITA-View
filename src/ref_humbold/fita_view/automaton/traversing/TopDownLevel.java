@@ -3,7 +3,6 @@ package ref_humbold.fita_view.automaton.traversing;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import ref_humbold.fita_view.tree.NodeType;
 import ref_humbold.fita_view.tree.TreeNode;
 
 public class TopDownLevel
@@ -19,6 +18,8 @@ public class TopDownLevel
         if(!hasNext())
             throw new NoSuchElementException("No more nodes in traversing.");
 
+        appendRecursive();
+
         ArrayList<TreeNode> nodes = new ArrayList<>(nodeDeque);
 
         for(int i = 0; i < nodes.size(); ++i)
@@ -27,19 +28,17 @@ public class TopDownLevel
 
             if(node.hasChildren())
             {
-                addNextNode(node.getLeft());
-                addNextNode(node.getRight());
+                processChild(node.getLeft());
+                processChild(node.getRight());
             }
         }
 
         return nodes;
     }
 
-    private void addNextNode(TreeNode node)
+    @Override
+    protected void addNextNode(TreeNode node)
     {
-        if(node.getType() == NodeType.REC)
-            recursiveNodes.add(node);
-        else
-            nodeDeque.addLast(node);
+        nodeDeque.addLast(node);
     }
 }

@@ -62,9 +62,6 @@ public class Pair<F, S>
     @Override
     public String toString()
     {
-        String firstString = first == null ? "null" : first.toString();
-        String secondString = second == null ? "null" : second.toString();
-
-        return "(" + firstString + ", " + secondString + ")";
+        return "(" + Objects.toString(first) + ", " + Objects.toString(second) + ")";
     }
 }

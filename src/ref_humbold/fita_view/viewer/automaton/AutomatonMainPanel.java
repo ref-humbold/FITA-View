@@ -14,15 +14,15 @@ import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonReader;
 import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
-import ref_humbold.fita_view.message.Message;
-import ref_humbold.fita_view.message.ParameterizedMessageReceiver;
+import ref_humbold.fita_view.messaging.Message;
+import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.viewer.EmptyPanel;
 import ref_humbold.fita_view.viewer.TitlePanel;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class AutomatonMainPanel
     extends JPanel
-    implements ParameterizedMessageReceiver<String>
+    implements MessageReceiver<String>
 {
     private static final long serialVersionUID = -7678389910832412322L;
 
@@ -47,7 +47,7 @@ public class AutomatonMainPanel
     }
 
     @Override
-    public void receiveParameterized(Message<String> message)
+    public void receiveMessage(Message<String> message)
     {
         if(Objects.equals(message.getParam(), "openFileButton"))
         {

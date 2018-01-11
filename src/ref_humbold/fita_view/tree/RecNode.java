@@ -64,6 +64,13 @@ public class RecNode
     }
 
     @Override
+    public void setState(Map<Variable, String> state)
+        throws IllegalVariableValueException
+    {
+        recursive.setState(state);
+    }
+
+    @Override
     public void setStateInitValue(Variable var)
     {
         recursive.setStateInitValue(var);

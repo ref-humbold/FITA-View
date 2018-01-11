@@ -43,7 +43,7 @@ public class StandardNode
     @Override
     public TreeNode getLeft()
     {
-        return left;
+        return this.left;
     }
 
     protected void setLeft(TreeNode node)
@@ -53,19 +53,19 @@ public class StandardNode
             throw new NodeHasParentException(
                 "Node has already got a parent, so it cannot be assigned as a child.");
 
-        if(left != null)
-            left.setParent(null);
+        if(this.left != null)
+            this.left.setParent(null);
 
-        left = node;
+        this.left = node;
 
-        if(left != null)
-            left.setParent(this);
+        if(this.left != null)
+            this.left.setParent(this);
     }
 
     @Override
     public TreeNode getRight()
     {
-        return right;
+        return this.right;
     }
 
     protected void setRight(TreeNode node)
@@ -75,43 +75,51 @@ public class StandardNode
             throw new NodeHasParentException(
                 "Node has already got a parent, so it cannot be assigned as a child.");
 
-        if(right != null)
-            right.setParent(null);
+        if(this.right != null)
+            this.right.setParent(null);
 
-        right = node;
+        this.right = node;
 
-        if(right != null)
-            right.setParent(this);
+        if(this.right != null)
+            this.right.setParent(this);
     }
 
     @Override
     public TreeNode getParent()
     {
-        return parent;
+        return this.parent;
     }
 
     @Override
     protected void setParent(TreeNode node)
     {
-        parent = node;
+        this.parent = node;
     }
 
     @Override
     public String getLabel()
     {
-        return label;
+        return this.label;
     }
 
     @Override
     public Map<Variable, String> getState()
     {
-        return state;
+        return this.state;
+    }
+
+    @Override
+    public void setState(Map<Variable, String> state)
+        throws IllegalVariableValueException
+    {
+        for(Map.Entry<Variable, String> entry : state.entrySet())
+            setStateValue(entry.getKey(), entry.getValue());
     }
 
     @Override
     public void setStateInitValue(Variable var)
     {
-        state.put(var, var.getInitValue());
+        this.state.put(var, var.getInitValue());
     }
 
     @Override
@@ -127,7 +135,7 @@ public class StandardNode
         if(!var.contains(value))
             throw new IllegalVariableValueException(value);
 
-        state.put(var, value);
+        this.state.put(var, value);
     }
 
     @Override

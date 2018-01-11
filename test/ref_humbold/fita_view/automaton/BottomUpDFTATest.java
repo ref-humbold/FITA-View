@@ -190,7 +190,7 @@ public class BottomUpDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
+        Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
         Assert.assertEquals("T", node13.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("!", node13.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("T", node12.getStateValueOrNull(variables.get(0)));
@@ -390,7 +390,7 @@ public class BottomUpDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
+        Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
         Assert.assertEquals("F", node1.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("@", node1.getStateValueOrNull(variables.get(1)));
     }
@@ -526,7 +526,7 @@ public class BottomUpDFTATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
+        Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
         Assert.assertEquals("T", node13.getStateValueOrNull(variables.get(0)));
         Assert.assertEquals("!", node13.getStateValueOrNull(variables.get(1)));
         Assert.assertEquals("T", node12.getStateValueOrNull(variables.get(0)));

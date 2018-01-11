@@ -16,13 +16,13 @@ import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceFactory;
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceMode;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
-import ref_humbold.fita_view.message.Message;
-import ref_humbold.fita_view.message.MessageReceiver;
+import ref_humbold.fita_view.messaging.Message;
+import ref_humbold.fita_view.messaging.SignalReceiver;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class ModifyingButtonsPanel
     extends JPanel
-    implements ActionListener, MessageReceiver
+    implements ActionListener, SignalReceiver
 {
     private static final long serialVersionUID = -5817636533870146512L;
 
@@ -72,7 +72,7 @@ public class ModifyingButtonsPanel
     }
 
     @Override
-    public void receive(Message<Void> message)
+    public void receiveSignal(Message<Void> message)
     {
         removeAll();
         addComponents();

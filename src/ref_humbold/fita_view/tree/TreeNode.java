@@ -7,6 +7,7 @@ import ref_humbold.fita_view.automaton.Variable;
 
 public abstract class TreeNode
 {
+    public static final int MAX_HEIGHT = 21;
     protected final int index;
 
     public TreeNode(int index)
@@ -53,6 +54,12 @@ public abstract class TreeNode
      * @return values of all variables in the node
      */
     public abstract Map<Variable, String> getState();
+
+    /**
+     * @param state new state for the node
+     */
+    public abstract void setState(Map<Variable, String> state)
+        throws IllegalVariableValueException;
 
     /**
      * @param var state variable

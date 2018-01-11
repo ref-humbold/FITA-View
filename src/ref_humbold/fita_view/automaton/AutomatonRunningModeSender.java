@@ -1,10 +1,9 @@
 package ref_humbold.fita_view.automaton;
 
-import ref_humbold.fita_view.message.DefaultParameterizedMessageSender;
-import ref_humbold.fita_view.message.Message;
+import ref_humbold.fita_view.messaging.DefaultMessageSender;
 
 public class AutomatonRunningModeSender
-    extends DefaultParameterizedMessageSender<AutomatonRunningMode>
+    extends DefaultMessageSender<AutomatonRunningMode>
 {
     private static AutomatonRunningModeSender instance = null;
 
@@ -19,10 +18,5 @@ public class AutomatonRunningModeSender
             instance = new AutomatonRunningModeSender();
 
         return instance;
-    }
-
-    public void send(AutomatonRunningMode mode)
-    {
-        send(new Message<>(this, mode));
     }
 }

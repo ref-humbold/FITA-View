@@ -9,20 +9,20 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.swing.*;
 
-import ref_humbold.fita_view.message.Message;
-import ref_humbold.fita_view.message.ParameterizedMessageReceiver;
-import ref_humbold.fita_view.message.ParameterizedMessageSender;
+import ref_humbold.fita_view.messaging.Message;
+import ref_humbold.fita_view.messaging.MessageReceiver;
+import ref_humbold.fita_view.messaging.MessageSender;
 
 public class TitlePanel
     extends JPanel
-    implements ActionListener, ParameterizedMessageSender<String>
+    implements ActionListener, MessageSender<String>
 {
     private static final long serialVersionUID = -7262175220400657532L;
 
     private JLabel titleLabel = new JLabel();
     private JButton openFileButton = new JButton();
     private JButton removeButton = new JButton();
-    private Set<ParameterizedMessageReceiver<String>> receivers = new HashSet<>();
+    private Set<MessageReceiver<String>> receivers = new HashSet<>();
 
     public TitlePanel(String name)
     {
@@ -41,28 +41,28 @@ public class TitlePanel
     public void actionPerformed(ActionEvent actionEvent)
     {
         if(actionEvent.getSource() == openFileButton)
-            send(new Message<>(this, "openFileButton"));
+            send("openFileButton");
         else if(actionEvent.getSource() == removeButton)
-            send(new Message<>(this, "removeButton"));
+            send("removeButton");
     }
 
     @Override
-    public void addReceiver(ParameterizedMessageReceiver<String> receiver)
+    public void addReceiver(MessageReceiver<String> receiver)
     {
         receivers.add(receiver);
     }
 
     @Override
-    public void removeReceiver(ParameterizedMessageReceiver<String> receiver)
+    public void removeReceiver(MessageReceiver<String> receiver)
     {
         receivers.remove(receiver);
     }
 
     @Override
-    public void send(Message<String> message)
+    public void sendMessage(Message<String> message)
     {
-        for(ParameterizedMessageReceiver<String> r : receivers)
-            r.receiveParameterized(message);
+        for(MessageReceiver<String> r : receivers)
+            r.receiveMessage(message);
     }
 
     private JPanel createButtonsPanel()
