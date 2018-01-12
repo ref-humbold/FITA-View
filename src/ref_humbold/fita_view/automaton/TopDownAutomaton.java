@@ -123,32 +123,6 @@ public abstract class TopDownAutomaton
         }
     }
 
-    @Override
-    protected boolean checkAcceptance(Map<Variable, String> state)
-        throws UndefinedTreeStateException
-    {
-        for(Map<Variable, String> accept : acceptingStates)
-        {
-            boolean contained = true;
-
-            for(Variable var : accept.keySet())
-            {
-                if(state.get(var) == null)
-                    throw new UndefinedTreeStateException(
-                        "Node has an undefined state variable value.");
-
-                contained &= accept.get(var).equals(state.get(var)) || accept.get(var)
-                                                                             .equals(
-                                                                                 Wildcard.EVERY_VALUE);
-            }
-
-            if(contained)
-                return true;
-        }
-
-        return false;
-    }
-
     private Pair<String, String> doTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {

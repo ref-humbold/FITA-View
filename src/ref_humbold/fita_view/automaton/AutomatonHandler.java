@@ -54,24 +54,48 @@ abstract class AutomatonHandler
 
             case "var-acc":
                 int id = Integer.parseInt(attributes.getValue("var-id"));
-                String value = attributes.getValue("value");
 
                 if(!variables.containsKey(varID))
                     throw new NoVariableWithIDException("No variable with with ID " + varID + ".");
 
                 Variable v = variables.get(id);
 
-                if(!value.equals(Wildcard.EVERY_VALUE) && !v.contains(value))
-                    throw new IllegalVariableValueException(
-                        "Given accepting value \'" + value + "\'is not a value of variable with ID "
-                            + id + ".");
-
                 if(accept.containsKey(v))
                     throw new DuplicatedAcceptingValueException(
-                        "Accepting value for variable with ID " + id
-                            + " has been already defined.");
+                        "Accepting rule for variable with ID " + id + " has been already defined.");
 
-                accept.put(v, value);
+                if(attributes.getIndex("include") >= 0 && attributes.getIndex("exclude") >= 0)
+                    throw new IncorrectAcceptingRuleException(
+                        "Accepting rule for variable with ID " + id
+                            + "contains both \'include\' and \'exclude\'.");
+
+                if(attributes.getIndex("include") < 0 && attributes.getIndex("exclude") < 0)
+                    throw new IncorrectAcceptingRuleException(
+                        "Accepting rule for variable with ID " + id
+                            + "contains neither \'include\' nor \'exclude\'.");
+
+                if(attributes.getIndex("include") >= 0)
+                {
+                    String value = attributes.getValue("include");
+
+                    if(!Objects.equals(value, Wildcard.EVERY_VALUE) && !v.contains(value))
+                        throw new IllegalVariableValueException("Given accepting value \'" + value
+                                                                    + "\'is not a value of variable with ID "
+                                                                    + id + ".");
+
+                    accept.put(v, "+ " + value);
+                }
+                else if(attributes.getIndex("exclude") >= 0)
+                {
+                    String value = attributes.getValue("exclude");
+
+                    if(!v.contains(value))
+                        throw new IllegalVariableValueException("Given accepting value \'" + value
+                                                                    + "\'is not a value of variable with ID "
+                                                                    + id + ".");
+
+                    accept.put(v, "- " + value);
+                }
                 break;
 
             default:

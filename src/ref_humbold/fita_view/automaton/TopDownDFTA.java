@@ -45,7 +45,8 @@ public class TopDownDFTA
 
         return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
                                                                                other.variables)
-            && Objects.equals(this.transitions, other.transitions);
+            && Objects.equals(this.acceptingStates, other.acceptingStates) && Objects.equals(
+            this.transitions, other.transitions);
     }
 
     @Override

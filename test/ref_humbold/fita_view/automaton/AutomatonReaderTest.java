@@ -75,6 +75,8 @@ public class AutomatonReaderTest
         TopDownDFTA expected = new TopDownDFTA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
+        expected.addAcceptingState(Collections.singletonMap(v, "- B"));
+
         try
         {
             expected.addTransition(v, "A", "0", "B", "C");
@@ -126,6 +128,8 @@ public class AutomatonReaderTest
 
         TopDownDFTA expected = new TopDownDFTA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
+
+        expected.addAcceptingState(Collections.singletonMap(v, "- A"));
 
         try
         {
@@ -355,6 +359,32 @@ public class AutomatonReaderTest
         }
     }
 
+    @Test(expected = IncorrectAcceptingRuleException.class)
+    public void testReadTopDownDFTAWhenAcceptingUnspecified()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownDFTAWhenAcceptingUnspecified.tda.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
     @Test(expected = DuplicatedTransitionException.class)
     public void testReadTopDownDFTAWhenMultipleTransitions()
         throws SAXException
@@ -416,6 +446,8 @@ public class AutomatonReaderTest
         TopDownNFTA expected = new TopDownNFTA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
+        expected.addAcceptingState(Collections.singletonMap(v, "+ B"));
+
         try
         {
             expected.addTransition(v, "A", "0", "B", "C");
@@ -475,7 +507,7 @@ public class AutomatonReaderTest
         BottomUpDFTA expected = new BottomUpDFTA(Collections.singletonList(v),
                                                  Arrays.asList("0", "1"));
 
-        expected.addAcceptingState(Collections.singletonMap(v, "C"));
+        expected.addAcceptingState(Collections.singletonMap(v, "+ C"));
 
         try
         {
@@ -541,7 +573,7 @@ public class AutomatonReaderTest
         BottomUpDFTA expected = new BottomUpDFTA(Collections.singletonList(v),
                                                  Arrays.asList("0", "1"));
 
-        expected.addAcceptingState(Collections.singletonMap(v, Wildcard.EVERY_VALUE));
+        expected.addAcceptingState(Collections.singletonMap(v, "+ " + Wildcard.EVERY_VALUE));
 
         try
         {
@@ -807,6 +839,32 @@ public class AutomatonReaderTest
         {
             testObject = new AutomatonReader(new File(
                 DIRECTORY + "testReadBottomUpDFTAWhenDuplicatedAcceptingValueForVariable.bua.xml"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
+            testObject.read();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = IncorrectAcceptingRuleException.class)
+    public void testReadBottomUpDFTAWhenAcceptingIncludesAndExcludes()
+        throws SAXException
+    {
+        try
+        {
+            testObject = new AutomatonReader(new File(
+                DIRECTORY + "testReadBottomUpDFTAWhenAcceptingIncludesAndExcludes.bua.xml"));
         }
         catch(Exception e)
         {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
-           elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
   <xs:element name="automaton">
     <xs:complexType>
       <xs:sequence>
@@ -34,8 +33,9 @@
                   <xs:sequence>
                     <xs:element name="var-acc" maxOccurs="unbounded">
                       <xs:complexType>
-                        <xs:attribute name="var-id" type="xs:int" />
-                        <xs:attribute name="value" type="everyWildcardType" />
+                        <xs:attribute name="var-id" type="xs:int" use="required" />
+                        <xs:attribute name="include" type="everyWildcardType" />
+                        <xs:attribute name="exclude" type="strType" />
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>
@@ -55,7 +55,7 @@
                     <xs:element name="label" type="everyWildcardType" />
                     <xs:element name="node-result" type="leftRightWildcardType" />
                   </xs:sequence>
-                  <xs:attribute name="var-id" type="xs:int" />
+                  <xs:attribute name="var-id" type="xs:int" use="required" />
                 </xs:complexType>
               </xs:element>
             </xs:sequence>

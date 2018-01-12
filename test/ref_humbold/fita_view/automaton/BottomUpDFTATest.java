@@ -26,8 +26,8 @@ public class BottomUpDFTATest
     {
         variables = Arrays.asList(new Variable(1, "X", "T", "F"),
                                   new Variable(2, "#", "!", "@", "$", "&"));
-        accepts.put(variables.get(0), "T");
-        accepts.put(variables.get(1), Wildcard.EVERY_VALUE);
+        accepts.put(variables.get(0), "+ T");
+        accepts.put(variables.get(1), "+ " + Wildcard.EVERY_VALUE);
     }
 
     @Before

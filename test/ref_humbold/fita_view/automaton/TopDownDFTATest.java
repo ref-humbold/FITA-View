@@ -22,12 +22,12 @@ public class TopDownDFTATest
         throws Exception
     {
         variables = Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "!", "@", "#", "$"));
-        accepts.get(0).put(variables.get(0), "A");
-        accepts.get(0).put(variables.get(1), "@");
-        accepts.get(1).put(variables.get(0), "B");
-        accepts.get(1).put(variables.get(1), "$");
-        accepts.get(2).put(variables.get(0), Wildcard.EVERY_VALUE);
-        accepts.get(2).put(variables.get(1), "#");
+        accepts.get(0).put(variables.get(0), "+ A");
+        accepts.get(0).put(variables.get(1), "+ @");
+        accepts.get(1).put(variables.get(0), "+ B");
+        accepts.get(1).put(variables.get(1), "+ $");
+        accepts.get(2).put(variables.get(0), "+ " + Wildcard.EVERY_VALUE);
+        accepts.get(2).put(variables.get(1), "+ #");
     }
 
     @Before

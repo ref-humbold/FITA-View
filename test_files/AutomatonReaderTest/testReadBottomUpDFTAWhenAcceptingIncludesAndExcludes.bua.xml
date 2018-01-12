@@ -11,7 +11,7 @@
   </variables>
   <accepting>
     <accept>
-      <var-acc var-id="0" include="C" />
+      <var-acc var-id="0" include="C" exclude="A" />
     </accept>
   </accepting>
   <transitions>
@@ -41,12 +41,6 @@
     </trans>
     <trans var-id="0">
       <left-value>A</left-value>
-      <right-value>B</right-value>
-      <label>1</label>
-      <node-result>B</node-result>
-    </trans>
-    <trans var-id="0">
-      <left-value>A</left-value>
       <right-value>C</right-value>
       <label>0</label>
       <node-result>C</node-result>
@@ -98,12 +92,6 @@
       <right-value>A</right-value>
       <label>0</label>
       <node-result>A</node-result>
-    </trans>
-    <trans var-id="0">
-      <left-value>C</left-value>
-      <right-value>A</right-value>
-      <label>0</label>
-      <node-result>C</node-result>
     </trans>
     <trans var-id="0">
       <left-value>C</left-value>

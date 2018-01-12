@@ -194,12 +194,41 @@ public abstract class AbstractTreeAutomaton
     }
 
     /**
-     * Testing if specified tree node state is an accepting state.
-     * @param state state of a tree node
+     * Testing if specified state can be accepted by the automaton.
+     * @param state state from a tree node
      * @return {@code true} if state is accepted, otherwise {@code false}
+     * @throws UndefinedTreeStateException if state contains a variable with undefined value
      */
-    protected abstract boolean checkAcceptance(Map<Variable, String> state)
-        throws UndefinedTreeStateException;
+    protected boolean checkAcceptance(Map<Variable, String> state)
+        throws UndefinedTreeStateException
+    {
+        for(Map<Variable, String> accept : acceptingStates)
+        {
+            boolean contained = true;
+
+            for(Variable var : accept.keySet())
+            {
+                if(state.get(var) == null)
+                    throw new UndefinedTreeStateException(
+                        "Node has an undefined state variable value.");
+
+                String[] splitValue = accept.get(var).split(" ");
+
+                if(Objects.equals(splitValue[0], "+"))
+                    contained &= Objects.equals(splitValue[1], state.get(var)) || Objects.equals(
+                        splitValue[1], Wildcard.EVERY_VALUE);
+                else if(Objects.equals(splitValue[0], "-"))
+                    contained &= !Objects.equals(splitValue[1], state.get(var));
+                else
+                    throw new IllegalStateException("Neither inclusion or exclusion specified.");
+            }
+
+            if(contained)
+                return true;
+        }
+
+        return false;
+    }
 
     /**
      * Processing tree nodes in each step.

@@ -14,9 +14,9 @@
   </variables>
   <accepting>
     <accept>
-      <var-acc var-id="0" value="B" />
-      <var-acc var-id="1" value="X" />
-      <var-acc var-id="0" value="C" />
+      <var-acc var-id="0" include="B" />
+      <var-acc var-id="1" include="X" />
+      <var-acc var-id="0" include="C" />
     </accept>
   </accepting>
   <transitions>

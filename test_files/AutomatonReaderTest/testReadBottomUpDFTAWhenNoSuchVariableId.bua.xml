@@ -11,7 +11,7 @@
   </variables>
   <accepting>
     <accept>
-      <var-acc var-id="0" value="C" />
+      <var-acc var-id="0" include="C" />
     </accept>
   </accepting>
   <transitions>
