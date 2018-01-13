@@ -41,12 +41,6 @@
     </copy>
   </target>
 
-  <target name="init-test" depends="init">
-    <copy includeemptydirs="false" todir="${build.dir}">
-      <fileset dir="${test.dir}" excludes="**/*.java" />
-    </copy>
-  </target>
-
   <target name="build" depends="init">
     <javac source="${source}" target="${target}" debug="true" debuglevel="${debuglevel}"
            destdir="${build.dir}" includeantruntime="false">
@@ -56,7 +50,7 @@
     </javac>
   </target>
 
-  <target name="build-test" depends="init-test">
+  <target name="build-test" depends="init">
     <javac source="${source}" target="${target}" debug="true" debuglevel="${debuglevel}"
            destdir="${build.dir}" includeantruntime="false">
       <src path="${src.dir}" />

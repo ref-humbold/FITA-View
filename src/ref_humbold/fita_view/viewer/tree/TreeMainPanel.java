@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.xml.sax.SAXException;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.messaging.Message;
@@ -26,10 +27,11 @@ public class TreeMainPanel
 {
     private static final long serialVersionUID = 5944023926285119879L;
 
-    private Pointer<TreeNode> treePointer = new Pointer<>();
+    private Pointer<Pair<TreeNode, Integer>> treePointer = new Pointer<>();
     private JFileChooser fileChooser = new JFileChooser();
     private TitlePanel titlePanel = new TitlePanel("tree");
-    private TreeScrollDrawingArea scrollDrawingArea = new TreeScrollDrawingArea(treePointer);
+    private TreeDrawingArea drawingArea = new TreeDrawingArea(treePointer);
+    private MovingButtonsPanel buttonsPanel = new MovingButtonsPanel(drawingArea);
 
     public TreeMainPanel()
     {
@@ -39,11 +41,11 @@ public class TreeMainPanel
         this.setBackground(Color.RED);
         this.setLayout(new BorderLayout(10, 10));
 
-        this.add(titlePanel, BorderLayout.PAGE_START);
+        this.add(this.titlePanel, BorderLayout.PAGE_START);
         this.add(new EmptyPanel(), BorderLayout.LINE_START);
-        this.add(scrollDrawingArea, BorderLayout.CENTER);
+        this.add(this.drawingArea, BorderLayout.CENTER);
         this.add(new EmptyPanel(), BorderLayout.LINE_END);
-        this.add(new EmptyPanel(), BorderLayout.PAGE_END);
+        this.add(this.buttonsPanel, BorderLayout.PAGE_END);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class TreeMainPanel
             if(file != null)
                 try
                 {
-                    TreeNode tree = loadTree(file);
+                    Pair<TreeNode, Integer> tree = loadTree(file);
 
                     treePointer.set(tree);
                     UserMessageBox.showInfo("SUCCESS",
@@ -83,7 +85,7 @@ public class TreeMainPanel
         return null;
     }
 
-    private TreeNode loadTree(File file)
+    private Pair<TreeNode, Integer> loadTree(File file)
         throws FileFormatException, SAXException, IOException
     {
         TreeReader reader = new TreeReader(file);

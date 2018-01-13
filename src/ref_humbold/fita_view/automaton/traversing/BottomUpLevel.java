@@ -8,16 +8,16 @@ import ref_humbold.fita_view.tree.TreeNode;
 public class BottomUpLevel
     extends BottomUpTraversing
 {
-    int currentDepth;
+    int currentHeight;
 
     @Override
     public void initialize(TreeNode... nodes)
     {
         super.initialize(nodes);
-        currentDepth = -1;
+        currentHeight = -1;
 
         for(TreeNode place : nodes)
-            currentDepth = Math.max(currentDepth, countDepth(place.getIndex()));
+            currentHeight = Math.max(currentHeight, countHeight(place));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class BottomUpLevel
 
         boolean canAddParent = false;
 
-        while(index >= 1 << currentDepth)
+        while(index >= 1 << currentHeight)
         {
             TreeNode node = nodeQueue.remove();
 
@@ -44,13 +44,13 @@ public class BottomUpLevel
             index = hasNext() ? nodeQueue.element().getIndex() : -1;
         }
 
-        --currentDepth;
+        --currentHeight;
 
         return nodes;
     }
 
-    private Integer countDepth(Integer index)
+    private Integer countHeight(TreeNode node)
     {
-        return 31 - Integer.numberOfLeadingZeros(index);
+        return 31 - Integer.numberOfLeadingZeros(node.getIndex());
     }
 }

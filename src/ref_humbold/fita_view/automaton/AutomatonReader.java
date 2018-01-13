@@ -39,7 +39,7 @@ public class AutomatonReader
         }
         catch(ParserConfigurationException | SAXException e)
         {
-            throw new SAXException("Cannot start parser.", e);
+            throw new SAXException("Cannot start parser: " + e.getMessage(), e);
         }
     }
 
@@ -67,12 +67,10 @@ public class AutomatonReader
         switch(type)
         {
             case BOTTOM_UP:
-                return schemaFactory.newSchema(
-                    new File("src/ref_humbold/fita_view/automaton/BottomUpAutomaton.xsd"));
+                return schemaFactory.newSchema(getClass().getResource("BottomUpAutomaton.xsd"));
 
             case TOP_DOWN:
-                return schemaFactory.newSchema(
-                    new File("src/ref_humbold/fita_view/automaton/TopDownAutomaton.xsd"));
+                return schemaFactory.newSchema(getClass().getResource("TopDownAutomaton.xsd"));
         }
 
         throw new SAXException("Incorrect type.");

@@ -3,6 +3,7 @@ package ref_humbold.fita_view.viewer.automaton;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JTree;
@@ -23,6 +24,7 @@ public class AutomatonTreeView
 {
     static final String EMPTY_ROOT_TEXT = "No automaton specified...";
     private static final long serialVersionUID = 5636100205267426054L;
+
     DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
     private Pointer<TreeAutomaton> automatonPointer;
     private DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
@@ -156,7 +158,7 @@ public class AutomatonTreeView
 
         public boolean hasInitValue()
         {
-            return variable.getInitValue().equals(value);
+            return Objects.equals(variable.getInitValue(), value);
         }
 
         @Override

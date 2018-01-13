@@ -10,6 +10,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import org.xml.sax.SAXException;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.FileFormatException;
 
 public class TreeReader
@@ -30,8 +31,8 @@ public class TreeReader
         {
             String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
             SchemaFactory schemaFactory = SchemaFactory.newInstance(language);
-            Schema schema =
-                schemaFactory.newSchema(new File("src/ref_humbold/fita_view/tree/Tree.xsd"));
+            Schema schema = schemaFactory.newSchema(
+                new File("src/ref_humbold/fita_view/tree/Tree.xsd"));
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             parserFactory.setSchema(schema);
@@ -45,17 +46,17 @@ public class TreeReader
 
     /**
      * Reading tree from XML file.
-     * @return tree object
+     * @return tree object with its height
      * @throws IOException if any IO error occurs
      * @throws SAXException if any parsing error occurs
      */
-    public TreeNode read()
+    public Pair<TreeNode, Integer> read()
         throws IOException, SAXException
     {
         TreeHandler handler = new TreeHandler();
 
         parser.parse(file, handler);
 
-        return handler.getTree();
+        return Pair.make(handler.getTree(), handler.getMaxHeight());
     }
 }

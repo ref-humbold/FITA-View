@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import ref_humbold.fita_view.Pair;
+
 public class TreeReaderTest
 {
     public static final String DIRECTORY = "test_files/TreeReaderTest/";
@@ -27,7 +29,7 @@ public class TreeReaderTest
     @Test
     public void testReadFiniteTree()
     {
-        TreeNode result = null;
+        Pair<TreeNode, Integer> result = null;
         TreeNode expected = null;
 
         try
@@ -45,13 +47,14 @@ public class TreeReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertEquals(expected, result.getFirst());
+        Assert.assertEquals(new Integer(3), result.getSecond());
     }
 
     @Test
     public void testReadWhenSingleRepeat()
     {
-        TreeNode result = null;
+        Pair<TreeNode, Integer> result = null;
 
         try
         {
@@ -83,13 +86,14 @@ public class TreeReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertEquals(expected, result.getFirst());
+        Assert.assertEquals(new Integer(4), result.getSecond());
     }
 
     @Test
     public void testReadWhenNestedRepeats()
     {
-        TreeNode result = null;
+        Pair<TreeNode, Integer> result = null;
 
         try
         {
@@ -128,7 +132,8 @@ public class TreeReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assert.assertEquals(expected, result.getFirst());
+        Assert.assertEquals(new Integer(6), result.getSecond());
     }
 
     @Test(expected = TreeParsingException.class)

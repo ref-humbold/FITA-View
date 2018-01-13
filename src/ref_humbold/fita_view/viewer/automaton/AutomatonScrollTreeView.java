@@ -15,8 +15,9 @@ public class AutomatonScrollTreeView
 
     public AutomatonScrollTreeView(Pointer<TreeAutomaton> pointer)
     {
-        this.treeView = new AutomatonTreeView(pointer);
+        super();
 
+        this.treeView = new AutomatonTreeView(pointer);
         this.setViewportView(this.treeView);
         this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
