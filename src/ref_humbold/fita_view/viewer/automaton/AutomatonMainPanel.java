@@ -10,12 +10,14 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.xml.sax.SAXException;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonReader;
 import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
+import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.viewer.EmptyPanel;
 import ref_humbold.fita_view.viewer.TitlePanel;
 import ref_humbold.fita_view.viewer.UserMessageBox;
@@ -26,18 +28,22 @@ public class AutomatonMainPanel
 {
     private static final long serialVersionUID = -7678389910832412322L;
 
-    private Pointer<TreeAutomaton> automatonPointer = new Pointer<>();
+    private Pointer<TreeAutomaton> automatonPointer;
+    private Pointer<Pair<TreeNode, Integer>> treePointer;
     private JFileChooser fileChooser = new JFileChooser();
     private TitlePanel titlePanel = new TitlePanel("automaton");
-    private AcceptingPanel acceptingPanel = new AcceptingPanel(automatonPointer);
-    private AutomatonScrollTreeView scrollTreeView = new AutomatonScrollTreeView(automatonPointer);
-    private ModifyingButtonsPanel modifyingButtonsPanel = new ModifyingButtonsPanel(
-        automatonPointer);
-    private RunningButtonsPanel runningButtonsPanel = new RunningButtonsPanel(automatonPointer);
+    private AcceptingPanel acceptingPanel;
+    private AutomatonScrollTreeView scrollTreeView;
+    private ModifyingButtonsPanel modifyingButtonsPanel;
+    private RunningButtonsPanel runningButtonsPanel;
 
-    public AutomatonMainPanel()
+    public AutomatonMainPanel(Pointer<TreeAutomaton> automatonPointer,
+                              Pointer<Pair<TreeNode, Integer>> treePointer)
     {
         super();
+
+        this.automatonPointer = automatonPointer;
+        this.treePointer = treePointer;
 
         this.initializeComponents();
         this.setBackground(Color.BLUE);
@@ -58,12 +64,18 @@ public class AutomatonMainPanel
                 {
                     TreeAutomaton automaton = loadAutomaton(file);
 
+                    automaton.setSendingMessages(true);
                     automatonPointer.set(automaton);
+
+                    if(!treePointer.isEmpty())
+                        automatonPointer.get().setTree(treePointer.get().getFirst());
+
                     UserMessageBox.showInfo("SUCCESS",
                                             "Successfully loaded file " + file.getName());
                 }
                 catch(Exception e)
                 {
+                    automatonPointer.delete();
                     UserMessageBox.showException(e);
                 }
         }
@@ -115,5 +127,10 @@ public class AutomatonMainPanel
         fileChooser.setFileFilter(
             new FileNameExtensionFilter("XML top-down automaton file", "tda.xml", "xml"));
         fileChooser.setMultiSelectionEnabled(false);
+
+        acceptingPanel = new AcceptingPanel(this.automatonPointer);
+        scrollTreeView = new AutomatonScrollTreeView(this.automatonPointer);
+        modifyingButtonsPanel = new ModifyingButtonsPanel(this.automatonPointer);
+        runningButtonsPanel = new RunningButtonsPanel(this.automatonPointer);
     }
 }

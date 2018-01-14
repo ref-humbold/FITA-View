@@ -12,6 +12,11 @@ public class Pointer<T>
         super();
     }
 
+    public boolean isEmpty()
+    {
+        return element == null;
+    }
+
     public T get()
     {
         return this.element;

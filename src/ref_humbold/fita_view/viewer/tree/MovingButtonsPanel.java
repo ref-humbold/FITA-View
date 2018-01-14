@@ -12,8 +12,8 @@ public class MovingButtonsPanel
     extends JPanel
     implements ActionListener
 {
+    static final int STEP = 10;
     private static final long serialVersionUID = -1998309322600823517L;
-    private static final int STEP = 10;
 
     private List<JButton> buttons = new ArrayList<>();
     private TreeDrawingArea drawingArea;

@@ -3,6 +3,9 @@ package ref_humbold.fita_view.viewer.tree;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -25,7 +28,8 @@ public class TreeDrawingArea
     private static final int Y_DIFF = 3 * NODE_SIDE;
 
     private Pointer<Pair<TreeNode, Integer>> treePointer;
-    private Iterable<TreeNode> currentNodes;
+    private Set<TreeNode> currentNodes = new HashSet<>();
+    private Stack<Pair<Integer, Integer>> repeatNodes = new Stack<>();
     private int upperBorder = 0;
     private int leftBorder = 0;
 
@@ -41,10 +45,19 @@ public class TreeDrawingArea
         this.setBorder(BorderFactory.createLoweredBevelBorder());
     }
 
+    public Pair<Integer, Integer> getBorderCorner()
+    {
+        return Pair.make(upperBorder, leftBorder);
+    }
+
     @Override
     public void receiveMessage(Message<Iterable<TreeNode>> message)
     {
-        currentNodes = message.getParam();
+        currentNodes.clear();
+
+        for(TreeNode node : message.getParam())
+            currentNodes.add(node);
+
         repaint();
     }
 
@@ -60,6 +73,8 @@ public class TreeDrawingArea
     public void paintComponent(Graphics graphics)
     {
         super.paintComponent(graphics);
+        repeatNodes.clear();
+
         Pair<TreeNode, Integer> pair = treePointer.get();
 
         if(pair == null)
@@ -88,8 +103,13 @@ public class TreeDrawingArea
         int leftXDist = xDist - numLeaves / 2;
         int rightXDist = xDist + numLeaves / 2;
 
+        if(tree.getType() == NodeType.REPEAT)
+            repeatNodes.push(Pair.make(xDist, yDist));
+
         if(tree.getType() != NodeType.REC && tree.hasChildren())
             drawEdges(graphics, xDist, yDist, leftXDist, rightXDist);
+        else if(tree.getType() == NodeType.REC)
+            drawRecursiveEdge(graphics, xDist, yDist);
 
         drawSingleNode(graphics, tree, countXPos(xDist), countYPos(yDist));
 
@@ -98,6 +118,22 @@ public class TreeDrawingArea
             drawTree(graphics, tree.getLeft(), leftXDist, yDist + 1, numLeaves / 2);
             drawTree(graphics, tree.getRight(), rightXDist, yDist + 1, numLeaves / 2);
         }
+
+        if(tree.getType() == NodeType.REPEAT)
+            repeatNodes.pop();
+    }
+
+    private void drawRecursiveEdge(Graphics graphics, int xDist, int yDist)
+    {
+        Pair<Integer, Integer> repeatPos = repeatNodes.peek();
+        int yEdgePos = countYPos(yDist) + Y_DIFF / 4;
+
+        graphics.setColor(Color.MAGENTA);
+        graphics.drawLine(countXPos(xDist), countYPos(yDist), countXPos(xDist), yEdgePos);
+        graphics.drawLine(countXPos(xDist), yEdgePos, countXPos(repeatPos.getFirst()), yEdgePos);
+        graphics.drawLine(countXPos(repeatPos.getFirst()), yEdgePos,
+                          countXPos(repeatPos.getFirst()),
+                          countYPos(repeatPos.getSecond()) + NODE_SIDE / 2);
     }
 
     private void drawEdges(Graphics graphics, int xDist, int yDist, int leftXDist, int rightXDist)
@@ -127,6 +163,9 @@ public class TreeDrawingArea
         }
 
         graphics.fillRect(xPos - NODE_SIDE / 2, yPos - NODE_SIDE / 2, NODE_SIDE, NODE_SIDE);
+
+        if(currentNodes.contains(tree))
+            graphics.fillOval(xPos - NODE_SIDE / 2, yPos - NODE_SIDE / 2, NODE_SIDE, NODE_SIDE);
     }
 
     private int countXPos(int xDist)
@@ -136,6 +175,6 @@ public class TreeDrawingArea
 
     private int countYPos(int yDist)
     {
-        return upperBorder + getHeight() / 4 + yDist * Y_DIFF;
+        return upperBorder + getHeight() / 8 + yDist * Y_DIFF;
     }
 }

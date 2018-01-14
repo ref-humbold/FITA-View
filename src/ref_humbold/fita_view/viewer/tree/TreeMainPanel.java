@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.FileFormatException;
+import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.tree.TreeNode;
@@ -27,15 +28,20 @@ public class TreeMainPanel
 {
     private static final long serialVersionUID = 5944023926285119879L;
 
-    private Pointer<Pair<TreeNode, Integer>> treePointer = new Pointer<>();
+    private Pointer<TreeAutomaton> automatonPointer;
+    private Pointer<Pair<TreeNode, Integer>> treePointer;
     private JFileChooser fileChooser = new JFileChooser();
     private TitlePanel titlePanel = new TitlePanel("tree");
-    private TreeDrawingArea drawingArea = new TreeDrawingArea(treePointer);
-    private MovingButtonsPanel buttonsPanel = new MovingButtonsPanel(drawingArea);
+    private TreeDrawingArea drawingArea;
+    private MovingButtonsPanel buttonsPanel;
 
-    public TreeMainPanel()
+    public TreeMainPanel(Pointer<TreeAutomaton> automatonPointer,
+                         Pointer<Pair<TreeNode, Integer>> treePointer)
     {
         super();
+
+        this.automatonPointer = automatonPointer;
+        this.treePointer = treePointer;
 
         this.initializeComponents();
         this.setBackground(Color.RED);
@@ -61,11 +67,16 @@ public class TreeMainPanel
                     Pair<TreeNode, Integer> tree = loadTree(file);
 
                     treePointer.set(tree);
+
+                    if(!automatonPointer.isEmpty())
+                        automatonPointer.get().setTree(treePointer.get().getFirst());
+
                     UserMessageBox.showInfo("SUCCESS",
                                             "Successfully loaded file " + file.getName());
                 }
                 catch(Exception e)
                 {
+                    treePointer.delete();
                     UserMessageBox.showException(e);
                 }
         }
@@ -99,5 +110,8 @@ public class TreeMainPanel
 
         fileChooser.setFileFilter(new FileNameExtensionFilter("XML tree file", "tree.xml", "xml"));
         fileChooser.setMultiSelectionEnabled(false);
+
+        drawingArea = new TreeDrawingArea(treePointer);
+        buttonsPanel = new MovingButtonsPanel(drawingArea);
     }
 }

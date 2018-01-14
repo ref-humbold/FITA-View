@@ -47,7 +47,7 @@ class TreeHandler
         ++actualHeight;
         maxHeight = Math.max(maxHeight, actualHeight);
 
-        if(actualHeight >= 1 << MAX_HEIGHT)
+        if(actualHeight > MAX_HEIGHT)
             throw new TreeHeightException(
                 "Tree height is greater than allowed " + Integer.toString(MAX_HEIGHT) + ".");
 

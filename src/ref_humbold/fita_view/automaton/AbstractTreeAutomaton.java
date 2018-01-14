@@ -147,6 +147,9 @@ public abstract class AbstractTreeAutomaton
 
         if(tree != null)
             deleteTreeStates();
+
+        if(isSendingMessages)
+            AutomatonCurrentNodesSender.getInstance().send(Collections::emptyIterator);
     }
 
     @Override

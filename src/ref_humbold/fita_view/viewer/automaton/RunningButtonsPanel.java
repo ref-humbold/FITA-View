@@ -92,7 +92,7 @@ public class RunningButtonsPanel
     @Override
     public void receiveSignal(Message<Void> signal)
     {
-        currentButtons = automatonPointer.get() == null ? Collections.emptyList() : runningButtons;
+        currentButtons = automatonPointer.isEmpty() ? Collections.emptyList() : runningButtons;
 
         reload();
     }

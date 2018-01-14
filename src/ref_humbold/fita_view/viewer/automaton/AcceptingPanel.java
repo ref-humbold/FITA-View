@@ -48,7 +48,7 @@ public class AcceptingPanel
             case FINISHED:
                 try
                 {
-                    if(automatonPointer.get() != null)
+                    if(!automatonPointer.isEmpty())
                         if(automatonPointer.get().isAccepted())
                             setTreeAccepted();
                         else
