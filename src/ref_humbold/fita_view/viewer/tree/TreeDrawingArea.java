@@ -3,35 +3,36 @@ package ref_humbold.fita_view.viewer.tree;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.*;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonCurrentNodesSender;
+import ref_humbold.fita_view.automaton.Variable;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.messaging.SignalReceiver;
 import ref_humbold.fita_view.tree.NodeType;
 import ref_humbold.fita_view.tree.TreeNode;
+import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class TreeDrawingArea
     extends JPanel
-    implements SignalReceiver, MessageReceiver<Iterable<TreeNode>>
+    implements SignalReceiver, MessageReceiver<Iterable<TreeNode>>, MouseListener
 {
     private static final long serialVersionUID = -6588296156972565117L;
     private static final int NODE_SIDE = 16;
-    private static final int X_DIFF = 5 + NODE_SIDE / 2;
-    private static final int Y_DIFF = 3 * NODE_SIDE;
 
     private Pointer<Pair<TreeNode, Integer>> treePointer;
     private Set<TreeNode> currentNodes = new HashSet<>();
     private Stack<Pair<Integer, Integer>> repeatNodes = new Stack<>();
-    private int upperBorder = 0;
-    private int leftBorder = 0;
+    private Map<Pair<Integer, Integer>, TreeNode> nodesPoints = new HashMap<>();
+    private int horizontalAxis = 0;
+    private int verticalAxis = 0;
 
     public TreeDrawingArea(Pointer<Pair<TreeNode, Integer>> treePointer)
     {
@@ -40,14 +41,15 @@ public class TreeDrawingArea
         this.treePointer = treePointer;
         this.treePointer.addReceiver(this);
         AutomatonCurrentNodesSender.getInstance().addReceiver(this);
+        this.addMouseListener(this);
 
         this.setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createLoweredBevelBorder());
     }
 
-    public Pair<Integer, Integer> getBorderCorner()
+    public Pair<Integer, Integer> getAxisPoint()
     {
-        return Pair.make(upperBorder, leftBorder);
+        return Pair.make(horizontalAxis, verticalAxis);
     }
 
     @Override
@@ -64,8 +66,22 @@ public class TreeDrawingArea
     @Override
     public void receiveSignal(Message<Void> signal)
     {
-        upperBorder = 0;
-        leftBorder = 0;
+        Pair<TreeNode, Integer> pair = treePointer.get();
+
+        horizontalAxis = 0;
+        verticalAxis = 0;
+        nodesPoints.clear();
+
+        if(pair != null)
+            saveNodesPoints(pair.getFirst(), 0, 0, 1 << (pair.getSecond() - 1));
+
+        repaint();
+    }
+
+    public void moveArea(int x, int y)
+    {
+        horizontalAxis += y;
+        verticalAxis += x;
         repaint();
     }
 
@@ -85,11 +101,65 @@ public class TreeDrawingArea
         graphics.setColor(Color.BLUE);
     }
 
-    public void moveArea(int x, int y)
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent)
     {
-        upperBorder += y;
-        leftBorder += x;
-        repaint();
+        int xMouse = countDistPosX(mouseEvent.getX());
+        int yMouse = countDistPosY(mouseEvent.getY());
+        TreeNode node = nodesPoints.get(Pair.make(xMouse, yMouse));
+
+        if(mouseEvent.getButton() == MouseEvent.BUTTON1 && node != null)
+            UserMessageBox.showInfo(node.getType().toString(), getNodeInfo(node));
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent)
+    {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent)
+    {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent)
+    {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent)
+    {
+    }
+
+    private String getNodeInfo(TreeNode node)
+    {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("LABEL: \'").append(node.getLabel()).append("\'\n");
+        builder.append("STATE:\n");
+
+        for(Map.Entry<Variable, String> entry : node.getState().entrySet())
+        {
+            builder.append("  ")
+                   .append(entry.getKey())
+                   .append(" => \'")
+                   .append(entry.getValue())
+                   .append("\'\n");
+        }
+
+        return builder.toString();
+    }
+
+    private void saveNodesPoints(TreeNode tree, int xDist, int yDist, int numLeaves)
+    {
+        nodesPoints.put(Pair.make(xDist, yDist), tree);
+
+        if(tree.getType() != NodeType.REC && tree.hasChildren())
+        {
+            saveNodesPoints(tree.getLeft(), xDist - numLeaves / 2, yDist + 3, numLeaves / 2);
+            saveNodesPoints(tree.getRight(), xDist + numLeaves / 2, yDist + 3, numLeaves / 2);
+        }
     }
 
     private void drawEmpty(Graphics graphics)
@@ -102,21 +172,22 @@ public class TreeDrawingArea
     {
         int leftXDist = xDist - numLeaves / 2;
         int rightXDist = xDist + numLeaves / 2;
+        int nextYDist = yDist + 3;
 
         if(tree.getType() == NodeType.REPEAT)
             repeatNodes.push(Pair.make(xDist, yDist));
 
         if(tree.getType() != NodeType.REC && tree.hasChildren())
-            drawEdges(graphics, xDist, yDist, leftXDist, rightXDist);
+            drawEdges(graphics, xDist, yDist, leftXDist, rightXDist, nextYDist);
         else if(tree.getType() == NodeType.REC)
             drawRecursiveEdge(graphics, xDist, yDist);
 
-        drawSingleNode(graphics, tree, countXPos(xDist), countYPos(yDist));
+        drawSingleNode(graphics, tree, countNodePosX(xDist), countNodePosY(yDist));
 
         if(tree.getType() != NodeType.REC && tree.hasChildren())
         {
-            drawTree(graphics, tree.getLeft(), leftXDist, yDist + 1, numLeaves / 2);
-            drawTree(graphics, tree.getRight(), rightXDist, yDist + 1, numLeaves / 2);
+            drawTree(graphics, tree.getLeft(), leftXDist, nextYDist, numLeaves / 2);
+            drawTree(graphics, tree.getRight(), rightXDist, nextYDist, numLeaves / 2);
         }
 
         if(tree.getType() == NodeType.REPEAT)
@@ -126,23 +197,26 @@ public class TreeDrawingArea
     private void drawRecursiveEdge(Graphics graphics, int xDist, int yDist)
     {
         Pair<Integer, Integer> repeatPos = repeatNodes.peek();
-        int yEdgePos = countYPos(yDist) + Y_DIFF / 4;
+        int yEdgePos = countNodePosY(yDist) + 3 * NODE_SIDE / 4;
 
         graphics.setColor(Color.MAGENTA);
-        graphics.drawLine(countXPos(xDist), countYPos(yDist), countXPos(xDist), yEdgePos);
-        graphics.drawLine(countXPos(xDist), yEdgePos, countXPos(repeatPos.getFirst()), yEdgePos);
-        graphics.drawLine(countXPos(repeatPos.getFirst()), yEdgePos,
-                          countXPos(repeatPos.getFirst()),
-                          countYPos(repeatPos.getSecond()) + NODE_SIDE / 2);
+        graphics.drawLine(countNodePosX(xDist), countNodePosY(yDist), countNodePosX(xDist),
+                          yEdgePos);
+        graphics.drawLine(countNodePosX(xDist), yEdgePos, countNodePosX(repeatPos.getFirst()),
+                          yEdgePos);
+        graphics.drawLine(countNodePosX(repeatPos.getFirst()), yEdgePos,
+                          countNodePosX(repeatPos.getFirst()),
+                          countNodePosY(repeatPos.getSecond()) + NODE_SIDE / 2);
     }
 
-    private void drawEdges(Graphics graphics, int xDist, int yDist, int leftXDist, int rightXDist)
+    private void drawEdges(Graphics graphics, int xDist, int yDist, int leftXDist, int rightXDist,
+                           int nextYDist)
     {
         graphics.setColor(Color.BLACK);
-        graphics.drawLine(countXPos(xDist), countYPos(yDist), countXPos(leftXDist),
-                          countYPos(yDist + 1));
-        graphics.drawLine(countXPos(xDist), countYPos(yDist), countXPos(rightXDist),
-                          countYPos(yDist + 1));
+        graphics.drawLine(countNodePosX(xDist), countNodePosY(yDist), countNodePosX(leftXDist),
+                          countNodePosY(nextYDist));
+        graphics.drawLine(countNodePosX(xDist), countNodePosY(yDist), countNodePosX(rightXDist),
+                          countNodePosY(nextYDist));
     }
 
     private void drawSingleNode(Graphics graphics, TreeNode tree, int xPos, int yPos)
@@ -168,13 +242,38 @@ public class TreeDrawingArea
             graphics.fillOval(xPos - NODE_SIDE / 2, yPos - NODE_SIDE / 2, NODE_SIDE, NODE_SIDE);
     }
 
-    private int countXPos(int xDist)
+    private int countNodePosX(int xDist)
     {
-        return leftBorder + getWidth() / 2 + xDist * X_DIFF;
+        return countRootPosX() + xDist * NODE_SIDE;
     }
 
-    private int countYPos(int yDist)
+    private int countNodePosY(int yDist)
     {
-        return upperBorder + getHeight() / 8 + yDist * Y_DIFF;
+        return countRootPosY() + yDist * NODE_SIDE;
+    }
+
+    private int countRootPosX()
+    {
+        return verticalAxis + getWidth() / 2;
+    }
+
+    private int countRootPosY()
+    {
+        return horizontalAxis + getHeight() / 8;
+    }
+
+    private int countDistPosX(int x)
+    {
+        return roundPos(x - countRootPosX());
+    }
+
+    private int countDistPosY(int y)
+    {
+        return roundPos(y - countRootPosY());
+    }
+
+    private int roundPos(double pos)
+    {
+        return (int)Math.rint(pos / NODE_SIDE);
     }
 }

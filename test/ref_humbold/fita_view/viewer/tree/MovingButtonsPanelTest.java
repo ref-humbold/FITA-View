@@ -30,7 +30,7 @@ public class MovingButtonsPanelTest
         Mockito.doCallRealMethod()
                .when(mockDrawingArea)
                .moveArea(Matchers.anyInt(), Matchers.anyInt());
-        Mockito.doCallRealMethod().when(mockDrawingArea).getBorderCorner();
+        Mockito.doCallRealMethod().when(mockDrawingArea).getAxisPoint();
     }
 
     @After
@@ -46,7 +46,7 @@ public class MovingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        Pair<Integer, Integer> result = mockDrawingArea.getBorderCorner();
+        Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
         InOrder order = Mockito.inOrder(mockDrawingArea);
 
         order.verify(mockDrawingArea, Mockito.times(1)).moveArea(0, MovingButtonsPanel.STEP);
@@ -62,7 +62,7 @@ public class MovingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        Pair<Integer, Integer> result = mockDrawingArea.getBorderCorner();
+        Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
         InOrder order = Mockito.inOrder(mockDrawingArea);
 
         order.verify(mockDrawingArea, Mockito.times(1)).moveArea(0, -MovingButtonsPanel.STEP);
@@ -78,7 +78,7 @@ public class MovingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        Pair<Integer, Integer> result = mockDrawingArea.getBorderCorner();
+        Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
         InOrder order = Mockito.inOrder(mockDrawingArea);
 
         order.verify(mockDrawingArea, Mockito.times(1)).moveArea(MovingButtonsPanel.STEP, 0);
@@ -94,7 +94,7 @@ public class MovingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        Pair<Integer, Integer> result = mockDrawingArea.getBorderCorner();
+        Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
         InOrder order = Mockito.inOrder(mockDrawingArea);
 
         order.verify(mockDrawingArea, Mockito.times(1)).moveArea(-MovingButtonsPanel.STEP, 0);
