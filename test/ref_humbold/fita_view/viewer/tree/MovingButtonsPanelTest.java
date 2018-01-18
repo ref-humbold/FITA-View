@@ -30,6 +30,7 @@ public class MovingButtonsPanelTest
         Mockito.doCallRealMethod()
                .when(mockDrawingArea)
                .moveArea(Matchers.anyInt(), Matchers.anyInt());
+        Mockito.doCallRealMethod().when(mockDrawingArea).centralize();
         Mockito.doCallRealMethod().when(mockDrawingArea).getAxisPoint();
     }
 
@@ -37,6 +38,22 @@ public class MovingButtonsPanelTest
     public void tearDown()
     {
         testObject = null;
+    }
+
+    @Test
+    public void testActionPerformedWhenCentre()
+    {
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CENTRE");
+
+        testObject.actionPerformed(mockActionEvent);
+
+        Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
+        InOrder order = Mockito.inOrder(mockDrawingArea);
+
+        order.verify(mockDrawingArea, Mockito.times(1)).centralize();
+        order.verify(mockDrawingArea, Mockito.times(1)).repaint();
+        Assert.assertEquals(new Integer(0), result.getFirst());
+        Assert.assertEquals(new Integer(0), result.getSecond());
     }
 
     @Test

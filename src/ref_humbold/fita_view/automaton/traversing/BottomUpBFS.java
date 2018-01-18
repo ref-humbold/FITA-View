@@ -11,6 +11,12 @@ public class BottomUpBFS
     private boolean canAddParent = false;
 
     @Override
+    public TraversingMode getMode()
+    {
+        return TraversingMode.BFS;
+    }
+
+    @Override
     public void initialize(TreeNode... nodes)
     {
         super.initialize(nodes);

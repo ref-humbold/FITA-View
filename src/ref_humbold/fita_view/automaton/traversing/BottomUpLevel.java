@@ -11,6 +11,12 @@ public class BottomUpLevel
     int currentHeight;
 
     @Override
+    public TraversingMode getMode()
+    {
+        return TraversingMode.LEVEL;
+    }
+
+    @Override
     public void initialize(TreeNode... nodes)
     {
         super.initialize(nodes);

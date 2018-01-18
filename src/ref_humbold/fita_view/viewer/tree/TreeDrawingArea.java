@@ -56,10 +56,7 @@ public class TreeDrawingArea
     public void receiveMessage(Message<Iterable<TreeNode>> message)
     {
         currentNodes.clear();
-
-        for(TreeNode node : message.getParam())
-            currentNodes.add(node);
-
+        message.getParam().forEach(currentNodes::add);
         repaint();
     }
 
@@ -68,20 +65,24 @@ public class TreeDrawingArea
     {
         Pair<TreeNode, Integer> pair = treePointer.get();
 
-        horizontalAxis = 0;
-        verticalAxis = 0;
         nodesPoints.clear();
+        centralize();
 
         if(pair != null)
             saveNodesPoints(pair.getFirst(), 0, 0, 1 << (pair.getSecond() - 1));
-
-        repaint();
     }
 
     public void moveArea(int x, int y)
     {
         horizontalAxis += y;
         verticalAxis += x;
+        repaint();
+    }
+
+    public void centralize()
+    {
+        horizontalAxis = 0;
+        verticalAxis = 0;
         repaint();
     }
 
@@ -239,7 +240,10 @@ public class TreeDrawingArea
         graphics.fillRect(xPos - NODE_SIDE / 2, yPos - NODE_SIDE / 2, NODE_SIDE, NODE_SIDE);
 
         if(currentNodes.contains(tree))
+        {
+            graphics.setColor(Color.GREEN);
             graphics.fillOval(xPos - NODE_SIDE / 2, yPos - NODE_SIDE / 2, NODE_SIDE, NODE_SIDE);
+        }
     }
 
     private int countNodePosX(int xDist)

@@ -5,7 +5,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.*;
 
 import ref_humbold.fita_view.Pointer;
@@ -16,6 +18,7 @@ import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceFactory;
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceMode;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
+import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.SignalReceiver;
 import ref_humbold.fita_view.viewer.UserMessageBox;
@@ -29,6 +32,7 @@ public class ModifyingButtonsPanel
     private Pointer<TreeAutomaton> automatonPointer;
     private ButtonGroup traversingGroup = new ButtonGroup();
     private ButtonGroup nonDeterminismGroup = new ButtonGroup();
+    private Map<TraversingMode, JRadioButton> traversingButtons = new HashMap<>();
     private JPanel traversingPanel = new JPanel();
     private JPanel nonDeterminismPanel = new JPanel();
 
@@ -59,6 +63,13 @@ public class ModifyingButtonsPanel
             }
             catch(Exception e)
             {
+                TreeTraversing traversing = automatonPointer.get().getTraversing();
+
+                traversingGroup.clearSelection();
+
+                if(traversing != null)
+                    traversingButtons.get(traversing.getMode()).setSelected(true);
+
                 UserMessageBox.showException(e);
             }
         else if(StateChoiceFactory.isCorrectMode(actionCommand))
@@ -72,7 +83,7 @@ public class ModifyingButtonsPanel
     }
 
     @Override
-    public void receiveSignal(Message<Void> message)
+    public void receiveSignal(Message<Void> signal)
     {
         removeAll();
         addComponents();
@@ -82,7 +93,6 @@ public class ModifyingButtonsPanel
 
     private void initializeComponents()
     {
-        List<JRadioButton> traversingButtons = new ArrayList<>();
         List<JRadioButton> nonDeterminismButtons = new ArrayList<>();
 
         for(TraversingMode mode : TraversingMode.values())
@@ -94,7 +104,7 @@ public class ModifyingButtonsPanel
             button.setBackground(Color.CYAN);
             button.setMnemonic(mode.toString().charAt(0));
 
-            traversingButtons.add(button);
+            traversingButtons.put(mode, button);
             traversingGroup.add(button);
         }
 
@@ -112,7 +122,7 @@ public class ModifyingButtonsPanel
 
         traversingPanel.setLayout(new GridLayout(TraversingMode.values().length, 1));
 
-        for(JRadioButton button : traversingButtons)
+        for(JRadioButton button : traversingButtons.values())
             traversingPanel.add(button);
 
         nonDeterminismPanel.setLayout(new GridLayout(StateChoiceMode.values().length, 1));

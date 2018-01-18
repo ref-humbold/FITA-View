@@ -8,6 +8,12 @@ import ref_humbold.fita_view.tree.TreeNode;
 public class TopDownDFS
     extends TopDownTraversing
 {
+    @Override
+    public TraversingMode getMode()
+    {
+        return TraversingMode.DFS;
+    }
+
     /**
      * Getting next node in depth-first search order.
      * @return next node

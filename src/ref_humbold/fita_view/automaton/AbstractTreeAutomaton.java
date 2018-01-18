@@ -90,7 +90,7 @@ public abstract class AbstractTreeAutomaton
     {
         if(getTraversing() == null)
         {
-            setRunningMode(AutomatonRunningMode.STOPPED);
+            stopTraversing();
             throw new NoTraversingStrategyException("Automaton has no traversing strategy.");
         }
 
@@ -98,18 +98,8 @@ public abstract class AbstractTreeAutomaton
             || runningMode == AutomatonRunningMode.FINISHED)
             initialize();
 
-        try
-        {
-            while(getTraversing().hasNext())
-                makeStepForward();
-
-            setRunningMode(AutomatonRunningMode.FINISHED);
-        }
-        catch(Exception e)
-        {
-            setRunningMode(AutomatonRunningMode.STOPPED);
-            throw e;
-        }
+        while(getTraversing().hasNext())
+            makeStepForward();
     }
 
     @Override
@@ -118,18 +108,25 @@ public abstract class AbstractTreeAutomaton
                NoTraversingStrategyException, UndefinedTreeStateException, EmptyTreeException,
                NoNonDeterministicStrategyException
     {
+        if(getTraversing() == null)
+        {
+            stopTraversing();
+            throw new NoTraversingStrategyException("Automaton has no traversing strategy.");
+        }
+
         if(runningMode == AutomatonRunningMode.STOPPED)
             initialize();
 
-        Iterable<TreeNode> nextNodes = getTraversing().next();
+        Iterable<TreeNode> nextNodes;
 
         try
         {
+            nextNodes = getTraversing().next();
             processNodes(nextNodes);
         }
         catch(Exception e)
         {
-            setRunningMode(AutomatonRunningMode.STOPPED);
+            stopTraversing();
             throw e;
         }
 
@@ -142,6 +139,8 @@ public abstract class AbstractTreeAutomaton
     @Override
     public void stopTraversing()
     {
+        setRunningMode(AutomatonRunningMode.STOPPED);
+
         if(getTraversing() != null)
             getTraversing().clear();
 

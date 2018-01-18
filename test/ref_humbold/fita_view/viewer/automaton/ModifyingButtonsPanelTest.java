@@ -82,7 +82,7 @@ public class ModifyingButtonsPanelTest
         catch(Exception e)
         {
             Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-            Mockito.verify(mockPointer, Mockito.times(2)).get();
+            Mockito.verify(mockPointer, Mockito.times(3)).get();
 
             throw e;
         }

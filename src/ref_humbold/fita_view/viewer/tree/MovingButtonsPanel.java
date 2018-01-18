@@ -44,21 +44,25 @@ public class MovingButtonsPanel
     @Override
     public void actionPerformed(ActionEvent actionEvent)
     {
-        switch(actionEvent.getActionCommand())
+        switch(Direction.valueOf(actionEvent.getActionCommand()))
         {
-            case "UP":
+            case CENTRE:
+                drawingArea.centralize();
+                break;
+
+            case UP:
                 drawingArea.moveArea(0, STEP);
                 break;
 
-            case "DOWN":
+            case DOWN:
                 drawingArea.moveArea(0, -STEP);
                 break;
 
-            case "LEFT":
+            case LEFT:
                 drawingArea.moveArea(STEP, 0);
                 break;
 
-            case "RIGHT":
+            case RIGHT:
                 drawingArea.moveArea(-STEP, 0);
                 break;
         }
@@ -66,18 +70,21 @@ public class MovingButtonsPanel
 
     private void initializeButtons()
     {
-        JButton leftButton = createButton("LEFT", "triangle-left.png", KeyEvent.VK_LEFT);
-        JButton upButton = createButton("UP", "triangle-up.png", KeyEvent.VK_UP);
-        JButton downButton = createButton("DOWN", "triangle-down.png", KeyEvent.VK_DOWN);
-        JButton rightButton = createButton("RIGHT", "triangle-right.png", KeyEvent.VK_RIGHT);
+        JButton leftButton = createButton(Direction.LEFT, "triangle-left.png", KeyEvent.VK_LEFT);
+        JButton upButton = createButton(Direction.UP, "triangle-up.png", KeyEvent.VK_UP);
+        JButton downButton = createButton(Direction.DOWN, "triangle-down.png", KeyEvent.VK_DOWN);
+        JButton rightButton = createButton(Direction.RIGHT, "triangle-right.png",
+                                           KeyEvent.VK_RIGHT);
+        JButton centreButton = createButton(Direction.CENTRE, "circle-dot.png", KeyEvent.VK_HOME);
 
         buttons.add(leftButton);
         buttons.add(upButton);
+        buttons.add(centreButton);
         buttons.add(downButton);
         buttons.add(rightButton);
     }
 
-    private JButton createButton(String direction, String iconFilename, int key)
+    private JButton createButton(Direction direction, String iconFilename, int key)
     {
         ImageIcon icon = new ImageIcon(getClass().getResource(iconFilename));
         JButton button = new JButton(icon);
@@ -85,9 +92,14 @@ public class MovingButtonsPanel
         button.setMnemonic(key);
         button.setVerticalTextPosition(AbstractButton.CENTER);
         button.setHorizontalTextPosition(AbstractButton.CENTER);
-        button.setActionCommand(direction);
+        button.setActionCommand(direction.toString());
         button.addActionListener(this);
 
         return button;
+    }
+
+    private enum Direction
+    {
+        LEFT, RIGHT, UP, DOWN, CENTRE
     }
 }

@@ -8,6 +8,11 @@ public interface TreeTraversing
     extends Iterator<Iterable<TreeNode>>
 {
     /**
+     * @return mode of the traversing
+     */
+    TraversingMode getMode();
+
+    /**
      * Setting nodes in tree to start traversing from.
      * @param nodes initial nodes
      */
