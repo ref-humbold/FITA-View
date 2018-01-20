@@ -101,20 +101,19 @@ public class BottomUpDFTA
     }
 
     @Override
-    protected void processNodes(Iterable<TreeNode> nextNodes)
+    protected void processNode(TreeNode node)
         throws IllegalVariableValueException, UndefinedTreeStateException, NoSuchTransitionException
     {
-        for(TreeNode node : nextNodes)
-            for(Variable var : variables)
-            {
-                String leftValue = node.getLeft() == null ? var.getInitValue()
-                                                          : node.getLeft().getStateValue(var);
-                String rightValue = node.getRight() == null ? var.getInitValue()
-                                                            : node.getRight().getStateValue(var);
-                String result = doTransition(var, leftValue, rightValue, node.getLabel());
+        for(Variable var : variables)
+        {
+            String leftValue = node.getLeft() == null ? var.getInitValue()
+                                                      : node.getLeft().getStateValue(var);
+            String rightValue = node.getRight() == null ? var.getInitValue()
+                                                        : node.getRight().getStateValue(var);
+            String result = doTransition(var, leftValue, rightValue, node.getLabel());
 
-                node.setStateValue(var, result);
-            }
+            node.setStateValue(var, result);
+        }
     }
 
     @Override

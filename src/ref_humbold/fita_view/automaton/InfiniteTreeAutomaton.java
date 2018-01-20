@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.automaton;
 
+import java.util.Map;
+
 import ref_humbold.fita_view.automaton.traversing.RecursiveContinuationException;
 
 public interface InfiniteTreeAutomaton
@@ -12,7 +14,7 @@ public interface InfiniteTreeAutomaton
         throws RecursiveContinuationException;
 
     /**
-     * Adding an accepting condition of automaton.
+     * Adding an infinitely appearing accepting state to the automaton.
      */
-    // void addAcceptingCondition();
+    void addInfinitelyAcceptingState(Map<Variable, String> accept);
 }

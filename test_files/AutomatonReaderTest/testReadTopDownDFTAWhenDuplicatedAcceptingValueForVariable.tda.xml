@@ -12,13 +12,13 @@
       <value>Y</value>
     </var>
   </variables>
-  <accepting>
+  <leaf-accepting>
     <accept>
       <var-acc var-id="0" include="B" />
       <var-acc var-id="1" include="X" />
       <var-acc var-id="0" include="C" />
     </accept>
-  </accepting>
+  </leaf-accepting>
   <transitions>
     <trans var-id="0">
       <node-value>A</node-value>

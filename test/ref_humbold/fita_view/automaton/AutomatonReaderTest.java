@@ -474,6 +474,126 @@ public class AutomatonReaderTest
 
     // endregion
 
+    // region TopDownDITA
+
+    @Test
+    public void testReadTopDownDITA()
+    {
+        TreeAutomaton result = null;
+
+        try
+        {
+            testObject = new AutomatonReader(new File(DIRECTORY + "testReadTopDownDITA.tda.xml"));
+            result = testObject.read();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Variable v = null;
+
+        try
+        {
+            v = new Variable(0, "A", "B", "C");
+        }
+        catch(IllegalVariableValueException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        TopDownDITA expected = new TopDownDITA(Collections.singletonList(v),
+                                               Arrays.asList("0", "1"));
+
+        expected.addInfinitelyAcceptingState(Collections.singletonMap(v, "+ C"));
+        expected.addAcceptingState(Collections.singletonMap(v, "- B"));
+
+        try
+        {
+            expected.addTransition(v, "A", "0", "B", "C");
+            expected.addTransition(v, "A", "1", "A", "A");
+            expected.addTransition(v, "B", "0", "C", "A");
+            expected.addTransition(v, "B", "1", "B", "B");
+            expected.addTransition(v, "C", "0", "A", "B");
+            expected.addTransition(v, "C", "1", "C", "C");
+        }
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result instanceof TopDownDITA);
+        Assert.assertEquals(expected, result);
+    }
+
+    // endregion
+
+    // region TopDownNITA
+
+    @Test
+    public void testReadTopDownNITA()
+    {
+        TreeAutomaton result = null;
+
+        try
+        {
+            testObject = new AutomatonReader(new File(DIRECTORY + "testReadTopDownNITA.tda.xml"));
+            result = testObject.read();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Variable v = null;
+
+        try
+        {
+            v = new Variable(0, "A", "B", "C");
+        }
+        catch(IllegalVariableValueException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        TopDownNITA expected = new TopDownNITA(Collections.singletonList(v),
+                                               Arrays.asList("0", "1"));
+
+        expected.addInfinitelyAcceptingState(Collections.singletonMap(v, "- A"));
+        expected.addAcceptingState(Collections.singletonMap(v, "+ B"));
+
+        try
+        {
+            expected.addTransition(v, "A", "0", "B", "C");
+            expected.addTransition(v, "A", "1", "A", "A");
+            expected.addTransition(v, "A", "1", "A", "B");
+            expected.addTransition(v, "B", "0", "C", "A");
+            expected.addTransition(v, "B", "0", "B", "C");
+            expected.addTransition(v, "B", "1", "B", "B");
+            expected.addTransition(v, "C", "0", "A", "B");
+            expected.addTransition(v, "C", "1", "C", "C");
+            expected.addTransition(v, "C", "1", "B", "B");
+            expected.addTransition(v, "C", "1", "A", "A");
+        }
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result instanceof TopDownNITA);
+        Assert.assertEquals(expected, result);
+    }
+
+    // endregion
+
     // region BottomUpDFTA
 
     @Test

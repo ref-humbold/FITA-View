@@ -29,6 +29,7 @@ class BottomUpAutomatonHandler
         switch(qName)
         {
             case "automaton":
+            case "accepting":
             case "label":
             case "left-value":
             case "right-value":
@@ -46,6 +47,9 @@ class BottomUpAutomatonHandler
     {
         switch(qName)
         {
+            case "accepting":
+                break;
+
             case "variables":
                 automaton = new BottomUpDFTA(variables.values(), alphabet);
                 break;

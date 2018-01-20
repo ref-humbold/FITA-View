@@ -25,22 +25,17 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="accepting">
+        <xs:element name="buchi-accepting" minOccurs="0">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="accept" maxOccurs="unbounded">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="var-acc" maxOccurs="unbounded">
-                      <xs:complexType>
-                        <xs:attribute name="var-id" type="xs:int" use="required" />
-                        <xs:attribute name="include" type="everyWildcardType" />
-                        <xs:attribute name="exclude" type="strType" />
-                      </xs:complexType>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
+              <xs:element name="accept" type="stateAccepted" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="leaf-accepting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="accept" type="stateAccepted" maxOccurs="unbounded" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -87,4 +82,16 @@
       <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+|\(=\)" />
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:complexType name="stateAccepted">
+    <xs:sequence>
+      <xs:element name="var-acc" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="var-id" type="xs:int" use="required" />
+          <xs:attribute name="include" type="everyWildcardType" />
+          <xs:attribute name="exclude" type="strType" />
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 </xs:schema>

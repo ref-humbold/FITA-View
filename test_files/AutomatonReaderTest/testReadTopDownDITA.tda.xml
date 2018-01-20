@@ -9,9 +9,14 @@
       <value>C</value>
     </var>
   </variables>
+  <buchi-accepting>
+    <accept>
+      <var-acc var-id="0" include="C" />
+    </accept>
+  </buchi-accepting>
   <leaf-accepting>
     <accept>
-      <var-acc var-id="0" include="B" />
+      <var-acc var-id="0" exclude="B" />
     </accept>
   </leaf-accepting>
   <transitions>
@@ -50,12 +55,6 @@
       <label>1</label>
       <left-result>C</left-result>
       <right-result>C</right-result>
-    </trans>
-    <trans var-id="0">
-      <node-value>C</node-value>
-      <label>2</label>
-      <left-result>B</left-result>
-      <right-result>B</right-result>
     </trans>
   </transitions>
 </automaton>

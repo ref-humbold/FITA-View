@@ -122,7 +122,9 @@ public abstract class AbstractTreeAutomaton
         try
         {
             nextNodes = getTraversing().next();
-            processNodes(nextNodes);
+
+            for(TreeNode node : nextNodes)
+                processNode(node);
         }
         catch(Exception e)
         {
@@ -234,9 +236,9 @@ public abstract class AbstractTreeAutomaton
 
     /**
      * Processing tree nodes in each step.
-     * @param nextNodes nodes to process
+     * @param node nodes to process
      */
-    protected abstract void processNodes(Iterable<TreeNode> nextNodes)
+    protected abstract void processNode(TreeNode node)
         throws NoSuchTransitionException, IllegalVariableValueException,
                UndefinedTreeStateException;
 

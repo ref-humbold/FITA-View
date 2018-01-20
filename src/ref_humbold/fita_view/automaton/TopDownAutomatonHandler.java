@@ -9,6 +9,7 @@ class TopDownAutomatonHandler
 {
     private TopDownAutomaton automaton;
     private boolean isDeterministic;
+    private boolean isInfiniteAccept = false;
     private String nodeValue;
     private String label;
     private String leftResult;
@@ -33,6 +34,20 @@ class TopDownAutomatonHandler
                 isDeterministic = Boolean.parseBoolean(attributes.getValue("determinism"));
                 break;
 
+            case "buchi-accepting":
+                isInfiniteAccept = true;
+                automaton = isDeterministic ? new TopDownDITA(variables.values(), alphabet)
+                                            : new TopDownNITA(variables.values(), alphabet);
+                break;
+
+            case "leaf-accepting":
+                if(!isInfiniteAccept)
+                    automaton = isDeterministic ? new TopDownDFTA(variables.values(), alphabet)
+                                                : new TopDownNFTA(variables.values(), alphabet);
+
+                isInfiniteAccept = false;
+                break;
+
             case "label":
             case "node-value":
             case "left-result":
@@ -50,9 +65,9 @@ class TopDownAutomatonHandler
     {
         switch(qName)
         {
+            case "buchi-accepting":
+            case "leaf-accepting":
             case "variables":
-                automaton = isDeterministic ? new TopDownDFTA(variables.values(), alphabet)
-                                            : new TopDownNFTA(variables.values(), alphabet);
                 break;
 
             case "trans":
@@ -68,7 +83,10 @@ class TopDownAutomatonHandler
                             writePosition() + "Variable with ID " + id + "has no accepting value.");
                 }
 
-                automaton.addAcceptingState(accept);
+                if(isInfiniteAccept)
+                    ((InfiniteTreeAutomaton)automaton).addInfinitelyAcceptingState(accept);
+                else
+                    automaton.addAcceptingState(accept);
                 break;
 
             case "label":

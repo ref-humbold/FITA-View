@@ -90,37 +90,33 @@ public abstract class TopDownAutomaton
     }
 
     @Override
-    protected void processNodes(Iterable<TreeNode> nextNodes)
+    protected void processNode(TreeNode node)
         throws IllegalVariableValueException, UndefinedTreeStateException, NoSuchTransitionException
     {
-        for(TreeNode node : nextNodes)
+        Map<Variable, String> leafLeftState = new HashMap<>();
+        Map<Variable, String> leafRightState = new HashMap<>();
+
+        for(Variable v : variables)
         {
-            Map<Variable, String> leafLeftState = new HashMap<>();
-            Map<Variable, String> leafRightState = new HashMap<>();
+            Pair<String, String> result = doTransition(v, node.getStateValue(v), node.getLabel());
 
-            for(Variable v : variables)
+            if(node.hasChildren())
             {
-                Pair<String, String> result = doTransition(v, node.getStateValue(v),
-                                                           node.getLabel());
-
-                if(node.hasChildren())
-                {
-                    node.getLeft().setStateValue(v, result.getFirst());
-                    node.getRight().setStateValue(v, result.getSecond());
-                }
-                else
-                {
-                    leafLeftState.put(v, result.getFirst());
-                    leafRightState.put(v, result.getSecond());
-                }
+                node.getLeft().setStateValue(v, result.getFirst());
+                node.getRight().setStateValue(v, result.getSecond());
             }
-
-            if(!leafLeftState.isEmpty())
-                leafStates.add(leafLeftState);
-
-            if(!leafRightState.isEmpty())
-                leafStates.add(leafRightState);
+            else
+            {
+                leafLeftState.put(v, result.getFirst());
+                leafRightState.put(v, result.getSecond());
+            }
         }
+
+        if(!leafLeftState.isEmpty())
+            leafStates.add(leafLeftState);
+
+        if(!leafRightState.isEmpty())
+            leafStates.add(leafRightState);
     }
 
     private Pair<String, String> doTransition(Variable var, String value, String label)

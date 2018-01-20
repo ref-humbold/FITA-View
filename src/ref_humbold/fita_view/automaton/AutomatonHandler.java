@@ -12,9 +12,9 @@ abstract class AutomatonHandler
 {
     protected Collection<String> alphabet = new ArrayList<>();
     protected Map<Integer, Variable> variables = new HashMap<>();
-    protected Map<Variable, String> accept = new HashMap<>();
-    protected StringBuilder content = null;
-    protected String tagName = null;
+    protected Map<Variable, String> accept;
+    protected StringBuilder content;
+    protected String tagName;
     protected Integer varID;
     private Locator locator;
     private List<String> varValues = new ArrayList<>();
@@ -37,7 +37,6 @@ abstract class AutomatonHandler
         {
             case "alphabet":
             case "variables":
-            case "accepting":
             case "transitions":
             case "word":
             case "value":
@@ -49,16 +48,16 @@ abstract class AutomatonHandler
                 varID = Integer.parseInt(attributes.getValue("id"));
                 break;
 
+            case "accept":
+                accept = new HashMap<>();
+                break;
+
             case "trans":
                 varID = Integer.parseInt(attributes.getValue("var-id"));
 
                 if(!variables.containsKey(varID))
                     throw new NoVariableWithIDException(
                         writePosition() + "No variable with with ID " + varID + ".");
-                break;
-
-            case "accept":
-                accept.clear();
                 break;
 
             case "var-acc":
@@ -123,7 +122,6 @@ abstract class AutomatonHandler
         {
             case "automaton":
             case "alphabet":
-            case "accepting":
             case "var-acc":
             case "transitions":
                 break;

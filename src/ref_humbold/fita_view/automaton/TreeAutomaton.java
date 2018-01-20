@@ -67,7 +67,7 @@ public interface TreeAutomaton
     void setSendingMessages(boolean sendingMessages);
 
     /**
-     * Adding an accepting state of automaton.
+     * Adding an accepting state to the automaton.
      * @param accept mapping from variables to their accepting values
      */
     void addAcceptingState(Map<Variable, String> accept);

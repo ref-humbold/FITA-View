@@ -9,11 +9,11 @@
       <value>C</value>
     </var>
   </variables>
-  <accepting>
+  <leaf-accepting>
     <accept>
       <var-acc var-id="0" />
     </accept>
-  </accepting>
+  </leaf-accepting>
   <transitions>
     <trans var-id="0">
       <node-value>A</node-value>
