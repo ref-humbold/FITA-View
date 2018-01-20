@@ -132,7 +132,7 @@ public class AutomatonTreeView
 
                 if(node.hasInitValue())
                 {
-                    setBackgroundNonSelectionColor(Color.GREEN);
+                    setBackgroundNonSelectionColor(Color.LIGHT_GRAY);
                     setBackgroundSelectionColor(Color.CYAN);
                 }
             }

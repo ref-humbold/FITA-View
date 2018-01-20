@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.automaton;
 
+import java.util.Objects;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -64,7 +65,7 @@ class TopDownAutomatonHandler
                 {
                     if(accept.get(variables.get(id)) == null)
                         throw new NoAcceptingForVariableException(
-                            "Variable with ID " + id + "has no accepting value.");
+                            writePosition() + "Variable with ID " + id + "has no accepting value.");
                 }
 
                 automaton.addAcceptingState(accept);
@@ -74,42 +75,46 @@ class TopDownAutomatonHandler
                 label = content.toString();
                 content = null;
 
-                if(!label.equals(Wildcard.EVERY_VALUE) && !alphabet.contains(label))
+                if(!Objects.equals(label, Wildcard.EVERY_VALUE) && !alphabet.contains(label))
                     throw new IllegalAlphabetWordException(
-                        "Given label \'" + label + "\' is not a part of automaton's alphabet.");
+                        writePosition() + "Given label \'" + label
+                            + "\' is not a part of automaton's alphabet.");
                 break;
 
             case "node-value":
                 nodeValue = content.toString();
                 content = null;
 
-                if(!nodeValue.equals(Wildcard.EVERY_VALUE) && !variables.get(varID)
-                                                                        .contains(nodeValue))
-                    throw new IllegalVariableValueException("Given node-value  \'" + nodeValue
-                                                                + "\' is not a value of variable with ID "
-                                                                + varID + ".");
+                if(!Objects.equals(nodeValue, Wildcard.EVERY_VALUE) && !variables.get(varID)
+                                                                                 .contains(
+                                                                                     nodeValue))
+                    throw new IllegalVariableValueException(
+                        writePosition() + "Given node-value  \'" + nodeValue
+                            + "\' is not a value of variable with ID " + varID + ".");
                 break;
 
             case "left-result":
                 leftResult = content.toString();
                 content = null;
 
-                if(!leftResult.equals(Wildcard.SAME_VALUE) && !variables.get(varID)
-                                                                        .contains(leftResult))
-                    throw new IllegalVariableValueException("Given left-result \'" + leftResult
-                                                                + "\' is not a value of variable with ID "
-                                                                + varID + ".");
+                if(!Objects.equals(leftResult, Wildcard.SAME_VALUE) && !variables.get(varID)
+                                                                                 .contains(
+                                                                                     leftResult))
+                    throw new IllegalVariableValueException(
+                        writePosition() + "Given left-result \'" + leftResult
+                            + "\' is not a value of variable with ID " + varID + ".");
                 break;
 
             case "right-result":
                 rightResult = content.toString();
                 content = null;
 
-                if(!rightResult.equals(Wildcard.SAME_VALUE) && !variables.get(varID)
-                                                                         .contains(rightResult))
-                    throw new IllegalVariableValueException("Given right-result \'" + rightResult
-                                                                + "\'is not a value of variable with ID "
-                                                                + varID + ".");
+                if(!Objects.equals(rightResult, Wildcard.SAME_VALUE) && !variables.get(varID)
+                                                                                  .contains(
+                                                                                      rightResult))
+                    throw new IllegalVariableValueException(
+                        writePosition() + "Given right-result \'" + rightResult
+                            + "\'is not a value of variable with ID " + varID + ".");
                 break;
 
             default:

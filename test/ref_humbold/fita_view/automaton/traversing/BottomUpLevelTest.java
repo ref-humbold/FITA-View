@@ -93,7 +93,7 @@ public class BottomUpLevelTest
         Assert.assertEquals(2, queue.size());
         Assert.assertTrue(queue.contains(node7));
         Assert.assertTrue(queue.contains(node4));
-        Assert.assertEquals(2, testObject.currentHeight);
+        Assert.assertEquals(2, testObject.currentDepth);
     }
 
     @Test
@@ -110,7 +110,7 @@ public class BottomUpLevelTest
         Assert.assertTrue(queue.contains(node12));
         Assert.assertTrue(queue.contains(node11));
         Assert.assertTrue(queue.contains(node10));
-        Assert.assertEquals(3, testObject.currentHeight);
+        Assert.assertEquals(3, testObject.currentDepth);
     }
 
     @Test

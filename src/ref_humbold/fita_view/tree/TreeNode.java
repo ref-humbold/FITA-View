@@ -7,6 +7,8 @@ import ref_humbold.fita_view.automaton.Variable;
 
 public abstract class TreeNode
 {
+    public static final int MAX_HEIGHT = 15;
+
     protected final int index;
 
     public TreeNode(int index)
