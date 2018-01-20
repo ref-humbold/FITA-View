@@ -14,25 +14,7 @@
                         <node label="13">
                           <node label="14">
                             <node label="15">
-                              <node label="16">
-                                <node label="17">
-                                  <node label="18">
-                                    <node label="19">
-                                      <node label="20">
-                                        <node label="21">
-                                          <node label="22" />
-                                          <node label="22" />
-                                        </node>
-                                        <node label="21" />
-                                      </node>
-                                      <node label="20" />
-                                    </node>
-                                    <node label="19" />
-                                  </node>
-                                  <node label="18" />
-                                </node>
-                                <node label="17" />
-                              </node>
+                              <node label="16" />
                               <node label="16" />
                             </node>
                             <node label="15" />

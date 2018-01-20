@@ -3,6 +3,7 @@ package ref_humbold.fita_view.tree;
 import java.util.Objects;
 import java.util.Stack;
 import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -12,23 +13,28 @@ import ref_humbold.fita_view.Pair;
 class TreeHandler
     extends DefaultHandler
 {
-    private static final int MAX_HEIGHT = 21;
-
     private Stack<Pair<StandardNode, TreeChild>> nodes = new Stack<>();
     private Stack<RepeatNode> repeats = new Stack<>();
     private TreeNode tree = null;
+    private Locator locator;
     private int index = 1;
-    private int actualHeight = 0;
-    private int maxHeight = 0;
+    private int actualDepth = 0;
+    private int maxDepth = 0;
 
     public TreeNode getTree()
     {
         return tree;
     }
 
-    public int getMaxHeight()
+    public int getMaxDepth()
     {
-        return this.maxHeight;
+        return this.maxDepth;
+    }
+
+    @Override
+    public void setDocumentLocator(Locator locator)
+    {
+        this.locator = locator;
     }
 
     @Override
@@ -44,12 +50,13 @@ class TreeHandler
     {
         String label;
 
-        ++actualHeight;
-        maxHeight = Math.max(maxHeight, actualHeight);
+        ++actualDepth;
+        maxDepth = Math.max(maxDepth, actualDepth);
 
-        if(actualHeight > MAX_HEIGHT)
-            throw new TreeHeightException(
-                "Tree height is greater than allowed " + Integer.toString(MAX_HEIGHT) + ".");
+        if(actualDepth > TreeNode.MAX_HEIGHT)
+            throw new TreeDepthException(
+                writePosition() + "Tree depth is greater than allowed " + Integer.toString(
+                    TreeNode.MAX_HEIGHT) + ".");
 
         switch(qName)
         {
@@ -60,7 +67,7 @@ class TreeHandler
                 label = attributes.getValue("label");
 
                 if(label == null)
-                    throw new TreeParsingException("Label is null");
+                    throw new TreeParsingException(writePosition() + "Label is null");
 
                 StandardNode standardNode = new StandardNode(label, index);
 
@@ -72,7 +79,7 @@ class TreeHandler
                 label = attributes.getValue("label");
 
                 if(label == null)
-                    throw new TreeParsingException("Label is null");
+                    throw new TreeParsingException(writePosition() + "Label is null");
 
                 RepeatNode repeatNode = new RepeatNode(label, index);
 
@@ -82,7 +89,8 @@ class TreeHandler
                 break;
 
             default:
-                throw new TreeParsingException("Unexpected tag: \'" + qName + "\'");
+                throw new TreeParsingException(
+                    writePosition() + "Unexpected tag: \'" + qName + "\'");
         }
     }
 
@@ -106,8 +114,8 @@ class TreeHandler
                         Pair<StandardNode, TreeChild> nodesPair = nodes.pop();
 
                         if(nodesPair.getSecond() == TreeChild.RIGHT)
-                            throw new OneChildException(
-                                "Node must have zero or two children, but it has one.");
+                            throw new OneChildException(writePosition()
+                                                            + "Node must have zero or two children, but it has one.");
 
                         node = nodesPair.getFirst();
                     }
@@ -115,7 +123,7 @@ class TreeHandler
                     Pair<StandardNode, TreeChild> parent = nodes.pop();
 
                     index /= 2;
-                    --actualHeight;
+                    --actualDepth;
 
                     try
                     {
@@ -147,7 +155,8 @@ class TreeHandler
                 break;
 
             default:
-                throw new TreeParsingException("Unexpected tag: \'" + qName + "\'");
+                throw new TreeParsingException(
+                    writePosition() + "Unexpected tag: \'" + qName + "\'");
         }
     }
 
@@ -155,6 +164,14 @@ class TreeHandler
     public void endDocument()
     {
         tree = nodes.empty() ? null : nodes.get(0).getFirst();
+    }
+
+    private String writePosition()
+    {
+        if(locator == null)
+            return "";
+
+        return "LINE " + locator.getLineNumber() + ", COLUMN " + locator.getColumnNumber() + ": ";
     }
 
     private enum TreeChild

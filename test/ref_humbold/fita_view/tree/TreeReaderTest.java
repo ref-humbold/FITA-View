@@ -186,14 +186,14 @@ public class TreeReaderTest
         }
     }
 
-    @Test(expected = TreeHeightException.class)
-    public void testReadWhenTreeHeightIsViolated()
+    @Test(expected = TreeDepthException.class)
+    public void testReadWhenTreeDepthIsViolated()
         throws SAXException
     {
         try
         {
             testObject = new TreeReader(
-                new File(DIRECTORY + "testReadWhenTreeHeightIsViolated.tree.xml"));
+                new File(DIRECTORY + "testReadWhenTreeDepthIsViolated.tree.xml"));
         }
         catch(Exception e)
         {

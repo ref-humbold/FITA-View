@@ -39,8 +39,8 @@ public class Pair<F, S>
         int prime = 37;
         int result = 1;
 
-        result = prime * result + (first == null ? 0 : first.hashCode());
-        result = prime * result + (second == null ? 0 : second.hashCode());
+        result = prime * result + Objects.hashCode(first);
+        result = prime * result + Objects.hashCode(second);
 
         return result;
     }

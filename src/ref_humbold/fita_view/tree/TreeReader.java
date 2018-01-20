@@ -46,7 +46,7 @@ public class TreeReader
 
     /**
      * Reading tree from XML file.
-     * @return tree object with its height
+     * @return tree object with its depth
      * @throws IOException if any IO error occurs
      * @throws SAXException if any parsing error occurs
      */
@@ -57,6 +57,6 @@ public class TreeReader
 
         parser.parse(file, handler);
 
-        return Pair.make(handler.getTree(), handler.getMaxHeight());
+        return Pair.make(handler.getTree(), handler.getMaxDepth());
     }
 }

@@ -25,11 +25,13 @@ public class TreeDrawingArea
     implements SignalReceiver, MessageReceiver<Iterable<TreeNode>>, MouseListener
 {
     private static final long serialVersionUID = -6588296156972565117L;
-    private static final int NODE_SIDE = 16;
+    private static final int NODE_SIDE = 4;
+    private static final int HORIZONTAL_UNIT = NODE_SIDE;
+    private static final int VERTICAL_UNIT = 5 * NODE_SIDE;
 
     private Pointer<Pair<TreeNode, Integer>> treePointer;
     private Set<TreeNode> currentNodes = new HashSet<>();
-    private Stack<Pair<Integer, Integer>> repeatNodes = new Stack<>();
+    private Stack<NodeParameters> repeatNodes = new Stack<>();
     private Map<Pair<Integer, Integer>, TreeNode> nodesPoints = new HashMap<>();
     private int horizontalAxis = 0;
     private int verticalAxis = 0;
@@ -69,7 +71,11 @@ public class TreeDrawingArea
         centralize();
 
         if(pair != null)
-            saveNodesPoints(pair.getFirst(), 0, 0, 1 << (pair.getSecond() - 1));
+        {
+            NodeParameters rootParams = new NodeParameters(pair.getSecond());
+
+            saveNodesPoints(pair.getFirst(), rootParams);
+        }
     }
 
     public void moveArea(int x, int y)
@@ -97,7 +103,11 @@ public class TreeDrawingArea
         if(pair == null)
             drawEmpty(graphics);
         else
-            drawTree(graphics, pair.getFirst(), 0, 0, 1 << (pair.getSecond() - 1));
+        {
+            NodeParameters rootParams = new NodeParameters(pair.getSecond());
+
+            drawTree(graphics, pair.getFirst(), rootParams);
+        }
 
         graphics.setColor(Color.BLUE);
     }
@@ -105,9 +115,8 @@ public class TreeDrawingArea
     @Override
     public void mouseClicked(MouseEvent mouseEvent)
     {
-        int xMouse = countDistPosX(mouseEvent.getX());
-        int yMouse = countDistPosY(mouseEvent.getY());
-        TreeNode node = nodesPoints.get(Pair.make(xMouse, yMouse));
+        Pair<Integer, Integer> mouseDist = countDistPos(mouseEvent.getX(), mouseEvent.getY());
+        TreeNode node = nodesPoints.get(mouseDist);
 
         if(mouseEvent.getButton() == MouseEvent.BUTTON1 && node != null)
             UserMessageBox.showInfo(node.getType().toString(), getNodeInfo(node));
@@ -143,7 +152,7 @@ public class TreeDrawingArea
         for(Map.Entry<Variable, String> entry : node.getState().entrySet())
         {
             builder.append("  ")
-                   .append(entry.getKey())
+                   .append(entry.getKey().getVarName())
                    .append(" => \'")
                    .append(entry.getValue())
                    .append("\'\n");
@@ -152,14 +161,14 @@ public class TreeDrawingArea
         return builder.toString();
     }
 
-    private void saveNodesPoints(TreeNode tree, int xDist, int yDist, int numLeaves)
+    private void saveNodesPoints(TreeNode tree, NodeParameters parameters)
     {
-        nodesPoints.put(Pair.make(xDist, yDist), tree);
+        nodesPoints.put(parameters.getDistance(), tree);
 
         if(tree.getType() != NodeType.REC && tree.hasChildren())
         {
-            saveNodesPoints(tree.getLeft(), xDist - numLeaves / 2, yDist + 3, numLeaves / 2);
-            saveNodesPoints(tree.getRight(), xDist + numLeaves / 2, yDist + 3, numLeaves / 2);
+            saveNodesPoints(tree.getLeft(), parameters.getLeftParams());
+            saveNodesPoints(tree.getRight(), parameters.getRightParams());
         }
     }
 
@@ -169,58 +178,55 @@ public class TreeDrawingArea
         graphics.drawString("No tree specified...", getWidth() / 4, getHeight() / 2);
     }
 
-    private void drawTree(Graphics graphics, TreeNode tree, int xDist, int yDist, int numLeaves)
+    private void drawTree(Graphics graphics, TreeNode tree, NodeParameters parameters)
     {
-        int leftXDist = xDist - numLeaves / 2;
-        int rightXDist = xDist + numLeaves / 2;
-        int nextYDist = yDist + 3;
-
         if(tree.getType() == NodeType.REPEAT)
-            repeatNodes.push(Pair.make(xDist, yDist));
+            repeatNodes.push(parameters);
 
         if(tree.getType() != NodeType.REC && tree.hasChildren())
-            drawEdges(graphics, xDist, yDist, leftXDist, rightXDist, nextYDist);
+            drawEdges(graphics, parameters);
         else if(tree.getType() == NodeType.REC)
-            drawRecursiveEdge(graphics, xDist, yDist);
+            drawRecursiveEdge(graphics, parameters);
 
-        drawSingleNode(graphics, tree, countNodePosX(xDist), countNodePosY(yDist));
+        drawSingleNode(graphics, tree, parameters);
 
         if(tree.getType() != NodeType.REC && tree.hasChildren())
         {
-            drawTree(graphics, tree.getLeft(), leftXDist, nextYDist, numLeaves / 2);
-            drawTree(graphics, tree.getRight(), rightXDist, nextYDist, numLeaves / 2);
+            drawTree(graphics, tree.getLeft(), parameters.getLeftParams());
+            drawTree(graphics, tree.getRight(), parameters.getRightParams());
         }
 
         if(tree.getType() == NodeType.REPEAT)
             repeatNodes.pop();
     }
 
-    private void drawRecursiveEdge(Graphics graphics, int xDist, int yDist)
+    private void drawRecursiveEdge(Graphics graphics, NodeParameters parameters)
     {
-        Pair<Integer, Integer> repeatPos = repeatNodes.peek();
-        int yEdgePos = countNodePosY(yDist) + 3 * NODE_SIDE / 4;
+        Pair<Integer, Integer> position = countNodePos(parameters);
+        Pair<Integer, Integer> repeatPosition = countNodePos(repeatNodes.peek());
+        int yEdgePos = position.getFirst() + 3 * NODE_SIDE / 4;
 
         graphics.setColor(Color.MAGENTA);
-        graphics.drawLine(countNodePosX(xDist), countNodePosY(yDist), countNodePosX(xDist),
-                          yEdgePos);
-        graphics.drawLine(countNodePosX(xDist), yEdgePos, countNodePosX(repeatPos.getFirst()),
-                          yEdgePos);
-        graphics.drawLine(countNodePosX(repeatPos.getFirst()), yEdgePos,
-                          countNodePosX(repeatPos.getFirst()),
-                          countNodePosY(repeatPos.getSecond()) + NODE_SIDE / 2);
+        graphics.drawLine(position.getFirst(), position.getSecond(), position.getFirst(), yEdgePos);
+        graphics.drawLine(position.getFirst(), yEdgePos, repeatPosition.getFirst(), yEdgePos);
+        graphics.drawLine(repeatPosition.getFirst(), yEdgePos, repeatPosition.getFirst(),
+                          repeatPosition.getSecond() + NODE_SIDE / 2);
     }
 
-    private void drawEdges(Graphics graphics, int xDist, int yDist, int leftXDist, int rightXDist,
-                           int nextYDist)
+    private void drawEdges(Graphics graphics, NodeParameters parameters)
     {
+        Pair<Integer, Integer> position = countNodePos(parameters);
+        Pair<Integer, Integer> leftPosition = countNodePos(parameters.getLeftParams());
+        Pair<Integer, Integer> rightPosition = countNodePos(parameters.getRightParams());
+
         graphics.setColor(Color.BLACK);
-        graphics.drawLine(countNodePosX(xDist), countNodePosY(yDist), countNodePosX(leftXDist),
-                          countNodePosY(nextYDist));
-        graphics.drawLine(countNodePosX(xDist), countNodePosY(yDist), countNodePosX(rightXDist),
-                          countNodePosY(nextYDist));
+        graphics.drawLine(position.getFirst(), position.getSecond(), leftPosition.getFirst(),
+                          leftPosition.getSecond());
+        graphics.drawLine(position.getFirst(), position.getSecond(), rightPosition.getFirst(),
+                          rightPosition.getSecond());
     }
 
-    private void drawSingleNode(Graphics graphics, TreeNode tree, int xPos, int yPos)
+    private void drawSingleNode(Graphics graphics, TreeNode tree, NodeParameters parameters)
     {
         switch(tree.getType())
         {
@@ -237,43 +243,38 @@ public class TreeDrawingArea
                 break;
         }
 
-        graphics.fillRect(xPos - NODE_SIDE / 2, yPos - NODE_SIDE / 2, NODE_SIDE, NODE_SIDE);
+        Pair<Integer, Integer> position = countNodePos(parameters);
+
+        graphics.fillRect(position.getFirst() - NODE_SIDE / 2, position.getSecond() - NODE_SIDE / 2,
+                          NODE_SIDE, NODE_SIDE);
 
         if(currentNodes.contains(tree))
         {
             graphics.setColor(Color.GREEN);
-            graphics.fillOval(xPos - NODE_SIDE / 2, yPos - NODE_SIDE / 2, NODE_SIDE, NODE_SIDE);
+            graphics.fillOval(position.getFirst() - NODE_SIDE / 2,
+                              position.getSecond() - NODE_SIDE / 2, NODE_SIDE, NODE_SIDE);
         }
     }
 
-    private int countNodePosX(int xDist)
+    private Pair<Integer, Integer> countRootPos()
     {
-        return countRootPosX() + xDist * NODE_SIDE;
+        return Pair.make(verticalAxis + getWidth() / 2, horizontalAxis + getHeight() / 8);
     }
 
-    private int countNodePosY(int yDist)
+    private Pair<Integer, Integer> countNodePos(NodeParameters parameters)
     {
-        return countRootPosY() + yDist * NODE_SIDE;
+        Pair<Integer, Integer> rootPos = countRootPos();
+        Pair<Integer, Integer> dist = parameters.getDistance();
+
+        return Pair.make(rootPos.getFirst() + dist.getFirst() * HORIZONTAL_UNIT,
+                         rootPos.getSecond() + dist.getSecond() * VERTICAL_UNIT);
     }
 
-    private int countRootPosX()
+    private Pair<Integer, Integer> countDistPos(int x, int y)
     {
-        return verticalAxis + getWidth() / 2;
-    }
+        Pair<Integer, Integer> rootPos = countRootPos();
 
-    private int countRootPosY()
-    {
-        return horizontalAxis + getHeight() / 8;
-    }
-
-    private int countDistPosX(int x)
-    {
-        return roundPos(x - countRootPosX());
-    }
-
-    private int countDistPosY(int y)
-    {
-        return roundPos(y - countRootPosY());
+        return Pair.make(roundPos(x - rootPos.getFirst()), roundPos(y - rootPos.getSecond()));
     }
 
     private int roundPos(double pos)
