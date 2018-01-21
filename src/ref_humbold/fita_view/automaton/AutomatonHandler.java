@@ -7,12 +7,14 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import ref_humbold.fita_view.Pair;
+
 abstract class AutomatonHandler
     extends DefaultHandler
 {
     protected Collection<String> alphabet = new ArrayList<>();
     protected Map<Integer, Variable> variables = new HashMap<>();
-    protected Map<Variable, String> accept;
+    protected Map<Variable, Pair<String, Boolean>> conditions;
     protected StringBuilder content;
     protected String tagName;
     protected Integer varID;
@@ -48,8 +50,8 @@ abstract class AutomatonHandler
                 varID = Integer.parseInt(attributes.getValue("id"));
                 break;
 
-            case "accept":
-                accept = new HashMap<>();
+            case "conditions":
+                conditions = new HashMap<>();
                 break;
 
             case "trans":
@@ -60,7 +62,7 @@ abstract class AutomatonHandler
                         writePosition() + "No variable with with ID " + varID + ".");
                 break;
 
-            case "var-acc":
+            case "accept":
                 int id = Integer.parseInt(attributes.getValue("var-id"));
 
                 if(!variables.containsKey(varID))
@@ -69,19 +71,19 @@ abstract class AutomatonHandler
 
                 Variable v = variables.get(id);
 
-                if(accept.containsKey(v))
+                if(conditions.containsKey(v))
                     throw new DuplicatedAcceptingValueException(
-                        writePosition() + "Accepting rule for variable with ID " + id
+                        writePosition() + "Accepting condition for variable with ID " + id
                             + " has been already defined.");
 
                 if(attributes.getIndex("include") >= 0 && attributes.getIndex("exclude") >= 0)
-                    throw new IncorrectAcceptingRuleException(
-                        writePosition() + "Accepting rule for variable with ID " + id
+                    throw new IncorrectAcceptingConditionException(
+                        writePosition() + "Accepting condition for variable with ID " + id
                             + "contains both \'include\' and \'exclude\'.");
 
                 if(attributes.getIndex("include") < 0 && attributes.getIndex("exclude") < 0)
-                    throw new IncorrectAcceptingRuleException(
-                        writePosition() + "Accepting rule for variable with ID " + id
+                    throw new IncorrectAcceptingConditionException(
+                        writePosition() + "Accepting condition for variable with ID " + id
                             + "contains neither \'include\' nor \'exclude\'.");
 
                 if(attributes.getIndex("include") >= 0)
@@ -90,10 +92,10 @@ abstract class AutomatonHandler
 
                     if(!Objects.equals(value, Wildcard.EVERY_VALUE) && !v.contains(value))
                         throw new IllegalVariableValueException(
-                            writePosition() + "Given accepting value \'" + value
+                            writePosition() + "Given value \'" + value
                                 + "\'is not a value of variable with ID " + id + ".");
 
-                    accept.put(v, "+ " + value);
+                    conditions.put(v, Pair.make(value, true));
                 }
                 else if(attributes.getIndex("exclude") >= 0)
                 {
@@ -101,10 +103,10 @@ abstract class AutomatonHandler
 
                     if(!v.contains(value))
                         throw new IllegalVariableValueException(
-                            writePosition() + "Given accepting value \'" + value
+                            writePosition() + "Given value \'" + value
                                 + "\'is not a value of variable with ID " + id + ".");
 
-                    accept.put(v, "- " + value);
+                    conditions.put(v, Pair.make(value, false));
                 }
                 break;
 
@@ -122,7 +124,7 @@ abstract class AutomatonHandler
         {
             case "automaton":
             case "alphabet":
-            case "var-acc":
+            case "accept":
             case "transitions":
                 break;
 

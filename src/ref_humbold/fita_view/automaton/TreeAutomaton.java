@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
@@ -41,6 +42,11 @@ public interface TreeAutomaton
         throws IncorrectTraversingException;
 
     /**
+     * @return accepting conditions for states in the automaton
+     */
+    AcceptingConditions getAcceptingConditions();
+
+    /**
      * @return running mode of the automaton
      */
     AutomatonRunningMode getRunningMode();
@@ -48,10 +54,12 @@ public interface TreeAutomaton
     /**
      * Testing if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
-     * @throws UndefinedAcceptanceException if no accepting states were defined
+     * @throws UndefinedAcceptanceException if no accepting conditions were defined
+     * @throws UndefinedTreeStateException if state of the tree is undefined
+     * @throws EmptyTreeException if tree is empty
      */
     boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedTreeStateException;
+        throws UndefinedAcceptanceException, UndefinedTreeStateException, EmptyTreeException;
 
     /**
      * @param tree new tree to run automaton on
@@ -67,10 +75,10 @@ public interface TreeAutomaton
     void setSendingMessages(boolean sendingMessages);
 
     /**
-     * Adding an accepting state to the automaton.
-     * @param accept mapping from variables to their accepting values
+     * Adding accepting conditions for states to the automaton.
+     * @param accept mapping from variables to accepting conditions on their values
      */
-    void addAcceptingState(Map<Variable, String> accept);
+    void addAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept);
 
     /**
      * Testing if label is present in alphabet recognised by the automaton.

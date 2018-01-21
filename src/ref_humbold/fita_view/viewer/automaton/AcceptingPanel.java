@@ -10,11 +10,9 @@ import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonRunningMode;
 import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
-import ref_humbold.fita_view.automaton.UndefinedAcceptanceException;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.messaging.SignalReceiver;
-import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class AcceptingPanel
@@ -54,7 +52,7 @@ public class AcceptingPanel
                         else
                             setTreeRejected();
                 }
-                catch(UndefinedAcceptanceException | UndefinedTreeStateException e)
+                catch(Exception e)
                 {
                     setTreeUndefined();
                 }
@@ -67,7 +65,7 @@ public class AcceptingPanel
     }
 
     @Override
-    public void receiveSignal(Message<Void> message)
+    public void receiveSignal(Message<Void> signal)
     {
         setTreeUndefined();
     }

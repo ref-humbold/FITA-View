@@ -10,14 +10,14 @@
     </var>
   </variables>
   <buchi-accepting>
-    <accept>
-      <var-acc var-id="0" exclude="A" />
-    </accept>
+    <conditions>
+      <accept var-id="0" exclude="A" />
+    </conditions>
   </buchi-accepting>
   <leaf-accepting>
-    <accept>
-      <var-acc var-id="0" include="B" />
-    </accept>
+    <conditions>
+      <accept var-id="0" include="B" />
+    </conditions>
   </leaf-accepting>
   <transitions>
     <trans var-id="0">

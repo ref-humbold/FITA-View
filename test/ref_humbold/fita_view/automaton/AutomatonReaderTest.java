@@ -7,6 +7,7 @@ import java.util.Collections;
 import org.junit.*;
 import org.xml.sax.SAXException;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 
@@ -75,7 +76,7 @@ public class AutomatonReaderTest
         TopDownDFTA expected = new TopDownDFTA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
-        expected.addAcceptingState(Collections.singletonMap(v, "- B"));
+        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("B", false)));
 
         try
         {
@@ -129,7 +130,7 @@ public class AutomatonReaderTest
         TopDownDFTA expected = new TopDownDFTA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
-        expected.addAcceptingState(Collections.singletonMap(v, "- A"));
+        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("A", false)));
 
         try
         {
@@ -359,7 +360,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = IncorrectAcceptingRuleException.class)
+    @Test(expected = IncorrectAcceptingConditionException.class)
     public void testReadTopDownDFTAWhenAcceptingUnspecified()
         throws SAXException
     {
@@ -446,7 +447,7 @@ public class AutomatonReaderTest
         TopDownNFTA expected = new TopDownNFTA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
-        expected.addAcceptingState(Collections.singletonMap(v, "+ B"));
+        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("B", true)));
 
         try
         {
@@ -507,8 +508,9 @@ public class AutomatonReaderTest
         TopDownDITA expected = new TopDownDITA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
-        expected.addInfinitelyAcceptingState(Collections.singletonMap(v, "+ C"));
-        expected.addAcceptingState(Collections.singletonMap(v, "- B"));
+        expected.addInfinitelyAcceptingConditions(
+            Collections.singletonMap(v, Pair.make("C", true)));
+        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("B", false)));
 
         try
         {
@@ -565,8 +567,9 @@ public class AutomatonReaderTest
         TopDownNITA expected = new TopDownNITA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
-        expected.addInfinitelyAcceptingState(Collections.singletonMap(v, "- A"));
-        expected.addAcceptingState(Collections.singletonMap(v, "+ B"));
+        expected.addInfinitelyAcceptingConditions(
+            Collections.singletonMap(v, Pair.make("A", false)));
+        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("B", true)));
 
         try
         {
@@ -627,7 +630,7 @@ public class AutomatonReaderTest
         BottomUpDFTA expected = new BottomUpDFTA(Collections.singletonList(v),
                                                  Arrays.asList("0", "1"));
 
-        expected.addAcceptingState(Collections.singletonMap(v, "+ C"));
+        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("C", true)));
 
         try
         {
@@ -693,7 +696,8 @@ public class AutomatonReaderTest
         BottomUpDFTA expected = new BottomUpDFTA(Collections.singletonList(v),
                                                  Arrays.asList("0", "1"));
 
-        expected.addAcceptingState(Collections.singletonMap(v, "+ " + Wildcard.EVERY_VALUE));
+        expected.addAcceptingConditions(
+            Collections.singletonMap(v, Pair.make(Wildcard.EVERY_VALUE, true)));
 
         try
         {
@@ -977,7 +981,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = IncorrectAcceptingRuleException.class)
+    @Test(expected = IncorrectAcceptingConditionException.class)
     public void testReadBottomUpDFTAWhenAcceptingIncludesAndExcludes()
         throws SAXException
     {

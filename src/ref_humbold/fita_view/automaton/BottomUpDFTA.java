@@ -47,12 +47,12 @@ public class BottomUpDFTA
 
     @Override
     public boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedTreeStateException
+        throws UndefinedAcceptanceException, UndefinedTreeStateException, EmptyTreeException
     {
-        if(acceptingStates.isEmpty())
-            throw new UndefinedAcceptanceException("Automaton has no accepting states defined.");
+        if(tree == null)
+            throw new EmptyTreeException("Tree is empty.");
 
-        return checkAcceptance(tree.getState());
+        return acceptingConditions.checkAcceptance(tree.getState());
     }
 
     @Override
@@ -82,8 +82,8 @@ public class BottomUpDFTA
 
         return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
                                                                                other.variables)
-            && Objects.equals(this.acceptingStates, other.acceptingStates) && Objects.equals(
-            this.transitions, other.transitions);
+            && Objects.equals(this.acceptingConditions, other.acceptingConditions)
+            && Objects.equals(this.transitions, other.transitions);
     }
 
     @Override

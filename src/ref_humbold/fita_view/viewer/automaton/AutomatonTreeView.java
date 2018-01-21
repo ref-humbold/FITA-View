@@ -3,6 +3,7 @@ package ref_humbold.fita_view.viewer.automaton;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.swing.BorderFactory;
@@ -12,7 +13,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
+import ref_humbold.fita_view.automaton.AcceptingConditions;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.Variable;
 import ref_humbold.fita_view.messaging.Message;
@@ -63,6 +66,7 @@ public class AutomatonTreeView
             rootNode.setUserObject(automaton.getTypeName());
             loadAlphabet(automaton);
             loadVariables(automaton);
+            loadAccepting(automaton);
         }
         else
             rootNode.setUserObject(EMPTY_ROOT_TEXT);
@@ -76,11 +80,7 @@ public class AutomatonTreeView
         DefaultMutableTreeNode alphabetNode = new DefaultMutableTreeNode("Alphabet");
 
         for(String word : alphabet)
-        {
-            DefaultMutableTreeNode wordNode = new DefaultMutableTreeNode(word);
-
-            alphabetNode.add(wordNode);
-        }
+            alphabetNode.add(new DefaultMutableTreeNode(word));
 
         rootNode.add(alphabetNode);
     }
@@ -95,16 +95,31 @@ public class AutomatonTreeView
             DefaultMutableTreeNode varNode = new DefaultMutableTreeNode(var.getVarName());
 
             for(String value : var)
-            {
-                VariableTreeViewNode valueNode = new VariableTreeViewNode(var, value);
-
-                varNode.add(valueNode);
-            }
+                varNode.add(new VariableTreeViewNode(var, value));
 
             variablesNode.add(varNode);
         }
 
         rootNode.add(variablesNode);
+    }
+
+    private void loadAccepting(TreeAutomaton automaton)
+    {
+        AcceptingConditions accepting = automaton.getAcceptingConditions();
+        DefaultMutableTreeNode acceptNode = new DefaultMutableTreeNode("Accepting states");
+
+        for(Map<Variable, Pair<String, Boolean>> mapping : accepting.getStatesConditions())
+        {
+            DefaultMutableTreeNode stateNode = new DefaultMutableTreeNode("conditions");
+
+            for(Map.Entry<Variable, Pair<String, Boolean>> entry : mapping.entrySet())
+                stateNode.add(
+                    new DefaultMutableTreeNode(AcceptingConditions.getAcceptingEntryString(entry)));
+
+            acceptNode.add(stateNode);
+        }
+
+        rootNode.add(acceptNode);
     }
 
     private class AutomatonTreeViewRenderer

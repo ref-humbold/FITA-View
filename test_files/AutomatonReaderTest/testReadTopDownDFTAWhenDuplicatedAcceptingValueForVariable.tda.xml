@@ -13,11 +13,11 @@
     </var>
   </variables>
   <leaf-accepting>
-    <accept>
-      <var-acc var-id="0" include="B" />
-      <var-acc var-id="1" include="X" />
-      <var-acc var-id="0" include="C" />
-    </accept>
+    <conditions>
+      <accept var-id="0" include="B" />
+      <accept var-id="1" include="X" />
+      <accept var-id="0" include="C" />
+    </conditions>
   </leaf-accepting>
   <transitions>
     <trans var-id="0">

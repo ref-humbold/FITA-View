@@ -1,7 +1,10 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Objects;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.traversing.RecursiveContinuationException;
 import ref_humbold.fita_view.tree.TreeNode;
 
@@ -9,7 +12,7 @@ public class TopDownDITA
     extends TopDownDFTA
     implements InfiniteTreeAutomaton
 {
-    private Set<Map<Variable, String>> infinitelyAcceptingStates = new HashSet<>();
+    private AcceptingConditions infinitelyAcceptingConditions = new AcceptingConditions();
 
     public TopDownDITA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -41,8 +44,9 @@ public class TopDownDITA
 
         return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
                                                                                other.variables)
-            && Objects.equals(this.acceptingStates, other.acceptingStates) && Objects.equals(
-            this.infinitelyAcceptingStates, other.infinitelyAcceptingStates) && Objects.equals(
+            && Objects.equals(this.acceptingConditions, other.acceptingConditions)
+            && Objects.equals(this.infinitelyAcceptingConditions,
+                              other.infinitelyAcceptingConditions) && Objects.equals(
             this.transitions, other.transitions);
     }
 
@@ -61,9 +65,9 @@ public class TopDownDITA
     }
 
     @Override
-    public void addInfinitelyAcceptingState(Map<Variable, String> accept)
+    public void addInfinitelyAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept)
     {
-        infinitelyAcceptingStates.add(accept);
+        infinitelyAcceptingConditions.add(accept);
     }
 
     @Override

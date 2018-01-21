@@ -13,9 +13,9 @@
     </var>
   </variables>
   <leaf-accepting>
-    <accept>
-      <var-acc var-id="0" include="B" />
-    </accept>
+    <conditions>
+      <accept var-id="0" include="B" />
+    </conditions>
   </leaf-accepting>
   <transitions>
     <trans var-id="0">

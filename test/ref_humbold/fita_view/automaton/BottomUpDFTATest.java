@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
@@ -19,15 +20,15 @@ public class BottomUpDFTATest
     private BottomUpDFTA testObject;
     private List<Variable> variables;
     private List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
-    private Map<Variable, String> accepts = new HashMap<>();
+    private Map<Variable, Pair<String, Boolean>> accepts = new HashMap<>();
 
     public BottomUpDFTATest()
         throws Exception
     {
         variables = Arrays.asList(new Variable(1, "X", "T", "F"),
                                   new Variable(2, "#", "!", "@", "$", "&"));
-        accepts.put(variables.get(0), "+ T");
-        accepts.put(variables.get(1), "+ " + Wildcard.EVERY_VALUE);
+        accepts.put(variables.get(0), Pair.make("T", true));
+        accepts.put(variables.get(1), Pair.make(Wildcard.EVERY_VALUE, true));
     }
 
     @Before
@@ -156,7 +157,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingState(accepts);
+            testObject.addAcceptingConditions(accepts);
 
             node13 = new StandardNode("1", 13);
             node12 = new StandardNode("1", 12);
@@ -278,7 +279,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingState(accepts);
+            testObject.addAcceptingConditions(accepts);
 
             node13 = new StandardNode("1", 13);
             node12 = new StandardNode("1", 12);
@@ -458,7 +459,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingState(accepts);
+            testObject.addAcceptingConditions(accepts);
 
             node13 = new StandardNode("1", 13);
             node12 = new StandardNode("1", 12);
@@ -557,7 +558,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingState(accepts);
+            testObject.addAcceptingConditions(accepts);
 
             TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
                                                                          new StandardNode("1", 7,
@@ -600,7 +601,7 @@ public class BottomUpDFTATest
         {
             result = testObject.isAccepted();
         }
-        catch(UndefinedAcceptanceException | UndefinedTreeStateException e)
+        catch(UndefinedAcceptanceException | UndefinedTreeStateException | EmptyTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -615,7 +616,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingState(accepts);
+            testObject.addAcceptingConditions(accepts);
 
             TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
                                                                          new StandardNode("1", 7,
@@ -658,7 +659,7 @@ public class BottomUpDFTATest
         {
             result = testObject.isAccepted();
         }
-        catch(UndefinedAcceptanceException | UndefinedTreeStateException e)
+        catch(UndefinedAcceptanceException | UndefinedTreeStateException | EmptyTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -674,7 +675,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingState(accepts);
+            testObject.addAcceptingConditions(accepts);
 
             TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
                                                                          new StandardNode("1", 7,
@@ -714,7 +715,7 @@ public class BottomUpDFTATest
         {
             testObject.isAccepted();
         }
-        catch(UndefinedAcceptanceException e)
+        catch(UndefinedAcceptanceException | EmptyTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -727,9 +728,63 @@ public class BottomUpDFTATest
     {
         try
         {
+            testObject.setTraversing(TraversingMode.LEVEL);
+
+            TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
+                                                                         new StandardNode("1", 7,
+                                                                                          null,
+                                                                                          null),
+                                                                         new StandardNode("or", 6,
+                                                                                          new StandardNode(
+                                                                                              "1",
+                                                                                              13,
+                                                                                              null,
+                                                                                              null),
+                                                                                          new StandardNode(
+                                                                                              "1",
+                                                                                              12,
+                                                                                              null,
+                                                                                              null))),
+                                             new StandardNode("or", 2, new StandardNode("and", 5,
+                                                                                        new StandardNode(
+                                                                                            "1", 11,
+                                                                                            null,
+                                                                                            null),
+                                                                                        new StandardNode(
+                                                                                            "1", 10,
+                                                                                            null,
+                                                                                            null)),
+                                                              new StandardNode("0", 4)));
+
+            testObject.setTree(node);
+            testObject.run();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        try
+        {
             testObject.isAccepted();
         }
-        catch(UndefinedTreeStateException e)
+        catch(UndefinedTreeStateException | EmptyTreeException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = EmptyTreeException.class)
+    public void testIsAcceptedWhenAutomatonHasEmptyTree()
+        throws EmptyTreeException
+    {
+        try
+        {
+            testObject.isAccepted();
+        }
+        catch(UndefinedTreeStateException | UndefinedAcceptanceException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());

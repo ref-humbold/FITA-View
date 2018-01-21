@@ -2,6 +2,7 @@ package ref_humbold.fita_view.automaton;
 
 import java.util.*;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownDFS;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
@@ -15,7 +16,7 @@ public abstract class AbstractTreeAutomaton
     protected TreeNode tree;
     protected Set<String> alphabet;
     protected List<Variable> variables;
-    protected Set<Map<Variable, String>> acceptingStates = new HashSet<>();
+    protected AcceptingConditions acceptingConditions = new AcceptingConditions();
     protected AutomatonRunningMode runningMode = AutomatonRunningMode.STOPPED;
     protected boolean isSendingMessages = false;
 
@@ -23,6 +24,12 @@ public abstract class AbstractTreeAutomaton
     {
         this.variables = new ArrayList<>(variables);
         this.alphabet = new HashSet<>(alphabet);
+    }
+
+    @Override
+    public AcceptingConditions getAcceptingConditions()
+    {
+        return this.acceptingConditions;
     }
 
     @Override
@@ -71,9 +78,9 @@ public abstract class AbstractTreeAutomaton
     }
 
     @Override
-    public void addAcceptingState(Map<Variable, String> accept)
+    public void addAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept)
     {
-        acceptingStates.add(accept);
+        acceptingConditions.add(accept);
     }
 
     @Override
@@ -195,43 +202,6 @@ public abstract class AbstractTreeAutomaton
     {
         return node != null && (node.getType() == NodeType.REC || containsRecursiveNode(
             node.getLeft()) || containsRecursiveNode(node.getRight()));
-    }
-
-    /**
-     * Testing if specified state can be accepted by the automaton.
-     * @param state state from a tree node
-     * @return {@code true} if state is accepted, otherwise {@code false}
-     * @throws UndefinedTreeStateException if state contains a variable with undefined value
-     */
-    protected boolean checkAcceptance(Map<Variable, String> state)
-        throws UndefinedTreeStateException
-    {
-        for(Map<Variable, String> accept : acceptingStates)
-        {
-            boolean contained = true;
-
-            for(Variable var : accept.keySet())
-            {
-                if(state.get(var) == null)
-                    throw new UndefinedTreeStateException(
-                        "Node has an undefined state variable value.");
-
-                String[] splitValue = accept.get(var).split(" ");
-
-                if(Objects.equals(splitValue[0], "+"))
-                    contained &= Objects.equals(splitValue[1], state.get(var)) || Objects.equals(
-                        splitValue[1], Wildcard.EVERY_VALUE);
-                else if(Objects.equals(splitValue[0], "-"))
-                    contained &= !Objects.equals(splitValue[1], state.get(var));
-                else
-                    throw new IllegalStateException("Neither inclusion or exclusion specified.");
-            }
-
-            if(contained)
-                return true;
-        }
-
-        return false;
     }
 
     /**

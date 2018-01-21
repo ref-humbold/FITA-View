@@ -28,10 +28,10 @@
         <xs:element name="accepting">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="accept" maxOccurs="unbounded">
+              <xs:element name="conditions" maxOccurs="unbounded">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="var-acc" maxOccurs="unbounded">
+                    <xs:element name="accept" maxOccurs="unbounded">
                       <xs:complexType>
                         <xs:attribute name="var-id" type="xs:int" use="required" />
                         <xs:attribute name="include" type="everyWildcardType" />

@@ -16,9 +16,9 @@
     </var>
   </variables>
   <accepting>
-    <accept>
-      <var-acc var-id="0" include="T" />
-    </accept>
+    <condition>
+      <accept var-id="0" include="T" />
+    </condition>
   </accepting>
   <transitions>
     <trans var-id="0">

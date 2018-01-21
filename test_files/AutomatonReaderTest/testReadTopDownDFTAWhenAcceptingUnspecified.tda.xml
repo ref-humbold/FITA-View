@@ -10,9 +10,9 @@
     </var>
   </variables>
   <leaf-accepting>
-    <accept>
-      <var-acc var-id="0" />
-    </accept>
+    <conditions>
+      <accept var-id="0" />
+    </conditions>
   </leaf-accepting>
   <transitions>
     <trans var-id="0">

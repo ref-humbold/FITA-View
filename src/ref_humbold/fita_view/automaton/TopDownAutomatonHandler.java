@@ -75,18 +75,19 @@ class TopDownAutomatonHandler
                                         rightResult);
                 break;
 
-            case "accept":
+            case "conditions":
                 for(Integer id : variables.keySet())
                 {
-                    if(accept.get(variables.get(id)) == null)
+                    if(conditions.get(variables.get(id)) == null)
                         throw new NoAcceptingForVariableException(
-                            writePosition() + "Variable with ID " + id + "has no accepting value.");
+                            writePosition() + "Variable with ID " + id
+                                + "has no accepting condition.");
                 }
 
                 if(isInfiniteAccept)
-                    ((InfiniteTreeAutomaton)automaton).addInfinitelyAcceptingState(accept);
+                    ((InfiniteTreeAutomaton)automaton).addInfinitelyAcceptingConditions(conditions);
                 else
-                    automaton.addAcceptingState(accept);
+                    automaton.addAcceptingConditions(conditions);
                 break;
 
             case "label":

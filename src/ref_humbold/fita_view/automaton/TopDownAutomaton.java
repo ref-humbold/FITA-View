@@ -37,16 +37,16 @@ public abstract class TopDownAutomaton
 
     @Override
     public boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedTreeStateException
+        throws UndefinedAcceptanceException, UndefinedTreeStateException, EmptyTreeException
     {
-        if(acceptingStates.isEmpty())
-            throw new UndefinedAcceptanceException("Automaton has no accepting states defined.");
+        if(tree == null)
+            throw new EmptyTreeException("Tree is empty.");
 
         if(leafStates.isEmpty())
             throw new UndefinedTreeStateException("States in tree leaves are undefined.");
 
         for(Map<Variable, String> state : leafStates)
-            if(!checkAcceptance(state))
+            if(!acceptingConditions.checkAcceptance(state))
                 return false;
 
         return true;

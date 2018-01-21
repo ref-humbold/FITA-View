@@ -10,9 +10,9 @@
     </var>
   </variables>
   <accepting>
-    <accept>
-      <var-acc var-id="0" include="C" exclude="A" />
-    </accept>
+    <conditions>
+      <accept var-id="0" include="C" exclude="A" />
+    </conditions>
   </accepting>
   <transitions>
     <trans var-id="0">
