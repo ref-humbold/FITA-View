@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Objects;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import org.xml.sax.SAXException;
 
 import ref_humbold.fita_view.Pair;
@@ -21,6 +20,7 @@ import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.viewer.EmptyPanel;
 import ref_humbold.fita_view.viewer.TitlePanel;
 import ref_humbold.fita_view.viewer.UserMessageBox;
+import ref_humbold.fita_view.viewer.XMLFileChooser;
 
 public class AutomatonMainPanel
     extends JPanel
@@ -30,7 +30,6 @@ public class AutomatonMainPanel
 
     private Pointer<TreeAutomaton> automatonPointer;
     private Pointer<Pair<TreeNode, Integer>> treePointer;
-    private JFileChooser fileChooser = new JFileChooser();
     private TitlePanel titlePanel = new TitlePanel("automaton");
     private AcceptingPanel acceptingPanel;
     private AutomatonScrollTreeView scrollTreeView;
@@ -102,10 +101,10 @@ public class AutomatonMainPanel
 
     private File chooseFile()
     {
-        int result = fileChooser.showOpenDialog(this);
+        int result = XMLFileChooser.getInstance().showOpenDialog(this);
 
         if(result == JFileChooser.APPROVE_OPTION)
-            return fileChooser.getSelectedFile();
+            return XMLFileChooser.getInstance().getSelectedFile();
 
         return null;
     }
@@ -121,12 +120,6 @@ public class AutomatonMainPanel
     private void initializeComponents()
     {
         titlePanel.addReceiver(this);
-
-        fileChooser.addChoosableFileFilter(
-            new FileNameExtensionFilter("XML bottom-up automaton file", "bua.xml", "xml"));
-        fileChooser.setFileFilter(
-            new FileNameExtensionFilter("XML top-down automaton file", "tda.xml", "xml"));
-        fileChooser.setMultiSelectionEnabled(false);
 
         acceptingPanel = new AcceptingPanel(this.automatonPointer);
         scrollTreeView = new AutomatonScrollTreeView(this.automatonPointer);

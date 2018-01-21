@@ -151,7 +151,7 @@ public class AutomatonTreeView
 
         private VariableTreeViewNode(Variable variable, String value)
         {
-            super(value);
+            super(Objects.equals(variable.getInitValue(), value) ? value + " [init value]" : value);
             this.variable = variable;
             this.value = value;
         }

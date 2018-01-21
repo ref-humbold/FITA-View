@@ -6,7 +6,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import ref_humbold.fita_view.Pair;
@@ -48,10 +51,8 @@ public class MovingButtonsPanelTest
         testObject.actionPerformed(mockActionEvent);
 
         Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
-        InOrder order = Mockito.inOrder(mockDrawingArea);
 
-        order.verify(mockDrawingArea, Mockito.times(1)).centralize();
-        order.verify(mockDrawingArea, Mockito.times(1)).repaint();
+        Mockito.verify(mockDrawingArea, Mockito.times(1)).centralize();
         Assert.assertEquals(new Integer(0), result.getFirst());
         Assert.assertEquals(new Integer(0), result.getSecond());
     }
@@ -64,10 +65,8 @@ public class MovingButtonsPanelTest
         testObject.actionPerformed(mockActionEvent);
 
         Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
-        InOrder order = Mockito.inOrder(mockDrawingArea);
 
-        order.verify(mockDrawingArea, Mockito.times(1)).moveArea(0, MovingButtonsPanel.STEP);
-        order.verify(mockDrawingArea, Mockito.times(1)).repaint();
+        Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(0, MovingButtonsPanel.STEP);
         Assert.assertEquals(new Integer(MovingButtonsPanel.STEP), result.getFirst());
         Assert.assertEquals(new Integer(0), result.getSecond());
     }
@@ -80,10 +79,8 @@ public class MovingButtonsPanelTest
         testObject.actionPerformed(mockActionEvent);
 
         Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
-        InOrder order = Mockito.inOrder(mockDrawingArea);
 
-        order.verify(mockDrawingArea, Mockito.times(1)).moveArea(0, -MovingButtonsPanel.STEP);
-        order.verify(mockDrawingArea, Mockito.times(1)).repaint();
+        Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(0, -MovingButtonsPanel.STEP);
         Assert.assertEquals(new Integer(-MovingButtonsPanel.STEP), result.getFirst());
         Assert.assertEquals(new Integer(0), result.getSecond());
     }
@@ -96,10 +93,8 @@ public class MovingButtonsPanelTest
         testObject.actionPerformed(mockActionEvent);
 
         Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
-        InOrder order = Mockito.inOrder(mockDrawingArea);
 
-        order.verify(mockDrawingArea, Mockito.times(1)).moveArea(MovingButtonsPanel.STEP, 0);
-        order.verify(mockDrawingArea, Mockito.times(1)).repaint();
+        Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(MovingButtonsPanel.STEP, 0);
         Assert.assertEquals(new Integer(0), result.getFirst());
         Assert.assertEquals(new Integer(MovingButtonsPanel.STEP), result.getSecond());
     }
@@ -112,10 +107,8 @@ public class MovingButtonsPanelTest
         testObject.actionPerformed(mockActionEvent);
 
         Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
-        InOrder order = Mockito.inOrder(mockDrawingArea);
 
-        order.verify(mockDrawingArea, Mockito.times(1)).moveArea(-MovingButtonsPanel.STEP, 0);
-        order.verify(mockDrawingArea, Mockito.times(1)).repaint();
+        Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(-MovingButtonsPanel.STEP, 0);
         Assert.assertEquals(new Integer(0), result.getFirst());
         Assert.assertEquals(new Integer(-MovingButtonsPanel.STEP), result.getSecond());
     }

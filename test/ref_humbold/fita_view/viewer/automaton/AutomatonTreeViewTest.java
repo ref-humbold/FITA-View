@@ -3,6 +3,7 @@ package ref_humbold.fita_view.viewer.automaton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.junit.After;
 import org.junit.Assert;
@@ -91,6 +92,22 @@ public class AutomatonTreeViewTest
         List<String> alphabetValues = new ArrayList<>();
         List<String> firstVariableValues = new ArrayList<>();
         List<String> secondVariableValues = new ArrayList<>();
+        List<String> expectedFirstValues = automaton.getVariables().get(0).getValues();
+        List<String> expectedSecondValues = automaton.getVariables().get(1).getValues();
+
+        for(int i = 0; i < expectedFirstValues.size(); i++)
+        {
+            if(Objects.equals(automaton.getVariables().get(0).getInitValue(),
+                              expectedFirstValues.get(i)))
+                expectedFirstValues.set(i, expectedFirstValues.get(i) + " [init value]");
+        }
+
+        for(int i = 0; i < expectedSecondValues.size(); i++)
+        {
+            if(Objects.equals(automaton.getVariables().get(1).getInitValue(),
+                              expectedSecondValues.get(i)))
+                expectedSecondValues.set(i, expectedSecondValues.get(i) + " [init value]");
+        }
 
         for(int i = 0; i < firstChild.getChildCount(); ++i)
             alphabetValues.add(
@@ -113,12 +130,10 @@ public class AutomatonTreeViewTest
         Assert.assertArrayEquals(automaton.getAlphabet().toArray(), alphabetValues.toArray());
         Assert.assertEquals(automaton.getVariables().get(0).getVarName(),
                             firstVariableNode.getUserObject());
-        Assert.assertArrayEquals(automaton.getVariables().get(0).getValues().toArray(),
-                                 firstVariableValues.toArray());
+        Assert.assertArrayEquals(expectedFirstValues.toArray(), firstVariableValues.toArray());
         Assert.assertEquals(automaton.getVariables().get(1).getVarName(),
                             secondVariableNode.getUserObject());
-        Assert.assertArrayEquals(automaton.getVariables().get(1).getValues().toArray(),
-                                 secondVariableValues.toArray());
+        Assert.assertArrayEquals(expectedSecondValues.toArray(), secondVariableValues.toArray());
         Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
         Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
@@ -156,6 +171,22 @@ public class AutomatonTreeViewTest
         List<String> alphabetValues = new ArrayList<>();
         List<String> firstVariableValues = new ArrayList<>();
         List<String> secondVariableValues = new ArrayList<>();
+        List<String> expectedFirstValues = automaton.getVariables().get(0).getValues();
+        List<String> expectedSecondValues = automaton.getVariables().get(1).getValues();
+
+        for(int i = 0; i < expectedFirstValues.size(); i++)
+        {
+            if(Objects.equals(automaton.getVariables().get(0).getInitValue(),
+                              expectedFirstValues.get(i)))
+                expectedFirstValues.set(i, expectedFirstValues.get(i) + " [init value]");
+        }
+
+        for(int i = 0; i < expectedSecondValues.size(); i++)
+        {
+            if(Objects.equals(automaton.getVariables().get(1).getInitValue(),
+                              expectedSecondValues.get(i)))
+                expectedSecondValues.set(i, expectedSecondValues.get(i) + " [init value]");
+        }
 
         for(int i = 0; i < firstChild.getChildCount(); ++i)
             alphabetValues.add(
@@ -178,12 +209,10 @@ public class AutomatonTreeViewTest
         Assert.assertArrayEquals(automaton.getAlphabet().toArray(), alphabetValues.toArray());
         Assert.assertEquals(automaton.getVariables().get(0).getVarName(),
                             firstVariableNode.getUserObject());
-        Assert.assertArrayEquals(automaton.getVariables().get(0).getValues().toArray(),
-                                 firstVariableValues.toArray());
+        Assert.assertArrayEquals(expectedFirstValues.toArray(), firstVariableValues.toArray());
         Assert.assertEquals(automaton.getVariables().get(1).getVarName(),
                             secondVariableNode.getUserObject());
-        Assert.assertArrayEquals(automaton.getVariables().get(1).getValues().toArray(),
-                                 secondVariableValues.toArray());
+        Assert.assertArrayEquals(expectedSecondValues.toArray(), secondVariableValues.toArray());
         Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
         Mockito.verify(mockPointer, Mockito.times(2)).get();
     }

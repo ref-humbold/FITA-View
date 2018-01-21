@@ -25,9 +25,7 @@ public class TreeDrawingArea
     implements SignalReceiver, MessageReceiver<Iterable<TreeNode>>, MouseListener
 {
     private static final long serialVersionUID = -6588296156972565117L;
-    private static final int NODE_SIDE = 4;
-    private static final int HORIZONTAL_UNIT = NODE_SIDE;
-    private static final int VERTICAL_UNIT = 5 * NODE_SIDE;
+    private static final int NODE_SIDE = 6;
 
     private Pointer<Pair<TreeNode, Integer>> treePointer;
     private Set<TreeNode> currentNodes = new HashSet<>();
@@ -35,6 +33,7 @@ public class TreeDrawingArea
     private Map<Pair<Integer, Integer>, TreeNode> nodesPoints = new HashMap<>();
     private int horizontalAxis = 0;
     private int verticalAxis = 0;
+    private int zoomBreak = 0;
 
     public TreeDrawingArea(Pointer<Pair<TreeNode, Integer>> treePointer)
     {
@@ -47,6 +46,11 @@ public class TreeDrawingArea
 
         this.setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createLoweredBevelBorder());
+    }
+
+    public int getZoomBreak()
+    {
+        return this.zoomBreak;
     }
 
     public Pair<Integer, Integer> getAxisPoint()
@@ -80,8 +84,8 @@ public class TreeDrawingArea
 
     public void moveArea(int x, int y)
     {
-        horizontalAxis += y;
-        verticalAxis += x;
+        horizontalAxis = checkBounds(horizontalAxis + y, -700, 100);
+        verticalAxis = checkBounds(verticalAxis + x, -400, 400);
         repaint();
     }
 
@@ -89,6 +93,18 @@ public class TreeDrawingArea
     {
         horizontalAxis = 0;
         verticalAxis = 0;
+        repaint();
+    }
+
+    public void zoom(int i)
+    {
+        zoomBreak = checkBounds(zoomBreak + i, 0, 6);
+        repaint();
+    }
+
+    public void zeroZoom()
+    {
+        zoomBreak = 0;
         repaint();
     }
 
@@ -116,10 +132,14 @@ public class TreeDrawingArea
     public void mouseClicked(MouseEvent mouseEvent)
     {
         Pair<Integer, Integer> mouseDist = countDistPos(mouseEvent.getX(), mouseEvent.getY());
-        TreeNode node = nodesPoints.get(mouseDist);
+
+        /*TreeNode node = nodesPoints.get(mouseDist);
 
         if(mouseEvent.getButton() == MouseEvent.BUTTON1 && node != null)
-            UserMessageBox.showInfo(node.getType().toString(), getNodeInfo(node));
+            UserMessageBox.showInfo(node.getType().toString(), getNodeInfo(node));*/
+
+        if(mouseEvent.getButton() == MouseEvent.BUTTON1)
+            UserMessageBox.showInfo("CLICKED AT:", mouseDist.toString());
     }
 
     @Override
@@ -244,15 +264,16 @@ public class TreeDrawingArea
         }
 
         Pair<Integer, Integer> position = countNodePos(parameters);
+        int nodeSide = countNodeSide();
 
-        graphics.fillRect(position.getFirst() - NODE_SIDE / 2, position.getSecond() - NODE_SIDE / 2,
-                          NODE_SIDE, NODE_SIDE);
+        graphics.fillRect(position.getFirst() - nodeSide / 2, position.getSecond() - nodeSide / 2,
+                          nodeSide, nodeSide);
 
         if(currentNodes.contains(tree))
         {
             graphics.setColor(Color.GREEN);
-            graphics.fillOval(position.getFirst() - NODE_SIDE / 2,
-                              position.getSecond() - NODE_SIDE / 2, NODE_SIDE, NODE_SIDE);
+            graphics.fillOval(position.getFirst() - nodeSide / 2,
+                              position.getSecond() - nodeSide / 2, nodeSide, nodeSide);
         }
     }
 
@@ -266,8 +287,8 @@ public class TreeDrawingArea
         Pair<Integer, Integer> rootPos = countRootPos();
         Pair<Integer, Integer> dist = parameters.getDistance();
 
-        return Pair.make(rootPos.getFirst() + dist.getFirst() * HORIZONTAL_UNIT,
-                         rootPos.getSecond() + dist.getSecond() * VERTICAL_UNIT);
+        return Pair.make(rootPos.getFirst() + dist.getFirst() * countUnit(),
+                         rootPos.getSecond() + dist.getSecond() * countUnit());
     }
 
     private Pair<Integer, Integer> countDistPos(int x, int y)
@@ -277,8 +298,23 @@ public class TreeDrawingArea
         return Pair.make(roundPos(x - rootPos.getFirst()), roundPos(y - rootPos.getSecond()));
     }
 
+    private int countUnit()
+    {
+        return (zoomBreak + zoomBreak + 1) * countNodeSide();
+    }
+
+    private int countNodeSide()
+    {
+        return zoomBreak + zoomBreak + NODE_SIDE;
+    }
+
     private int roundPos(double pos)
     {
-        return (int)Math.rint(pos / NODE_SIDE);
+        return (int)Math.rint(pos / countNodeSide());
+    }
+
+    private int checkBounds(int value, int minimum, int maximum)
+    {
+        return Math.min(Math.max(value, minimum), maximum);
     }
 }
