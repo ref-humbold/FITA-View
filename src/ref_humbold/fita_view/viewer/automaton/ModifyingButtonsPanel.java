@@ -121,14 +121,10 @@ public class ModifyingButtonsPanel
         }
 
         traversingPanel.setLayout(new GridLayout(TraversingMode.values().length, 1));
-
-        for(JRadioButton button : traversingButtons.values())
-            traversingPanel.add(button);
-
         nonDeterminismPanel.setLayout(new GridLayout(StateChoiceMode.values().length, 1));
 
-        for(JRadioButton button : nonDeterminismButtons)
-            nonDeterminismPanel.add(button);
+        traversingButtons.values().forEach(button -> traversingPanel.add(button));
+        nonDeterminismButtons.forEach(button -> nonDeterminismPanel.add(button));
     }
 
     private void addComponents()

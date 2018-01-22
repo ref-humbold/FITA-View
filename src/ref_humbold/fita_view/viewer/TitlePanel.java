@@ -61,8 +61,7 @@ public class TitlePanel
     @Override
     public void sendMessage(Message<String> message)
     {
-        for(MessageReceiver<String> r : receivers)
-            r.receiveMessage(message);
+        receivers.forEach(r -> r.receiveMessage(message));
     }
 
     private JPanel createButtonsPanel()

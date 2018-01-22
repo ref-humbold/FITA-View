@@ -23,7 +23,6 @@ public class DefaultSignalSender
     @Override
     public void sendSignal(Message<Void> signal)
     {
-        for(SignalReceiver r : receivers)
-            r.receiveSignal(signal);
+        receivers.forEach(r -> r.receiveSignal(signal));
     }
 }

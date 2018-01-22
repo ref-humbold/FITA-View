@@ -1,6 +1,7 @@
 package ref_humbold.fita_view.automaton.traversing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 import ref_humbold.fita_view.tree.TreeNode;
@@ -22,8 +23,8 @@ public class BottomUpLevel
         super.initialize(nodes);
         currentDepth = -1;
 
-        for(TreeNode place : nodes)
-            currentDepth = Math.max(currentDepth, countDepth(place));
+        Arrays.stream(nodes)
+              .forEachOrdered(place -> currentDepth = Math.max(currentDepth, countDepth(place)));
     }
 
     @Override

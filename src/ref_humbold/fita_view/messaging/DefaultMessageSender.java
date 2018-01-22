@@ -23,7 +23,6 @@ public class DefaultMessageSender<T>
     @Override
     public void sendMessage(Message<T> message)
     {
-        for(MessageReceiver<T> r : receivers)
-            r.receiveMessage(message);
+        receivers.forEach(r -> r.receiveMessage(message));
     }
 }

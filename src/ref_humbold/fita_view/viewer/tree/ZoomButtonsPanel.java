@@ -33,14 +33,11 @@ public class ZoomButtonsPanel
         this.add(Box.createVerticalGlue());
         this.add(zoomLabel);
         this.add(Box.createRigidArea(new Dimension(0, 4)));
-
-        for(JButton button : this.buttons)
-        {
+        this.buttons.forEach(button -> {
             this.add(Box.createRigidArea(new Dimension(0, 1)));
             this.add(button);
             this.add(Box.createRigidArea(new Dimension(0, 1)));
-        }
-
+        });
         this.add(Box.createVerticalGlue());
     }
 

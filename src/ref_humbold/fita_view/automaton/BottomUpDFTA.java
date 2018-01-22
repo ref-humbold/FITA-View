@@ -1,10 +1,8 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.transition.BottomUpTransitions;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
@@ -37,6 +35,12 @@ public class BottomUpDFTA
         throws IncorrectTraversingException
     {
         this.traversing = TraversingFactory.getBottomUpTraversing(mode);
+    }
+
+    @Override
+    public Map<Pair<Variable, String>, String> getTransitionWithStrings()
+    {
+        return this.transitions.convertToStringMap(this::keyToString, this::valueToString);
     }
 
     @Override
@@ -91,6 +95,12 @@ public class BottomUpDFTA
     {
         return "BottomUpDFTA:\n  alphabet = " + alphabet.toString() + "\n  variables = " + variables
             .toString() + "\n  transitions = " + transitions.toString();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(alphabet, variables, acceptingConditions, traversing, transitions);
     }
 
     @Override
@@ -149,6 +159,17 @@ public class BottomUpDFTA
         transitions.add(var, Triple.make(leftValue, rightValue, label), result);
     }
 
+    String keyToString(Triple<String, String, String> key)
+    {
+        return "LEFT VALUE = \'" + key.getFirst() + "\', RIGHT VALUE = \'" + key.getSecond()
+            + "\', LABEL = \'" + key.getThird() + "\'";
+    }
+
+    String valueToString(String value)
+    {
+        return "VALUE = \'" + value + "\'";
+    }
+
     private String doTransition(Variable var, String leftValue, String rightValue, String label)
         throws NoSuchTransitionException
     {
@@ -170,9 +191,9 @@ public class BottomUpDFTA
         leaves.clear();
         t.initialize(tree);
 
-        while(t.hasNext())
-            for(TreeNode v : t.next())
-                if(!v.hasChildren())
-                    leaves.add(v);
+        t.forEachRemaining(iterator -> iterator.forEach(v -> {
+            if(!v.hasChildren())
+                leaves.add(v);
+        }));
     }
 }

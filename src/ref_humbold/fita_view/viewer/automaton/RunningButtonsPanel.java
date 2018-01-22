@@ -127,14 +127,11 @@ public class RunningButtonsPanel
     private void addComponents()
     {
         add(Box.createHorizontalGlue());
-
-        for(JButton button : currentButtons)
-        {
+        currentButtons.forEach(button -> {
             add(Box.createRigidArea(new Dimension(1, 0)));
             add(button);
             add(Box.createRigidArea(new Dimension(1, 0)));
-        }
-
+        });
         add(Box.createHorizontalGlue());
     }
 

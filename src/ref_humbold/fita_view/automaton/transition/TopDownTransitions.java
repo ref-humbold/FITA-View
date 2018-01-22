@@ -25,17 +25,6 @@ public class TopDownTransitions<V>
     }
 
     @Override
-    public void add(Variable var, Pair<String, String> key, V value)
-        throws DuplicatedTransitionException, IllegalTransitionException
-    {
-        if(containsKey(var, key))
-            throw new DuplicatedTransitionException(
-                "Duplicated transition entry for " + var + " + " + key + ".");
-
-        super.add(var, key, value);
-    }
-
-    @Override
     public V get(Variable var, Pair<String, String> key)
         throws NoSuchTransitionException
     {

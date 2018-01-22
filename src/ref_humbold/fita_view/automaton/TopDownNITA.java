@@ -58,6 +58,13 @@ public class TopDownNITA
     }
 
     @Override
+    public int hashCode()
+    {
+        return Objects.hash(alphabet, variables, acceptingConditions, traversing, transitions,
+                            infinitelyAcceptingConditions);
+    }
+
+    @Override
     public void continueRecursive()
         throws RecursiveContinuationException
     {

@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonCurrentNodesSender;
-import ref_humbold.fita_view.automaton.Variable;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.messaging.SignalReceiver;
@@ -169,14 +168,12 @@ public class TreeDrawingArea
         builder.append("LABEL: \'").append(node.getLabel()).append("\'\n");
         builder.append("STATE:\n");
 
-        for(Map.Entry<Variable, String> entry : node.getState().entrySet())
-        {
-            builder.append("  ")
-                   .append(entry.getKey().getVarName())
-                   .append(" => \'")
-                   .append(entry.getValue())
-                   .append("\'\n");
-        }
+        node.getState()
+            .forEach((key, value) -> builder.append("  ")
+                                            .append(key.getVarName())
+                                            .append(" => \'")
+                                            .append(value)
+                                            .append("\'\n"));
 
         return builder.toString();
     }

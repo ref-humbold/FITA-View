@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
@@ -815,5 +816,61 @@ public class BottomUpDFTATest
 
         Assert.assertFalse(result2);
         Assert.assertFalse(resultIff);
+    }
+
+    @Test
+    public void testGetTransitionWithStrings()
+    {
+        Map<Pair<Variable, String>, String> result = testObject.getTransitionWithStrings();
+        Map<Pair<Variable, String>, String> expected = new HashMap<>();
+
+        expected.put(
+            Pair.make(variables.get(0), testObject.keyToString(Triple.make("X", "X", "0"))),
+            testObject.valueToString("F"));
+        expected.put(
+            Pair.make(variables.get(0), testObject.keyToString(Triple.make("X", "X", "1"))),
+            testObject.valueToString("T"));
+        expected.put(
+            Pair.make(variables.get(0), testObject.keyToString(Triple.make("T", "T", "and"))),
+            testObject.valueToString("T"));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(
+            Triple.make("F", Wildcard.EVERY_VALUE, "and"))),
+                     testObject.valueToString(Wildcard.LEFT_VALUE));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(
+            Triple.make(Wildcard.EVERY_VALUE, "F", "and"))),
+                     testObject.valueToString(Wildcard.RIGHT_VALUE));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(
+            Triple.make("T", Wildcard.EVERY_VALUE, "or"))),
+                     testObject.valueToString(Wildcard.LEFT_VALUE));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(
+            Triple.make(Wildcard.EVERY_VALUE, "T", "or"))),
+                     testObject.valueToString(Wildcard.RIGHT_VALUE));
+        expected.put(
+            Pair.make(variables.get(0), testObject.keyToString(Triple.make("F", "F", "or"))),
+            testObject.valueToString("F"));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(
+            Triple.make("T", Wildcard.EVERY_VALUE, "impl"))),
+                     testObject.valueToString(Wildcard.RIGHT_VALUE));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(
+            Triple.make("F", Wildcard.EVERY_VALUE, "impl"))), testObject.valueToString("T"));
+
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(
+            Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "0"))),
+                     testObject.valueToString("!"));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(
+            Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "1"))),
+                     testObject.valueToString("!"));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(
+            Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "and"))),
+                     testObject.valueToString("&"));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(
+            Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "or"))),
+                     testObject.valueToString("$"));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(
+            Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "impl"))),
+                     testObject.valueToString("@"));
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(expected, result);
     }
 }

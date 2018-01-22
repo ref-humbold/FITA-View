@@ -132,7 +132,7 @@ public class AutomatonTreeViewTest
         for(Map<Variable, Pair<String, Boolean>> state : automaton.getAcceptingConditions()
                                                                   .getStatesConditions())
             for(Map.Entry<Variable, Pair<String, Boolean>> entry : state.entrySet())
-                expectedAccept1Values.add(AcceptingConditions.getAcceptingEntryString(entry));
+                expectedAccept1Values.add(AcceptingConditions.getEntryString(entry));
 
         Assert.assertEquals(3, rootNode.getChildCount());
         Assert.assertEquals(automaton.getTypeName(), rootNode.getUserObject());
@@ -235,7 +235,7 @@ public class AutomatonTreeViewTest
         for(Map<Variable, Pair<String, Boolean>> state : automaton.getAcceptingConditions()
                                                                   .getStatesConditions())
             for(Map.Entry<Variable, Pair<String, Boolean>> entry : state.entrySet())
-                expectedAccept1Values.add(AcceptingConditions.getAcceptingEntryString(entry));
+                expectedAccept1Values.add(AcceptingConditions.getEntryString(entry));
 
         Assert.assertEquals(3, rootNode.getChildCount());
         Assert.assertEquals(automaton.getTypeName(), rootNode.getUserObject());

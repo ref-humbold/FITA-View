@@ -171,6 +171,6 @@ public class StandardNode
     @Override
     public int hashCode()
     {
-        return index * 37 + label.hashCode();
+        return Objects.hash(index, label);
     }
 }

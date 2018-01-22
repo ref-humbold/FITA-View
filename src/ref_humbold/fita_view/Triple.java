@@ -43,14 +43,7 @@ public class Triple<F, S, T>
     @Override
     public int hashCode()
     {
-        int prime = 37;
-        int result = 1;
-
-        result = prime * result + Objects.hashCode(first);
-        result = prime * result + Objects.hashCode(second);
-        result = prime * result + Objects.hashCode(third);
-
-        return result;
+        return Objects.hash(first, second, third);
     }
 
     @Override

@@ -1,10 +1,13 @@
 package ref_humbold.fita_view.automaton.transition;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.IllegalVariableValueException;
 import ref_humbold.fita_view.automaton.Variable;
@@ -271,5 +274,36 @@ public class BottomUpTransitionsTest
         throws NoSuchTransitionException
     {
         testObject.get(v, Triple.make("C", "C", "0"));
+    }
+
+    @Test
+    public void testConvertToStringMap()
+    {
+        Map<Pair<Variable, String>, String> result = testObject.convertToStringMap(
+            this::keyFunction, this::valueFunction);
+        Map<Pair<Variable, String>, String> expected = new HashMap<>();
+
+        expected.put(Pair.make(v, keyFunction(Triple.make("A", "B", "0"))), valueFunction("C"));
+        expected.put(Pair.make(v, keyFunction(Triple.make(Wildcard.EVERY_VALUE, "C", "1"))),
+                     valueFunction("B"));
+        expected.put(
+            Pair.make(v, keyFunction(Triple.make(Wildcard.SAME_VALUE, Wildcard.EVERY_VALUE, "2"))),
+            valueFunction("A"));
+        expected.put(Pair.make(v, keyFunction(Triple.make("D", "C", "3"))),
+                     valueFunction(Wildcard.RIGHT_VALUE));
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(4, result.size());
+        Assert.assertEquals(expected, result);
+    }
+
+    private String keyFunction(Triple<String, String, String> key)
+    {
+        return "[ " + key.getFirst() + " # " + key.getSecond() + " # " + key.getThird() + " ]";
+    }
+
+    private String valueFunction(String value)
+    {
+        return "[ " + value + " ]";
     }
 }

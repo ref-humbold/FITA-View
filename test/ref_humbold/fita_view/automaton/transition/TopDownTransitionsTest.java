@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.automaton.transition;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -228,5 +230,29 @@ public class TopDownTransitionsTest
         throws NoSuchTransitionException
     {
         testObject.get(v, Pair.make("C", "0"));
+    }
+
+    @Test
+    public void testConvertToStringMap()
+    {
+        Map<Pair<Variable, String>, String> result = testObject.convertToStringMap(
+            this::pairFunction, this::pairFunction);
+        Map<Pair<Variable, String>, String> expected = new HashMap<>();
+
+        expected.put(Pair.make(v, pairFunction(Pair.make("A", "0"))),
+                     pairFunction(Pair.make("B", "C")));
+        expected.put(Pair.make(v, pairFunction(Pair.make(Wildcard.EVERY_VALUE, "1"))),
+                     pairFunction(Pair.make("D", "D")));
+        expected.put(Pair.make(v, pairFunction(Pair.make("D", "2"))),
+                     pairFunction(Pair.make(Wildcard.SAME_VALUE, Wildcard.SAME_VALUE)));
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(3, result.size());
+        Assert.assertEquals(expected, result);
+    }
+
+    private String pairFunction(Pair<String, String> pair)
+    {
+        return "[ " + pair.getFirst() + " # " + pair.getSecond() + " ]";
     }
 }

@@ -913,4 +913,75 @@ public class TopDownDFTATest
         Assert.assertFalse(result5);
         Assert.assertFalse(resultA);
     }
+
+    @Test
+    public void testGetTransitionWithStrings()
+    {
+        Map<Pair<Variable, String>, String> result = testObject.getTransitionWithStrings();
+        Map<Pair<Variable, String>, String> expected = new HashMap<>();
+
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("A", "0"))),
+                     testObject.valueToString(Pair.make("A", "B")));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("A", "1"))),
+                     testObject.valueToString(Pair.make("A", "A")));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("A", "2"))),
+                     testObject.valueToString(Pair.make("B", "B")));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("A", "3"))),
+                     testObject.valueToString(Pair.make("A", "A")));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("A", "4"))),
+                     testObject.valueToString(Pair.make("B", "B")));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("B", "0"))),
+                     testObject.valueToString(Pair.make("B", "A")));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("B", "1"))),
+                     testObject.valueToString(Pair.make("B", "B")));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("B", "2"))),
+                     testObject.valueToString(Pair.make("A", "A")));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("B", "3"))),
+                     testObject.valueToString(Pair.make("B", "B")));
+        expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("B", "4"))),
+                     testObject.valueToString(Pair.make("A", "A")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("!", "0"))),
+                     testObject.valueToString(Pair.make(Wildcard.SAME_VALUE, Wildcard.SAME_VALUE)));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("!", "1"))),
+                     testObject.valueToString(Pair.make("!", "@")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("!", "2"))),
+                     testObject.valueToString(Pair.make("@", "#")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("!", "3"))),
+                     testObject.valueToString(Pair.make("#", "$")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("!", "4"))),
+                     testObject.valueToString(Pair.make("$", "!")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("@", "0"))),
+                     testObject.valueToString(Pair.make(Wildcard.SAME_VALUE, Wildcard.SAME_VALUE)));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("@", "1"))),
+                     testObject.valueToString(Pair.make("@", "#")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("@", "2"))),
+                     testObject.valueToString(Pair.make("#", "$")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("@", "3"))),
+                     testObject.valueToString(Pair.make("$", "!")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("@", "4"))),
+                     testObject.valueToString(Pair.make("!", "@")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("#", "0"))),
+                     testObject.valueToString(Pair.make(Wildcard.SAME_VALUE, Wildcard.SAME_VALUE)));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("#", "1"))),
+                     testObject.valueToString(Pair.make("#", "$")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("#", "2"))),
+                     testObject.valueToString(Pair.make("$", "!")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("#", "3"))),
+                     testObject.valueToString(Pair.make("!", "@")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("#", "4"))),
+                     testObject.valueToString(Pair.make("@", "#")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("$", "0"))),
+                     testObject.valueToString(Pair.make(Wildcard.SAME_VALUE, Wildcard.SAME_VALUE)));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("$", "1"))),
+                     testObject.valueToString(Pair.make("$", "!")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("$", "2"))),
+                     testObject.valueToString(Pair.make("!", "@")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("$", "3"))),
+                     testObject.valueToString(Pair.make("@", "#")));
+        expected.put(Pair.make(variables.get(1), testObject.keyToString(Pair.make("$", "4"))),
+                     testObject.valueToString(Pair.make("#", "$")));
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(expected, result);
+    }
 }

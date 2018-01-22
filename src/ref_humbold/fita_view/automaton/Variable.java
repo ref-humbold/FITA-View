@@ -80,7 +80,7 @@ public class Variable
     @Override
     public int hashCode()
     {
-        return initValue.hashCode() * 37 + values.hashCode();
+        return Objects.hash(initValue, values);
     }
 
     @Override

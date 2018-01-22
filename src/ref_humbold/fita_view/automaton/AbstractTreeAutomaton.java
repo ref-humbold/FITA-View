@@ -160,12 +160,6 @@ public abstract class AbstractTreeAutomaton
             AutomatonCurrentNodesSender.getInstance().send(Collections::emptyIterator);
     }
 
-    @Override
-    public int hashCode()
-    {
-        return alphabet.hashCode() * 37 + variables.hashCode();
-    }
-
     protected abstract void changeRunningMode();
 
     /**
@@ -217,9 +211,6 @@ public abstract class AbstractTreeAutomaton
         TopDownTraversing t = new TopDownDFS();
 
         t.initialize(tree);
-
-        while(t.hasNext())
-            for(TreeNode v : t.next())
-                v.deleteState();
+        t.forEachRemaining(iterable -> iterable.forEach(TreeNode::deleteState));
     }
 }

@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.automaton.transition;
 
+import java.util.Objects;
+
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.Variable;
@@ -19,7 +21,7 @@ public class BottomUpTransitions
         if(map.containsKey(Pair.make(var, key)))
             return true;
 
-        if(key.getFirst().equals(key.getSecond()))
+        if(Objects.equals(key.getFirst(), key.getSecond()))
         {
             for(String mask : sameMasks)
             {
@@ -45,17 +47,13 @@ public class BottomUpTransitions
     public void add(Variable var, Triple<String, String, String> key, String value)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
-        if((key.getFirst().equals(Wildcard.SAME_VALUE) && !key.getSecond()
-                                                              .equals(Wildcard.EVERY_VALUE)) || (
-            key.getSecond().equals(Wildcard.SAME_VALUE) && !key.getFirst()
-                                                               .equals(Wildcard.EVERY_VALUE)))
+        if((Objects.equals(key.getFirst(), Wildcard.SAME_VALUE) && !Objects.equals(key.getSecond(),
+                                                                                   Wildcard.EVERY_VALUE))
+            || (Objects.equals(key.getSecond(), Wildcard.SAME_VALUE) && !Objects.equals(
+            key.getFirst(), Wildcard.EVERY_VALUE)))
             throw new IllegalTransitionException(
                 "Transition cannot contain wildcard " + Wildcard.SAME_VALUE
                     + " as both left and right value.");
-
-        if(containsKey(var, key))
-            throw new DuplicatedTransitionException(
-                "Duplicated transition entry for " + var + " + " + key + ".");
 
         super.add(var, key, value);
     }
@@ -67,7 +65,7 @@ public class BottomUpTransitions
         if(hasNull(key))
             throw new NoSuchTransitionException("Key contains a null value");
 
-        if(key.getFirst().equals(key.getSecond()))
+        if(Objects.equals(key.getFirst(), key.getSecond()))
         {
             for(String mask : sameMasks)
             {

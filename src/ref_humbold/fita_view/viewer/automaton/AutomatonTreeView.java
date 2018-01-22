@@ -67,6 +67,7 @@ public class AutomatonTreeView
             loadAlphabet(automaton);
             loadVariables(automaton);
             loadAccepting(automaton);
+            //TODO: loadTransitions(automaton);
         }
         else
             rootNode.setUserObject(EMPTY_ROOT_TEXT);
@@ -79,9 +80,7 @@ public class AutomatonTreeView
         Set<String> alphabet = automaton.getAlphabet();
         DefaultMutableTreeNode alphabetNode = new DefaultMutableTreeNode("Alphabet");
 
-        for(String word : alphabet)
-            alphabetNode.add(new DefaultMutableTreeNode(word));
-
+        alphabet.stream().map(DefaultMutableTreeNode::new).forEach(alphabetNode::add);
         rootNode.add(alphabetNode);
     }
 
@@ -94,9 +93,7 @@ public class AutomatonTreeView
         {
             DefaultMutableTreeNode varNode = new DefaultMutableTreeNode(var.getVarName());
 
-            for(String value : var)
-                varNode.add(new VariableTreeViewNode(var, value));
-
+            var.forEach(value -> varNode.add(new VariableTreeViewNode(var, value)));
             variablesNode.add(varNode);
         }
 
@@ -112,14 +109,29 @@ public class AutomatonTreeView
         {
             DefaultMutableTreeNode stateNode = new DefaultMutableTreeNode("conditions");
 
-            for(Map.Entry<Variable, Pair<String, Boolean>> entry : mapping.entrySet())
-                stateNode.add(
-                    new DefaultMutableTreeNode(AcceptingConditions.getAcceptingEntryString(entry)));
-
+            mapping.entrySet()
+                   .stream()
+                   .map(entry -> new DefaultMutableTreeNode(
+                       AcceptingConditions.getEntryString(entry)))
+                   .forEach(stateNode::add);
             acceptNode.add(stateNode);
         }
 
         rootNode.add(acceptNode);
+    }
+
+    private void loadTransitions(TreeAutomaton automaton)
+    {
+        Map<Pair<Variable, String>, String> stringTransition = automaton.getTransitionWithStrings();
+        DefaultMutableTreeNode transitionNode = new DefaultMutableTreeNode("Transition function");
+
+        stringTransition.forEach((key, value) -> {
+            String entryString = key.getFirst().getVarName() + " >>> " + key.getSecond() + " -> "
+                + value;
+            transitionNode.add(new DefaultMutableTreeNode(entryString));
+        });
+
+        rootNode.add(transitionNode);
     }
 
     private class AutomatonTreeViewRenderer

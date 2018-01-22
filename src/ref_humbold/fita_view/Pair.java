@@ -36,13 +36,7 @@ public class Pair<F, S>
     @Override
     public int hashCode()
     {
-        int prime = 37;
-        int result = 1;
-
-        result = prime * result + Objects.hashCode(first);
-        result = prime * result + Objects.hashCode(second);
-
-        return result;
+        return Objects.hash(first, second);
     }
 
     @Override

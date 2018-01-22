@@ -51,6 +51,13 @@ public class TopDownDITA
     }
 
     @Override
+    public int hashCode()
+    {
+        return Objects.hash(alphabet, variables, acceptingConditions, traversing, transitions,
+                            infinitelyAcceptingConditions);
+    }
+
+    @Override
     public String toString()
     {
         return "TopDownDITA\n  alphabet = " + alphabet.toString() + "\n  variables = "

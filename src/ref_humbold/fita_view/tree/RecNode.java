@@ -1,6 +1,7 @@
 package ref_humbold.fita_view.tree;
 
 import java.util.Map;
+import java.util.Objects;
 
 import ref_humbold.fita_view.automaton.IllegalVariableValueException;
 import ref_humbold.fita_view.automaton.Variable;
@@ -118,6 +119,6 @@ public class RecNode
     @Override
     public int hashCode()
     {
-        return recursive.index * 37 + getLabel().hashCode();
+        return Objects.hash(recursive.index, getLabel());
     }
 }

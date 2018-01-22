@@ -1,9 +1,7 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoice;
@@ -44,6 +42,12 @@ public class TopDownNFTA
     }
 
     @Override
+    public Map<Pair<Variable, String>, String> getTransitionWithStrings()
+    {
+        return this.transitions.convertToStringMap(this::keyToString, this::valueToString);
+    }
+
+    @Override
     public TreeNode generateTree()
     {
         return null;
@@ -64,6 +68,12 @@ public class TopDownNFTA
                                                                                other.variables)
             && Objects.equals(this.acceptingConditions, other.acceptingConditions)
             && Objects.equals(this.transitions, other.transitions);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(alphabet, variables, acceptingConditions, traversing, transitions);
     }
 
     @Override
@@ -115,6 +125,16 @@ public class TopDownNFTA
     {
         setRunningMode(
             traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
+    }
+
+    String valueToString(Set<Pair<String, String>> value)
+    {
+        Set<String> stringSet = value.stream()
+                                     .map(pair -> "( LEFT VALUE = \'" + pair.getFirst()
+                                         + "\', RIGHT VALUE = " + pair.getSecond() + "\' )")
+                                     .collect(Collectors.toSet());
+
+        return stringSet.toString();
     }
 
     private Set<Pair<String, String>> getTransitionEntry(Variable var, Pair<String, String> key)

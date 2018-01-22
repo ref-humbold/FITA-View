@@ -17,7 +17,7 @@ public class AcceptingConditions
      * @param entry equality on value for variable
      * @return description of the entry
      */
-    public static String getAcceptingEntryString(Map.Entry<Variable, Pair<String, Boolean>> entry)
+    public static String getEntryString(Map.Entry<Variable, Pair<String, Boolean>> entry)
     {
         String conditionString;
 
@@ -30,7 +30,7 @@ public class AcceptingConditions
         else
             conditionString = "other than \'" + entry.getValue().getFirst() + "\'";
 
-        return entry.getKey().getVarName() + " => " + conditionString;
+        return entry.getKey().getVarName() + " >>> " + conditionString;
     }
 
     public Set<Map<Variable, Pair<String, Boolean>>> getStatesConditions()
@@ -99,5 +99,11 @@ public class AcceptingConditions
         AcceptingConditions other = (AcceptingConditions)o;
 
         return Objects.equals(this.statesConditions, other.statesConditions);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return statesConditions.hashCode();
     }
 }

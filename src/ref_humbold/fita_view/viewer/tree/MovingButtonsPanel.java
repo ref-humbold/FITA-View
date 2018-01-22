@@ -31,12 +31,11 @@ public class MovingButtonsPanel
 
         this.add(Box.createHorizontalGlue());
 
-        for(JButton button : this.buttons)
-        {
+        this.buttons.forEach(button -> {
             this.add(Box.createRigidArea(new Dimension(1, 0)));
             this.add(button);
             this.add(Box.createRigidArea(new Dimension(1, 0)));
-        }
+        });
 
         this.add(Box.createHorizontalGlue());
     }

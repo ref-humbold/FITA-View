@@ -82,9 +82,7 @@ public abstract class TopDownAutomaton
     {
         super.initialize();
 
-        for(Variable var : variables)
-            tree.setStateInitValue(var);
-
+        variables.forEach(tree::setStateInitValue);
         traversing.initialize(tree);
         leafStates.clear();
     }
@@ -117,6 +115,11 @@ public abstract class TopDownAutomaton
 
         if(!leafRightState.isEmpty())
             leafStates.add(leafRightState);
+    }
+
+    protected String keyToString(Pair<String, String> key)
+    {
+        return "VALUE = \'" + key.getFirst() + "\', LABEL = \'" + key.getSecond() + "\'";
     }
 
     private Pair<String, String> doTransition(Variable var, String value, String label)

@@ -1,6 +1,7 @@
 package ref_humbold.fita_view.automaton;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
 
 import ref_humbold.fita_view.Pair;
@@ -24,6 +25,12 @@ public class TopDownDFTA
     public String getTypeName()
     {
         return "Top-down deterministic finite tree automaton";
+    }
+
+    @Override
+    public Map<Pair<Variable, String>, String> getTransitionWithStrings()
+    {
+        return this.transitions.convertToStringMap(this::keyToString, this::valueToString);
     }
 
     @Override
@@ -57,6 +64,12 @@ public class TopDownDFTA
     }
 
     @Override
+    public int hashCode()
+    {
+        return Objects.hash(alphabet, variables, acceptingConditions, traversing, transitions);
+    }
+
+    @Override
     protected void addTransition(Variable var, String value, String label, String leftResult,
                                  String rightResult)
         throws DuplicatedTransitionException, IllegalTransitionException
@@ -84,5 +97,11 @@ public class TopDownDFTA
     {
         setRunningMode(
             traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
+    }
+
+    String valueToString(Pair<String, String> value)
+    {
+        return "LEFT VALUE = \'" + value.getFirst() + "\', RIGHT VALUE = " + value.getSecond()
+            + "\'";
     }
 }
