@@ -24,7 +24,7 @@ public class TreeDrawingArea
     implements SignalReceiver, MessageReceiver<Iterable<TreeNode>>, MouseListener
 {
     private static final long serialVersionUID = -6588296156972565117L;
-    private static final int NODE_SIDE = 6;
+    private static final int NODE_SIDE = 4;
 
     private Pointer<Pair<TreeNode, Integer>> treePointer;
     private Set<TreeNode> currentNodes = new HashSet<>();

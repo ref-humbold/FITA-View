@@ -15,7 +15,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
-import ref_humbold.fita_view.automaton.AcceptingConditions;
+import ref_humbold.fita_view.automaton.AcceptanceConditions;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.Variable;
 import ref_humbold.fita_view.messaging.Message;
@@ -55,6 +55,11 @@ public class AutomatonTreeView
         initializeTree();
     }
 
+    String getTransitionEntryString(Pair<Variable, String> key, String value)
+    {
+        return key.getFirst().getVarName() + " :: " + key.getSecond() + " -> " + value;
+    }
+
     private void initializeTree()
     {
         TreeAutomaton automaton = automatonPointer.get();
@@ -67,7 +72,7 @@ public class AutomatonTreeView
             loadAlphabet(automaton);
             loadVariables(automaton);
             loadAccepting(automaton);
-            //TODO: loadTransitions(automaton);
+            loadTransitions(automaton);
         }
         else
             rootNode.setUserObject(EMPTY_ROOT_TEXT);
@@ -102,19 +107,19 @@ public class AutomatonTreeView
 
     private void loadAccepting(TreeAutomaton automaton)
     {
-        AcceptingConditions accepting = automaton.getAcceptingConditions();
-        DefaultMutableTreeNode acceptNode = new DefaultMutableTreeNode("Accepting states");
+        AcceptanceConditions accepting = automaton.getAcceptanceConditions();
+        DefaultMutableTreeNode acceptNode = new DefaultMutableTreeNode("Acceptance conditions");
 
         for(Map<Variable, Pair<String, Boolean>> mapping : accepting.getStatesConditions())
         {
-            DefaultMutableTreeNode stateNode = new DefaultMutableTreeNode("conditions");
+            DefaultMutableTreeNode conditionNode = new DefaultMutableTreeNode("condition");
 
             mapping.entrySet()
                    .stream()
                    .map(entry -> new DefaultMutableTreeNode(
-                       AcceptingConditions.getEntryString(entry)))
-                   .forEach(stateNode::add);
-            acceptNode.add(stateNode);
+                       AcceptanceConditions.getEntryString(entry)))
+                   .forEach(conditionNode::add);
+            acceptNode.add(conditionNode);
         }
 
         rootNode.add(acceptNode);
@@ -125,11 +130,8 @@ public class AutomatonTreeView
         Map<Pair<Variable, String>, String> stringTransition = automaton.getTransitionWithStrings();
         DefaultMutableTreeNode transitionNode = new DefaultMutableTreeNode("Transition function");
 
-        stringTransition.forEach((key, value) -> {
-            String entryString = key.getFirst().getVarName() + " >>> " + key.getSecond() + " -> "
-                + value;
-            transitionNode.add(new DefaultMutableTreeNode(entryString));
-        });
+        stringTransition.forEach((key, value) -> transitionNode.add(
+            new DefaultMutableTreeNode(getTransitionEntryString(key, value))));
 
         rootNode.add(transitionNode);
     }

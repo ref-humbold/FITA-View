@@ -46,7 +46,7 @@ public abstract class TopDownAutomaton
             throw new UndefinedTreeStateException("States in tree leaves are undefined.");
 
         for(Map<Variable, String> state : leafStates)
-            if(!acceptingConditions.checkAcceptance(state))
+            if(!acceptanceConditions.checkAcceptance(state))
                 return false;
 
         return true;
@@ -60,8 +60,8 @@ public abstract class TopDownAutomaton
      * @param leftResult variable value in left son
      * @param rightResult variable value in right son
      */
-    protected abstract void addTransition(Variable var, String value, String label,
-                                          String leftResult, String rightResult)
+    public abstract void addTransition(Variable var, String value, String label, String leftResult,
+                                       String rightResult)
         throws DuplicatedTransitionException, IllegalTransitionException;
 
     /**

@@ -16,7 +16,7 @@ public abstract class AbstractTreeAutomaton
     protected TreeNode tree;
     protected Set<String> alphabet;
     protected List<Variable> variables;
-    protected AcceptingConditions acceptingConditions = new AcceptingConditions();
+    protected AcceptanceConditions acceptanceConditions = new AcceptanceConditions();
     protected AutomatonRunningMode runningMode = AutomatonRunningMode.STOPPED;
     protected boolean isSendingMessages = false;
 
@@ -27,9 +27,9 @@ public abstract class AbstractTreeAutomaton
     }
 
     @Override
-    public AcceptingConditions getAcceptingConditions()
+    public AcceptanceConditions getAcceptanceConditions()
     {
-        return this.acceptingConditions;
+        return this.acceptanceConditions;
     }
 
     @Override
@@ -80,7 +80,7 @@ public abstract class AbstractTreeAutomaton
     @Override
     public void addAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept)
     {
-        acceptingConditions.add(accept);
+        acceptanceConditions.add(accept);
     }
 
     @Override

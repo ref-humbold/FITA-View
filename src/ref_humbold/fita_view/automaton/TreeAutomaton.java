@@ -49,7 +49,7 @@ public interface TreeAutomaton
     /**
      * @return accepting conditions for states in the automaton
      */
-    AcceptingConditions getAcceptingConditions();
+    AcceptanceConditions getAcceptanceConditions();
 
     /**
      * @return running mode of the automaton

@@ -12,7 +12,7 @@ public class TopDownDITA
     extends TopDownDFTA
     implements InfiniteTreeAutomaton
 {
-    private AcceptingConditions infinitelyAcceptingConditions = new AcceptingConditions();
+    private AcceptanceConditions infiniteAcceptanceConditions = new AcceptanceConditions();
 
     public TopDownDITA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -44,17 +44,16 @@ public class TopDownDITA
 
         return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
                                                                                other.variables)
-            && Objects.equals(this.acceptingConditions, other.acceptingConditions)
-            && Objects.equals(this.infinitelyAcceptingConditions,
-                              other.infinitelyAcceptingConditions) && Objects.equals(
-            this.transitions, other.transitions);
+            && Objects.equals(this.acceptanceConditions, other.acceptanceConditions)
+            && Objects.equals(this.infiniteAcceptanceConditions, other.infiniteAcceptanceConditions)
+            && Objects.equals(this.transitions, other.transitions);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(alphabet, variables, acceptingConditions, traversing, transitions,
-                            infinitelyAcceptingConditions);
+        return Objects.hash(alphabet, variables, acceptanceConditions, traversing, transitions,
+                            infiniteAcceptanceConditions);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class TopDownDITA
     @Override
     public void addInfinitelyAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept)
     {
-        infinitelyAcceptingConditions.add(accept);
+        infiniteAcceptanceConditions.add(accept);
     }
 
     @Override

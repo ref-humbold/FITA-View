@@ -29,16 +29,16 @@ class NodeParameters
 
     public NodeParameters getLeftParams()
     {
-        int leftXDist = xDist - getLeavesNumber() / 2;
-        int leftYDist = yDist + 3;
+        int leftXDist = xDist == 0 ? -3 : xDist > 0 ? xDist : xDist - 1;
+        int leftYDist = xDist == 0 ? 3 : xDist > 0 ? yDist + getLeavesNumber() / 2 : yDist;
 
         return new NodeParameters(leftXDist, leftYDist, depth + 1, treeDepth);
     }
 
     public NodeParameters getRightParams()
     {
-        int rightXDist = xDist + getLeavesNumber() / 2;
-        int rightYDist = yDist + 3;
+        int rightXDist = xDist == 0 ? 3 : xDist > 0 ? xDist + 1 : xDist;
+        int rightYDist = xDist == 0 ? 3 : xDist > 0 ? yDist : yDist + getLeavesNumber() / 2;
 
         return new NodeParameters(rightXDist, rightYDist, depth + 1, treeDepth);
     }

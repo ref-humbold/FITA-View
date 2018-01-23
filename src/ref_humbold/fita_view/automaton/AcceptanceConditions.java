@@ -8,7 +8,7 @@ import java.util.Set;
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
-public class AcceptingConditions
+public class AcceptanceConditions
 {
     private Set<Map<Variable, Pair<String, Boolean>>> statesConditions = new HashSet<>();
 
@@ -30,7 +30,7 @@ public class AcceptingConditions
         else
             conditionString = "other than \'" + entry.getValue().getFirst() + "\'";
 
-        return entry.getKey().getVarName() + " >>> " + conditionString;
+        return entry.getKey().getVarName() + " :: " + conditionString;
     }
 
     public Set<Map<Variable, Pair<String, Boolean>>> getStatesConditions()
@@ -39,7 +39,15 @@ public class AcceptingConditions
     }
 
     /**
-     * Adding new accepting state to the set of conditions.
+     * @return number of acceptance conditions
+     */
+    public int size()
+    {
+        return statesConditions.size();
+    }
+
+    /**
+     * Adding a new acceptance condition.
      * @param mapping mapping from variables to accepting conditions on their values
      */
     public void add(Map<Variable, Pair<String, Boolean>> mapping)
@@ -93,10 +101,10 @@ public class AcceptingConditions
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof AcceptingConditions))
+        if(o == null || !(o instanceof AcceptanceConditions))
             return false;
 
-        AcceptingConditions other = (AcceptingConditions)o;
+        AcceptanceConditions other = (AcceptanceConditions)o;
 
         return Objects.equals(this.statesConditions, other.statesConditions);
     }

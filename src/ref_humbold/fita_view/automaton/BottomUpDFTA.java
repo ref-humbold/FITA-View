@@ -56,7 +56,7 @@ public class BottomUpDFTA
         if(tree == null)
             throw new EmptyTreeException("Tree is empty.");
 
-        return acceptingConditions.checkAcceptance(tree.getState());
+        return acceptanceConditions.checkAcceptance(tree.getState());
     }
 
     @Override
@@ -86,7 +86,7 @@ public class BottomUpDFTA
 
         return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
                                                                                other.variables)
-            && Objects.equals(this.acceptingConditions, other.acceptingConditions)
+            && Objects.equals(this.acceptanceConditions, other.acceptanceConditions)
             && Objects.equals(this.transitions, other.transitions);
     }
 
@@ -100,7 +100,22 @@ public class BottomUpDFTA
     @Override
     public int hashCode()
     {
-        return Objects.hash(alphabet, variables, acceptingConditions, traversing, transitions);
+        return Objects.hash(alphabet, variables, acceptanceConditions, traversing, transitions);
+    }
+
+    /**
+     * Adding new transition entry to transition function of automaton.
+     * @param var variable
+     * @param leftValue variable value in left son
+     * @param rightValue variable value in right son
+     * @param label tree label of node
+     * @param result variable value in node
+     */
+    public void addTransition(Variable var, String leftValue, String rightValue, String label,
+                              String result)
+        throws DuplicatedTransitionException, IllegalTransitionException
+    {
+        transitions.add(var, Triple.make(leftValue, rightValue, label), result);
     }
 
     @Override
@@ -142,21 +157,6 @@ public class BottomUpDFTA
     {
         if(containsRecursiveNode(tree))
             throw new TreeFinitenessException("Tree is infinite.");
-    }
-
-    /**
-     * Adding new transition entry to transition function of automaton.
-     * @param var variable
-     * @param leftValue variable value in left son
-     * @param rightValue variable value in right son
-     * @param label tree label of node
-     * @param result variable value in node
-     */
-    void addTransition(Variable var, String leftValue, String rightValue, String label,
-                       String result)
-        throws DuplicatedTransitionException, IllegalTransitionException
-    {
-        transitions.add(var, Triple.make(leftValue, rightValue, label), result);
     }
 
     String keyToString(Triple<String, String, String> key)

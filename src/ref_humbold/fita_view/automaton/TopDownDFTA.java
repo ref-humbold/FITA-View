@@ -52,7 +52,7 @@ public class TopDownDFTA
 
         return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
                                                                                other.variables)
-            && Objects.equals(this.acceptingConditions, other.acceptingConditions)
+            && Objects.equals(this.acceptanceConditions, other.acceptanceConditions)
             && Objects.equals(this.transitions, other.transitions);
     }
 
@@ -66,12 +66,12 @@ public class TopDownDFTA
     @Override
     public int hashCode()
     {
-        return Objects.hash(alphabet, variables, acceptingConditions, traversing, transitions);
+        return Objects.hash(alphabet, variables, acceptanceConditions, traversing, transitions);
     }
 
     @Override
-    protected void addTransition(Variable var, String value, String label, String leftResult,
-                                 String rightResult)
+    public void addTransition(Variable var, String value, String label, String leftResult,
+                              String rightResult)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
         transitions.add(var, Pair.make(value, label), Pair.make(leftResult, rightResult));
