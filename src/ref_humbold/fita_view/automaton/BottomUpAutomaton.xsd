@@ -62,6 +62,7 @@
           </xs:complexType>
         </xs:element>
       </xs:sequence>
+      <xs:attribute name="determinism" type="xs:boolean" use="required" />
     </xs:complexType>
     <xs:unique name="uniqueID">
       <xs:selector xpath="variables" />

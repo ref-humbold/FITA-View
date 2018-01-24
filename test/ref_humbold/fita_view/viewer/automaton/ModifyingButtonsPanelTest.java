@@ -18,6 +18,7 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.BottomUpDFTA;
 import ref_humbold.fita_view.automaton.TopDownDFTA;
@@ -188,7 +189,7 @@ public class ModifyingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice result = automaton.getChoice();
+        StateChoice<Pair<String, String>> result = automaton.getChoice();
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof FirstElementChoice);
@@ -206,7 +207,7 @@ public class ModifyingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice result = automaton.getChoice();
+        StateChoice<Pair<String, String>> result = automaton.getChoice();
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof RandomChoice);
@@ -224,7 +225,7 @@ public class ModifyingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice result = automaton.getChoice();
+        StateChoice<Pair<String, String>> result = automaton.getChoice();
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof LeastHashCodeChoice);
@@ -242,7 +243,7 @@ public class ModifyingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice result = automaton.getChoice();
+        StateChoice<Pair<String, String>> result = automaton.getChoice();
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof GreatestHashCodeChoice);

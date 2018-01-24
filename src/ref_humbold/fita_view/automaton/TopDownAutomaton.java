@@ -122,6 +122,12 @@ public abstract class TopDownAutomaton
         return "VALUE = \'" + key.getFirst() + "\', LABEL = \'" + key.getSecond() + "\'";
     }
 
+    String valueToString(Pair<String, String> value)
+    {
+        return "LEFT VALUE = \'" + value.getFirst() + "\', RIGHT VALUE = " + value.getSecond()
+            + "\'";
+    }
+
     private Pair<String, String> doTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {

@@ -1,27 +1,29 @@
 package ref_humbold.fita_view.automaton.nondeterminism;
 
+import java.util.function.Function;
 import javax.swing.JFrame;
 
 public class StateChoiceFactory
 {
-    public static StateChoice createChoice(StateChoiceMode mode, JFrame frame)
+    public static <T> StateChoice<T> createChoice(StateChoiceMode mode, JFrame frame,
+                                                  Function<T, String> convert)
     {
         switch(mode)
         {
             case FIRST:
-                return new FirstElementChoice();
+                return new FirstElementChoice<>();
 
             case RANDOM:
-                return new RandomChoice();
+                return new RandomChoice<>();
 
             case GREATEST:
-                return new GreatestHashCodeChoice();
+                return new GreatestHashCodeChoice<>();
 
             case LEAST:
-                return new LeastHashCodeChoice();
+                return new LeastHashCodeChoice<>();
 
             case USER:
-                return new UserChoice(frame);
+                return new UserChoice<>(frame, convert);
         }
 
         return null;

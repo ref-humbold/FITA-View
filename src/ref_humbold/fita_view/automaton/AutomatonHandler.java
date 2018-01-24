@@ -18,6 +18,7 @@ abstract class AutomatonHandler
     protected StringBuilder content;
     protected String tagName;
     protected Integer varID;
+    protected boolean isDeterministic;
     private Locator locator;
     private List<String> varValues = new ArrayList<>();
 
@@ -42,6 +43,10 @@ abstract class AutomatonHandler
             case "transitions":
             case "word":
             case "value":
+                break;
+
+            case "automaton":
+                isDeterministic = Boolean.parseBoolean(attributes.getValue("determinism"));
                 break;
 
             case "var":

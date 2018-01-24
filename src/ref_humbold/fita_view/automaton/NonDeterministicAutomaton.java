@@ -2,9 +2,11 @@ package ref_humbold.fita_view.automaton;
 
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoice;
 
-public interface NonDeterministicAutomaton
+public interface NonDeterministicAutomaton<T>
 {
-    StateChoice getChoice();
+    StateChoice<T> getChoice();
 
-    void setChoice(StateChoice choice);
+    void setChoice(StateChoice<T> choice);
+
+    String convert(T value);
 }

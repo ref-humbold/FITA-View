@@ -98,10 +98,4 @@ public class TopDownDFTA
         setRunningMode(
             traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
     }
-
-    String valueToString(Pair<String, String> value)
-    {
-        return "LEFT VALUE = \'" + value.getFirst() + "\', RIGHT VALUE = " + value.getSecond()
-            + "\'";
-    }
 }

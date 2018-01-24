@@ -1,4 +1,4 @@
-<automaton>
+<automaton determinism="true">
   <alphabet>
     <word>0</word>
     <word>-</word>

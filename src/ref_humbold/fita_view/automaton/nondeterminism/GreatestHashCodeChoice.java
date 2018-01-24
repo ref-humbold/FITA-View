@@ -3,12 +3,10 @@ package ref_humbold.fita_view.automaton.nondeterminism;
 import java.util.Collection;
 import java.util.Collections;
 
-import ref_humbold.fita_view.Pair;
-
-public class GreatestHashCodeChoice
-    implements StateChoice
+public class GreatestHashCodeChoice<T>
+    implements StateChoice<T>
 {
-    private static final PairHashCodeComparator COMPARATOR = new PairHashCodeComparator();
+    private final HashCodeComparator<T> comparator = new HashCodeComparator<>();
 
     @Override
     public StateChoiceMode getMode()
@@ -22,8 +20,8 @@ public class GreatestHashCodeChoice
      * @return variable value chosen as value with greatest hash code
      */
     @Override
-    public Pair<String, String> chooseState(Collection<Pair<String, String>> states)
+    public T chooseState(Collection<T> states)
     {
-        return Collections.max(states, COMPARATOR);
+        return Collections.max(states, comparator);
     }
 }

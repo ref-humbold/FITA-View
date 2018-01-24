@@ -11,37 +11,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import javax.swing.*;
 
-import ref_humbold.fita_view.Pair;
-
-public class UserChoice
-    implements StateChoice, ActionListener, PropertyChangeListener
+public class UserChoice<T>
+    implements StateChoice<T>, ActionListener, PropertyChangeListener
 {
     private JFrame owner;
     private JDialog dialog;
     private ButtonGroup buttonGroup;
     private JOptionPane optionPane;
-    private Pair<String, String> current;
-    private List<Pair<String, String>> statesList;
+    private T current;
+    private List<T> statesList;
+    private Function<T, String> convert;
 
-    public UserChoice(JFrame owner)
+    public UserChoice(JFrame owner, Function<T, String> convert)
     {
         this.owner = owner;
+        this.convert = convert;
     }
-
-    /*
-    public static void main(String[] args)
-    {
-        UserChoice userChoice = new UserChoice(null);
-
-        Pair<String, String> chosen = userChoice.chooseState(
-            Arrays.asList(Pair.make("A", "B"), Pair.make("C", "D"), Pair.make("E", "F"),
-                          Pair.make("G", "H")));
-
-        System.out.println(chosen);
-    }
-    */
 
     @Override
     public StateChoiceMode getMode()
@@ -56,7 +44,7 @@ public class UserChoice
     }
 
     @Override
-    public Pair<String, String> chooseState(Collection<Pair<String, String>> states)
+    public T chooseState(Collection<T> states)
     {
         statesList = new ArrayList<>(states);
 
@@ -111,11 +99,8 @@ public class UserChoice
 
         for(int i = 0; i < statesList.size(); ++i)
         {
-            Pair<String, String> values = statesList.get(i);
-
-            JRadioButton button = new JRadioButton(
-                "LEFT VALUE = \'" + values.getFirst() + "\'    RIGHT VALUE = \'"
-                    + values.getSecond() + "\'");
+            T value = statesList.get(i);
+            JRadioButton button = new JRadioButton(convert.apply(value));
 
             button.setActionCommand(Integer.toString(i));
             button.addActionListener(this);

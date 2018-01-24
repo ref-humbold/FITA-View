@@ -8,7 +8,6 @@ class TopDownAutomatonHandler
     extends AutomatonHandler
 {
     private TopDownAutomaton automaton;
-    private boolean isDeterministic;
     private boolean isInfiniteAccept = false;
     private String nodeValue;
     private String label;
@@ -30,10 +29,6 @@ class TopDownAutomatonHandler
 
         switch(qName)
         {
-            case "automaton":
-                isDeterministic = Boolean.parseBoolean(attributes.getValue("determinism"));
-                break;
-
             case "buchi-accepting":
                 isInfiniteAccept = true;
                 automaton = isDeterministic ? new TopDownDITA(variables.values(), alphabet)

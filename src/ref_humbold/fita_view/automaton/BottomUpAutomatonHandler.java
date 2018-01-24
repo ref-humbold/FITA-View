@@ -7,7 +7,7 @@ import org.xml.sax.SAXException;
 class BottomUpAutomatonHandler
     extends AutomatonHandler
 {
-    private BottomUpDFTA automaton;
+    private BottomUpAutomaton automaton;
     private String label;
     private String leftValue;
     private String rightValue;
@@ -28,7 +28,6 @@ class BottomUpAutomatonHandler
 
         switch(qName)
         {
-            case "automaton":
             case "accepting":
             case "label":
             case "left-value":
@@ -51,7 +50,8 @@ class BottomUpAutomatonHandler
                 break;
 
             case "variables":
-                automaton = new BottomUpDFTA(variables.values(), alphabet);
+                automaton = isDeterministic ? new BottomUpDFTA(variables.values(), alphabet)
+                                            : new BottomUpNFTA(variables.values(), alphabet);
                 break;
 
             case "conditions":

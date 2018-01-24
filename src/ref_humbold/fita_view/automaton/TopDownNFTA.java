@@ -13,10 +13,10 @@ import ref_humbold.fita_view.tree.TreeNode;
 
 public class TopDownNFTA
     extends TopDownAutomaton
-    implements NonDeterministicAutomaton
+    implements NonDeterministicAutomaton<Pair<String, String>>
 {
     protected TopDownTransitions<Set<Pair<String, String>>> transitions = new TopDownTransitions<>();
-    private StateChoice choice;
+    private StateChoice<Pair<String, String>> choice;
 
     public TopDownNFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -24,13 +24,13 @@ public class TopDownNFTA
     }
 
     @Override
-    public StateChoice getChoice()
+    public StateChoice<Pair<String, String>> getChoice()
     {
         return this.choice;
     }
 
     @Override
-    public void setChoice(StateChoice choice)
+    public void setChoice(StateChoice<Pair<String, String>> choice)
     {
         this.choice = choice;
     }
@@ -44,7 +44,13 @@ public class TopDownNFTA
     @Override
     public Map<Pair<Variable, String>, String> getTransitionWithStrings()
     {
-        return this.transitions.convertToStringMap(this::keyToString, this::valueToString);
+        return this.transitions.convertToStringMap(this::keyToString, this::valueSetToString);
+    }
+
+    @Override
+    public String convert(Pair<String, String> value)
+    {
+        return valueToString(value);
     }
 
     @Override
@@ -127,12 +133,9 @@ public class TopDownNFTA
             traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
     }
 
-    String valueToString(Set<Pair<String, String>> value)
+    protected String valueSetToString(Set<Pair<String, String>> value)
     {
-        Set<String> stringSet = value.stream()
-                                     .map(pair -> "( LEFT VALUE = \'" + pair.getFirst()
-                                         + "\', RIGHT VALUE = " + pair.getSecond() + "\' )")
-                                     .collect(Collectors.toSet());
+        Set<String> stringSet = value.stream().map(this::valueToString).collect(Collectors.toSet());
 
         return stringSet.toString();
     }

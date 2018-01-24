@@ -73,13 +73,7 @@ public class ModifyingButtonsPanel
                 UserMessageBox.showException(e);
             }
         else if(StateChoiceFactory.isCorrectMode(actionCommand))
-        {
-            NonDeterministicAutomaton automaton = (NonDeterministicAutomaton)automatonPointer.get();
-
-            automaton.setChoice(
-                StateChoiceFactory.createChoice(StateChoiceMode.valueOf(actionCommand),
-                                                (JFrame)SwingUtilities.windowForComponent(this)));
-        }
+            setChoice(actionCommand, automatonPointer.get());
     }
 
     @Override
@@ -146,5 +140,16 @@ public class ModifyingButtonsPanel
         }
 
         add(Box.createVerticalGlue());
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> void setChoice(String actionCommand, TreeAutomaton automaton)
+    {
+        NonDeterministicAutomaton<T> nonDeterministicAutomaton = (NonDeterministicAutomaton<T>)automaton;
+
+        nonDeterministicAutomaton.setChoice(
+            StateChoiceFactory.createChoice(StateChoiceMode.valueOf(actionCommand),
+                                            (JFrame)SwingUtilities.windowForComponent(this),
+                                            nonDeterministicAutomaton::convert));
     }
 }

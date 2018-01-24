@@ -15,7 +15,7 @@ import ref_humbold.fita_view.automaton.Wildcard;
 
 public class BottomUpTransitionsTest
 {
-    private BottomUpTransitions testObject;
+    private BottomUpTransitions<String> testObject;
     private Variable v = new Variable(0, "A", "B", "C", "D");
 
     public BottomUpTransitionsTest()
@@ -27,7 +27,7 @@ public class BottomUpTransitionsTest
     public void setUp()
         throws Exception
     {
-        testObject = new BottomUpTransitions();
+        testObject = new BottomUpTransitions<>();
         testObject.add(v, Triple.make("A", "B", "0"), "C");
         testObject.add(v, Triple.make(Wildcard.EVERY_VALUE, "C", "1"), "B");
         testObject.add(v, Triple.make(Wildcard.SAME_VALUE, Wildcard.EVERY_VALUE, "2"), "A");

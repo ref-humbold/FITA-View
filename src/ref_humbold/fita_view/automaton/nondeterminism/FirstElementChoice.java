@@ -2,10 +2,8 @@ package ref_humbold.fita_view.automaton.nondeterminism;
 
 import java.util.Collection;
 
-import ref_humbold.fita_view.Pair;
-
-public class FirstElementChoice
-    implements StateChoice
+public class FirstElementChoice<T>
+    implements StateChoice<T>
 {
     @Override
     public StateChoiceMode getMode()
@@ -19,7 +17,7 @@ public class FirstElementChoice
      * @return variable value chosen as first value return by set iterator
      */
     @Override
-    public Pair<String, String> chooseState(Collection<Pair<String, String>> states)
+    public T chooseState(Collection<T> states)
     {
         return states.iterator().next();
     }

@@ -7,8 +7,8 @@ import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.Variable;
 import ref_humbold.fita_view.automaton.Wildcard;
 
-public class BottomUpTransitions
-    extends Transitions<Triple<String, String, String>, String>
+public class BottomUpTransitions<V>
+    extends Transitions<Triple<String, String, String>, V>
 {
     private final String[] sameMasks = new String[]{"*=_", "=*_", "*=*", "=**"};
 
@@ -44,7 +44,7 @@ public class BottomUpTransitions
     }
 
     @Override
-    public void add(Variable var, Triple<String, String, String> key, String value)
+    public void add(Variable var, Triple<String, String, String> key, V value)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
         if((Objects.equals(key.getFirst(), Wildcard.SAME_VALUE) && !Objects.equals(key.getSecond(),
@@ -59,7 +59,7 @@ public class BottomUpTransitions
     }
 
     @Override
-    public String get(Variable var, Triple<String, String, String> key)
+    public V get(Variable var, Triple<String, String, String> key)
         throws NoSuchTransitionException
     {
         if(hasNull(key))
@@ -70,7 +70,7 @@ public class BottomUpTransitions
             for(String mask : sameMasks)
             {
                 Triple<String, String, String> kv = setWildcardSame(mask, key);
-                String value = map.get(Pair.make(var, kv));
+                V value = map.get(Pair.make(var, kv));
 
                 if(value != null)
                     return value;
@@ -80,7 +80,7 @@ public class BottomUpTransitions
         for(int i = 0; i < 1 << key.size(); ++i)
         {
             Triple<String, String, String> kv = setWildcardEvery(i, key);
-            String value = map.get(Pair.make(var, kv));
+            V value = map.get(Pair.make(var, kv));
 
             if(value != null)
                 return value;

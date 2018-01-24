@@ -4,10 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
 
-import ref_humbold.fita_view.Pair;
-
-public class RandomChoice
-    implements StateChoice
+public class RandomChoice<T>
+    implements StateChoice<T>
 {
     private static final Random random = new Random();
 
@@ -23,13 +21,13 @@ public class RandomChoice
      * @return variable value chosen randomly
      */
     @Override
-    public Pair<String, String> chooseState(Collection<Pair<String, String>> states)
+    public T chooseState(Collection<T> states)
     {
         if(states.size() == 1)
             return states.iterator().next();
 
         int index = random.nextInt(states.size());
-        Iterator<Pair<String, String>> iterator = states.iterator();
+        Iterator<T> iterator = states.iterator();
 
         for(int i = 1; i < index; ++i)
             iterator.next();
