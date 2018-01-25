@@ -31,10 +31,10 @@ public class AutomatonMainPanel
     private Pointer<TreeAutomaton> automatonPointer;
     private Pointer<Pair<TreeNode, Integer>> treePointer;
     private TitlePanel titlePanel = new TitlePanel("automaton");
-    private AcceptingPanel acceptingPanel;
+    private AcceptancePanel acceptancePanel;
     private AutomatonScrollTreeView scrollTreeView;
     private ModifyingButtonsPanel modifyingButtonsPanel;
-    private RunningButtonsPanel runningButtonsPanel;
+    private ActionButtonsPanel actionButtonsPanel;
 
     public AutomatonMainPanel(Pointer<TreeAutomaton> automatonPointer,
                               Pointer<Pair<TreeNode, Integer>> treePointer)
@@ -89,14 +89,14 @@ public class AutomatonMainPanel
         JPanel centralPanel = new JPanel(new BorderLayout(5, 5));
 
         centralPanel.add(this.scrollTreeView, BorderLayout.CENTER);
-        centralPanel.add(this.acceptingPanel, BorderLayout.PAGE_END);
+        centralPanel.add(this.acceptancePanel, BorderLayout.PAGE_END);
         centralPanel.setOpaque(false);
 
         this.add(this.titlePanel, BorderLayout.PAGE_START);
         this.add(new EmptyPanel(), BorderLayout.LINE_START);
         this.add(centralPanel, BorderLayout.CENTER);
         this.add(this.modifyingButtonsPanel, BorderLayout.LINE_END);
-        this.add(this.runningButtonsPanel, BorderLayout.PAGE_END);
+        this.add(this.actionButtonsPanel, BorderLayout.PAGE_END);
     }
 
     private File chooseFile()
@@ -121,9 +121,9 @@ public class AutomatonMainPanel
     {
         titlePanel.addReceiver(this);
 
-        acceptingPanel = new AcceptingPanel(this.automatonPointer);
+        acceptancePanel = new AcceptancePanel(this.automatonPointer);
         scrollTreeView = new AutomatonScrollTreeView(this.automatonPointer);
         modifyingButtonsPanel = new ModifyingButtonsPanel(this.automatonPointer);
-        runningButtonsPanel = new RunningButtonsPanel(this.automatonPointer);
+        actionButtonsPanel = new ActionButtonsPanel(this.automatonPointer);
     }
 }

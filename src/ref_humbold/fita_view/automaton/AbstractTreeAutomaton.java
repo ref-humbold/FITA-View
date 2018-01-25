@@ -160,6 +160,9 @@ public abstract class AbstractTreeAutomaton
             AutomatonCurrentNodesSender.getInstance().send(Collections::emptyIterator);
     }
 
+    /**
+     * Changing the running mode of the automaton.
+     */
     protected abstract void changeRunningMode();
 
     /**

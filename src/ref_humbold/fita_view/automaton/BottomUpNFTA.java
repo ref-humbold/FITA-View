@@ -16,8 +16,8 @@ public class BottomUpNFTA
     extends BottomUpAutomaton
     implements NonDeterministicAutomaton<String>
 {
-    private BottomUpTransitions<Set<String>> transitions = new BottomUpTransitions<>();
     private StateChoice<String> choice;
+    private BottomUpTransitions<Set<String>> transitions = new BottomUpTransitions<>();
 
     public BottomUpNFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -49,7 +49,7 @@ public class BottomUpNFTA
     }
 
     @Override
-    public String convert(String value)
+    public String convertToString(String value)
     {
         return valueToString(value);
     }
@@ -101,8 +101,8 @@ public class BottomUpNFTA
     }
 
     @Override
-    protected String getTransitionResult(Variable var, String leftValue, String rightValue,
-                                         String label)
+    protected String applyTransition(Variable var, String leftValue, String rightValue,
+                                     String label)
         throws NoSuchTransitionException
     {
         return choice.chooseState(transitions.get(var, Triple.make(leftValue, rightValue, label)));

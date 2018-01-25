@@ -1035,6 +1035,78 @@ public class AutomatonReaderTest
 
     // endregion
 
+    // region BottomUpNFTA
+
+    @Test
+    public void testReadBottomUpNFTA()
+    {
+        TreeAutomaton result = null;
+
+        try
+        {
+            testObject = new AutomatonReader(new File(DIRECTORY + "testReadBottomUpNFTA.bua.xml"));
+            result = testObject.read();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Variable v = null;
+
+        try
+        {
+            v = new Variable(0, "A", "B", "C");
+        }
+        catch(IllegalVariableValueException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        BottomUpNFTA expected = new BottomUpNFTA(Collections.singletonList(v),
+                                                 Arrays.asList("0", "1"));
+
+        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("C", true)));
+
+        try
+        {
+            expected.addTransition(v, "A", "A", "0", "A");
+            expected.addTransition(v, "A", "A", "1", "B");
+            expected.addTransition(v, "A", "A", "1", "C");
+            expected.addTransition(v, "A", "B", "0", "B");
+            expected.addTransition(v, "A", "B", "1", "C");
+            expected.addTransition(v, "A", "C", "0", "C");
+            expected.addTransition(v, "A", "C", "1", "A");
+            expected.addTransition(v, "B", "A", "0", "B");
+            expected.addTransition(v, "B", "A", "1", "C");
+            expected.addTransition(v, "B", "A", "1", "B");
+            expected.addTransition(v, "B", "B", "0", "B");
+            expected.addTransition(v, "B", "B", "1", "C");
+            expected.addTransition(v, "B", "C", "0", "C");
+            expected.addTransition(v, "B", "C", "1", "A");
+            expected.addTransition(v, "C", "A", "0", "A");
+            expected.addTransition(v, "C", "A", "0", "C");
+            expected.addTransition(v, "C", "A", "1", "B");
+            expected.addTransition(v, "C", "B", "0", "B");
+            expected.addTransition(v, "C", "B", "1", "C");
+            expected.addTransition(v, "C", "C", "0", "C");
+            expected.addTransition(v, "C", "C", "1", "A");
+        }
+        catch(DuplicatedTransitionException | IllegalTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result instanceof BottomUpNFTA);
+        Assert.assertEquals(expected, result);
+    }
+
+    // endregion
+
     @Ignore("Easter Egg \'TopDown.bua.xml\' not implemented yet.")
     @Test(expected = FileFormatException.class)
     public void testReadWhenExpectedBottomUpButNamedTopDown()

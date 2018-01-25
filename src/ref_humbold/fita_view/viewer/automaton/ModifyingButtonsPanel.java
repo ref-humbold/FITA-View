@@ -150,6 +150,6 @@ public class ModifyingButtonsPanel
         nonDeterministicAutomaton.setChoice(
             StateChoiceFactory.createChoice(StateChoiceMode.valueOf(actionCommand),
                                             (JFrame)SwingUtilities.windowForComponent(this),
-                                            nonDeterministicAutomaton::convert));
+                                            nonDeterministicAutomaton::convertToString));
     }
 }

@@ -62,7 +62,7 @@ public class AcceptanceConditions
      * @throws UndefinedTreeStateException if state contains a variable with undefined value
      * @throws UndefinedAcceptanceException if set of accepting conditions is empty
      */
-    public boolean checkAcceptance(Map<Variable, String> state)
+    public boolean check(Map<Variable, String> state)
         throws UndefinedTreeStateException, UndefinedAcceptanceException
     {
         if(statesConditions.isEmpty())

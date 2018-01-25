@@ -9,6 +9,12 @@ public interface InfiniteTreeAutomaton
     extends TreeAutomaton
 {
     /**
+     * Testing if associated tree is accepted by the automaton in terms of infinitely appearing states.
+     * @return {@code true} if automaton accepts tree, otherwise {@code false}
+     */
+    boolean isInfinitelyAccepted();
+
+    /**
      * Reloading recursive nodes so as to continue recursive traversing.
      */
     void continueRecursive()

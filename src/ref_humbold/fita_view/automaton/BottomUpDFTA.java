@@ -79,8 +79,8 @@ public class BottomUpDFTA
     }
 
     @Override
-    protected String getTransitionResult(Variable var, String leftValue, String rightValue,
-                                         String label)
+    protected String applyTransition(Variable var, String leftValue, String rightValue,
+                                     String label)
         throws NoSuchTransitionException
     {
         return transitions.get(var, Triple.make(leftValue, rightValue, label));

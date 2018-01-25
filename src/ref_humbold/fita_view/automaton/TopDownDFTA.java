@@ -78,7 +78,7 @@ public class TopDownDFTA
     }
 
     @Override
-    protected Pair<String, String> getTransitionResult(Variable var, String value, String label)
+    protected Pair<String, String> applyTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
         return transitions.get(var, Pair.make(value, label));

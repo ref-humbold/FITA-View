@@ -26,9 +26,28 @@ public class TopDownDITA
     }
 
     @Override
+    public boolean isInfinitelyAccepted()
+    {
+        return false;
+    }
+
+    @Override
     public TreeNode generateTree()
     {
         return null;
+    }
+
+    @Override
+    public void continueRecursive()
+        throws RecursiveContinuationException
+    {
+        traversing.continueRecursive();
+    }
+
+    @Override
+    public void addInfinitelyAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept)
+    {
+        infiniteAcceptanceConditions.add(accept);
     }
 
     @Override
@@ -61,19 +80,6 @@ public class TopDownDITA
     {
         return "TopDownDITA\n  alphabet = " + alphabet.toString() + "\n  variables = "
             + variables.toString() + "\n  transitions = " + transitions.toString();
-    }
-
-    @Override
-    public void continueRecursive()
-        throws RecursiveContinuationException
-    {
-        traversing.continueRecursive();
-    }
-
-    @Override
-    public void addInfinitelyAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept)
-    {
-        infiniteAcceptanceConditions.add(accept);
     }
 
     @Override

@@ -65,16 +65,16 @@ public class ModifyingButtonsPanelTest
     {
         Mockito.when(mockPointer.get())
                .thenReturn(new BottomUpDFTA(Collections.emptySet(), Collections.emptySet()));
-        PowerMockito.doAnswer(new Answer<Object>()
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DFS");
+        PowerMockito.doAnswer(new Answer<Exception>()
         {
             @Override
-            public Object answer(InvocationOnMock invocation)
+            public Exception answer(InvocationOnMock invocation)
                 throws Throwable
             {
                 throw (Exception)invocation.getArguments()[0];
             }
         }).when(UserMessageBox.class, "showException", Matchers.any(Exception.class));
-        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DFS");
 
         try
         {

@@ -15,16 +15,17 @@ import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.messaging.SignalReceiver;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
-public class AcceptingPanel
+public class AcceptancePanel
     extends JPanel
     implements MessageReceiver<AutomatonRunningMode>, SignalReceiver
 {
+    static final Color DARK_RED = new Color(192, 0, 0);
     private static final long serialVersionUID = -6432696545183930929L;
 
+    JLabel acceptanceLabel = new JLabel();
     private Pointer<TreeAutomaton> automatonPointer;
-    private JLabel acceptanceLabel = new JLabel();
 
-    public AcceptingPanel(Pointer<TreeAutomaton> automatonPointer)
+    public AcceptancePanel(Pointer<TreeAutomaton> automatonPointer)
     {
         super();
 
@@ -54,6 +55,7 @@ public class AcceptingPanel
                 }
                 catch(Exception e)
                 {
+                    UserMessageBox.showException(e);
                     setTreeUndefined();
                 }
                 break;
@@ -72,7 +74,6 @@ public class AcceptingPanel
 
     private void initializeComponents()
     {
-        acceptanceLabel.setForeground(Color.WHITE);
         acceptanceLabel.setFont(new Font(null, Font.BOLD | Font.ITALIC, 14));
         acceptanceLabel.setHorizontalAlignment(SwingConstants.CENTER);
         acceptanceLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -81,20 +82,23 @@ public class AcceptingPanel
     private void setTreeAccepted()
     {
         setBackground(Color.GREEN);
+        acceptanceLabel.setForeground(Color.BLACK);
         acceptanceLabel.setText("TREE ACCEPTED :)");
         UserMessageBox.showInfo("ACCEPTED", "Automaton has accepted the tree.");
     }
 
     private void setTreeRejected()
     {
-        setBackground(new Color(192, 0, 0));
+        setBackground(DARK_RED);
+        acceptanceLabel.setForeground(Color.WHITE);
         acceptanceLabel.setText("TREE REJECTED :(");
-        UserMessageBox.showInfo("NOT REJECTED", "Automaton has rejected the tree.");
+        UserMessageBox.showInfo("REJECTED", "Automaton has rejected the tree.");
     }
 
     private void setTreeUndefined()
     {
-        setBackground(Color.GRAY);
-        acceptanceLabel.setText("-----");
+        setBackground(Color.DARK_GRAY);
+        acceptanceLabel.setForeground(Color.WHITE);
+        acceptanceLabel.setText("------");
     }
 }

@@ -8,5 +8,10 @@ public interface NonDeterministicAutomaton<T>
 
     void setChoice(StateChoice<T> choice);
 
-    String convert(T value);
+    /**
+     * Converting specified value to its string representation.
+     * @param value value to convert
+     * @return string representation
+     */
+    String convertToString(T value);
 }

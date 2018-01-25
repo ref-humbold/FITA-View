@@ -44,7 +44,7 @@ public abstract class BottomUpAutomaton
         if(tree == null)
             throw new EmptyTreeException("Tree is empty.");
 
-        return acceptanceConditions.checkAcceptance(tree.getState());
+        return acceptanceConditions.check(tree.getState());
     }
 
     @Override
@@ -116,19 +116,43 @@ public abstract class BottomUpAutomaton
      * @param label tree label of node
      * @return variable value in node
      */
-    protected abstract String getTransitionResult(Variable var, String leftValue, String rightValue,
-                                                  String label)
+    protected abstract String applyTransition(Variable var, String leftValue, String rightValue,
+                                              String label)
         throws NoSuchTransitionException;
 
-    String keyToString(Triple<String, String, String> key)
+    /**
+     * Converting transition key to its string representation.
+     * @param key transition key
+     * @return string representation
+     */
+    protected String keyToString(Triple<String, String, String> key)
     {
         return "LEFT VALUE = \'" + key.getFirst() + "\', RIGHT VALUE = \'" + key.getSecond()
             + "\', LABEL = \'" + key.getThird() + "\'";
     }
 
-    String valueToString(String value)
+    /**
+     * Converting transition value to its string representation.
+     * @param value transition value
+     * @return string representation
+     */
+    protected String valueToString(String value)
     {
         return "VALUE = \'" + value + "\'";
+    }
+
+    private String doTransition(Variable var, String leftValue, String rightValue, String label)
+        throws NoSuchTransitionException
+    {
+        String result = applyTransition(var, leftValue, rightValue, label);
+
+        if(Objects.equals(result, Wildcard.LEFT_VALUE))
+            return leftValue;
+
+        if(Objects.equals(result, Wildcard.RIGHT_VALUE))
+            return rightValue;
+
+        return result;
     }
 
     private void findLeaves()
@@ -142,19 +166,5 @@ public abstract class BottomUpAutomaton
             if(!v.hasChildren())
                 leaves.add(v);
         }));
-    }
-
-    private String doTransition(Variable var, String leftValue, String rightValue, String label)
-        throws NoSuchTransitionException
-    {
-        String result = getTransitionResult(var, leftValue, rightValue, label);
-
-        if(Objects.equals(result, Wildcard.LEFT_VALUE))
-            return leftValue;
-
-        if(Objects.equals(result, Wildcard.RIGHT_VALUE))
-            return rightValue;
-
-        return result;
     }
 }

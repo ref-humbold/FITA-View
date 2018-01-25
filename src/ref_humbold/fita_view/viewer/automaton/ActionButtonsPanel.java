@@ -19,7 +19,7 @@ import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.messaging.SignalReceiver;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
-public class RunningButtonsPanel
+public class ActionButtonsPanel
     extends JPanel
     implements ActionListener, SignalReceiver, MessageReceiver<AutomatonRunningMode>
 {
@@ -30,7 +30,7 @@ public class RunningButtonsPanel
     private List<JButton> continuingButtons = new ArrayList<>();
     private List<JButton> currentButtons = new ArrayList<>();
 
-    public RunningButtonsPanel(Pointer<TreeAutomaton> automatonPointer)
+    public ActionButtonsPanel(Pointer<TreeAutomaton> automatonPointer)
     {
         super();
 

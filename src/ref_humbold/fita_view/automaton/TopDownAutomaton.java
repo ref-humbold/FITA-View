@@ -46,7 +46,7 @@ public abstract class TopDownAutomaton
             throw new UndefinedTreeStateException("States in tree leaves are undefined.");
 
         for(Map<Variable, String> state : leafStates)
-            if(!acceptanceConditions.checkAcceptance(state))
+            if(!acceptanceConditions.check(state))
                 return false;
 
         return true;
@@ -71,8 +71,8 @@ public abstract class TopDownAutomaton
      * @param label tree label of node
      * @return pair of variable values in sons (first left, second right)
      */
-    protected abstract Pair<String, String> getTransitionResult(Variable var, String value,
-                                                                String label)
+    protected abstract Pair<String, String> applyTransition(Variable var, String value,
+                                                            String label)
         throws NoSuchTransitionException;
 
     @Override
@@ -117,12 +117,22 @@ public abstract class TopDownAutomaton
             leafStates.add(leafRightState);
     }
 
+    /**
+     * Converting transition key to its string representation.
+     * @param key transition key
+     * @return string representation
+     */
     protected String keyToString(Pair<String, String> key)
     {
         return "VALUE = \'" + key.getFirst() + "\', LABEL = \'" + key.getSecond() + "\'";
     }
 
-    String valueToString(Pair<String, String> value)
+    /**
+     * Converting transition value to its string representation.
+     * @param value transition value
+     * @return string representation
+     */
+    protected String valueToString(Pair<String, String> value)
     {
         return "LEFT VALUE = \'" + value.getFirst() + "\', RIGHT VALUE = " + value.getSecond()
             + "\'";
@@ -131,23 +141,18 @@ public abstract class TopDownAutomaton
     private Pair<String, String> doTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
-        Pair<String, String> result = getTransitionResult(var, value, label);
+        Pair<String, String> result = applyTransition(var, value, label);
 
-        return removeSameWildcard(value, result);
-    }
-
-    private Pair<String, String> removeSameWildcard(String value, Pair<String, String> trans)
-    {
-        if(Objects.equals(trans.getFirst(), Wildcard.SAME_VALUE) && Objects.equals(
-            trans.getSecond(), Wildcard.SAME_VALUE))
+        if(Objects.equals(result.getFirst(), Wildcard.SAME_VALUE) && Objects.equals(
+            result.getSecond(), Wildcard.SAME_VALUE))
             return Pair.make(value, value);
 
-        if(Objects.equals(trans.getFirst(), Wildcard.SAME_VALUE))
-            return Pair.make(value, trans.getSecond());
+        if(Objects.equals(result.getFirst(), Wildcard.SAME_VALUE))
+            return Pair.make(value, result.getSecond());
 
-        if(Objects.equals(trans.getSecond(), Wildcard.SAME_VALUE))
-            return Pair.make(trans.getFirst(), value);
+        if(Objects.equals(result.getSecond(), Wildcard.SAME_VALUE))
+            return Pair.make(result.getFirst(), value);
 
-        return trans;
+        return result;
     }
 }

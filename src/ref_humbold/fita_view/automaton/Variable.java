@@ -38,19 +38,30 @@ public class Variable
         this.values.addAll(values);
     }
 
-    public List<String> getValues()
-    {
-        return new ArrayList<>(values);
-    }
-
     public String getInitValue()
     {
         return initValue;
     }
 
+    public List<String> getValuesList()
+    {
+        return new ArrayList<>(values);
+    }
+
+    /**
+     * @return name of the variable
+     */
     public String getVarName()
     {
         return "Var_" + Integer.toString(index);
+    }
+
+    /**
+     * @return number of possible values
+     */
+    public int size()
+    {
+        return values.size();
     }
 
     /**
@@ -61,14 +72,6 @@ public class Variable
     public boolean contains(String value)
     {
         return values.contains(value);
-    }
-
-    /**
-     * @return number of possible values
-     */
-    public int size()
-    {
-        return values.size();
     }
 
     @Override

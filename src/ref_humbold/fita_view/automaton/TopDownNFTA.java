@@ -48,7 +48,7 @@ public class TopDownNFTA
     }
 
     @Override
-    public String convert(Pair<String, String> value)
+    public String convertToString(Pair<String, String> value)
     {
         return valueToString(value);
     }
@@ -57,6 +57,16 @@ public class TopDownNFTA
     public TreeNode generateTree()
     {
         return null;
+    }
+
+    @Override
+    public void addTransition(Variable var, String value, String label, String leftResult,
+                              String rightResult)
+        throws DuplicatedTransitionException, IllegalTransitionException
+    {
+        Set<Pair<String, String>> entry = getTransitionEntry(var, Pair.make(value, label));
+
+        entry.add(Pair.make(leftResult, rightResult));
     }
 
     @Override
@@ -90,17 +100,7 @@ public class TopDownNFTA
     }
 
     @Override
-    public void addTransition(Variable var, String value, String label, String leftResult,
-                              String rightResult)
-        throws DuplicatedTransitionException, IllegalTransitionException
-    {
-        Set<Pair<String, String>> entry = getTransitionEntry(var, Pair.make(value, label));
-
-        entry.add(Pair.make(leftResult, rightResult));
-    }
-
-    @Override
-    protected Pair<String, String> getTransitionResult(Variable var, String value, String label)
+    protected Pair<String, String> applyTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
         return choice.chooseState(transitions.get(var, Pair.make(value, label)));
@@ -133,7 +133,7 @@ public class TopDownNFTA
             traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
     }
 
-    protected String valueSetToString(Set<Pair<String, String>> value)
+    private String valueSetToString(Set<Pair<String, String>> value)
     {
         Set<String> stringSet = value.stream().map(this::valueToString).collect(Collectors.toSet());
 

@@ -26,9 +26,28 @@ public class TopDownNITA
     }
 
     @Override
+    public boolean isInfinitelyAccepted()
+    {
+        return false;
+    }
+
+    @Override
     public TreeNode generateTree()
     {
         return null;
+    }
+
+    @Override
+    public void continueRecursive()
+        throws RecursiveContinuationException
+    {
+        traversing.continueRecursive();
+    }
+
+    @Override
+    public void addInfinitelyAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept)
+    {
+        infiniteAcceptanceConditions.add(accept);
     }
 
     @Override
@@ -64,19 +83,6 @@ public class TopDownNITA
     }
 
     @Override
-    public void continueRecursive()
-        throws RecursiveContinuationException
-    {
-        traversing.continueRecursive();
-    }
-
-    @Override
-    public void addInfinitelyAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept)
-    {
-        infiniteAcceptanceConditions.add(accept);
-    }
-
-    @Override
     protected void assertFiniteness(TreeNode tree)
     {
     }
@@ -88,8 +94,5 @@ public class TopDownNITA
                                             : traversing.canContinue()
                                               ? AutomatonRunningMode.CONTINUING
                                               : AutomatonRunningMode.STOPPED);
-
-        if(isSendingMessages)
-            AutomatonRunningModeSender.getInstance().send(runningMode);
     }
 }

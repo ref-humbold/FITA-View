@@ -149,8 +149,8 @@ public class AutomatonTreeViewTest
             transitionValues.add(
                 (String)((DefaultMutableTreeNode)transitionChild.getChildAt(i)).getUserObject());
 
-        List<String> expectedVariable1Values = automaton.getVariables().get(0).getValues();
-        List<String> expectedVariable2Values = automaton.getVariables().get(1).getValues();
+        List<String> expectedVariable1Values = automaton.getVariables().get(0).getValuesList();
+        List<String> expectedVariable2Values = automaton.getVariables().get(1).getValuesList();
         List<String> expectedAccept1Values = new ArrayList<>();
         List<String> expectedTransitionValues = new ArrayList<>();
 
@@ -295,8 +295,8 @@ public class AutomatonTreeViewTest
             transitionValues.add(
                 (String)((DefaultMutableTreeNode)transitionChild.getChildAt(i)).getUserObject());
 
-        List<String> expectedVariable1Values = automaton.getVariables().get(0).getValues();
-        List<String> expectedVariable2Values = automaton.getVariables().get(1).getValues();
+        List<String> expectedVariable1Values = automaton.getVariables().get(0).getValuesList();
+        List<String> expectedVariable2Values = automaton.getVariables().get(1).getValuesList();
         List<String> expectedAccept1Values = new ArrayList<>();
         List<String> expectedTransitionValues = new ArrayList<>();
 

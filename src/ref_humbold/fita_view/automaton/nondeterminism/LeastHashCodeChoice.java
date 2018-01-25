@@ -2,12 +2,11 @@ package ref_humbold.fita_view.automaton.nondeterminism;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class LeastHashCodeChoice<T>
     implements StateChoice<T>
 {
-    private final HashCodeComparator<T> comparator = new HashCodeComparator<>();
-
     @Override
     public StateChoiceMode getMode()
     {
@@ -22,6 +21,6 @@ public class LeastHashCodeChoice<T>
     @Override
     public T chooseState(Collection<T> states)
     {
-        return Collections.min(states, comparator);
+        return Collections.min(states, Comparator.comparingInt(Object::hashCode));
     }
 }
