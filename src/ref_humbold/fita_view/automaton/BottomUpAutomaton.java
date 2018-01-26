@@ -1,9 +1,8 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
@@ -120,8 +119,8 @@ public abstract class BottomUpAutomaton
                                                   node.getRight().getState()));
             else
                 TransitionSender.getInstance()
-                                .send(Triple.make(getInitialState(), node.getState(),
-                                                  getInitialState()));
+                                .send(Triple.make(collectInitialStates(), node.getState(),
+                                                  collectInitialStates()));
     }
 
     /**
@@ -169,6 +168,13 @@ public abstract class BottomUpAutomaton
             return rightValue;
 
         return result;
+    }
+
+    private Map<Variable, String> collectInitialStates()
+    {
+        return variables.stream()
+                        .collect(Collectors.toMap(Function.identity(), Variable::getInitValue,
+                                                  (a, b) -> b));
     }
 
     private void findLeaves()

@@ -15,7 +15,8 @@ public class TopDownNFTA
     extends TopDownAutomaton
     implements NonDeterministicAutomaton<Pair<String, String>>
 {
-    protected TopDownTransitions<Set<Pair<String, String>>> transitions = new TopDownTransitions<>();
+    protected TopDownTransitions<Set<Pair<String, String>>> transitions = new TopDownTransitions<>(
+        this::keyToString, this::valueSetToString);
     private StateChoice<Pair<String, String>> choice;
 
     public TopDownNFTA(Collection<Variable> variables, Collection<String> alphabet)
@@ -42,9 +43,9 @@ public class TopDownNFTA
     }
 
     @Override
-    public Map<Pair<Variable, String>, String> getTransitionWithStrings()
+    public Map<Pair<Variable, String>, String> getTransitionAsStrings()
     {
-        return this.transitions.convertToStringMap(this::keyToString, this::valueSetToString);
+        return this.transitions.convertToStringMap();
     }
 
     @Override

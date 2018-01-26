@@ -15,6 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
+import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.*;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
@@ -27,7 +28,10 @@ public class AutomatonTreeViewTest
     private Pointer<TreeAutomaton> mockPointer;
 
     @Mock
-    private Message<Void> mockMessage;
+    private Message<Void> mockSignal;
+
+    @Mock
+    private Message<Triple<Variable, String, String>> mockMessage;
 
     @InjectMocks
     private AutomatonTreeView testObject;
@@ -35,7 +39,7 @@ public class AutomatonTreeViewTest
     @Before
     public void setUp()
     {
-        Mockito.when(mockMessage.getSource()).thenReturn(mockPointer);
+        Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
     }
 
     @After
@@ -49,7 +53,7 @@ public class AutomatonTreeViewTest
     {
         Mockito.when(mockPointer.get()).thenReturn(null);
 
-        testObject.receiveSignal(mockMessage);
+        testObject.receiveSignal(mockSignal);
 
         DefaultMutableTreeNode rootNode = testObject.rootNode;
 
@@ -111,7 +115,7 @@ public class AutomatonTreeViewTest
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
 
-        testObject.receiveSignal(mockMessage);
+        testObject.receiveSignal(mockSignal);
 
         DefaultMutableTreeNode rootNode = testObject.rootNode;
         DefaultMutableTreeNode alphabetChild = (DefaultMutableTreeNode)rootNode.getChildAt(0);
@@ -169,10 +173,11 @@ public class AutomatonTreeViewTest
             for(Map.Entry<Variable, Pair<String, Boolean>> entry : state.entrySet())
                 expectedAccept1Values.add(AcceptanceConditions.getEntryString(entry));
 
-        for(Map.Entry<Pair<Variable, String>, String> entry : automaton.getTransitionWithStrings()
+        for(Map.Entry<Pair<Variable, String>, String> entry : automaton.getTransitionAsStrings()
                                                                        .entrySet())
             expectedTransitionValues.add(
-                testObject.getTransitionEntryString(entry.getKey(), entry.getValue()));
+                testObject.getTransitionEntryString(entry.getKey().getFirst(),
+                                                    entry.getKey().getSecond(), entry.getValue()));
 
         Assert.assertEquals(4, rootNode.getChildCount());
         Assert.assertEquals(automaton.getTypeName(), rootNode.getUserObject());
@@ -201,7 +206,7 @@ public class AutomatonTreeViewTest
         Assert.assertArrayEquals(expectedAccept1Values.toArray(), accept1Values.toArray());
 
         Assert.assertEquals("Transition function", transitionChild.getUserObject());
-        Assert.assertEquals(automaton.getTransitionWithStrings().size(),
+        Assert.assertEquals(automaton.getTransitionAsStrings().size(),
                             transitionChild.getChildCount());
 
         Assert.assertArrayEquals(expectedTransitionValues.toArray(), transitionValues.toArray());
@@ -257,7 +262,7 @@ public class AutomatonTreeViewTest
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
 
-        testObject.receiveSignal(mockMessage);
+        testObject.receiveSignal(mockSignal);
 
         DefaultMutableTreeNode rootNode = testObject.rootNode;
         DefaultMutableTreeNode alphabetChild = (DefaultMutableTreeNode)rootNode.getChildAt(0);
@@ -315,10 +320,11 @@ public class AutomatonTreeViewTest
             for(Map.Entry<Variable, Pair<String, Boolean>> entry : state.entrySet())
                 expectedAccept1Values.add(AcceptanceConditions.getEntryString(entry));
 
-        for(Map.Entry<Pair<Variable, String>, String> entry : automaton.getTransitionWithStrings()
+        for(Map.Entry<Pair<Variable, String>, String> entry : automaton.getTransitionAsStrings()
                                                                        .entrySet())
             expectedTransitionValues.add(
-                testObject.getTransitionEntryString(entry.getKey(), entry.getValue()));
+                testObject.getTransitionEntryString(entry.getKey().getFirst(),
+                                                    entry.getKey().getSecond(), entry.getValue()));
 
         Assert.assertEquals(4, rootNode.getChildCount());
         Assert.assertEquals(automaton.getTypeName(), rootNode.getUserObject());
@@ -347,12 +353,40 @@ public class AutomatonTreeViewTest
         Assert.assertArrayEquals(expectedAccept1Values.toArray(), accept1Values.toArray());
 
         Assert.assertEquals("Transition function", transitionChild.getUserObject());
-        Assert.assertEquals(automaton.getTransitionWithStrings().size(),
+        Assert.assertEquals(automaton.getTransitionAsStrings().size(),
                             transitionChild.getChildCount());
 
         Assert.assertArrayEquals(expectedTransitionValues.toArray(), transitionValues.toArray());
 
         Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
         Mockito.verify(mockPointer, Mockito.times(2)).get();
+    }
+
+    @Test
+    public void testReceiveMessage()
+    {
+        Triple<Variable, String, String> param = null;
+
+        try
+        {
+            param = Triple.make(new Variable(0, "A", "B"), "A", "B");
+        }
+        catch(IllegalVariableValueException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Mockito.when(mockMessage.getParam()).thenReturn(param);
+
+        testObject.receiveMessage(mockMessage);
+
+        String expectedMapValue = testObject.getTransitionEntryString(param.getFirst(),
+                                                                      param.getSecond(),
+                                                                      param.getThird());
+
+        Assert.assertEquals(1, testObject.lastTransitions.size());
+        Assert.assertTrue(testObject.lastTransitions.containsKey(param.getFirst()));
+        Assert.assertTrue(testObject.lastTransitions.containsValue(expectedMapValue));
     }
 }

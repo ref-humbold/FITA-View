@@ -15,7 +15,8 @@ import ref_humbold.fita_view.tree.TreeNode;
 public class BottomUpDFTA
     extends BottomUpAutomaton
 {
-    private BottomUpTransitions<String> transitions = new BottomUpTransitions<>();
+    private BottomUpTransitions<String> transitions = new BottomUpTransitions<>(this::keyToString,
+                                                                                this::valueToString);
 
     public BottomUpDFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -23,9 +24,9 @@ public class BottomUpDFTA
     }
 
     @Override
-    public Map<Pair<Variable, String>, String> getTransitionWithStrings()
+    public Map<Pair<Variable, String>, String> getTransitionAsStrings()
     {
-        return this.transitions.convertToStringMap(this::keyToString, this::valueToString);
+        return this.transitions.convertToStringMap();
     }
 
     @Override

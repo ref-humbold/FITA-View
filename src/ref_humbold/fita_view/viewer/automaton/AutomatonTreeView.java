@@ -2,10 +2,7 @@ package ref_humbold.fita_view.viewer.automaton;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import javax.swing.BorderFactory;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -15,20 +12,25 @@ import javax.swing.tree.TreeSelectionModel;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
+import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.AcceptanceConditions;
+import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.Variable;
+import ref_humbold.fita_view.automaton.transition.TransitionsSender;
 import ref_humbold.fita_view.messaging.Message;
+import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.messaging.SignalReceiver;
 
 public class AutomatonTreeView
     extends JTree
-    implements SignalReceiver
+    implements MessageReceiver<Triple<Variable, String, String>>, SignalReceiver
 {
     static final String EMPTY_ROOT_TEXT = "No automaton specified...";
     private static final long serialVersionUID = 5636100205267426054L;
 
-    DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
+    DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(EMPTY_ROOT_TEXT);
+    Map<Variable, String> lastTransitions = new HashMap<>();
     private Pointer<TreeAutomaton> automatonPointer;
     private DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
     private AutomatonTreeViewRenderer renderer = new AutomatonTreeViewRenderer();
@@ -39,6 +41,8 @@ public class AutomatonTreeView
 
         this.automatonPointer = automatonPointer;
         this.automatonPointer.addReceiver(this);
+        TransitionsSender.getInstance().addReceiver(this);
+        AutomatonRunningModeSender.getInstance().addReceiver(this);
 
         this.setModel(treeModel);
         this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -52,12 +56,37 @@ public class AutomatonTreeView
     @Override
     public void receiveSignal(Message<Void> signal)
     {
-        initializeTree();
+        if(signal.getSource() == automatonPointer)
+            initializeTree();
+        else if(signal.getSource() == AutomatonRunningModeSender.getInstance()
+            && !automatonPointer.isEmpty())
+            switch(automatonPointer.get().getRunningMode())
+            {
+                case STOPPED:
+                    lastTransitions.clear();
+                    break;
+
+                default:
+                    break;
+            }
+
+        treeModel.reload();
     }
 
-    String getTransitionEntryString(Pair<Variable, String> key, String value)
+    @Override
+    public void receiveMessage(Message<Triple<Variable, String, String>> message)
     {
-        return key.getFirst().getVarName() + " :: " + key.getSecond() + " -> " + value;
+        Variable var = message.getParam().getFirst();
+        String keyString = message.getParam().getSecond();
+        String valueString = message.getParam().getThird();
+
+        lastTransitions.put(var, getTransitionEntryString(var, keyString, valueString));
+        treeModel.reload();
+    }
+
+    String getTransitionEntryString(Variable var, String key, String value)
+    {
+        return var.getVarName() + " :: " + key + " -> " + value;
     }
 
     private void initializeTree()
@@ -65,6 +94,7 @@ public class AutomatonTreeView
         TreeAutomaton automaton = automatonPointer.get();
 
         rootNode.removeAllChildren();
+        lastTransitions.clear();
 
         if(automaton != null)
         {
@@ -76,8 +106,6 @@ public class AutomatonTreeView
         }
         else
             rootNode.setUserObject(EMPTY_ROOT_TEXT);
-
-        treeModel.reload();
     }
 
     private void loadAlphabet(TreeAutomaton automaton)
@@ -127,11 +155,13 @@ public class AutomatonTreeView
 
     private void loadTransitions(TreeAutomaton automaton)
     {
-        Map<Pair<Variable, String>, String> stringTransition = automaton.getTransitionWithStrings();
+        Map<Pair<Variable, String>, String> stringTransition = automaton.getTransitionAsStrings();
         DefaultMutableTreeNode transitionNode = new DefaultMutableTreeNode("Transition function");
 
         stringTransition.forEach((key, value) -> transitionNode.add(
-            new DefaultMutableTreeNode(getTransitionEntryString(key, value))));
+            new TransitionTreeViewNode(key.getFirst(),
+                                       getTransitionEntryString(key.getFirst(), key.getSecond(),
+                                                                value))));
 
         rootNode.add(transitionNode);
     }
@@ -165,6 +195,16 @@ public class AutomatonTreeView
                     setBackgroundSelectionColor(Color.CYAN);
                 }
             }
+            else if(value instanceof TransitionTreeViewNode)
+            {
+                TransitionTreeViewNode node = (TransitionTreeViewNode)value;
+
+                if(Objects.equals(lastTransitions.get(node.variable), node.value))
+                {
+                    setBackgroundNonSelectionColor(Color.GREEN);
+                    setBackgroundSelectionColor(Color.GREEN);
+                }
+            }
 
             return this;
         }
@@ -194,6 +234,28 @@ public class AutomatonTreeView
         public VariableTreeViewNode clone()
         {
             return (VariableTreeViewNode)super.clone();
+        }
+    }
+
+    private class TransitionTreeViewNode
+        extends DefaultMutableTreeNode
+    {
+        private static final long serialVersionUID = -5087307349812311759L;
+
+        private Variable variable;
+        private String value;
+
+        public TransitionTreeViewNode(Variable variable, String value)
+        {
+            super(value);
+            this.variable = variable;
+            this.value = value;
+        }
+
+        @Override
+        public TransitionTreeViewNode clone()
+        {
+            return (TransitionTreeViewNode)super.clone();
         }
     }
 }

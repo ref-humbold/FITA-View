@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.automaton.transition;
 
+import java.util.function.Function;
+
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.Variable;
 import ref_humbold.fita_view.automaton.Wildcard;
@@ -7,6 +9,12 @@ import ref_humbold.fita_view.automaton.Wildcard;
 public class TopDownTransitions<V>
     extends Transitions<Pair<String, String>, V>
 {
+    public TopDownTransitions(Function<Pair<String, String>, String> keyConversion,
+                              Function<V, String> valueConversion)
+    {
+        super(keyConversion, valueConversion);
+    }
+
     @Override
     public boolean containsEntry(Variable var, Pair<String, String> key)
     {
@@ -15,9 +23,9 @@ public class TopDownTransitions<V>
 
         for(int i = 0; i < 1 << key.size(); ++i)
         {
-            Pair<String, String> kv = setWildcard(i, key);
+            Pair<String, String> wildcardKey = setWildcard(i, key);
 
-            if(map.containsKey(Pair.make(var, kv)))
+            if(map.containsKey(Pair.make(var, wildcardKey)))
                 return true;
         }
 
@@ -33,11 +41,14 @@ public class TopDownTransitions<V>
 
         for(int i = 0; i < 1 << key.size(); ++i)
         {
-            Pair<String, String> kv = setWildcard(i, key);
-            V value = map.get(Pair.make(var, kv));
+            Pair<String, String> wildcardKey = setWildcard(i, key);
+            V value = map.get(Pair.make(var, wildcardKey));
 
             if(value != null)
+            {
+                sendEntry(var, wildcardKey, value);
                 return value;
+            }
         }
 
         throw new NoSuchTransitionException(

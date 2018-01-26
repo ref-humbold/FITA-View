@@ -917,7 +917,7 @@ public class TopDownDFTATest
     @Test
     public void testGetTransitionWithStrings()
     {
-        Map<Pair<Variable, String>, String> result = testObject.getTransitionWithStrings();
+        Map<Pair<Variable, String>, String> result = testObject.getTransitionAsStrings();
         Map<Pair<Variable, String>, String> expected = new HashMap<>();
 
         expected.put(Pair.make(variables.get(0), testObject.keyToString(Pair.make("A", "0"))),

@@ -14,7 +14,8 @@ import ref_humbold.fita_view.tree.TreeNode;
 public class TopDownDFTA
     extends TopDownAutomaton
 {
-    protected TopDownTransitions<Pair<String, String>> transitions = new TopDownTransitions<>();
+    protected TopDownTransitions<Pair<String, String>> transitions = new TopDownTransitions<>(
+        this::keyToString, this::valueToString);
 
     public TopDownDFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -28,9 +29,9 @@ public class TopDownDFTA
     }
 
     @Override
-    public Map<Pair<Variable, String>, String> getTransitionWithStrings()
+    public Map<Pair<Variable, String>, String> getTransitionAsStrings()
     {
-        return this.transitions.convertToStringMap(this::keyToString, this::valueToString);
+        return this.transitions.convertToStringMap();
     }
 
     @Override

@@ -17,7 +17,8 @@ public class BottomUpNFTA
     implements NonDeterministicAutomaton<String>
 {
     private StateChoice<String> choice;
-    private BottomUpTransitions<Set<String>> transitions = new BottomUpTransitions<>();
+    private BottomUpTransitions<Set<String>> transitions = new BottomUpTransitions<>(
+        this::keyToString, this::valueSetToString);
 
     public BottomUpNFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -43,9 +44,9 @@ public class BottomUpNFTA
     }
 
     @Override
-    public Map<Pair<Variable, String>, String> getTransitionWithStrings()
+    public Map<Pair<Variable, String>, String> getTransitionAsStrings()
     {
-        return this.transitions.convertToStringMap(this::keyToString, this::valueSetToString);
+        return this.transitions.convertToStringMap();
     }
 
     @Override

@@ -10,18 +10,16 @@ import java.util.List;
 import javax.swing.*;
 
 import ref_humbold.fita_view.Pointer;
-import ref_humbold.fita_view.automaton.AutomatonRunningMode;
 import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
 import ref_humbold.fita_view.automaton.InfiniteTreeAutomaton;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.messaging.Message;
-import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.messaging.SignalReceiver;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class ActionButtonsPanel
     extends JPanel
-    implements ActionListener, SignalReceiver, MessageReceiver<AutomatonRunningMode>
+    implements ActionListener, SignalReceiver
 {
     private static final long serialVersionUID = 5921531603338297434L;
 
@@ -92,28 +90,29 @@ public class ActionButtonsPanel
     @Override
     public void receiveSignal(Message<Void> signal)
     {
-        currentButtons = automatonPointer.isEmpty() ? Collections.emptyList() : runningButtons;
-
-        reload();
-    }
-
-    @Override
-    public void receiveMessage(Message<AutomatonRunningMode> message)
-    {
-        switch(message.getParam())
+        if(signal.getSource() == automatonPointer)
         {
-            case RUNNING:
-            case STOPPED:
-            case FINISHED:
-                currentButtons = runningButtons;
-                break;
-
-            case CONTINUING:
-                currentButtons = continuingButtons;
-                break;
+            currentButtons = automatonPointer.isEmpty() ? Collections.emptyList() : runningButtons;
+            reload();
         }
+        else if(signal.getSource() == AutomatonRunningModeSender.getInstance())
+        {
+            if(!automatonPointer.isEmpty())
+                switch(automatonPointer.get().getRunningMode())
+                {
+                    case RUNNING:
+                    case STOPPED:
+                    case FINISHED:
+                        currentButtons = runningButtons;
+                        break;
 
-        reload();
+                    case CONTINUING:
+                        currentButtons = continuingButtons;
+                        break;
+                }
+
+            reload();
+        }
     }
 
     private void reload()

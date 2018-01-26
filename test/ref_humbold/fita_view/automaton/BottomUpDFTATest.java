@@ -821,7 +821,7 @@ public class BottomUpDFTATest
     @Test
     public void testGetTransitionWithStrings()
     {
-        Map<Pair<Variable, String>, String> result = testObject.getTransitionWithStrings();
+        Map<Pair<Variable, String>, String> result = testObject.getTransitionAsStrings();
         Map<Pair<Variable, String>, String> expected = new HashMap<>();
 
         expected.put(

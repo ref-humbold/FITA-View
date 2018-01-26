@@ -26,7 +26,7 @@ public class TopDownTransitionsTest
     public void setUp()
         throws Exception
     {
-        testObject = new TopDownTransitions<>();
+        testObject = new TopDownTransitions<>(this::pairFunction, this::pairFunction);
         testObject.add(v, Pair.make("A", "0"), Pair.make("B", "C"));
         testObject.add(v, Pair.make(Wildcard.EVERY_VALUE, "1"), Pair.make("D", "D"));
         testObject.add(v, Pair.make("D", "2"), Pair.make(Wildcard.SAME_VALUE, Wildcard.SAME_VALUE));
@@ -235,8 +235,7 @@ public class TopDownTransitionsTest
     @Test
     public void testConvertToStringMap()
     {
-        Map<Pair<Variable, String>, String> result = testObject.convertToStringMap(
-            this::pairFunction, this::pairFunction);
+        Map<Pair<Variable, String>, String> result = testObject.convertToStringMap();
         Map<Pair<Variable, String>, String> expected = new HashMap<>();
 
         expected.put(Pair.make(v, pairFunction(Pair.make("A", "0"))),

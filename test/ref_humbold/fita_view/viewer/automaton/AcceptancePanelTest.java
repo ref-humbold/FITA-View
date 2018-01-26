@@ -18,10 +18,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import ref_humbold.fita_view.Pointer;
-import ref_humbold.fita_view.automaton.AutomatonRunningMode;
-import ref_humbold.fita_view.automaton.EmptyTreeException;
-import ref_humbold.fita_view.automaton.TreeAutomaton;
-import ref_humbold.fita_view.automaton.UndefinedAcceptanceException;
+import ref_humbold.fita_view.automaton.*;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 import ref_humbold.fita_view.viewer.UserMessageBox;
@@ -38,7 +35,7 @@ public class AcceptancePanelTest
     private Pointer<TreeAutomaton> mockPointer;
 
     @Mock
-    private Message<AutomatonRunningMode> mockMessage;
+    private Message<Void> mockSignal;
 
     @InjectMocks
     private AcceptancePanel testObject;
@@ -61,11 +58,12 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveMessageWhenStopped()
+    public void testReceiveSignalWhenStopped()
     {
-        Mockito.when(mockMessage.getParam()).thenReturn(AutomatonRunningMode.STOPPED);
+        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
+        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.STOPPED);
 
-        testObject.receiveMessage(mockMessage);
+        testObject.receiveSignal(mockSignal);
 
         Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());
         Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
@@ -73,11 +71,13 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveMessageWhenFinishedAndAccepted()
+    public void testReceiveSignalWhenFinishedAndAccepted()
     {
         try
         {
-            Mockito.when(mockMessage.getParam()).thenReturn(AutomatonRunningMode.FINISHED);
+            Mockito.when(mockSignal.getSource())
+                   .thenReturn(AutomatonRunningModeSender.getInstance());
+            Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.FINISHED);
             Mockito.when(mockPointer.isEmpty()).thenReturn(false);
             Mockito.when(mockAutomaton.isAccepted()).thenReturn(true);
         }
@@ -87,7 +87,7 @@ public class AcceptancePanelTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        testObject.receiveMessage(mockMessage);
+        testObject.receiveSignal(mockSignal);
 
         Assert.assertEquals(Color.GREEN, testObject.getBackground());
         Assert.assertEquals(Color.BLACK, testObject.acceptanceLabel.getForeground());
@@ -95,11 +95,13 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveMessageWhenFinishedAndRejects()
+    public void testReceiveSignalWhenFinishedAndRejects()
     {
         try
         {
-            Mockito.when(mockMessage.getParam()).thenReturn(AutomatonRunningMode.FINISHED);
+            Mockito.when(mockSignal.getSource())
+                   .thenReturn(AutomatonRunningModeSender.getInstance());
+            Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.FINISHED);
             Mockito.when(mockPointer.isEmpty()).thenReturn(false);
             Mockito.when(mockAutomaton.isAccepted()).thenReturn(false);
         }
@@ -109,7 +111,7 @@ public class AcceptancePanelTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        testObject.receiveMessage(mockMessage);
+        testObject.receiveSignal(mockSignal);
 
         Assert.assertEquals(AcceptancePanel.DARK_RED, testObject.getBackground());
         Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
@@ -117,12 +119,14 @@ public class AcceptancePanelTest
     }
 
     @Test(expected = UndefinedAcceptanceException.class)
-    public void testReceiveMessageWhenFinishedAndException()
+    public void testReceiveSignalWhenFinishedAndException()
         throws Exception
     {
         try
         {
-            Mockito.when(mockMessage.getParam()).thenReturn(AutomatonRunningMode.FINISHED);
+            Mockito.when(mockSignal.getSource())
+                   .thenReturn(AutomatonRunningModeSender.getInstance());
+            Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.FINISHED);
             Mockito.when(mockPointer.isEmpty()).thenReturn(false);
             Mockito.when(mockAutomaton.isAccepted())
                    .thenThrow(new UndefinedAcceptanceException(""));
@@ -145,7 +149,7 @@ public class AcceptancePanelTest
 
         try
         {
-            testObject.receiveMessage(mockMessage);
+            testObject.receiveSignal(mockSignal);
         }
         catch(Exception e)
         {
@@ -158,11 +162,12 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveMessageWhenRunning()
+    public void testReceiveSignalWhenRunning()
     {
-        Mockito.when(mockMessage.getParam()).thenReturn(AutomatonRunningMode.RUNNING);
+        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
+        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.RUNNING);
 
-        testObject.receiveMessage(mockMessage);
+        testObject.receiveSignal(mockSignal);
 
         Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());
         Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
@@ -170,11 +175,12 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveMessageWhenContinuing()
+    public void testReceiveSignalWhenContinuing()
     {
-        Mockito.when(mockMessage.getParam()).thenReturn(AutomatonRunningMode.CONTINUING);
+        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
+        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.CONTINUING);
 
-        testObject.receiveMessage(mockMessage);
+        testObject.receiveSignal(mockSignal);
 
         Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());
         Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
@@ -182,9 +188,11 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveSignal()
+    public void testReceiveSignalWhenAutomaton()
     {
-        testObject.receiveSignal(null);
+        Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
+
+        testObject.receiveSignal(mockSignal);
 
         Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());
         Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());

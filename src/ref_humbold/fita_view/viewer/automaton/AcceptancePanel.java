@@ -7,17 +7,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import ref_humbold.fita_view.Pointer;
-import ref_humbold.fita_view.automaton.AutomatonRunningMode;
 import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.messaging.Message;
-import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.messaging.SignalReceiver;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class AcceptancePanel
     extends JPanel
-    implements MessageReceiver<AutomatonRunningMode>, SignalReceiver
+    implements SignalReceiver
 {
     static final Color DARK_RED = new Color(192, 0, 0);
     private static final long serialVersionUID = -6432696545183930929L;
@@ -40,36 +38,34 @@ public class AcceptancePanel
     }
 
     @Override
-    public void receiveMessage(Message<AutomatonRunningMode> message)
-    {
-        switch(message.getParam())
-        {
-            case FINISHED:
-                try
-                {
-                    if(!automatonPointer.isEmpty())
-                        if(automatonPointer.get().isAccepted())
-                            setTreeAccepted();
-                        else
-                            setTreeRejected();
-                }
-                catch(Exception e)
-                {
-                    UserMessageBox.showException(e);
-                    setTreeUndefined();
-                }
-                break;
-
-            default:
-                setTreeUndefined();
-                break;
-        }
-    }
-
-    @Override
     public void receiveSignal(Message<Void> signal)
     {
-        setTreeUndefined();
+        if(signal.getSource() == automatonPointer)
+            setTreeUndefined();
+        else if(signal.getSource() == AutomatonRunningModeSender.getInstance()
+            && !automatonPointer.isEmpty())
+            switch(automatonPointer.get().getRunningMode())
+            {
+                case FINISHED:
+                    try
+                    {
+                        if(!automatonPointer.isEmpty())
+                            if(automatonPointer.get().isAccepted())
+                                setTreeAccepted();
+                            else
+                                setTreeRejected();
+                    }
+                    catch(Exception e)
+                    {
+                        UserMessageBox.showException(e);
+                        setTreeUndefined();
+                    }
+                    break;
+
+                default:
+                    setTreeUndefined();
+                    break;
+            }
     }
 
     private void initializeComponents()

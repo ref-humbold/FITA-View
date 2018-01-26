@@ -6,11 +6,23 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.Variable;
 
 public abstract class Transitions<K, V>
 {
-    Map<Pair<Variable, K>, V> map = new HashMap<>();
+    protected Map<Pair<Variable, K>, V> map = new HashMap<>();
+    private Function<K, String> keyConversion;
+    private Function<V, String> valueConversion;
+
+    public Transitions(Function<K, String> keyConversion, Function<V, String> valueConversion)
+    {
+        if(keyConversion == null || valueConversion == null)
+            throw new IllegalArgumentException("Conversion function is null.");
+
+        this.keyConversion = keyConversion;
+        this.valueConversion = valueConversion;
+    }
 
     /**
      * Testing if specified variable and arguments are present in transition function.
@@ -59,19 +71,16 @@ public abstract class Transitions<K, V>
 
     /**
      * /**
-     * Converting each key and value in transition function to strings according to specified functions.
-     * @param keyFunc conversion of keys
-     * @param valueFunc conversion of values
+     * Converting each key and value in transition function to strings according to conversion functions.
      * @return transition function with string representations
      */
-    public Map<Pair<Variable, String>, String> convertToStringMap(Function<K, String> keyFunc,
-                                                                  Function<V, String> valueFunc)
+    public Map<Pair<Variable, String>, String> convertToStringMap()
     {
         Map<Pair<Variable, String>, String> stringMap = new HashMap<>();
 
-        map.forEach(
-            (key, value) -> stringMap.put(Pair.make(key.getFirst(), keyFunc.apply(key.getSecond())),
-                                          valueFunc.apply(value)));
+        map.forEach((key, value) -> stringMap.put(
+            Pair.make(key.getFirst(), keyConversion.apply(key.getSecond())),
+            valueConversion.apply(value)));
 
         return stringMap;
     }
@@ -102,5 +111,23 @@ public abstract class Transitions<K, V>
         return "Transitions::" + map.toString();
     }
 
+    /**
+     * Checking if arguments of transition contain null value.
+     * @param key arguments of transition
+     * @return {@code true} if arguments of transition have null, otherwise {@code false}
+     */
     protected abstract boolean hasNull(K key);
+
+    /**
+     * Sending transition entry.
+     * @param var variable
+     * @param key arguments of transition
+     * @param value result of transition
+     */
+    protected void sendEntry(Variable var, K key, V value)
+    {
+        TransitionsSender.getInstance()
+                         .send(Triple.make(var, keyConversion.apply(key),
+                                           valueConversion.apply(value)));
+    }
 }

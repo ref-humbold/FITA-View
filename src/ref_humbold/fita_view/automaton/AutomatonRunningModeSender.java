@@ -1,9 +1,9 @@
 package ref_humbold.fita_view.automaton;
 
-import ref_humbold.fita_view.messaging.DefaultMessageSender;
+import ref_humbold.fita_view.messaging.DefaultSignalSender;
 
 public class AutomatonRunningModeSender
-    extends DefaultMessageSender<AutomatonRunningMode>
+    extends DefaultSignalSender
 {
     private static AutomatonRunningModeSender instance = null;
 

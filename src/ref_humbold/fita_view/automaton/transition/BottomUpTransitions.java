@@ -1,6 +1,7 @@
 package ref_humbold.fita_view.automaton.transition;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
@@ -11,6 +12,12 @@ public class BottomUpTransitions<V>
     extends Transitions<Triple<String, String, String>, V>
 {
     private final String[] sameMasks = new String[]{"*=_", "=*_", "*=*", "=**"};
+
+    public BottomUpTransitions(Function<Triple<String, String, String>, String> keyConversion,
+                               Function<V, String> valueConversion)
+    {
+        super(keyConversion, valueConversion);
+    }
 
     @Override
     public boolean containsEntry(Variable var, Triple<String, String, String> key)
@@ -25,18 +32,18 @@ public class BottomUpTransitions<V>
         {
             for(String mask : sameMasks)
             {
-                Triple<String, String, String> kv = setWildcardSame(mask, key);
+                Triple<String, String, String> wildcardKey = setWildcardSame(mask, key);
 
-                if(map.containsKey(Pair.make(var, kv)))
+                if(map.containsKey(Pair.make(var, wildcardKey)))
                     return true;
             }
         }
 
         for(int i = 1; i < 1 << key.size(); ++i)
         {
-            Triple<String, String, String> kv = setWildcardEvery(i, key);
+            Triple<String, String, String> wildcardKey = setWildcardEvery(i, key);
 
-            if(map.containsKey(Pair.make(var, kv)))
+            if(map.containsKey(Pair.make(var, wildcardKey)))
                 return true;
         }
 
@@ -69,21 +76,27 @@ public class BottomUpTransitions<V>
         {
             for(String mask : sameMasks)
             {
-                Triple<String, String, String> kv = setWildcardSame(mask, key);
-                V value = map.get(Pair.make(var, kv));
+                Triple<String, String, String> wildcardKey = setWildcardSame(mask, key);
+                V value = map.get(Pair.make(var, wildcardKey));
 
                 if(value != null)
+                {
+                    sendEntry(var, wildcardKey, value);
                     return value;
+                }
             }
         }
 
         for(int i = 0; i < 1 << key.size(); ++i)
         {
-            Triple<String, String, String> kv = setWildcardEvery(i, key);
-            V value = map.get(Pair.make(var, kv));
+            Triple<String, String, String> wildcardKey = setWildcardEvery(i, key);
+            V value = map.get(Pair.make(var, wildcardKey));
 
             if(value != null)
+            {
+                sendEntry(var, wildcardKey, value);
                 return value;
+            }
         }
 
         throw new NoSuchTransitionException(

@@ -47,19 +47,14 @@ public interface TreeAutomaton
         throws IncorrectTraversingException;
 
     /**
-     * @return transition function with string representations
+     * @return transition function as string representation
      */
-    Map<Pair<Variable, String>, String> getTransitionWithStrings();
+    Map<Pair<Variable, String>, String> getTransitionAsStrings();
 
     /**
      * @return accepting conditions for states in the automaton
      */
     AcceptanceConditions getAcceptanceConditions();
-
-    /**
-     * @return initial state of the automaton
-     */
-    Map<Variable, String> getInitialState();
 
     /**
      * @return running mode of the automaton

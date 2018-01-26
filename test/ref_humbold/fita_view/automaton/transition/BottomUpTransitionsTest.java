@@ -27,7 +27,7 @@ public class BottomUpTransitionsTest
     public void setUp()
         throws Exception
     {
-        testObject = new BottomUpTransitions<>();
+        testObject = new BottomUpTransitions<>(this::keyFunction, this::valueFunction);
         testObject.add(v, Triple.make("A", "B", "0"), "C");
         testObject.add(v, Triple.make(Wildcard.EVERY_VALUE, "C", "1"), "B");
         testObject.add(v, Triple.make(Wildcard.SAME_VALUE, Wildcard.EVERY_VALUE, "2"), "A");
@@ -279,8 +279,7 @@ public class BottomUpTransitionsTest
     @Test
     public void testConvertToStringMap()
     {
-        Map<Pair<Variable, String>, String> result = testObject.convertToStringMap(
-            this::keyFunction, this::valueFunction);
+        Map<Pair<Variable, String>, String> result = testObject.convertToStringMap();
         Map<Pair<Variable, String>, String> expected = new HashMap<>();
 
         expected.put(Pair.make(v, keyFunction(Triple.make("A", "B", "0"))), valueFunction("C"));

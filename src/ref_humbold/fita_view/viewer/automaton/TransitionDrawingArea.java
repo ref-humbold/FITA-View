@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.Triple;
+import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
 import ref_humbold.fita_view.automaton.TransitionSender;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.automaton.Variable;
@@ -40,6 +41,7 @@ public class TransitionDrawingArea
         this.automatonPointer = automatonPointer;
         this.automatonPointer.addReceiver(this);
         TransitionSender.getInstance().addReceiver(this);
+        AutomatonRunningModeSender.getInstance().addReceiver(this);
 
         this.setBorder(BorderFactory.createRaisedBevelBorder());
     }
@@ -47,7 +49,20 @@ public class TransitionDrawingArea
     @Override
     public void receiveSignal(Message<Void> signal)
     {
-        resetStates();
+        if(signal.getSource() == automatonPointer)
+            resetStates();
+        else if(signal.getSource() == AutomatonRunningModeSender.getInstance()
+            && !automatonPointer.isEmpty())
+            switch(automatonPointer.get().getRunningMode())
+            {
+                case STOPPED:
+                    resetStates();
+                    break;
+
+                default:
+                    break;
+            }
+
         repaint();
     }
 
