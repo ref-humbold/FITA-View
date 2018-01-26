@@ -25,6 +25,12 @@ public abstract class BottomUpAutomaton
     }
 
     @Override
+    public AutomatonDirection getDirection()
+    {
+        return AutomatonDirection.BOTTOM_UP;
+    }
+
+    @Override
     public BottomUpTraversing getTraversing()
     {
         return traversing;
@@ -106,6 +112,16 @@ public abstract class BottomUpAutomaton
 
             node.setStateValue(var, result);
         }
+
+        if(isSendingMessages)
+            if(node.hasChildren())
+                TransitionSender.getInstance()
+                                .send(Triple.make(node.getLeft().getState(), node.getState(),
+                                                  node.getRight().getState()));
+            else
+                TransitionSender.getInstance()
+                                .send(Triple.make(getInitialState(), node.getState(),
+                                                  getInitialState()));
     }
 
     /**

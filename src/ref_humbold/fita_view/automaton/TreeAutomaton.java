@@ -20,6 +20,11 @@ public interface TreeAutomaton
     String getTypeName();
 
     /**
+     * @return Traversing direction of the automaton
+     */
+    AutomatonDirection getDirection();
+
+    /**
      * @return list of all variables in the automaton
      */
     List<Variable> getVariables();
@@ -50,6 +55,11 @@ public interface TreeAutomaton
      * @return accepting conditions for states in the automaton
      */
     AcceptanceConditions getAcceptanceConditions();
+
+    /**
+     * @return initial state of the automaton
+     */
+    Map<Variable, String> getInitialState();
 
     /**
      * @return running mode of the automaton

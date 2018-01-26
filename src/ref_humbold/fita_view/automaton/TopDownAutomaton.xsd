@@ -55,19 +55,19 @@
 
   <xs:simpleType name="strType">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+" />
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]{1,8}" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="everyWildcardType">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+|\(\*\)" />
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]{1,8}|\(\*\)" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:simpleType name="sameWildcardType">
     <xs:restriction base="xs:string">
-      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]+|\(=\)" />
+      <xs:pattern value="[\w\d.,;:!@#$%^&amp;*]{1,8}|\(=\)" />
     </xs:restriction>
   </xs:simpleType>
 

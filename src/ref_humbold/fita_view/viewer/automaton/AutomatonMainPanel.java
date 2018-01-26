@@ -2,6 +2,7 @@ package ref_humbold.fita_view.viewer.automaton;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -33,6 +34,7 @@ public class AutomatonMainPanel
     private TitlePanel titlePanel = new TitlePanel("automaton");
     private AcceptancePanel acceptancePanel;
     private AutomatonScrollTreeView scrollTreeView;
+    private TransitionDrawingArea transitionDrawingArea;
     private ModifyingButtonsPanel modifyingButtonsPanel;
     private ActionButtonsPanel actionButtonsPanel;
 
@@ -87,8 +89,11 @@ public class AutomatonMainPanel
     private void addComponents()
     {
         JPanel centralPanel = new JPanel(new BorderLayout(5, 5));
+        JPanel infoPanel = new JPanel(new GridLayout(2, 1));
 
-        centralPanel.add(this.scrollTreeView, BorderLayout.CENTER);
+        infoPanel.add(this.scrollTreeView);
+        infoPanel.add(this.transitionDrawingArea);
+        centralPanel.add(infoPanel, BorderLayout.CENTER);
         centralPanel.add(this.acceptancePanel, BorderLayout.PAGE_END);
         centralPanel.setOpaque(false);
 
@@ -121,9 +126,10 @@ public class AutomatonMainPanel
     {
         titlePanel.addReceiver(this);
 
-        acceptancePanel = new AcceptancePanel(this.automatonPointer);
-        scrollTreeView = new AutomatonScrollTreeView(this.automatonPointer);
-        modifyingButtonsPanel = new ModifyingButtonsPanel(this.automatonPointer);
-        actionButtonsPanel = new ActionButtonsPanel(this.automatonPointer);
+        acceptancePanel = new AcceptancePanel(automatonPointer);
+        scrollTreeView = new AutomatonScrollTreeView(automatonPointer);
+        transitionDrawingArea = new TransitionDrawingArea(automatonPointer);
+        modifyingButtonsPanel = new ModifyingButtonsPanel(automatonPointer);
+        actionButtonsPanel = new ActionButtonsPanel(automatonPointer);
     }
 }

@@ -3,6 +3,7 @@ package ref_humbold.fita_view.automaton;
 import java.util.*;
 
 import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
@@ -21,6 +22,12 @@ public abstract class TopDownAutomaton
     public TopDownAutomaton(Collection<Variable> variables, Collection<String> alphabet)
     {
         super(variables, alphabet);
+    }
+
+    @Override
+    public AutomatonDirection getDirection()
+    {
+        return AutomatonDirection.TOP_DOWN;
     }
 
     @Override
@@ -109,6 +116,15 @@ public abstract class TopDownAutomaton
                 leafRightState.put(v, result.getSecond());
             }
         }
+
+        if(isSendingMessages)
+            if(node.hasChildren())
+                TransitionSender.getInstance()
+                                .send(Triple.make(node.getLeft().getState(), node.getState(),
+                                                  node.getRight().getState()));
+            else
+                TransitionSender.getInstance()
+                                .send(Triple.make(leafLeftState, node.getState(), leafRightState));
 
         if(!leafLeftState.isEmpty())
             leafStates.add(leafLeftState);

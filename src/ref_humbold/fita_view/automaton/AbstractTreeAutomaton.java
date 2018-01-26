@@ -1,6 +1,8 @@
 package ref_humbold.fita_view.automaton;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
@@ -42,6 +44,14 @@ public abstract class AbstractTreeAutomaton
     public List<Variable> getVariables()
     {
         return this.variables;
+    }
+
+    @Override
+    public Map<Variable, String> getInitialState()
+    {
+        return variables.stream()
+                        .collect(Collectors.toMap(Function.identity(), Variable::getInitValue,
+                                                  (a, b) -> b));
     }
 
     @Override
