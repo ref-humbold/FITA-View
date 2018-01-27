@@ -27,7 +27,7 @@ public class ZoomButtonsPanelTest
         Mockito.doNothing().when(mockDrawingArea).repaint();
         Mockito.doCallRealMethod().when(mockDrawingArea).zeroZoom();
         Mockito.doCallRealMethod().when(mockDrawingArea).zoom(Matchers.anyInt());
-        Mockito.doCallRealMethod().when(mockDrawingArea).getZoomBreak();
+        Mockito.doCallRealMethod().when(mockDrawingArea).getZoomLevel();
     }
 
     @After
@@ -43,7 +43,7 @@ public class ZoomButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        int result = mockDrawingArea.getZoomBreak();
+        int result = mockDrawingArea.getZoomLevel();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).zeroZoom();
         Assert.assertEquals(0, result);
@@ -57,7 +57,7 @@ public class ZoomButtonsPanelTest
         testObject.actionPerformed(mockActionEvent);
         testObject.actionPerformed(mockActionEvent);
 
-        int result = mockDrawingArea.getZoomBreak();
+        int result = mockDrawingArea.getZoomLevel();
 
         Mockito.verify(mockDrawingArea, Mockito.times(2)).zoom(1);
         Assert.assertEquals(2, result);
@@ -75,7 +75,7 @@ public class ZoomButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        int result = mockDrawingArea.getZoomBreak();
+        int result = mockDrawingArea.getZoomLevel();
         InOrder order = Mockito.inOrder(mockDrawingArea);
 
         order.verify(mockDrawingArea, Mockito.times(2)).zoom(1);
@@ -90,7 +90,7 @@ public class ZoomButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        int result = mockDrawingArea.getZoomBreak();
+        int result = mockDrawingArea.getZoomLevel();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).zoom(-1);
         Assert.assertEquals(0, result);
@@ -99,16 +99,16 @@ public class ZoomButtonsPanelTest
     @Test
     public void testActionPerformedWhenZoomInOnMaximum()
     {
-        int invoking = 7;
+        int invoking = TreeDrawingArea.MAX_ZOOM + 1;
 
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_IN");
 
         for(int i = 0; i < invoking; ++i)
             testObject.actionPerformed(mockActionEvent);
 
-        int result = mockDrawingArea.getZoomBreak();
+        int result = mockDrawingArea.getZoomLevel();
 
         Mockito.verify(mockDrawingArea, Mockito.times(invoking)).zoom(1);
-        Assert.assertEquals(6, result);
+        Assert.assertEquals(TreeDrawingArea.MAX_ZOOM, result);
     }
 }

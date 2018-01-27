@@ -1,7 +1,9 @@
+text
+
 # Visual Paradigm backup files
 UML/*.bak*
 
-# ignore Java output
+# Java output
 bin
 junit_results
 junit_reports

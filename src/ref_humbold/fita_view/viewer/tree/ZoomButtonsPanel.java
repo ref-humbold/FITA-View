@@ -59,7 +59,7 @@ public class ZoomButtonsPanel
                 break;
         }
 
-        zoomLabel.setText(Integer.toString(drawingArea.getZoomBreak()));
+        zoomLabel.setText(Integer.toString(drawingArea.getZoomLevel()));
     }
 
     private void initializeComponents()
@@ -72,7 +72,7 @@ public class ZoomButtonsPanel
         buttons.add(zeroButton);
         buttons.add(outButton);
 
-        zoomLabel.setText(Integer.toString(drawingArea.getZoomBreak()));
+        zoomLabel.setText(Integer.toString(drawingArea.getZoomLevel()));
         zoomLabel.setFont(new Font(null, Font.BOLD, 24));
         zoomLabel.setHorizontalAlignment(SwingConstants.CENTER);
         zoomLabel.setVerticalAlignment(SwingConstants.CENTER);

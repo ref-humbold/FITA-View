@@ -2,9 +2,11 @@ package ref_humbold.fita_view.viewer.tree;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -23,8 +25,9 @@ public class TreeDrawingArea
     extends JPanel
     implements SignalReceiver, MessageReceiver<Iterable<TreeNode>>, MouseListener
 {
+    static final int MAX_ZOOM = 4;
+    private static final int NODE_SIDE = 6;
     private static final long serialVersionUID = -6588296156972565117L;
-    private static final int NODE_SIDE = 4;
 
     private Pointer<Pair<TreeNode, Integer>> treePointer;
     private Set<TreeNode> currentNodes = new HashSet<>();
@@ -32,7 +35,8 @@ public class TreeDrawingArea
     private Map<Pair<Integer, Integer>, TreeNode> nodesPoints = new HashMap<>();
     private int horizontalAxis = 0;
     private int verticalAxis = 0;
-    private int zoomBreak = 0;
+    private int zoomLevel = 0;
+    private int unitFactor = 1;
 
     public TreeDrawingArea(Pointer<Pair<TreeNode, Integer>> treePointer)
     {
@@ -47,9 +51,9 @@ public class TreeDrawingArea
         this.setBorder(BorderFactory.createLoweredBevelBorder());
     }
 
-    public int getZoomBreak()
+    public int getZoomLevel()
     {
-        return this.zoomBreak;
+        return this.zoomLevel;
     }
 
     public Pair<Integer, Integer> getAxisPoint()
@@ -97,13 +101,15 @@ public class TreeDrawingArea
 
     public void zoom(int i)
     {
-        zoomBreak = checkBounds(zoomBreak + i, 0, 6);
+        zoomLevel = checkBounds(zoomLevel + i, 0, MAX_ZOOM);
+        unitFactor = (zoomLevel / 2 + 1);
         repaint();
     }
 
     public void zeroZoom()
     {
-        zoomBreak = 0;
+        zoomLevel = 0;
+        unitFactor = 1;
         repaint();
     }
 
@@ -132,13 +138,13 @@ public class TreeDrawingArea
     {
         Pair<Integer, Integer> mouseDist = countDistPos(mouseEvent.getX(), mouseEvent.getY());
 
-        /*TreeNode node = nodesPoints.get(mouseDist);
+        if(mouseDist == null)
+            return;
+
+        TreeNode node = nodesPoints.get(mouseDist);
 
         if(mouseEvent.getButton() == MouseEvent.BUTTON1 && node != null)
-            UserMessageBox.showInfo(node.getType().toString(), getNodeInfo(node));*/
-
-        if(mouseEvent.getButton() == MouseEvent.BUTTON1)
-            UserMessageBox.showInfo("CLICKED AT:", mouseDist.toString());
+            UserMessageBox.showInfo(node.getType().toString(), getNodeInfo(node));
     }
 
     @Override
@@ -243,9 +249,9 @@ public class TreeDrawingArea
                           rightPosition.getSecond());
     }
 
-    private void drawSingleNode(Graphics graphics, TreeNode tree, NodeParameters parameters)
+    private void drawSingleNode(Graphics graphics, TreeNode node, NodeParameters parameters)
     {
-        switch(tree.getType())
+        switch(node.getType())
         {
             case NODE:
                 graphics.setColor(Color.BLACK);
@@ -262,15 +268,29 @@ public class TreeDrawingArea
 
         Pair<Integer, Integer> position = countNodePos(parameters);
         int nodeSide = countNodeSide();
+        int cornerX = position.getFirst() - nodeSide / 2;
+        int cornerY = position.getSecond() - nodeSide / 2;
 
-        graphics.fillRect(position.getFirst() - nodeSide / 2, position.getSecond() - nodeSide / 2,
-                          nodeSide, nodeSide);
+        graphics.fillRect(cornerX, cornerY, nodeSide, nodeSide);
 
-        if(currentNodes.contains(tree))
+        if(currentNodes.contains(node))
         {
             graphics.setColor(Color.GREEN);
-            graphics.fillOval(position.getFirst() - nodeSide / 2,
-                              position.getSecond() - nodeSide / 2, nodeSide, nodeSide);
+            graphics.fillOval(cornerX, cornerY, nodeSide, nodeSide);
+        }
+
+        if(zoomLevel == MAX_ZOOM)
+        {
+            FontMetrics metrics = graphics.getFontMetrics();
+            Rectangle2D rect = metrics.getStringBounds(node.getLabel(), graphics);
+
+            graphics.setColor(Color.ORANGE);
+            graphics.fillRect(cornerX, cornerY - nodeSide / 2 - metrics.getAscent(),
+                              (int)Math.ceil(rect.getWidth()) + 2,
+                              (int)Math.ceil(rect.getHeight()));
+
+            graphics.setColor(Color.BLACK);
+            graphics.drawString(node.getLabel(), cornerX + 1, cornerY - nodeSide / 2);
         }
     }
 
@@ -292,17 +312,23 @@ public class TreeDrawingArea
     {
         Pair<Integer, Integer> rootPos = countRootPos();
 
-        return Pair.make(roundPos(x - rootPos.getFirst()), roundPos(y - rootPos.getSecond()));
+        int posX = roundPos(x - rootPos.getFirst());
+        int posY = roundPos(y - rootPos.getSecond());
+
+        if(posX % unitFactor != 0 || posY % unitFactor != 0)
+            return null;
+
+        return Pair.make(posX / unitFactor, posY / unitFactor);
     }
 
     private int countUnit()
     {
-        return (zoomBreak + zoomBreak + 1) * countNodeSide();
+        return unitFactor * countNodeSide();
     }
 
     private int countNodeSide()
     {
-        return zoomBreak + zoomBreak + NODE_SIDE;
+        return zoomLevel + zoomLevel + NODE_SIDE;
     }
 
     private int roundPos(double pos)
