@@ -87,8 +87,8 @@ public class TreeDrawingArea
 
     public void moveArea(int x, int y)
     {
-        horizontalAxis = checkBounds(horizontalAxis + y, -700, 100);
-        verticalAxis = checkBounds(verticalAxis + x, -400, 400);
+        horizontalAxis = checkBounds(horizontalAxis + y, -(1 << 17), 1 << 8);
+        verticalAxis = checkBounds(verticalAxis + x, -(1 << 17), 1 << 17);
         repaint();
     }
 

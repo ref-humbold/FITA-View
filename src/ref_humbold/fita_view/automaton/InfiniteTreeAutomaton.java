@@ -4,6 +4,7 @@ import java.util.Map;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.traversing.RecursiveContinuationException;
+import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public interface InfiniteTreeAutomaton
     extends TreeAutomaton
@@ -12,7 +13,8 @@ public interface InfiniteTreeAutomaton
      * Testing if associated tree is accepted by the automaton in terms of infinitely appearing states.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      */
-    boolean isInfinitelyAccepted();
+    boolean isInfinitelyAccepted()
+        throws UndefinedTreeStateException, UndefinedAcceptanceException;
 
     /**
      * Reloading recursive nodes so as to continue recursive traversing.

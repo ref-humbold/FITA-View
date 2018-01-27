@@ -1,18 +1,23 @@
 package ref_humbold.fita_view.automaton;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.RecursiveContinuationException;
+import ref_humbold.fita_view.tree.NodeType;
 import ref_humbold.fita_view.tree.TreeNode;
+import ref_humbold.fita_view.tree.UndefinedTreeStateException;
 
 public class TopDownDITA
     extends TopDownDFTA
     implements InfiniteTreeAutomaton
 {
     private AcceptanceConditions infiniteAcceptanceConditions = new AcceptanceConditions();
+    private Map<TreeNode, Map<Map<Variable, String>, Integer>> recursiveNodesStates = new HashMap<>();
 
     public TopDownDITA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -27,8 +32,21 @@ public class TopDownDITA
 
     @Override
     public boolean isInfinitelyAccepted()
+        throws UndefinedTreeStateException, UndefinedAcceptanceException
     {
+        for(Map<Map<Variable, String>, Integer> map : recursiveNodesStates.values())
+            for(Map.Entry<Map<Variable, String>, Integer> entry : map.entrySet())
+                if(entry.getValue() > 1 && infiniteAcceptanceConditions.check(entry.getKey()))
+                    return true;
+
         return false;
+    }
+
+    @Override
+    public boolean isAccepted()
+        throws UndefinedAcceptanceException, UndefinedTreeStateException, EmptyTreeException
+    {
+        return super.isAccepted() && isInfinitelyAccepted();
     }
 
     @Override
@@ -94,5 +112,26 @@ public class TopDownDITA
     @Override
     protected void assertFiniteness(TreeNode tree)
     {
+    }
+
+    @Override
+    protected void initialize()
+        throws IllegalVariableValueException, EmptyTreeException, NoTraversingStrategyException,
+               NoNonDeterministicStrategyException
+    {
+        recursiveNodesStates.clear();
+
+        super.initialize();
+    }
+
+    @Override
+    protected void processNode(TreeNode node)
+        throws IllegalVariableValueException, UndefinedTreeStateException, NoSuchTransitionException
+    {
+        if(node.getType() == NodeType.REC)
+            recursiveNodesStates.computeIfAbsent(node, k -> new HashMap<>())
+                                .merge(node.getState(), 1, Integer::sum);
+
+        super.processNode(node);
     }
 }
