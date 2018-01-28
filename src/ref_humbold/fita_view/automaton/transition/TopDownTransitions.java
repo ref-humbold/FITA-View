@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.automaton.transition;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import ref_humbold.fita_view.Pair;
@@ -33,7 +35,35 @@ public class TopDownTransitions<V>
     }
 
     @Override
-    public V get(Variable var, Pair<String, String> key)
+    public List<V> getAll(Variable var, Pair<String, String> key)
+        throws NoSuchTransitionException
+    {
+        if(hasNull(key))
+            throw new NoSuchTransitionException("Key contains a null value");
+
+        List<V> results = new ArrayList<>();
+
+        for(int i = 0; i < 1 << key.size(); ++i)
+        {
+            Pair<String, String> wildcardKey = setWildcard(i, key);
+            V value = map.get(Pair.make(var, wildcardKey));
+
+            if(value != null)
+            {
+                sendEntry(var, wildcardKey, value);
+                results.add(value);
+            }
+        }
+
+        if(results.isEmpty())
+            throw new NoSuchTransitionException(
+                "No entry for arguments " + key + " with variable " + var + ".");
+
+        return results;
+    }
+
+    @Override
+    public V getMatched(Variable var, Pair<String, String> key)
         throws NoSuchTransitionException
     {
         if(hasNull(key))

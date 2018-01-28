@@ -2,6 +2,7 @@ package ref_humbold.fita_view.automaton;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
@@ -59,7 +60,7 @@ public class BottomUpNFTA
                               String result)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
-        Set<String> entry = getTransitionEntry(var, Triple.make(leftValue, rightValue, label));
+        Set<String> entry = getTransitionValuesSet(var, Triple.make(leftValue, rightValue, label));
 
         entry.add(result);
     }
@@ -106,12 +107,39 @@ public class BottomUpNFTA
                                      String label)
         throws NoSuchTransitionException
     {
-        Set<String> results = transitions.get(var, Triple.make(leftValue, rightValue, label))
-                                         .stream()
-                                         .map(res -> resolveWildcard(res, leftValue, rightValue))
-                                         .collect(Collectors.toSet());
+        return choice.chooseState(getAllTransitionResults(var, leftValue, rightValue, label));
+    }
 
-        return choice.chooseState(results);
+    Set<Map<Variable, String>> getNextStates(Map<Variable, String> leftState,
+                                             Map<Variable, String> rightState, String word)
+    {
+        Map<Variable, Set<String>> result = new HashMap<>();
+
+        try
+        {
+            for(Variable var : variables)
+                result.put(var,
+                           getAllTransitionResults(var, leftState.get(var), rightState.get(var),
+                                                   word));
+        }
+        catch(NoSuchTransitionException e)
+        {
+            return null;
+        }
+
+        return pairsToMap(convert(mapToPairs(result)));
+    }
+
+    private Set<String> getAllTransitionResults(Variable var, String leftValue, String rightValue,
+                                                String label)
+        throws NoSuchTransitionException
+    {
+        return transitions.getAll(var, Triple.make(leftValue, rightValue, label))
+                          .stream()
+                          .flatMap(set -> set.stream()
+                                             .map(res -> resolveWildcard(res, leftValue,
+                                                                         rightValue)))
+                          .collect(Collectors.toSet());
     }
 
     private String valueSetToString(Set<String> value)
@@ -121,17 +149,61 @@ public class BottomUpNFTA
         return stringSet.toString();
     }
 
-    private Set<String> getTransitionEntry(Variable var, Triple<String, String, String> key)
+    private Set<String> getTransitionValuesSet(Variable var, Triple<String, String, String> key)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
         try
         {
-            return transitions.get(var, key);
+            return transitions.getMatched(var, key);
         }
         catch(NoSuchTransitionException e)
         {
             transitions.add(var, key, new HashSet<>());
-            return getTransitionEntry(var, key);
+            return getTransitionValuesSet(var, key);
         }
+    }
+
+    private Set<Map<Variable, String>> pairsToMap(Set<List<Pair<Variable, String>>> listSet)
+    {
+        return listSet.stream()
+                      .map(pairList -> pairList.stream()
+                                               .collect(
+                                                   Collectors.toMap(Pair::getFirst, Pair::getSecond,
+                                                                    (a, b) -> b)))
+                      .collect(Collectors.toSet());
+    }
+
+    private Set<List<Pair<Variable, String>>> convert(Queue<Pair<Variable, Set<String>>> pairQueue)
+    {
+        if(pairQueue.isEmpty())
+        {
+            Set<List<Pair<Variable, String>>> empty = new HashSet<>();
+
+            empty.add(new ArrayList<>());
+
+            return empty;
+        }
+
+        Pair<Variable, Set<String>> pair = pairQueue.remove();
+        Set<List<Pair<Variable, String>>> result = new HashSet<>();
+        Set<List<Pair<Variable, String>>> recursive = convert(pairQueue);
+
+        pair.getSecond()
+            .forEach(value -> recursive.stream()
+                                       .map(list -> Stream.concat(list.stream(), Stream.of(
+                                           Pair.make(pair.getFirst(), value)))
+                                                          .collect(Collectors.toList()))
+                                       .forEach(result::add));
+
+        return result;
+    }
+
+    private Queue<Pair<Variable, Set<String>>> mapToPairs(Map<Variable, Set<String>> map)
+    {
+        Queue<Pair<Variable, Set<String>>> pairList = new ArrayDeque<>();
+
+        map.forEach((key, value) -> pairList.add(Pair.make(key, value)));
+
+        return pairList;
     }
 }

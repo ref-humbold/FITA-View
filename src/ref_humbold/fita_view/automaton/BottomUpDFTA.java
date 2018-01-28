@@ -122,7 +122,7 @@ public class BottomUpDFTA
                                      String label)
         throws NoSuchTransitionException
     {
-        String result = transitions.get(var, Triple.make(leftValue, rightValue, label));
+        String result = transitions.getMatched(var, Triple.make(leftValue, rightValue, label));
 
         return resolveWildcard(result, leftValue, rightValue);
     }

@@ -1,6 +1,7 @@
 package ref_humbold.fita_view.automaton.transition;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -60,13 +61,23 @@ public abstract class Transitions<K, V>
     }
 
     /**
-     * Getting a result of transition function for specified arguments and variable.
+     * Getting all results of transition function for specified arguments and variable.
      * @param var variable
      * @param key arguments of transition
-     * @return result of transition for the arguments
+     * @return list of possible results of transition for the arguments
      * @throws NoSuchTransitionException if there is no entry for specified arguments with variable.
      */
-    public abstract V get(Variable var, K key)
+    public abstract List<V> getAll(Variable var, K key)
+        throws NoSuchTransitionException;
+
+    /**
+     * Getting first matched result of transition function for specified arguments and variable.
+     * @param var variable
+     * @param key arguments of transition
+     * @return matched results of transition for the arguments
+     * @throws NoSuchTransitionException if there is no entry for specified arguments with variable.
+     */
+    public abstract V getMatched(Variable var, K key)
         throws NoSuchTransitionException;
 
     /**

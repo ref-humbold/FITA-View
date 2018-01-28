@@ -83,7 +83,7 @@ public class TopDownDFTA
     protected Pair<String, String> applyTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
-        Pair<String, String> result = transitions.get(var, Pair.make(value, label));
+        Pair<String, String> result = transitions.getMatched(var, Pair.make(value, label));
 
         return resolveWildcard(result, value);
     }

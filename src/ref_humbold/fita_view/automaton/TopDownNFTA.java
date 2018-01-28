@@ -67,7 +67,7 @@ public class TopDownNFTA
                               String rightResult)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
-        Set<Pair<String, String>> entry = getTransitionEntry(var, Pair.make(value, label));
+        Set<Pair<String, String>> entry = getTransitionValuesSet(var, Pair.make(value, label));
 
         entry.add(Pair.make(leftResult, rightResult));
     }
@@ -106,12 +106,7 @@ public class TopDownNFTA
     protected Pair<String, String> applyTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
-        Set<Pair<String, String>> results = transitions.get(var, Pair.make(value, label))
-                                                       .stream()
-                                                       .map(res -> resolveWildcard(res, value))
-                                                       .collect(Collectors.toSet());
-
-        return choice.chooseState(results);
+        return choice.chooseState(getAllTransitionResults(var, value, label));
     }
 
     @Override
@@ -141,6 +136,16 @@ public class TopDownNFTA
             traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
     }
 
+    private Set<Pair<String, String>> getAllTransitionResults(Variable var, String value,
+                                                              String label)
+        throws NoSuchTransitionException
+    {
+        return transitions.getAll(var, Pair.make(value, label))
+                          .stream()
+                          .flatMap(set -> set.stream().map(res -> resolveWildcard(res, value)))
+                          .collect(Collectors.toSet());
+    }
+
     private String valueSetToString(Set<Pair<String, String>> value)
     {
         Set<String> stringSet = value.stream().map(this::valueToString).collect(Collectors.toSet());
@@ -148,17 +153,17 @@ public class TopDownNFTA
         return stringSet.toString();
     }
 
-    private Set<Pair<String, String>> getTransitionEntry(Variable var, Pair<String, String> key)
+    private Set<Pair<String, String>> getTransitionValuesSet(Variable var, Pair<String, String> key)
         throws DuplicatedTransitionException, IllegalTransitionException
     {
         try
         {
-            return transitions.get(var, key);
+            return transitions.getMatched(var, key);
         }
         catch(NoSuchTransitionException e)
         {
             transitions.add(var, key, new HashSet<>());
-            return getTransitionEntry(var, key);
+            return getTransitionValuesSet(var, key);
         }
     }
 }

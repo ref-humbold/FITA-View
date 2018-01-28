@@ -1,6 +1,7 @@
 package ref_humbold.fita_view.automaton.transition;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
@@ -30,6 +31,8 @@ public class TopDownTransitionsTest
         testObject.add(v, Pair.make("A", "0"), Pair.make("B", "C"));
         testObject.add(v, Pair.make(Wildcard.EVERY_VALUE, "1"), Pair.make("D", "D"));
         testObject.add(v, Pair.make("D", "2"), Pair.make(Wildcard.SAME_VALUE, Wildcard.SAME_VALUE));
+        testObject.add(v, Pair.make("C", "3"), Pair.make("B", "A"));
+        testObject.add(v, Pair.make(Wildcard.EVERY_VALUE, "3"), Pair.make("C", "C"));
     }
 
     @After
@@ -107,7 +110,7 @@ public class TopDownTransitionsTest
     {
         try
         {
-            testObject.add(v, Pair.make("B", "4"), Pair.make("A", "A"));
+            testObject.add(v, Pair.make("B", "10"), Pair.make("A", "A"));
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
@@ -115,7 +118,7 @@ public class TopDownTransitionsTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        boolean result = testObject.containsKey(v, Pair.make("B", "4"));
+        boolean result = testObject.containsKey(v, Pair.make("B", "10"));
 
         Assert.assertTrue(result);
     }
@@ -125,7 +128,7 @@ public class TopDownTransitionsTest
     {
         try
         {
-            testObject.add(v, Pair.make(Wildcard.EVERY_VALUE, "5"), Pair.make("B", "B"));
+            testObject.add(v, Pair.make(Wildcard.EVERY_VALUE, "11"), Pair.make("B", "B"));
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
@@ -133,11 +136,11 @@ public class TopDownTransitionsTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        boolean result = testObject.containsKey(v, Pair.make(Wildcard.EVERY_VALUE, "5"));
-        boolean result0 = testObject.containsEntry(v, Pair.make("A", "5"));
-        boolean result1 = testObject.containsEntry(v, Pair.make("B", "5"));
-        boolean result2 = testObject.containsEntry(v, Pair.make("C", "5"));
-        boolean result3 = testObject.containsEntry(v, Pair.make("D", "5"));
+        boolean result = testObject.containsKey(v, Pair.make(Wildcard.EVERY_VALUE, "11"));
+        boolean result0 = testObject.containsEntry(v, Pair.make("A", "11"));
+        boolean result1 = testObject.containsEntry(v, Pair.make("B", "11"));
+        boolean result2 = testObject.containsEntry(v, Pair.make("C", "11"));
+        boolean result3 = testObject.containsEntry(v, Pair.make("D", "11"));
 
         Assert.assertTrue(result);
         Assert.assertTrue(result0);
@@ -162,13 +165,48 @@ public class TopDownTransitionsTest
     }
 
     @Test
-    public void testGetWhenKeyDirectlyInside()
+    public void testGetAll()
+    {
+        List<Pair<String, String>> result = null;
+
+        try
+        {
+            result = testObject.getAll(v, Pair.make("C", "3"));
+        }
+        catch(NoSuchTransitionException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(2, result.size());
+        Assert.assertArrayEquals(new Object[]{Pair.make("B", "A"), Pair.make("C", "C")},
+                                 result.toArray());
+    }
+
+    @Test(expected = NoSuchTransitionException.class)
+    public void testGetAllWhenKeyHasNull()
+        throws NoSuchTransitionException
+    {
+        testObject.getAll(v, Pair.make(null, "0"));
+    }
+
+    @Test(expected = NoSuchTransitionException.class)
+    public void testGetAllWhenKeyHasNoEntry()
+        throws NoSuchTransitionException
+    {
+        testObject.getAll(v, Pair.make("C", "0"));
+    }
+
+    @Test
+    public void testGetMatchedWhenKeyDirectlyInside()
     {
         Pair<String, String> result = null;
 
         try
         {
-            result = testObject.get(v, Pair.make("A", "0"));
+            result = testObject.getMatched(v, Pair.make("A", "0"));
         }
         catch(NoSuchTransitionException e)
         {
@@ -181,13 +219,13 @@ public class TopDownTransitionsTest
     }
 
     @Test
-    public void testGetWhenKeyExpectsWildcardInside()
+    public void testGetMatchedWhenKeyExpectsWildcardInside()
     {
         Pair<String, String> result = null;
 
         try
         {
-            result = testObject.get(v, Pair.make("B", "1"));
+            result = testObject.getMatched(v, Pair.make("B", "1"));
         }
         catch(NoSuchTransitionException e)
         {
@@ -200,13 +238,13 @@ public class TopDownTransitionsTest
     }
 
     @Test
-    public void testGetWhenWildcardInValue()
+    public void testGetMatchedWhenWildcardInValue()
     {
         Pair<String, String> result = null;
 
         try
         {
-            result = testObject.get(v, Pair.make("D", "2"));
+            result = testObject.getMatched(v, Pair.make("D", "2"));
         }
         catch(NoSuchTransitionException e)
         {
@@ -219,17 +257,17 @@ public class TopDownTransitionsTest
     }
 
     @Test(expected = NoSuchTransitionException.class)
-    public void testGetWhenKeyHasNull()
+    public void testGetMatchedWhenKeyHasNull()
         throws NoSuchTransitionException
     {
-        testObject.get(v, Pair.make(null, "0"));
+        testObject.getMatched(v, Pair.make(null, "0"));
     }
 
     @Test(expected = NoSuchTransitionException.class)
-    public void testGetWhenKeyHasNoEntry()
+    public void testGetMatchedWhenKeyHasNoEntry()
         throws NoSuchTransitionException
     {
-        testObject.get(v, Pair.make("C", "0"));
+        testObject.getMatched(v, Pair.make("C", "0"));
     }
 
     @Test
@@ -244,9 +282,13 @@ public class TopDownTransitionsTest
                      pairFunction(Pair.make("D", "D")));
         expected.put(Pair.make(v, pairFunction(Pair.make("D", "2"))),
                      pairFunction(Pair.make(Wildcard.SAME_VALUE, Wildcard.SAME_VALUE)));
+        expected.put(Pair.make(v, pairFunction(Pair.make("C", "3"))),
+                     pairFunction(Pair.make("B", "A")));
+        expected.put(Pair.make(v, pairFunction(Pair.make(Wildcard.EVERY_VALUE, "3"))),
+                     pairFunction(Pair.make("C", "C")));
 
         Assert.assertNotNull(result);
-        Assert.assertEquals(3, result.size());
+        Assert.assertEquals(5, result.size());
         Assert.assertEquals(expected, result);
     }
 

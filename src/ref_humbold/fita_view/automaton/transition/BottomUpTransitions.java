@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.automaton.transition;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -66,7 +68,50 @@ public class BottomUpTransitions<V>
     }
 
     @Override
-    public V get(Variable var, Triple<String, String, String> key)
+    public List<V> getAll(Variable var, Triple<String, String, String> key)
+        throws NoSuchTransitionException
+    {
+        if(hasNull(key))
+            throw new NoSuchTransitionException("Key contains a null value");
+
+        List<V> results = new ArrayList<>();
+
+        if(Objects.equals(key.getFirst(), key.getSecond()))
+        {
+            for(String mask : sameMasks)
+            {
+                Triple<String, String, String> wildcardKey = setWildcardSame(mask, key);
+                V value = map.get(Pair.make(var, wildcardKey));
+
+                if(value != null)
+                {
+                    sendEntry(var, wildcardKey, value);
+                    results.add(value);
+                }
+            }
+        }
+
+        for(int i = 0; i < 1 << key.size(); ++i)
+        {
+            Triple<String, String, String> wildcardKey = setWildcardEvery(i, key);
+            V value = map.get(Pair.make(var, wildcardKey));
+
+            if(value != null)
+            {
+                sendEntry(var, wildcardKey, value);
+                results.add(value);
+            }
+        }
+
+        if(results.isEmpty())
+            throw new NoSuchTransitionException(
+                "No entry for arguments " + key + " with variable " + var + ".");
+
+        return results;
+    }
+
+    @Override
+    public V getMatched(Variable var, Triple<String, String, String> key)
         throws NoSuchTransitionException
     {
         if(hasNull(key))
