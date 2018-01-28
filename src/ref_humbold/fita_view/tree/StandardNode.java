@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.tree;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -103,7 +104,7 @@ public class StandardNode
     }
 
     @Override
-    public Map<Variable, String> getState()
+    public Map<Variable, String> getStateWithNulls()
     {
         return this.state;
     }
@@ -117,9 +118,10 @@ public class StandardNode
     }
 
     @Override
-    public void setStateInitValue(Variable var)
+    public void setInitialState(Collection<Variable> vars)
     {
-        this.state.put(var, var.getInitValue());
+        for(Variable var : vars)
+            this.state.put(var, var.getInitValue());
     }
 
     @Override

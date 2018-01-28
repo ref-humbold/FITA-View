@@ -55,9 +55,11 @@ public class TopDownNFTA
     }
 
     @Override
-    public TreeNode generateTree()
+    public boolean checkEmptiness()
     {
-        return null;
+
+        //TODO: implement
+        return false;
     }
 
     @Override
@@ -104,7 +106,12 @@ public class TopDownNFTA
     protected Pair<String, String> applyTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
-        return choice.chooseState(transitions.get(var, Pair.make(value, label)));
+        Set<Pair<String, String>> results = transitions.get(var, Pair.make(value, label))
+                                                       .stream()
+                                                       .map(res -> resolveWildcard(res, value))
+                                                       .collect(Collectors.toSet());
+
+        return choice.chooseState(results);
     }
 
     @Override

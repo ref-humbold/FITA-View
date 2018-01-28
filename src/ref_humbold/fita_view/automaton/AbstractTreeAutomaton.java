@@ -1,6 +1,8 @@
 package ref_humbold.fita_view.automaton;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
@@ -8,7 +10,7 @@ import ref_humbold.fita_view.automaton.traversing.TopDownDFS;
 import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.tree.NodeType;
 import ref_humbold.fita_view.tree.TreeNode;
-import ref_humbold.fita_view.tree.UndefinedTreeStateException;
+import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public abstract class AbstractTreeAutomaton
     implements TreeAutomaton
@@ -58,6 +60,16 @@ public abstract class AbstractTreeAutomaton
             AutomatonRunningModeSender.getInstance().send();
     }
 
+    /**
+     * @return initial state of tree in the automaton.
+     */
+    protected Map<Variable, String> getInitialState()
+    {
+        return variables.stream()
+                        .collect(Collectors.toMap(Function.identity(), Variable::getInitValue,
+                                                  (a, b) -> b));
+    }
+
     @Override
     public void setTree(TreeNode tree)
         throws TreeFinitenessException, EmptyTreeException
@@ -92,7 +104,7 @@ public abstract class AbstractTreeAutomaton
     @Override
     public void run()
         throws IllegalVariableValueException, NoSuchTransitionException,
-               NoTraversingStrategyException, UndefinedTreeStateException, EmptyTreeException,
+               NoTraversingStrategyException, UndefinedStateValueException, EmptyTreeException,
                NoNonDeterministicStrategyException
     {
         if(getTraversing() == null)
@@ -112,7 +124,7 @@ public abstract class AbstractTreeAutomaton
     @Override
     public void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException,
-               NoTraversingStrategyException, UndefinedTreeStateException, EmptyTreeException,
+               NoTraversingStrategyException, UndefinedStateValueException, EmptyTreeException,
                NoNonDeterministicStrategyException
     {
         if(getTraversing() == null)
@@ -207,7 +219,7 @@ public abstract class AbstractTreeAutomaton
      */
     protected abstract void processNode(TreeNode node)
         throws NoSuchTransitionException, IllegalVariableValueException,
-               UndefinedTreeStateException;
+               UndefinedStateValueException;
 
     private void deleteTreeStates()
     {

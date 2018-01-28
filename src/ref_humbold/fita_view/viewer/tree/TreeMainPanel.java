@@ -2,6 +2,7 @@ package ref_humbold.fita_view.viewer.tree;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -30,7 +31,7 @@ public class TreeMainPanel
 
     private Pointer<TreeAutomaton> automatonPointer;
     private Pointer<Pair<TreeNode, Integer>> treePointer;
-    private TitlePanel titlePanel = new TitlePanel("tree");
+    private TitlePanel titlePanel = new TitlePanel("tree", KeyEvent.VK_T, KeyEvent.VK_M);
     private TreeDrawingArea drawingArea;
     private MovingButtonsPanel movingPanel;
     private ZoomButtonsPanel zoomPanel;

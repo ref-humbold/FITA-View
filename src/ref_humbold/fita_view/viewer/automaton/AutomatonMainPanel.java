@@ -3,6 +3,7 @@ package ref_humbold.fita_view.viewer.automaton;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class AutomatonMainPanel
 
     private Pointer<TreeAutomaton> automatonPointer;
     private Pointer<Pair<TreeNode, Integer>> treePointer;
-    private TitlePanel titlePanel = new TitlePanel("automaton");
+    private TitlePanel titlePanel = new TitlePanel("automaton", KeyEvent.VK_A, KeyEvent.VK_N);
     private AcceptancePanel acceptancePanel;
     private AutomatonScrollTreeView scrollTreeView;
     private TransitionDrawingArea transitionDrawingArea;

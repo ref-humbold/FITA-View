@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.tree;
 
+import java.util.Collection;
 import java.util.Map;
 
 import ref_humbold.fita_view.automaton.IllegalVariableValueException;
@@ -53,8 +54,22 @@ public abstract class TreeNode
 
     /**
      * @return values of all variables in the node
+     * @throws UndefinedStateValueException if variable value is undefined
      */
-    public abstract Map<Variable, String> getState();
+    public Map<Variable, String> getState()
+        throws UndefinedStateValueException
+    {
+        Map<Variable, String> state = getStateWithNulls();
+
+        for(Map.Entry<Variable, String> entry : state.entrySet())
+        {
+            if(entry.getValue() == null)
+                throw new UndefinedStateValueException(
+                    "Node has undefined state for variable " + entry.getKey() + ".");
+        }
+
+        return state;
+    }
 
     /**
      * @param state new state for the node
@@ -63,22 +78,27 @@ public abstract class TreeNode
         throws IllegalVariableValueException;
 
     /**
-     * @param var state variable
+     * @return values of all variables in the node
      */
-    public abstract void setStateInitValue(Variable var);
+    public abstract Map<Variable, String> getStateWithNulls();
+
+    /**
+     * @param vars state variables
+     */
+    public abstract void setInitialState(Collection<Variable> vars);
 
     /**
      * @param var state variable
      * @return variable value in the node
-     * @throws UndefinedTreeStateException if variable value is undefined
+     * @throws UndefinedStateValueException if variable value is undefined
      */
     public String getStateValue(Variable var)
-        throws UndefinedTreeStateException
+        throws UndefinedStateValueException
     {
         String value = getStateValueOrNull(var);
 
         if(value == null)
-            throw new UndefinedTreeStateException(
+            throw new UndefinedStateValueException(
                 "Node has undefined state for variable " + var + ".");
 
         return value;

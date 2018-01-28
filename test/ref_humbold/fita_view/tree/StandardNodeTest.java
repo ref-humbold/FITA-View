@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.tree;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
@@ -185,9 +187,28 @@ public class StandardNodeTest
         testObject.setRight(node.getLeft());
     }
 
-    @Test(expected = UndefinedTreeStateException.class)
+    @Test
+    public void testGetState()
+    {
+        Map<Variable, String> result = null;
+
+        try
+        {
+            result = testObject.getState();
+        }
+        catch(UndefinedStateValueException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(Collections.singletonMap(variable1, "3"), result);
+    }
+
+    @Test(expected = UndefinedStateValueException.class)
     public void testGetStateValueWhenNoValue()
-        throws UndefinedTreeStateException
+        throws UndefinedStateValueException
     {
         String result = testObject.getStateValue(variable2);
     }
@@ -196,11 +217,12 @@ public class StandardNodeTest
     public void testGetStateValueWhenIsValue()
     {
         String result = null;
+
         try
         {
             result = testObject.getStateValue(variable1);
         }
-        catch(UndefinedTreeStateException e)
+        catch(UndefinedStateValueException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -268,14 +290,17 @@ public class StandardNodeTest
     }
 
     @Test
-    public void testSetStateInitValue()
+    public void testSetInitialState()
     {
-        testObject.setStateInitValue(variable2);
+        testObject.setInitialState(Arrays.asList(variable1, variable2));
 
-        String result = testObject.getStateValueOrNull(variable2);
+        String result1 = testObject.getStateValueOrNull(variable1);
+        String result2 = testObject.getStateValueOrNull(variable2);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(variable2.getInitValue(), result);
+        Assert.assertNotNull(result1);
+        Assert.assertNotNull(result2);
+        Assert.assertEquals(variable1.getInitValue(), result1);
+        Assert.assertEquals(variable2.getInitValue(), result2);
     }
 
     @Test
@@ -283,7 +308,7 @@ public class StandardNodeTest
     {
         testObject.deleteState();
 
-        Map<Variable, String> result = testObject.getState();
+        Map<Variable, String> result = testObject.getStateWithNulls();
 
         Assert.assertTrue(result.isEmpty());
     }

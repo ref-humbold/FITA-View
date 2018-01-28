@@ -10,7 +10,6 @@ import ref_humbold.fita_view.automaton.transition.BottomUpTransitions;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
-import ref_humbold.fita_view.tree.TreeNode;
 
 public class BottomUpNFTA
     extends BottomUpAutomaton
@@ -66,9 +65,10 @@ public class BottomUpNFTA
     }
 
     @Override
-    public TreeNode generateTree()
+    public boolean checkEmptiness()
     {
-        return null;
+        //TODO: implement
+        return false;
     }
 
     @Override
@@ -106,7 +106,12 @@ public class BottomUpNFTA
                                      String label)
         throws NoSuchTransitionException
     {
-        return choice.chooseState(transitions.get(var, Triple.make(leftValue, rightValue, label)));
+        Set<String> results = transitions.get(var, Triple.make(leftValue, rightValue, label))
+                                         .stream()
+                                         .map(res -> resolveWildcard(res, leftValue, rightValue))
+                                         .collect(Collectors.toSet());
+
+        return choice.chooseState(results);
     }
 
     private String valueSetToString(Set<String> value)

@@ -35,9 +35,10 @@ public class TopDownDFTA
     }
 
     @Override
-    public TreeNode generateTree()
+    public boolean checkEmptiness()
     {
-        return null;
+        //TODO: implement
+        return false;
     }
 
     @Override
@@ -82,7 +83,9 @@ public class TopDownDFTA
     protected Pair<String, String> applyTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
-        return transitions.get(var, Pair.make(value, label));
+        Pair<String, String> result = transitions.get(var, Pair.make(value, label));
+
+        return resolveWildcard(result, value);
     }
 
     @Override

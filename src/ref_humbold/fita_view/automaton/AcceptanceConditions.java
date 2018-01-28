@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
-import ref_humbold.fita_view.tree.UndefinedTreeStateException;
+import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public class AcceptanceConditions
 {
@@ -59,11 +59,11 @@ public class AcceptanceConditions
      * Testing if specified state can be accepted by the automaton.
      * @param state state from a tree node
      * @return {@code true} if state is accepted, otherwise {@code false}
-     * @throws UndefinedTreeStateException if state contains a variable with undefined value
+     * @throws UndefinedStateValueException if state contains a variable with undefined value
      * @throws UndefinedAcceptanceException if set of accepting conditions is empty
      */
     public boolean check(Map<Variable, String> state)
-        throws UndefinedTreeStateException, UndefinedAcceptanceException
+        throws UndefinedStateValueException, UndefinedAcceptanceException
     {
         if(statesConditions.isEmpty())
             throw new UndefinedAcceptanceException(
@@ -76,8 +76,8 @@ public class AcceptanceConditions
             for(Variable var : condition.keySet())
             {
                 if(state.get(var) == null)
-                    throw new UndefinedTreeStateException(
-                        "Node has an undefined state variable value.");
+                    throw new UndefinedStateValueException(
+                        "State contains a variable with undefined value.");
 
                 Pair<String, Boolean> valueEquality = condition.get(var);
 

@@ -57,7 +57,7 @@ public abstract class TopDownTraversing
     protected void processChild(TreeNode node)
     {
         if(node.getType() == NodeType.REC)
-            newRecursiveNodes.add(Pair.make(node, node.getState()));
+            newRecursiveNodes.add(Pair.make(node, node.getStateWithNulls()));
         else
             addNextNode(node);
     }

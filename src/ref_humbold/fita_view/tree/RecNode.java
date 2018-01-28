@@ -1,5 +1,6 @@
 package ref_humbold.fita_view.tree;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 
@@ -59,9 +60,9 @@ public class RecNode
     }
 
     @Override
-    public Map<Variable, String> getState()
+    public Map<Variable, String> getStateWithNulls()
     {
-        return recursive.getState();
+        return recursive.getStateWithNulls();
     }
 
     @Override
@@ -72,9 +73,9 @@ public class RecNode
     }
 
     @Override
-    public void setStateInitValue(Variable var)
+    public void setInitialState(Collection<Variable> vars)
     {
-        recursive.setStateInitValue(var);
+        recursive.setInitialState(vars);
     }
 
     @Override

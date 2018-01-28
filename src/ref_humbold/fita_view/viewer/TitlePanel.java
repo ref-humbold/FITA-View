@@ -24,11 +24,11 @@ public class TitlePanel
     private JButton removeButton = new JButton();
     private Set<MessageReceiver<String>> receivers = new HashSet<>();
 
-    public TitlePanel(String name)
+    public TitlePanel(String name, int loadShortcut, int removeShortcut)
     {
         super();
 
-        this.initializeComponents(name);
+        this.initializeComponents(name, loadShortcut, removeShortcut);
         this.setLayout(new GridLayout(2, 1));
         this.setOpaque(false);
         this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
@@ -80,7 +80,7 @@ public class TitlePanel
         return buttonsPanel;
     }
 
-    private void initializeComponents(String name)
+    private void initializeComponents(String name, int loadShortcut, int removeShortcut)
     {
         titleLabel.setText(name.toUpperCase());
         titleLabel.setFont(new Font(null, Font.BOLD, 18));
@@ -88,11 +88,11 @@ public class TitlePanel
         titleLabel.setVerticalAlignment(SwingConstants.CENTER);
 
         openFileButton.setText("Load " + name + " from file");
-        openFileButton.setMnemonic(name.charAt(0));
+        openFileButton.setMnemonic(loadShortcut);
         openFileButton.addActionListener(this);
 
         removeButton.setText("Remove " + name);
-        removeButton.setMnemonic(name.charAt(name.length() - 1));
+        removeButton.setMnemonic(removeShortcut);
         removeButton.addActionListener(this);
     }
 }

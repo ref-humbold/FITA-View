@@ -10,7 +10,7 @@ import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.RecursiveContinuationException;
 import ref_humbold.fita_view.tree.NodeType;
 import ref_humbold.fita_view.tree.TreeNode;
-import ref_humbold.fita_view.tree.UndefinedTreeStateException;
+import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public class TopDownNITA
     extends TopDownNFTA
@@ -32,7 +32,7 @@ public class TopDownNITA
 
     @Override
     public boolean isInfinitelyAccepted()
-        throws UndefinedTreeStateException, UndefinedAcceptanceException
+        throws UndefinedStateValueException, UndefinedAcceptanceException
     {
         for(Map<Map<Variable, String>, Integer> map : recursiveNodesStates.values())
             for(Map.Entry<Map<Variable, String>, Integer> entry : map.entrySet())
@@ -44,15 +44,16 @@ public class TopDownNITA
 
     @Override
     public boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedTreeStateException, EmptyTreeException
+        throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
     {
         return super.isAccepted() && isInfinitelyAccepted();
     }
 
     @Override
-    public TreeNode generateTree()
+    public boolean checkEmptiness()
     {
-        return null;
+        //TODO: implement
+        return false;
     }
 
     @Override
@@ -126,7 +127,8 @@ public class TopDownNITA
 
     @Override
     protected void processNode(TreeNode node)
-        throws IllegalVariableValueException, UndefinedTreeStateException, NoSuchTransitionException
+        throws IllegalVariableValueException, UndefinedStateValueException,
+               NoSuchTransitionException
     {
         if(node.getType() == NodeType.REC)
             recursiveNodesStates.computeIfAbsent(node, k -> new HashMap<>())

@@ -277,7 +277,7 @@ public class TopDownDFTATest
         {
             testObject.run();
         }
-        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException | NoNonDeterministicStrategyException e)
+        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -296,7 +296,7 @@ public class TopDownDFTATest
         {
             testObject.run();
         }
-        catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException | NoNonDeterministicStrategyException e)
+        catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -497,7 +497,7 @@ public class TopDownDFTATest
         {
             testObject.makeStepForward();
         }
-        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException | NoNonDeterministicStrategyException e)
+        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -516,7 +516,7 @@ public class TopDownDFTATest
         {
             testObject.makeStepForward();
         }
-        catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedTreeStateException | NoNonDeterministicStrategyException e)
+        catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -706,7 +706,7 @@ public class TopDownDFTATest
         {
             result = testObject.isAccepted();
         }
-        catch(UndefinedAcceptanceException | UndefinedTreeStateException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -762,7 +762,7 @@ public class TopDownDFTATest
         {
             result = testObject.isAccepted();
         }
-        catch(UndefinedAcceptanceException | UndefinedTreeStateException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -771,9 +771,9 @@ public class TopDownDFTATest
         Assert.assertFalse(result);
     }
 
-    @Test(expected = UndefinedTreeStateException.class)
+    @Test(expected = UndefinedStateValueException.class)
     public void testIsAcceptedWhenAutomatonHasNotRun()
-        throws UndefinedTreeStateException
+        throws UndefinedStateValueException
     {
         try
         {
@@ -866,7 +866,7 @@ public class TopDownDFTATest
         {
             testObject.isAccepted();
         }
-        catch(UndefinedTreeStateException | EmptyTreeException e)
+        catch(UndefinedStateValueException | EmptyTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -881,7 +881,7 @@ public class TopDownDFTATest
         {
             testObject.isAccepted();
         }
-        catch(UndefinedTreeStateException | UndefinedAcceptanceException e)
+        catch(UndefinedStateValueException | UndefinedAcceptanceException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());

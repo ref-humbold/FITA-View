@@ -11,7 +11,7 @@ import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.TreeNode;
-import ref_humbold.fita_view.tree.UndefinedTreeStateException;
+import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public abstract class TopDownAutomaton
     extends AbstractTreeAutomaton
@@ -44,13 +44,13 @@ public abstract class TopDownAutomaton
 
     @Override
     public boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedTreeStateException, EmptyTreeException
+        throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
     {
         if(tree == null)
             throw new EmptyTreeException("Tree is empty.");
 
         if(leafStates.isEmpty())
-            throw new UndefinedTreeStateException("States in tree leaves are undefined.");
+            throw new UndefinedStateValueException("States in tree leaves are undefined.");
 
         for(Map<Variable, String> state : leafStates)
             if(!acceptanceConditions.check(state))
@@ -82,6 +82,24 @@ public abstract class TopDownAutomaton
                                                             String label)
         throws NoSuchTransitionException;
 
+    protected Pair<Map<Variable, String>, Map<Variable, String>> applyTransition(
+        Map<Variable, String> state, String label)
+        throws NoSuchTransitionException
+    {
+        Map<Variable, String> leftResult = new HashMap<>();
+        Map<Variable, String> rightResult = new HashMap<>();
+
+        for(Variable var : variables)
+        {
+            Pair<String, String> resultValue = applyTransition(var, state.get(var), label);
+
+            leftResult.put(var, resultValue.getFirst());
+            rightResult.put(var, resultValue.getSecond());
+        }
+
+        return Pair.make(leftResult, rightResult);
+    }
+
     @Override
     protected void initialize()
         throws IllegalVariableValueException, EmptyTreeException, NoTraversingStrategyException,
@@ -89,48 +107,34 @@ public abstract class TopDownAutomaton
     {
         super.initialize();
 
-        variables.forEach(tree::setStateInitValue);
+        tree.setInitialState(variables);
         traversing.initialize(tree);
         leafStates.clear();
     }
 
     @Override
     protected void processNode(TreeNode node)
-        throws IllegalVariableValueException, UndefinedTreeStateException, NoSuchTransitionException
+        throws IllegalVariableValueException, UndefinedStateValueException,
+               NoSuchTransitionException
     {
-        Map<Variable, String> leafLeftState = new HashMap<>();
-        Map<Variable, String> leafRightState = new HashMap<>();
+        Pair<Map<Variable, String>, Map<Variable, String>> sonsStates = applyTransition(
+            node.getState(), node.getLabel());
 
-        for(Variable v : variables)
+        if(node.hasChildren())
         {
-            Pair<String, String> result = doTransition(v, node.getStateValue(v), node.getLabel());
-
-            if(node.hasChildren())
-            {
-                node.getLeft().setStateValue(v, result.getFirst());
-                node.getRight().setStateValue(v, result.getSecond());
-            }
-            else
-            {
-                leafLeftState.put(v, result.getFirst());
-                leafRightState.put(v, result.getSecond());
-            }
+            node.getLeft().setState(sonsStates.getFirst());
+            node.getRight().setState(sonsStates.getSecond());
+        }
+        else
+        {
+            leafStates.add(sonsStates.getFirst());
+            leafStates.add(sonsStates.getSecond());
         }
 
         if(isSendingMessages)
-            if(node.hasChildren())
-                TransitionSender.getInstance()
-                                .send(Triple.make(node.getLeft().getState(), node.getState(),
-                                                  node.getRight().getState()));
-            else
-                TransitionSender.getInstance()
-                                .send(Triple.make(leafLeftState, node.getState(), leafRightState));
-
-        if(!leafLeftState.isEmpty())
-            leafStates.add(leafLeftState);
-
-        if(!leafRightState.isEmpty())
-            leafStates.add(leafRightState);
+            TransitionSender.getInstance()
+                            .send(Triple.make(sonsStates.getFirst(), node.getState(),
+                                              sonsStates.getSecond()));
     }
 
     /**
@@ -154,20 +158,23 @@ public abstract class TopDownAutomaton
             + "\'";
     }
 
-    private Pair<String, String> doTransition(Variable var, String value, String label)
-        throws NoSuchTransitionException
+    /**
+     * Resolving wildcard in result value of transition.
+     * @param result transition result
+     * @param nodeValue value from tree node
+     * @return resolved value
+     */
+    protected Pair<String, String> resolveWildcard(Pair<String, String> result, String nodeValue)
     {
-        Pair<String, String> result = applyTransition(var, value, label);
-
         if(Objects.equals(result.getFirst(), Wildcard.SAME_VALUE) && Objects.equals(
             result.getSecond(), Wildcard.SAME_VALUE))
-            return Pair.make(value, value);
+            return Pair.make(nodeValue, nodeValue);
 
         if(Objects.equals(result.getFirst(), Wildcard.SAME_VALUE))
-            return Pair.make(value, result.getSecond());
+            return Pair.make(nodeValue, result.getSecond());
 
         if(Objects.equals(result.getSecond(), Wildcard.SAME_VALUE))
-            return Pair.make(result.getFirst(), value);
+            return Pair.make(result.getFirst(), nodeValue);
 
         return result;
     }

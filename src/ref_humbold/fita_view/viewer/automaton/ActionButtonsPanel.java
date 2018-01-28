@@ -1,11 +1,11 @@
 package ref_humbold.fita_view.viewer.automaton;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.swing.*;
 
@@ -23,10 +23,12 @@ public class ActionButtonsPanel
 {
     private static final long serialVersionUID = 5921531603338297434L;
 
+    private ButtonsType buttonsType = ButtonsType.NONE;
     private Pointer<TreeAutomaton> automatonPointer;
     private List<JButton> runningButtons = new ArrayList<>();
     private List<JButton> continuingButtons = new ArrayList<>();
-    private List<JButton> currentButtons = new ArrayList<>();
+    private JButton stopRunningButton;
+    private JButton emptinessButton;
 
     public ActionButtonsPanel(Pointer<TreeAutomaton> automatonPointer)
     {
@@ -37,7 +39,7 @@ public class ActionButtonsPanel
         AutomatonRunningModeSender.getInstance().addReceiver(this);
 
         this.initializeButtons();
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        this.setLayout(new GridLayout(2, 1));
         this.setOpaque(false);
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
@@ -79,6 +81,15 @@ public class ActionButtonsPanel
                     infiniteAutomaton.continueRecursive();
                     infiniteAutomaton.makeStepForward();
                     break;
+
+                case "CHECK EMPTINESS":
+                    if(automaton.checkEmptiness())
+                        UserMessageBox.showInfo("AUTOMATON IS NON-EMPTY",
+                                                "The automaton can accept at least one tree.");
+                    else
+                        UserMessageBox.showInfo("AUTOMATON IS EMPTY",
+                                                "No tree can be accepted by the automaton.");
+                    break;
             }
         }
         catch(Exception e)
@@ -92,7 +103,7 @@ public class ActionButtonsPanel
     {
         if(signal.getSource() == automatonPointer)
         {
-            currentButtons = automatonPointer.isEmpty() ? Collections.emptyList() : runningButtons;
+            buttonsType = automatonPointer.isEmpty() ? ButtonsType.NONE : ButtonsType.RUN;
             reload();
         }
         else if(signal.getSource() == AutomatonRunningModeSender.getInstance())
@@ -103,11 +114,11 @@ public class ActionButtonsPanel
                     case RUNNING:
                     case STOPPED:
                     case FINISHED:
-                        currentButtons = runningButtons;
+                        buttonsType = ButtonsType.RUN;
                         break;
 
                     case CONTINUING:
-                        currentButtons = continuingButtons;
+                        buttonsType = ButtonsType.CONTINUE;
                         break;
                 }
 
@@ -125,13 +136,43 @@ public class ActionButtonsPanel
 
     private void addComponents()
     {
-        add(Box.createHorizontalGlue());
-        currentButtons.forEach(button -> {
-            add(Box.createRigidArea(new Dimension(1, 0)));
-            add(button);
-            add(Box.createRigidArea(new Dimension(1, 0)));
-        });
-        add(Box.createHorizontalGlue());
+        JPanel upperPanel = new JPanel(new BoxLayout(this, BoxLayout.X_AXIS));
+        JPanel lowerPanel = new JPanel(new BoxLayout(this, BoxLayout.X_AXIS));
+
+        upperPanel.add(Box.createHorizontalGlue());
+
+        switch(buttonsType)
+        {
+            case RUN:
+                runningButtons.forEach(button -> {
+                    upperPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+                    upperPanel.add(button);
+                    upperPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+                });
+                break;
+
+            case CONTINUE:
+                continuingButtons.forEach(button -> {
+                    upperPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+                    upperPanel.add(button);
+                    upperPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+                });
+                break;
+
+            case NONE:
+                break;
+        }
+
+        upperPanel.add(Box.createHorizontalGlue());
+
+        lowerPanel.add(Box.createHorizontalGlue());
+        lowerPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+        lowerPanel.add(stopRunningButton);
+        lowerPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+        lowerPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+        lowerPanel.add(emptinessButton);
+        lowerPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+        lowerPanel.add(Box.createHorizontalGlue());
     }
 
     private void initializeButtons()
@@ -140,15 +181,15 @@ public class ActionButtonsPanel
         JButton continuingRunButton = createButton("CONTINUE RUN", KeyEvent.VK_R);
         JButton stepForwardButton = createButton("STEP FORWARD", KeyEvent.VK_F);
         JButton continuingStepForwardButton = createButton("CONTINUE STEP FORWARD", KeyEvent.VK_F);
-        JButton stopRunningButton = createButton("STOP TRAVERSING", KeyEvent.VK_S);
+
+        stopRunningButton = createButton("STOP TRAVERSING", KeyEvent.VK_S);
+        emptinessButton = createButton("CHECK EMPTINESS", KeyEvent.VK_E);
 
         runningButtons.add(runButton);
         runningButtons.add(stepForwardButton);
-        runningButtons.add(stopRunningButton);
 
         continuingButtons.add(continuingRunButton);
         continuingButtons.add(continuingStepForwardButton);
-        continuingButtons.add(stopRunningButton);
     }
 
     private JButton createButton(String text, int key)
@@ -162,5 +203,10 @@ public class ActionButtonsPanel
         button.addActionListener(this);
 
         return button;
+    }
+
+    private enum ButtonsType
+    {
+        RUN, CONTINUE, NONE
     }
 }

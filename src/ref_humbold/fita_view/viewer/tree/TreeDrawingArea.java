@@ -174,7 +174,7 @@ public class TreeDrawingArea
         builder.append("LABEL: \'").append(node.getLabel()).append("\'\n");
         builder.append("STATE:\n");
 
-        node.getState()
+        node.getStateWithNulls()
             .forEach((key, value) -> builder.append("  ")
                                             .append(key.getVarName())
                                             .append(" => \'")

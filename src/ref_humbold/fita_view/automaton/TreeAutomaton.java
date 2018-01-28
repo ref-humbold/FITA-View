@@ -10,7 +10,7 @@ import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
 import ref_humbold.fita_view.tree.TreeNode;
-import ref_humbold.fita_view.tree.UndefinedTreeStateException;
+import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public interface TreeAutomaton
 {
@@ -65,11 +65,11 @@ public interface TreeAutomaton
      * Testing if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      * @throws UndefinedAcceptanceException if no accepting conditions were defined
-     * @throws UndefinedTreeStateException if state of the tree is undefined
+     * @throws UndefinedStateValueException if state of the tree is undefined
      * @throws EmptyTreeException if tree is empty
      */
     boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedTreeStateException, EmptyTreeException;
+        throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException;
 
     /**
      * @param tree new tree to run automaton on
@@ -105,7 +105,7 @@ public interface TreeAutomaton
      */
     void run()
         throws IllegalVariableValueException, NoSuchTransitionException,
-               NoTraversingStrategyException, UndefinedTreeStateException, EmptyTreeException,
+               NoTraversingStrategyException, UndefinedStateValueException, EmptyTreeException,
                NoNonDeterministicStrategyException;
 
     /**
@@ -116,7 +116,7 @@ public interface TreeAutomaton
      */
     void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException,
-               NoTraversingStrategyException, UndefinedTreeStateException, EmptyTreeException,
+               NoTraversingStrategyException, UndefinedStateValueException, EmptyTreeException,
                NoNonDeterministicStrategyException;
 
     /**
@@ -128,5 +128,6 @@ public interface TreeAutomaton
      * Generating a sample tree that could be accepted by the automaton.
      * @return sample accepted tree
      */
-    TreeNode generateTree();
+    boolean checkEmptiness()
+        throws UndefinedAcceptanceException, UndefinedStateValueException;
 }

@@ -20,7 +20,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.*;
 import ref_humbold.fita_view.messaging.Message;
-import ref_humbold.fita_view.tree.UndefinedTreeStateException;
+import ref_humbold.fita_view.tree.UndefinedStateValueException;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
 @RunWith(PowerMockRunner.class)
@@ -81,7 +81,7 @@ public class AcceptancePanelTest
             Mockito.when(mockPointer.isEmpty()).thenReturn(false);
             Mockito.when(mockAutomaton.isAccepted()).thenReturn(true);
         }
-        catch(UndefinedAcceptanceException | UndefinedTreeStateException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -105,7 +105,7 @@ public class AcceptancePanelTest
             Mockito.when(mockPointer.isEmpty()).thenReturn(false);
             Mockito.when(mockAutomaton.isAccepted()).thenReturn(false);
         }
-        catch(UndefinedAcceptanceException | UndefinedTreeStateException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -131,7 +131,7 @@ public class AcceptancePanelTest
             Mockito.when(mockAutomaton.isAccepted())
                    .thenThrow(new UndefinedAcceptanceException(""));
         }
-        catch(UndefinedAcceptanceException | UndefinedTreeStateException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());

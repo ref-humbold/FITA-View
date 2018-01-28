@@ -1,8 +1,6 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
@@ -10,7 +8,7 @@ import ref_humbold.fita_view.automaton.transition.BottomUpTransitions;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
-import ref_humbold.fita_view.tree.TreeNode;
+import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public class BottomUpDFTA
     extends BottomUpAutomaton
@@ -36,9 +34,49 @@ public class BottomUpDFTA
     }
 
     @Override
-    public TreeNode generateTree()
+    public boolean checkEmptiness()
+        throws UndefinedAcceptanceException, UndefinedStateValueException
     {
-        return null;
+        Set<Map<Variable, String>> reachableStates = new HashSet<>();
+        List<Map<Variable, String>> currentStates = Collections.singletonList(getInitialState());
+
+        while(!currentStates.isEmpty())
+        {
+            Set<Map<Variable, String>> generatedStates = new HashSet<>();
+
+            for(int i = 0; i < currentStates.size(); ++i)
+                for(int j = i; j < currentStates.size(); ++j)
+                    for(String word : alphabet)
+                    {
+                        Map<Variable, String> newState1 = getNextState(currentStates.get(i),
+                                                                       currentStates.get(j), word);
+
+                        if(newState1 != null && !reachableStates.contains(newState1))
+                        {
+                            if(acceptanceConditions.check(newState1))
+                                return false;
+
+                            reachableStates.add(newState1);
+                            generatedStates.add(newState1);
+                        }
+
+                        Map<Variable, String> newState2 = getNextState(currentStates.get(j),
+                                                                       currentStates.get(i), word);
+
+                        if(newState2 != null && !reachableStates.contains(newState2))
+                        {
+                            if(acceptanceConditions.check(newState2))
+                                return false;
+
+                            reachableStates.add(newState2);
+                            generatedStates.add(newState2);
+                        }
+                    }
+
+            currentStates = new ArrayList<>(generatedStates);
+        }
+
+        return true;
     }
 
     @Override
@@ -84,6 +122,21 @@ public class BottomUpDFTA
                                      String label)
         throws NoSuchTransitionException
     {
-        return transitions.get(var, Triple.make(leftValue, rightValue, label));
+        String result = transitions.get(var, Triple.make(leftValue, rightValue, label));
+
+        return resolveWildcard(result, leftValue, rightValue);
+    }
+
+    private Map<Variable, String> getNextState(Map<Variable, String> leftState,
+                                               Map<Variable, String> rightState, String word)
+    {
+        try
+        {
+            return applyTransition(leftState, rightState, word);
+        }
+        catch(NoSuchTransitionException e)
+        {
+            return null;
+        }
     }
 }
