@@ -41,7 +41,6 @@ public class ActionButtonsPanel
         this.initializeButtons();
         this.setLayout(new GridLayout(2, 1));
         this.setOpaque(false);
-        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
         this.addComponents();
     }
@@ -84,11 +83,11 @@ public class ActionButtonsPanel
 
                 case "CHECK EMPTINESS":
                     if(automaton.checkEmptiness())
+                        UserMessageBox.showWarning("AUTOMATON IS EMPTY",
+                                                   "No tree can be accepted by the automaton.");
+                    else
                         UserMessageBox.showInfo("AUTOMATON IS NON-EMPTY",
                                                 "The automaton can accept at least one tree.");
-                    else
-                        UserMessageBox.showInfo("AUTOMATON IS EMPTY",
-                                                "No tree can be accepted by the automaton.");
                     break;
             }
         }
@@ -136,8 +135,15 @@ public class ActionButtonsPanel
 
     private void addComponents()
     {
-        JPanel upperPanel = new JPanel(new BoxLayout(this, BoxLayout.X_AXIS));
-        JPanel lowerPanel = new JPanel(new BoxLayout(this, BoxLayout.X_AXIS));
+        JPanel upperPanel = new JPanel();
+        JPanel lowerPanel = new JPanel();
+
+        upperPanel.setOpaque(false);
+        upperPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.X_AXIS));
+        lowerPanel.setOpaque(false);
+        lowerPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.X_AXIS));
 
         upperPanel.add(Box.createHorizontalGlue());
 
@@ -145,17 +151,17 @@ public class ActionButtonsPanel
         {
             case RUN:
                 runningButtons.forEach(button -> {
-                    upperPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+                    upperPanel.add(Box.createRigidArea(new Dimension(10, 0)));
                     upperPanel.add(button);
-                    upperPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+                    upperPanel.add(Box.createRigidArea(new Dimension(10, 0)));
                 });
                 break;
 
             case CONTINUE:
                 continuingButtons.forEach(button -> {
-                    upperPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+                    upperPanel.add(Box.createRigidArea(new Dimension(10, 0)));
                     upperPanel.add(button);
-                    upperPanel.add(Box.createRigidArea(new Dimension(1, 0)));
+                    upperPanel.add(Box.createRigidArea(new Dimension(10, 0)));
                 });
                 break;
 
@@ -164,15 +170,26 @@ public class ActionButtonsPanel
         }
 
         upperPanel.add(Box.createHorizontalGlue());
+        lowerPanel.add(Box.createHorizontalGlue());
 
+        switch(buttonsType)
+        {
+            case NONE:
+                break;
+
+            default:
+                lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+                lowerPanel.add(stopRunningButton);
+                lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+                lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+                lowerPanel.add(emptinessButton);
+                lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+                break;
+        }
         lowerPanel.add(Box.createHorizontalGlue());
-        lowerPanel.add(Box.createRigidArea(new Dimension(1, 0)));
-        lowerPanel.add(stopRunningButton);
-        lowerPanel.add(Box.createRigidArea(new Dimension(1, 0)));
-        lowerPanel.add(Box.createRigidArea(new Dimension(1, 0)));
-        lowerPanel.add(emptinessButton);
-        lowerPanel.add(Box.createRigidArea(new Dimension(1, 0)));
-        lowerPanel.add(Box.createHorizontalGlue());
+
+        this.add(upperPanel);
+        this.add(lowerPanel);
     }
 
     private void initializeButtons()

@@ -11,6 +11,7 @@ import ref_humbold.fita_view.automaton.transition.BottomUpTransitions;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
+import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public class BottomUpNFTA
     extends BottomUpAutomaton
@@ -67,9 +68,58 @@ public class BottomUpNFTA
 
     @Override
     public boolean checkEmptiness()
+        throws UndefinedStateValueException, UndefinedAcceptanceException
     {
-        //TODO: implement
-        return false;
+        Set<Map<Variable, String>> reachableStates = new HashSet<>();
+        List<Map<Variable, String>> currentStates = Collections.singletonList(getInitialState());
+
+        while(!currentStates.isEmpty())
+        {
+            Set<Map<Variable, String>> generatedStates = new HashSet<>();
+
+            for(int i = 0; i < currentStates.size(); ++i)
+                for(int j = i; j < currentStates.size(); ++j)
+                    for(String word : alphabet)
+                    {
+                        Set<Map<Variable, String>> newStates1 = getNextStates(currentStates.get(i),
+                                                                              currentStates.get(j),
+                                                                              word);
+
+                        if(newStates1 != null)
+                        {
+                            for(Map<Variable, String> state : newStates1)
+                                if(reachableStates.contains(state))
+                                {
+                                    if(acceptanceConditions.check(state))
+                                        return false;
+
+                                    reachableStates.add(state);
+                                    generatedStates.add(state);
+                                }
+                        }
+
+                        Set<Map<Variable, String>> newStates2 = getNextStates(currentStates.get(j),
+                                                                              currentStates.get(i),
+                                                                              word);
+
+                        if(newStates2 != null)
+                        {
+                            for(Map<Variable, String> state : newStates2)
+                                if(reachableStates.contains(state))
+                                {
+                                    if(acceptanceConditions.check(state))
+                                        return false;
+
+                                    reachableStates.add(state);
+                                    generatedStates.add(state);
+                                }
+                        }
+                    }
+
+            currentStates = new ArrayList<>(generatedStates);
+        }
+
+        return true;
     }
 
     @Override

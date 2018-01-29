@@ -13,7 +13,7 @@ import ref_humbold.fita_view.viewer.tree.TreeMainPanel;
 
 public class MainWindow
 {
-    private JFrame frame = new JFrame("FITA-View");
+    private JFrame frame = new JFrame("FITA-View: Finite and Infinite Tree Automata Viewer");
     private Pointer<TreeAutomaton> automatonPointer = new Pointer<>();
     private Pointer<Pair<TreeNode, Integer>> treePointer = new Pointer<>();
 
