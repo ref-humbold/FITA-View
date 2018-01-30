@@ -14,7 +14,6 @@ import org.xml.sax.SAXException;
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonReader;
-import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
@@ -116,7 +115,7 @@ public class AutomatonMainPanel
     }
 
     private TreeAutomaton loadAutomaton(File file)
-        throws IOException, SAXException, FileFormatException
+        throws IOException, SAXException
     {
         AutomatonReader reader = new AutomatonReader(file);
 

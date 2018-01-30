@@ -7,10 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import javax.swing.*;
 
+import ref_humbold.fita_view.FITAViewException;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
+import ref_humbold.fita_view.automaton.IllegalVariableValueException;
 import ref_humbold.fita_view.automaton.InfiniteTreeAutomaton;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.messaging.Message;
@@ -91,7 +94,7 @@ public class ActionButtonsPanel
                     break;
             }
         }
-        catch(Exception e)
+        catch(IllegalVariableValueException | NoSuchElementException | FITAViewException e)
         {
             UserMessageBox.showException(e);
         }

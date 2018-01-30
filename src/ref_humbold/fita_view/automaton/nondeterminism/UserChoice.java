@@ -1,5 +1,7 @@
 package ref_humbold.fita_view.automaton.nondeterminism;
 
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,21 +16,25 @@ import java.util.Objects;
 import java.util.function.Function;
 import javax.swing.*;
 
-public class UserChoice<T>
-    implements StateChoice<T>, ActionListener, PropertyChangeListener
+public class UserChoice<K, R>
+    implements StateChoice<K, R>, ActionListener, PropertyChangeListener
 {
-    private JFrame owner;
+    private final WindowAdapter windowAdapter = new UserWindowAdapter();
+    private final JFrame owner;
     private JDialog dialog;
     private ButtonGroup buttonGroup;
     private JOptionPane optionPane;
-    private T current;
-    private List<T> statesList;
-    private Function<T, String> convert;
+    private R current;
+    private List<R> statesList;
+    private Function<K, String> convertKey;
+    private Function<R, String> convertResult;
 
-    public UserChoice(JFrame owner, Function<T, String> convert)
+    public UserChoice(JFrame owner, Function<K, String> convertKey,
+                      Function<R, String> convertResult)
     {
         this.owner = owner;
-        this.convert = convert;
+        this.convertKey = convertKey;
+        this.convertResult = convertResult;
     }
 
     @Override
@@ -44,14 +50,15 @@ public class UserChoice<T>
     }
 
     @Override
-    public T chooseState(Collection<T> states)
+    public R chooseState(K key, Collection<R> states)
     {
         statesList = new ArrayList<>(states);
 
         if(statesList.size() == 1)
             return statesList.get(0);
 
-        createDialog();
+        createDialog(key);
+        current = statesList.get(0);
         dialog.setVisible(true);
 
         return current;
@@ -65,27 +72,28 @@ public class UserChoice<T>
             dialog.dispose();
     }
 
-    private void createDialog()
+    private void createDialog(K key)
     {
         Object[] options = new Object[]{"CHOOSE"};
-        JPanel buttonsPanel = this.generateButtons();
+        JLabel label = new JLabel(convertKey.apply(key));
+        JPanel panel = new JPanel();
+
+        label.setFont(new Font(null, Font.BOLD, 16));
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(label);
+        panel.add(Box.createRigidArea(new Dimension(0, 5)));
+        panel.add(this.generateButtons());
 
         dialog = new JDialog(owner, true);
-        optionPane = new JOptionPane(buttonsPanel, JOptionPane.QUESTION_MESSAGE,
+        optionPane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE,
                                      JOptionPane.DEFAULT_OPTION, null, options, options[0]);
 
-        dialog.addWindowListener(new WindowAdapter()
-        {
-            @Override
-            public void windowClosing(WindowEvent windowEvent)
-            {
-                JOptionPane.showMessageDialog(null, "New states haven't been chosen!",
-                                              "Choose states!", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+        dialog.addWindowListener(windowAdapter);
 
         optionPane.addPropertyChangeListener(this);
-        dialog.setTitle("user non-deterministic choice");
+        dialog.setTitle("USER non-deterministic choice");
         dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         dialog.setContentPane(optionPane);
         dialog.pack();
@@ -99,8 +107,7 @@ public class UserChoice<T>
 
         for(int i = 0; i < statesList.size(); ++i)
         {
-            T value = statesList.get(i);
-            JRadioButton button = new JRadioButton(convert.apply(value));
+            JRadioButton button = new JRadioButton(convertResult.apply(statesList.get(i)));
 
             button.setActionCommand(Integer.toString(i));
             button.addActionListener(this);
@@ -113,5 +120,16 @@ public class UserChoice<T>
         }
 
         return buttonsPanel;
+    }
+
+    private class UserWindowAdapter
+        extends WindowAdapter
+    {
+        @Override
+        public void windowClosing(WindowEvent windowEvent)
+        {
+            JOptionPane.showMessageDialog(null, "New states haven't been chosen!", "Choose states!",
+                                          JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

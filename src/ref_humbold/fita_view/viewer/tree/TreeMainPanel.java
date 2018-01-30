@@ -12,7 +12,6 @@ import org.xml.sax.SAXException;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
-import ref_humbold.fita_view.automaton.FileFormatException;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
@@ -98,7 +97,7 @@ public class TreeMainPanel
     }
 
     private Pair<TreeNode, Integer> loadTree(File file)
-        throws FileFormatException, SAXException, IOException
+        throws SAXException, IOException
     {
         TreeReader reader = new TreeReader(file);
 

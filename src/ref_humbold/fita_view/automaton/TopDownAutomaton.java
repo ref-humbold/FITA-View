@@ -154,8 +154,8 @@ public abstract class TopDownAutomaton
      */
     protected String valueToString(Pair<String, String> value)
     {
-        return "LEFT VALUE = \'" + value.getFirst() + "\', RIGHT VALUE = " + value.getSecond()
-            + "\'";
+        return "( LEFT VALUE = \'" + value.getFirst() + "\', RIGHT VALUE = " + value.getSecond()
+            + "\' )";
     }
 
     /**

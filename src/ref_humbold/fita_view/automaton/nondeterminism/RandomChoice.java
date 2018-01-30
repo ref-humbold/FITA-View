@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
 
-public class RandomChoice<T>
-    implements StateChoice<T>
+public class RandomChoice<K, R>
+    implements StateChoice<K, R>
 {
     private static final Random random = new Random();
 
@@ -17,17 +17,18 @@ public class RandomChoice<T>
 
     /**
      * Non-deterministically choosing variable values.
+     * @param key transition key in node.
      * @param states set of possible state variable values
      * @return variable value chosen randomly
      */
     @Override
-    public T chooseState(Collection<T> states)
+    public R chooseState(K key, Collection<R> states)
     {
         if(states.size() == 1)
             return states.iterator().next();
 
         int index = random.nextInt(states.size());
-        Iterator<T> iterator = states.iterator();
+        Iterator<R> iterator = states.iterator();
 
         for(int i = 1; i < index; ++i)
             iterator.next();

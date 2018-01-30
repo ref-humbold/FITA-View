@@ -1,7 +1,9 @@
 package ref_humbold.fita_view.automaton;
 
+import org.xml.sax.SAXException;
+
 public class FileFormatException
-    extends Exception
+    extends SAXException
 {
     private static final long serialVersionUID = -7877774515451121490L;
 

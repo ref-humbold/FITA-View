@@ -189,7 +189,7 @@ public class ModifyingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice<Pair<String, String>> result = automaton.getChoice();
+        StateChoice<Pair<String, String>, Pair<String, String>> result = automaton.getChoice();
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof FirstElementChoice);
@@ -207,7 +207,7 @@ public class ModifyingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice<Pair<String, String>> result = automaton.getChoice();
+        StateChoice<Pair<String, String>, Pair<String, String>> result = automaton.getChoice();
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof RandomChoice);
@@ -225,7 +225,7 @@ public class ModifyingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice<Pair<String, String>> result = automaton.getChoice();
+        StateChoice<Pair<String, String>, Pair<String, String>> result = automaton.getChoice();
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof LeastHashCodeChoice);
@@ -243,7 +243,7 @@ public class ModifyingButtonsPanelTest
 
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice<Pair<String, String>> result = automaton.getChoice();
+        StateChoice<Pair<String, String>, Pair<String, String>> result = automaton.getChoice();
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof GreatestHashCodeChoice);

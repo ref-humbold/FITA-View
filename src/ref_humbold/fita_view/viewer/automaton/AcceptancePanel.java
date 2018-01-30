@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import ref_humbold.fita_view.FITAViewException;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
@@ -55,7 +56,7 @@ public class AcceptancePanel
                             else
                                 setTreeRejected();
                     }
-                    catch(Exception e)
+                    catch(FITAViewException e)
                     {
                         UserMessageBox.showException(e);
                         setTreeUndefined();

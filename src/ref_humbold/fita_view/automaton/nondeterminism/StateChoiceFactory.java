@@ -5,8 +5,8 @@ import javax.swing.JFrame;
 
 public class StateChoiceFactory
 {
-    public static <T> StateChoice<T> createChoice(StateChoiceMode mode, JFrame frame,
-                                                  Function<T, String> convert)
+    public static <K, R> StateChoice<K, R> createAutomatedChoice(StateChoiceMode mode)
+        throws IncorrectStateChoiceModeException
     {
         switch(mode)
         {
@@ -23,10 +23,18 @@ public class StateChoiceFactory
                 return new LeastHashCodeChoice<>();
 
             case USER:
-                return new UserChoice<>(frame, convert);
+                throw new IncorrectStateChoiceModeException(
+                    "UserChoice cannot be chosen as an automated choice.");
         }
 
         return null;
+    }
+
+    public static <K, R> StateChoice<K, R> createUserChoice(JFrame frame,
+                                                            Function<K, String> convertKey,
+                                                            Function<R, String> convertResult)
+    {
+        return new UserChoice<>(frame, convertKey, convertResult);
     }
 
     public static boolean isCorrectMode(String name)

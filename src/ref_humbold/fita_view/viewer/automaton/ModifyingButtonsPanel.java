@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.*;
 
+import ref_humbold.fita_view.FITAViewException;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AbstractTreeAutomaton;
 import ref_humbold.fita_view.automaton.NonDeterministicAutomaton;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
+import ref_humbold.fita_view.automaton.nondeterminism.IncorrectStateChoiceModeException;
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceFactory;
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceMode;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
@@ -61,7 +63,7 @@ public class ModifyingButtonsPanel
             {
                 automatonPointer.get().setTraversing(TraversingMode.valueOf(actionCommand));
             }
-            catch(Exception e)
+            catch(FITAViewException e)
             {
                 TreeTraversing traversing = automatonPointer.get().getTraversing();
 
@@ -143,13 +145,30 @@ public class ModifyingButtonsPanel
     }
 
     @SuppressWarnings("unchecked")
-    private <T> void setChoice(String actionCommand, TreeAutomaton automaton)
+    private <K, R> void setChoice(String actionCommand, TreeAutomaton automaton)
     {
-        NonDeterministicAutomaton<T> nonDeterministicAutomaton = (NonDeterministicAutomaton<T>)automaton;
+        NonDeterministicAutomaton<K, R> nonDeterministicAutomaton = (NonDeterministicAutomaton<K, R>)automaton;
 
-        nonDeterministicAutomaton.setChoice(
-            StateChoiceFactory.createChoice(StateChoiceMode.valueOf(actionCommand),
-                                            (JFrame)SwingUtilities.windowForComponent(this),
-                                            nonDeterministicAutomaton::convertToString));
+        switch(StateChoiceMode.valueOf(actionCommand))
+        {
+            case USER:
+                nonDeterministicAutomaton.setChoice(StateChoiceFactory.createUserChoice(
+                    (JFrame)SwingUtilities.windowForComponent(this),
+                    nonDeterministicAutomaton::convertKeyToString,
+                    nonDeterministicAutomaton::convertResultToString));
+                break;
+
+            default:
+                try
+                {
+                    nonDeterministicAutomaton.setChoice(StateChoiceFactory.createAutomatedChoice(
+                        StateChoiceMode.valueOf(actionCommand)));
+                }
+                catch(IncorrectStateChoiceModeException e)
+                {
+                    UserMessageBox.showException(e);
+                }
+                break;
+        }
     }
 }

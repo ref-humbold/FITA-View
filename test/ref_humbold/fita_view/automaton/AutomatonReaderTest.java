@@ -29,18 +29,10 @@ public class AutomatonReaderTest
 
     @Test(expected = FileFormatException.class)
     public void testReadWhenIncorrectFileExtension()
-        throws FileFormatException
+        throws SAXException
     {
-        try
-        {
-            testObject = new AutomatonReader(
-                new File(DIRECTORY + "testReadWhenIncorrectFileExtension.xml"));
-        }
-        catch(SAXException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        testObject = new AutomatonReader(
+            new File(DIRECTORY + "testReadWhenIncorrectFileExtension.xml"));
     }
 
     // region TopDownDFTA

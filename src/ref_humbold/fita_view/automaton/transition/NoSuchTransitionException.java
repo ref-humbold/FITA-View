@@ -1,7 +1,9 @@
 package ref_humbold.fita_view.automaton.transition;
 
+import ref_humbold.fita_view.FITAViewException;
+
 public class NoSuchTransitionException
-    extends Exception
+    extends FITAViewException
 {
     private static final long serialVersionUID = 3922393365263563771L;
 

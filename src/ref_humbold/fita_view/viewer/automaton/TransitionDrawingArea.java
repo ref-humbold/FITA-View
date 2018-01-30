@@ -153,7 +153,7 @@ public class TransitionDrawingArea
 
             case TOP_DOWN:
                 graphics.fillPolygon(new int[]{sonX, sonX + 10, sonX - 10},
-                                     new int[]{sonY, sonY - 20, parentY - 20}, 3);
+                                     new int[]{sonY, sonY - 20, sonY - 20}, 3);
                 break;
         }
     }

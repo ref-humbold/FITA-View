@@ -2,16 +2,23 @@ package ref_humbold.fita_view.automaton;
 
 import ref_humbold.fita_view.automaton.nondeterminism.StateChoice;
 
-public interface NonDeterministicAutomaton<T>
+public interface NonDeterministicAutomaton<K, R>
 {
-    StateChoice<T> getChoice();
+    StateChoice<K, R> getChoice();
 
-    void setChoice(StateChoice<T> choice);
+    void setChoice(StateChoice<K, R> choice);
 
     /**
-     * Converting specified value to its string representation.
-     * @param value value to convert
+     * Converting specified transition key to its string representation.
+     * @param key value to convert
      * @return string representation
      */
-    String convertToString(T value);
+    String convertKeyToString(K key);
+
+    /**
+     * Converting specified transition result to its string representation.
+     * @param result value to convert
+     * @return string representation
+     */
+    String convertResultToString(R result);
 }

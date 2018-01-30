@@ -15,9 +15,9 @@ import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public class BottomUpNFTA
     extends BottomUpAutomaton
-    implements NonDeterministicAutomaton<String>
+    implements NonDeterministicAutomaton<Triple<String, String, String>, String>
 {
-    private StateChoice<String> choice;
+    private StateChoice<Triple<String, String, String>, String> choice;
     private BottomUpTransitions<Set<String>> transitions = new BottomUpTransitions<>(
         this::keyToString, this::valueSetToString);
 
@@ -27,13 +27,13 @@ public class BottomUpNFTA
     }
 
     @Override
-    public StateChoice<String> getChoice()
+    public StateChoice<Triple<String, String, String>, String> getChoice()
     {
         return this.choice;
     }
 
     @Override
-    public void setChoice(StateChoice<String> choice)
+    public void setChoice(StateChoice<Triple<String, String, String>, String> choice)
     {
         this.choice = choice;
     }
@@ -51,9 +51,15 @@ public class BottomUpNFTA
     }
 
     @Override
-    public String convertToString(String value)
+    public String convertKeyToString(Triple<String, String, String> key)
     {
-        return valueToString(value);
+        return keyToString(key);
+    }
+
+    @Override
+    public String convertResultToString(String result)
+    {
+        return valueToString(result);
     }
 
     @Override
@@ -157,7 +163,8 @@ public class BottomUpNFTA
                                      String label)
         throws NoSuchTransitionException
     {
-        return choice.chooseState(getAllTransitionResults(var, leftValue, rightValue, label));
+        return choice.chooseState(Triple.make(leftValue, rightValue, label),
+                                  getAllTransitionResults(var, leftValue, rightValue, label));
     }
 
     Set<Map<Variable, String>> getNextStates(Map<Variable, String> leftState,

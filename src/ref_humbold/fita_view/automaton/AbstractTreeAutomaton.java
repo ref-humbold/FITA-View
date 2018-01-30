@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import ref_humbold.fita_view.FITAViewException;
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.TopDownDFS;
@@ -145,7 +146,7 @@ public abstract class AbstractTreeAutomaton
             for(TreeNode node : nextNodes)
                 processNode(node);
         }
-        catch(Exception e)
+        catch(FITAViewException e)
         {
             stopTraversing();
             throw e;

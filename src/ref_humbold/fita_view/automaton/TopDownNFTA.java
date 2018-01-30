@@ -13,11 +13,11 @@ import ref_humbold.fita_view.tree.TreeNode;
 
 public class TopDownNFTA
     extends TopDownAutomaton
-    implements NonDeterministicAutomaton<Pair<String, String>>
+    implements NonDeterministicAutomaton<Pair<String, String>, Pair<String, String>>
 {
     protected TopDownTransitions<Set<Pair<String, String>>> transitions = new TopDownTransitions<>(
         this::keyToString, this::valueSetToString);
-    private StateChoice<Pair<String, String>> choice;
+    private StateChoice<Pair<String, String>, Pair<String, String>> choice;
 
     public TopDownNFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -25,13 +25,13 @@ public class TopDownNFTA
     }
 
     @Override
-    public StateChoice<Pair<String, String>> getChoice()
+    public StateChoice<Pair<String, String>, Pair<String, String>> getChoice()
     {
         return this.choice;
     }
 
     @Override
-    public void setChoice(StateChoice<Pair<String, String>> choice)
+    public void setChoice(StateChoice<Pair<String, String>, Pair<String, String>> choice)
     {
         this.choice = choice;
     }
@@ -49,9 +49,15 @@ public class TopDownNFTA
     }
 
     @Override
-    public String convertToString(Pair<String, String> value)
+    public String convertKeyToString(Pair<String, String> key)
     {
-        return valueToString(value);
+        return keyToString(key);
+    }
+
+    @Override
+    public String convertResultToString(Pair<String, String> result)
+    {
+        return valueToString(result);
     }
 
     @Override
@@ -106,7 +112,8 @@ public class TopDownNFTA
     protected Pair<String, String> applyTransition(Variable var, String value, String label)
         throws NoSuchTransitionException
     {
-        return choice.chooseState(getAllTransitionResults(var, value, label));
+        return choice.chooseState(Pair.make(value, label),
+                                  getAllTransitionResults(var, value, label));
     }
 
     @Override

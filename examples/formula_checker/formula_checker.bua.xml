@@ -14,20 +14,10 @@
       <value>T</value>
       <value>F</value>
     </var>
-    <var id="1" init="NONE">
-      <value>VAR</value>
-      <value>AND</value>
-      <value>NAND</value>
-      <value>OR</value>
-      <value>NOR</value>
-      <value>IMPL</value>
-      <value>IFF</value>
-    </var>
   </variables>
   <accepting>
     <conditions>
       <accept var-id="0" include="T" />
-      <accept var-id="1" include="(*)" />
     </conditions>
   </accepting>
   <transitions>
@@ -144,54 +134,6 @@
       <right-value>T</right-value>
       <label>iff</label>
       <node-result>F</node-result>
-    </trans>
-    <trans var-id="1">
-      <left-value>(*)</left-value>
-      <right-value>(*)</right-value>
-      <label>0</label>
-      <node-result>VAR</node-result>
-    </trans>
-    <trans var-id="1">
-      <left-value>(*)</left-value>
-      <right-value>(*)</right-value>
-      <label>1</label>
-      <node-result>VAR</node-result>
-    </trans>
-    <trans var-id="1">
-      <left-value>(*)</left-value>
-      <right-value>(*)</right-value>
-      <label>and</label>
-      <node-result>AND</node-result>
-    </trans>
-    <trans var-id="1">
-      <left-value>(*)</left-value>
-      <right-value>(*)</right-value>
-      <label>nand</label>
-      <node-result>NAND</node-result>
-    </trans>
-    <trans var-id="1">
-      <left-value>(*)</left-value>
-      <right-value>(*)</right-value>
-      <label>or</label>
-      <node-result>OR</node-result>
-    </trans>
-    <trans var-id="1">
-      <left-value>(*)</left-value>
-      <right-value>(*)</right-value>
-      <label>nor</label>
-      <node-result>NOR</node-result>
-    </trans>
-    <trans var-id="1">
-      <left-value>(*)</left-value>
-      <right-value>(*)</right-value>
-      <label>impl</label>
-      <node-result>IMPL</node-result>
-    </trans>
-    <trans var-id="1">
-      <left-value>(*)</left-value>
-      <right-value>(*)</right-value>
-      <label>iff</label>
-      <node-result>IFF</node-result>
     </trans>
   </transitions>
 </automaton>
