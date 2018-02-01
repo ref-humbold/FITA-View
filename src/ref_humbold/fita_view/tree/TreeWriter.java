@@ -35,7 +35,7 @@ public class TreeWriter
     {
         TreeXMLBuilder builder = new TreeXMLBuilder();
 
-        if(tree == null)
+        if(TreeXMLBuilder.isNull(tree))
             return "";
 
         return builder.build(tree).toString();

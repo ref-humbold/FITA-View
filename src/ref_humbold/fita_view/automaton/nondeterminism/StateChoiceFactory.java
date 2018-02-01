@@ -1,7 +1,6 @@
 package ref_humbold.fita_view.automaton.nondeterminism;
 
 import java.util.function.Function;
-import javax.swing.JFrame;
 
 public class StateChoiceFactory
 {
@@ -30,11 +29,10 @@ public class StateChoiceFactory
         return null;
     }
 
-    public static <K, R> StateChoice<K, R> createUserChoice(JFrame frame,
-                                                            Function<K, String> convertKey,
+    public static <K, R> StateChoice<K, R> createUserChoice(Function<K, String> convertKey,
                                                             Function<R, String> convertResult)
     {
-        return new UserChoice<>(frame, convertKey, convertResult);
+        return new UserChoice<>(convertKey, convertResult);
     }
 
     public static boolean isCorrectMode(String name)

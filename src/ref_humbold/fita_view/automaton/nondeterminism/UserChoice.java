@@ -19,20 +19,18 @@ import javax.swing.*;
 public class UserChoice<K, R>
     implements StateChoice<K, R>, ActionListener, PropertyChangeListener
 {
+    private final JFrame userChoiceFrame = new JFrame();
     private final WindowAdapter windowAdapter = new UserWindowAdapter();
-    private final JFrame owner;
     private JDialog dialog;
     private ButtonGroup buttonGroup;
     private JOptionPane optionPane;
     private R current;
-    private List<R> statesList;
+    private List<R> resultStates;
     private Function<K, String> convertKey;
     private Function<R, String> convertResult;
 
-    public UserChoice(JFrame owner, Function<K, String> convertKey,
-                      Function<R, String> convertResult)
+    public UserChoice(Function<K, String> convertKey, Function<R, String> convertResult)
     {
-        this.owner = owner;
         this.convertKey = convertKey;
         this.convertResult = convertResult;
     }
@@ -46,17 +44,18 @@ public class UserChoice<K, R>
     @Override
     public void actionPerformed(ActionEvent actionEvent)
     {
-        current = statesList.get(Integer.parseInt(actionEvent.getActionCommand()));
+        current = resultStates.get(Integer.parseInt(actionEvent.getActionCommand()));
     }
 
     @Override
     public R chooseState(K key, Collection<R> states)
     {
-        statesList = new ArrayList<>(states);
+        ArrayList<R> statesList = new ArrayList<>(states);
 
         if(statesList.size() == 1)
             return statesList.get(0);
 
+        resultStates = statesList;
         createDialog(key);
         current = statesList.get(0);
         dialog.setVisible(true);
@@ -86,7 +85,7 @@ public class UserChoice<K, R>
         panel.add(Box.createRigidArea(new Dimension(0, 5)));
         panel.add(this.generateButtons());
 
-        dialog = new JDialog(owner, true);
+        dialog = new JDialog(userChoiceFrame, true);
         optionPane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE,
                                      JOptionPane.DEFAULT_OPTION, null, options, options[0]);
 
@@ -101,13 +100,13 @@ public class UserChoice<K, R>
 
     private JPanel generateButtons()
     {
-        JPanel buttonsPanel = new JPanel(new GridLayout(statesList.size(), 1));
+        JPanel buttonsPanel = new JPanel(new GridLayout(resultStates.size(), 1));
 
         buttonGroup = new ButtonGroup();
 
-        for(int i = 0; i < statesList.size(); ++i)
+        for(int i = 0; i < resultStates.size(); ++i)
         {
-            JRadioButton button = new JRadioButton(convertResult.apply(statesList.get(i)));
+            JRadioButton button = new JRadioButton(convertResult.apply(resultStates.get(i)));
 
             button.setActionCommand(Integer.toString(i));
             button.addActionListener(this);

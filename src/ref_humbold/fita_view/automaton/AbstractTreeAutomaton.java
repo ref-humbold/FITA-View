@@ -137,12 +137,13 @@ public abstract class AbstractTreeAutomaton
         if(runningMode == AutomatonRunningMode.STOPPED)
             initialize();
 
-        Iterable<TreeNode> nextNodes;
+        Iterable<TreeNode> nextNodes = getTraversing().next();
+
+        if(isSendingMessages)
+            AutomatonCurrentNodesSender.getInstance().send(nextNodes);
 
         try
         {
-            nextNodes = getTraversing().next();
-
             for(TreeNode node : nextNodes)
                 processNode(node);
         }
@@ -151,9 +152,6 @@ public abstract class AbstractTreeAutomaton
             stopTraversing();
             throw e;
         }
-
-        if(isSendingMessages)
-            AutomatonCurrentNodesSender.getInstance().send(nextNodes);
 
         changeRunningMode();
     }

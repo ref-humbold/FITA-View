@@ -28,7 +28,7 @@ public class TopDownDFS
 
         TreeNode node = nodeDeque.removeFirst();
 
-        if(node.hasChildren())
+        if(!node.isLeaf())
         {
             processChild(node.getRight());
             processChild(node.getLeft());

@@ -4,7 +4,7 @@ import java.util.Collections;
 
 class TreeXMLBuilder
 {
-    private TreeNode tree;
+    private TreeNode currentTree;
     private TreeXMLBuilder parent;
     private StringBuilder body = new StringBuilder();
 
@@ -12,10 +12,15 @@ class TreeXMLBuilder
     {
     }
 
-    private TreeXMLBuilder(TreeNode tree, TreeXMLBuilder parent)
+    private TreeXMLBuilder(TreeNode currentTree, TreeXMLBuilder parent)
     {
-        this.tree = tree;
+        this.currentTree = currentTree;
         this.parent = parent;
+    }
+
+    static boolean isNull(TreeNode tree)
+    {
+        return tree == null || tree.isNull();
     }
 
     @Override
@@ -23,25 +28,25 @@ class TreeXMLBuilder
     {
         StringBuilder output = new StringBuilder();
 
-        if(tree == null)
+        if(isNull(currentTree))
             return body.toString();
 
         output.append("<");
-        output.append(getNodeName(tree));
+        output.append(getNodeName(currentTree));
 
-        if(isNode(tree))
+        if(isNode(currentTree))
         {
             output.append(" label=\"");
-            output.append(tree.getLabel());
+            output.append(currentTree.getLabel());
             output.append("\"");
         }
 
-        if(isNode(tree) && tree.hasChildren())
+        if(isNode(currentTree) && !currentTree.isLeaf())
         {
             output.append(">");
             output.append(indentBody().toString());
             output.append("</");
-            output.append(getNodeName(tree));
+            output.append(getNodeName(currentTree));
             output.append(">\n");
         }
         else
@@ -52,12 +57,12 @@ class TreeXMLBuilder
 
     TreeXMLBuilder build(TreeNode tree)
     {
-        if(tree == null)
+        if(isNull(tree))
             return this;
 
         TreeXMLBuilder builder = startTree(tree);
 
-        if(isNode(tree) && tree.hasChildren())
+        if(isNode(tree) && !tree.isLeaf())
             builder = builder.build(tree.getLeft()).build(tree.getRight());
 
         return builder.endTree();

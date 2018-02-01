@@ -30,9 +30,9 @@ public class TreeDrawingArea
     private static final long serialVersionUID = -6588296156972565117L;
 
     private Pointer<Pair<TreeNode, Integer>> treePointer;
-    private Set<TreeNode> currentNodes = new HashSet<>();
     private Stack<NodeParameters> repeatNodes = new Stack<>();
     private Map<Pair<Integer, Integer>, TreeNode> nodesPoints = new HashMap<>();
+    private List<TreeNode> currentNodes = new ArrayList<>();
     private int horizontalAxis = 0;
     private int verticalAxis = 0;
     private int zoomLevel = 0;
@@ -61,11 +61,19 @@ public class TreeDrawingArea
         return Pair.make(horizontalAxis, verticalAxis);
     }
 
+    int getStepUnit()
+    {
+        return 16 * countNodeSide();
+    }
+
     @Override
     public void receiveMessage(Message<Iterable<TreeNode>> message)
     {
         currentNodes.clear();
         message.getParam().forEach(currentNodes::add);
+
+        TreeNode lastNode = currentNodes.get(currentNodes.size() - 1);
+
         repaint();
     }
 
@@ -79,7 +87,7 @@ public class TreeDrawingArea
 
         if(pair != null)
         {
-            NodeParameters rootParams = new NodeParameters(pair.getSecond());
+            NodeParameters rootParams = new NodeParameters(pair.getFirst(), pair.getSecond());
 
             saveNodesPoints(pair.getFirst(), rootParams);
         }
@@ -87,8 +95,8 @@ public class TreeDrawingArea
 
     public void moveArea(int x, int y)
     {
-        horizontalAxis = checkBounds(horizontalAxis + y, -(1 << 17), 1 << 8);
-        verticalAxis = checkBounds(verticalAxis + x, -(1 << 17), 1 << 17);
+        horizontalAxis = checkBounds(horizontalAxis + y * getStepUnit(), -(1 << 24), 1 << 10);
+        verticalAxis = checkBounds(verticalAxis + x * getStepUnit(), -(1 << 24), 1 << 24);
         repaint();
     }
 
@@ -102,7 +110,7 @@ public class TreeDrawingArea
     public void zoom(int i)
     {
         zoomLevel = checkBounds(zoomLevel + i, 0, MAX_ZOOM);
-        unitFactor = (zoomLevel / 2 + 1);
+        unitFactor = zoomLevel / 2 + 1;
         repaint();
     }
 
@@ -125,9 +133,9 @@ public class TreeDrawingArea
             drawEmpty(graphics);
         else
         {
-            NodeParameters rootParams = new NodeParameters(pair.getSecond());
+            NodeParameters rootParams = new NodeParameters(pair.getFirst(), pair.getSecond());
 
-            drawTree(graphics, pair.getFirst(), rootParams);
+            drawTree(graphics, rootParams);
         }
 
         graphics.setColor(Color.BLUE);
@@ -188,7 +196,7 @@ public class TreeDrawingArea
     {
         nodesPoints.put(parameters.getDistance(), tree);
 
-        if(tree.getType() != NodeType.REC && tree.hasChildren())
+        if(isInnerNode(tree))
         {
             saveNodesPoints(tree.getLeft(), parameters.getLeftParams());
             saveNodesPoints(tree.getRight(), parameters.getRightParams());
@@ -201,25 +209,27 @@ public class TreeDrawingArea
         graphics.drawString("No tree specified...", getWidth() / 4, getHeight() / 2);
     }
 
-    private void drawTree(Graphics graphics, TreeNode tree, NodeParameters parameters)
+    private void drawTree(Graphics graphics, NodeParameters parameters)
     {
-        if(tree.getType() == NodeType.REPEAT)
+        TreeNode node = parameters.getNode();
+
+        if(node.getType() == NodeType.REPEAT)
             repeatNodes.push(parameters);
 
-        if(tree.getType() != NodeType.REC && tree.hasChildren())
+        if(isInnerNode(node))
             drawEdges(graphics, parameters);
-        else if(tree.getType() == NodeType.REC)
+        else if(node.getType() == NodeType.REC)
             drawRecursiveEdge(graphics, parameters);
 
-        drawSingleNode(graphics, tree, parameters);
+        drawSingleNode(graphics, parameters);
 
-        if(tree.getType() != NodeType.REC && tree.hasChildren())
+        if(isInnerNode(node))
         {
-            drawTree(graphics, tree.getLeft(), parameters.getLeftParams());
-            drawTree(graphics, tree.getRight(), parameters.getRightParams());
+            drawTree(graphics, parameters.getLeftParams());
+            drawTree(graphics, parameters.getRightParams());
         }
 
-        if(tree.getType() == NodeType.REPEAT)
+        if(node.getType() == NodeType.REPEAT)
             repeatNodes.pop();
     }
 
@@ -249,8 +259,10 @@ public class TreeDrawingArea
                           rightPosition.getSecond());
     }
 
-    private void drawSingleNode(Graphics graphics, TreeNode node, NodeParameters parameters)
+    private void drawSingleNode(Graphics graphics, NodeParameters parameters)
     {
+        TreeNode node = parameters.getNode();
+
         switch(node.getType())
         {
             case NODE:
@@ -264,14 +276,26 @@ public class TreeDrawingArea
             case REC:
                 graphics.setColor(Color.MAGENTA);
                 break;
+
+            case NULL:
+                graphics.setColor(Color.LIGHT_GRAY);
         }
 
         Pair<Integer, Integer> position = countNodePos(parameters);
+
+        if(isInside(position))
+        {
+            return;
+        }
+
         int nodeSide = countNodeSide();
         int cornerX = position.getFirst() - nodeSide / 2;
         int cornerY = position.getSecond() - nodeSide / 2;
 
-        graphics.fillRect(cornerX, cornerY, nodeSide, nodeSide);
+        if(node.isNull())
+            graphics.fillOval(cornerX, cornerY, nodeSide, nodeSide);
+        else
+            graphics.fillRect(cornerX, cornerY, nodeSide, nodeSide);
 
         if(currentNodes.contains(node))
         {
@@ -279,19 +303,32 @@ public class TreeDrawingArea
             graphics.fillOval(cornerX, cornerY, nodeSide, nodeSide);
         }
 
-        if(zoomLevel == MAX_ZOOM)
-        {
-            FontMetrics metrics = graphics.getFontMetrics();
-            Rectangle2D rect = metrics.getStringBounds(node.getLabel(), graphics);
+        if(!node.isNull() && zoomLevel >= MAX_ZOOM / 2)
+            drawNodeLabel(graphics, node, cornerX, cornerY);
+    }
 
-            graphics.setColor(Color.ORANGE);
-            graphics.fillRect(cornerX, cornerY - nodeSide / 2 - metrics.getAscent(),
-                              (int)Math.ceil(rect.getWidth()) + 2,
-                              (int)Math.ceil(rect.getHeight()));
+    private boolean isInside(Pair<Integer, Integer> position)
+    {
+        return position.getFirst() < -getStepUnit()
+            || position.getFirst() > getWidth() + getStepUnit()
+            || position.getSecond() < -getStepUnit()
+            || position.getSecond() > getHeight() + getStepUnit();
+    }
 
-            graphics.setColor(Color.BLACK);
-            graphics.drawString(node.getLabel(), cornerX + 1, cornerY - nodeSide / 2);
-        }
+    private void drawNodeLabel(Graphics graphics, TreeNode node, int cornerX, int cornerY)
+    {
+        graphics.setFont(new Font(null, Font.PLAIN, 12));
+
+        int nodeSide = countNodeSide();
+        FontMetrics metrics = graphics.getFontMetrics();
+        Rectangle2D rect = metrics.getStringBounds(node.getLabel(), graphics);
+
+        graphics.setColor(Color.ORANGE);
+        graphics.fillRect(cornerX, cornerY - metrics.getAscent(),
+                          (int)Math.ceil(rect.getWidth()) + 2, (int)Math.ceil(rect.getHeight()));
+
+        graphics.setColor(Color.BLACK);
+        graphics.drawString(node.getLabel(), cornerX + 1, cornerY);
     }
 
     private Pair<Integer, Integer> countRootPos()
@@ -339,5 +376,10 @@ public class TreeDrawingArea
     private int checkBounds(int value, int minimum, int maximum)
     {
         return Math.min(Math.max(value, minimum), maximum);
+    }
+
+    private boolean isInnerNode(TreeNode node)
+    {
+        return !node.isNull() && node.getType() != NodeType.REC;
     }
 }

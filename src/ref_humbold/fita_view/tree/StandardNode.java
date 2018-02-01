@@ -11,8 +11,8 @@ import ref_humbold.fita_view.automaton.Variable;
 public class StandardNode
     extends TreeNode
 {
-    private TreeNode left = null;
-    private TreeNode right = null;
+    private TreeNode left = new NullNode();
+    private TreeNode right = new NullNode();
     private TreeNode parent = null;
     private String label;
     private Map<Variable, String> state = new HashMap<>();
@@ -50,17 +50,16 @@ public class StandardNode
     protected void setLeft(TreeNode node)
         throws NodeHasParentException
     {
-        if(node != null && node.getParent() != null)
+        if(node == null)
+            node = new NullNode();
+
+        if(node.getParent() != null)
             throw new NodeHasParentException(
                 "Node has already got a parent, so it cannot be assigned as a child.");
 
-        if(this.left != null)
-            this.left.setParent(null);
-
+        this.left.setParent(null);
         this.left = node;
-
-        if(this.left != null)
-            this.left.setParent(this);
+        this.left.setParent(this);
     }
 
     @Override
@@ -72,17 +71,16 @@ public class StandardNode
     protected void setRight(TreeNode node)
         throws NodeHasParentException
     {
-        if(node != null && node.getParent() != null)
+        if(node == null)
+            node = new NullNode();
+
+        if(node.getParent() != null)
             throw new NodeHasParentException(
                 "Node has already got a parent, so it cannot be assigned as a child.");
 
-        if(this.right != null)
-            this.right.setParent(null);
-
+        this.right.setParent(null);
         this.right = node;
-
-        if(this.right != null)
-            this.right.setParent(this);
+        this.right.setParent(this);
     }
 
     @Override
@@ -149,10 +147,7 @@ public class StandardNode
     @Override
     public String toString()
     {
-        String leftString = left == null ? "#" : left.toString();
-        String rightString = right == null ? "#" : right.toString();
-
-        return "<$ \'" + label + "\', " + leftString + ", " + rightString + " $>";
+        return "<$ \'" + label + "\', " + left.toString() + ", " + right.toString() + " $>";
     }
 
     @Override

@@ -85,6 +85,10 @@ public abstract class BottomUpAutomaton
         super.initialize();
 
         traversing.initialize(leaves.toArray(new TreeNode[0]));
+        leaves.forEach(leaf -> {
+            leaf.getLeft().setInitialState(variables);
+            leaf.getRight().setInitialState(variables);
+        });
     }
 
     @Override
@@ -100,25 +104,13 @@ public abstract class BottomUpAutomaton
         throws IllegalVariableValueException, UndefinedStateValueException,
                NoSuchTransitionException
     {
-        Map<Variable, String> leftState;
-        Map<Variable, String> rightState;
-
-        if(node.hasChildren())
-        {
-            leftState = node.getLeft().getState();
-            rightState = node.getRight().getState();
-        }
-        else
-        {
-            leftState = getInitialState();
-            rightState = getInitialState();
-        }
-
-        node.setState(applyTransition(leftState, rightState, node.getLabel()));
+        node.setState(applyTransition(node.getLeft().getState(), node.getRight().getState(),
+                                      node.getLabel()));
 
         if(isSendingMessages)
             TransitionSender.getInstance()
-                            .send(Triple.make(leftState, node.getState(), rightState));
+                            .send(Triple.make(node.getLeft().getState(), node.getState(),
+                                              node.getRight().getState()));
     }
 
     /**
@@ -201,7 +193,7 @@ public abstract class BottomUpAutomaton
         t.initialize(tree);
 
         t.forEachRemaining(iterator -> iterator.forEach(v -> {
-            if(!v.hasChildren())
+            if(v.isLeaf())
                 leaves.add(v);
         }));
     }

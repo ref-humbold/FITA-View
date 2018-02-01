@@ -12,7 +12,6 @@ public class MovingButtonsPanel
     extends JPanel
     implements ActionListener
 {
-    static final int STEP = 10;
     private static final long serialVersionUID = -1998309322600823517L;
 
     private List<JButton> buttons = new ArrayList<>();
@@ -50,19 +49,19 @@ public class MovingButtonsPanel
                 break;
 
             case UP:
-                drawingArea.moveArea(0, STEP);
+                drawingArea.moveArea(0, 1);
                 break;
 
             case DOWN:
-                drawingArea.moveArea(0, -STEP);
+                drawingArea.moveArea(0, -1);
                 break;
 
             case LEFT:
-                drawingArea.moveArea(STEP, 0);
+                drawingArea.moveArea(1, 0);
                 break;
 
             case RIGHT:
-                drawingArea.moveArea(-STEP, 0);
+                drawingArea.moveArea(-1, 0);
                 break;
         }
     }

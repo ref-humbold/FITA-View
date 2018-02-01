@@ -83,6 +83,22 @@ public abstract class TreeNode
     public abstract Map<Variable, String> getStateWithNulls();
 
     /**
+     * @return {@code true} if node is a null node, otherwise {@code false}
+     */
+    public boolean isNull()
+    {
+        return getType() == NodeType.NULL;
+    }
+
+    /**
+     * @return {@code true} if node is a leaf, otherwise {@code false}
+     */
+    public boolean isLeaf()
+    {
+        return getLeft().isNull() && getRight().isNull();
+    }
+
+    /**
      * @param vars state variables
      */
     public abstract void setInitialState(Collection<Variable> vars);
@@ -121,12 +137,4 @@ public abstract class TreeNode
      * Removing values of all state variables in the node.
      */
     public abstract void deleteState();
-
-    /**
-     * @return {@code true} if node has both left and right children, otherwise {@code false}
-     */
-    public boolean hasChildren()
-    {
-        return getLeft() != null && getRight() != null;
-    }
 }

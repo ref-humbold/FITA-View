@@ -12,8 +12,6 @@
   <variables>
     <var id="0" init="T">
       <value>F</value>
-      <value>VT</value>
-      <value>VF</value>
     </var>
     <var id="1" init="OP">
       <value>VAR</value>
@@ -21,7 +19,7 @@
   </variables>
   <leaf-accepting>
     <conditions>
-      <accept var-id="0" include="VT" />
+      <accept var-id="0" include="(*)" />
       <accept var-id="1" include="VAR" />
     </conditions>
   </leaf-accepting>
@@ -29,26 +27,50 @@
     <trans var-id="0">
       <node-value>F</node-value>
       <label>0</label>
-      <left-result>VT</left-result>
-      <right-result>VT</right-result>
+      <left-result>T</left-result>
+      <right-result>T</right-result>
     </trans>
     <trans var-id="0">
-      <node-value>T</node-value>
+      <node-value>F</node-value>
       <label>0</label>
-      <left-result>VF</left-result>
-      <right-result>VF</right-result>
+      <left-result>T</left-result>
+      <right-result>F</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>F</node-value>
+      <label>0</label>
+      <left-result>F</left-result>
+      <right-result>T</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>F</node-value>
+      <label>0</label>
+      <left-result>F</left-result>
+      <right-result>F</right-result>
     </trans>
     <trans var-id="0">
       <node-value>T</node-value>
       <label>1</label>
-      <left-result>VT</left-result>
-      <right-result>VT</right-result>
+      <left-result>T</left-result>
+      <right-result>T</right-result>
     </trans>
     <trans var-id="0">
-      <node-value>F</node-value>
+      <node-value>T</node-value>
       <label>1</label>
-      <left-result>VF</left-result>
-      <right-result>VF</right-result>
+      <left-result>T</left-result>
+      <right-result>F</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>T</node-value>
+      <label>1</label>
+      <left-result>F</left-result>
+      <right-result>T</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>T</node-value>
+      <label>1</label>
+      <left-result>F</left-result>
+      <right-result>F</right-result>
     </trans>
     <trans var-id="0">
       <node-value>T</node-value>
@@ -194,51 +216,50 @@
       <left-result>T</left-result>
       <right-result>F</right-result>
     </trans>
-
     <trans var-id="1">
-      <node-value>OP</node-value>
+      <node-value>(*)</node-value>
       <label>0</label>
       <left-result>VAR</left-result>
       <right-result>VAR</right-result>
     </trans>
     <trans var-id="1">
-      <node-value>OP</node-value>
+      <node-value>(*)</node-value>
       <label>1</label>
       <left-result>VAR</left-result>
       <right-result>VAR</right-result>
     </trans>
     <trans var-id="1">
-      <node-value>OP</node-value>
+      <node-value>(*)</node-value>
       <label>and</label>
       <left-result>OP</left-result>
       <right-result>OP</right-result>
     </trans>
     <trans var-id="1">
-      <node-value>OP</node-value>
+      <node-value>(*)</node-value>
       <label>or</label>
       <left-result>OP</left-result>
       <right-result>OP</right-result>
     </trans>
     <trans var-id="1">
-      <node-value>OP</node-value>
+      <node-value>(*)</node-value>
       <label>nand</label>
       <left-result>OP</left-result>
       <right-result>OP</right-result>
     </trans>
     <trans var-id="1">
-      <node-value>OP</node-value>
+      <node-value>(*)</node-value>
       <label>nor</label>
       <left-result>OP</left-result>
       <right-result>OP</right-result>
     </trans>
     <trans var-id="1">
-      <node-value>OP</node-value>
+      <node-value>(*)</node-value>
       <label>impl</label>
       <left-result>OP</left-result>
       <right-result>OP</right-result>
     </trans>
     <trans var-id="1">
-      <node-value>OP</node-value>
+      <node-value>(*)</node-value>
       <label>iff</label>
       <left-result>OP</left-result>
       <right-result>OP</right-result>

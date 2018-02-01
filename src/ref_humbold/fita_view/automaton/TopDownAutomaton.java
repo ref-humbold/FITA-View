@@ -120,12 +120,10 @@ public abstract class TopDownAutomaton
         Pair<Map<Variable, String>, Map<Variable, String>> sonsStates = applyTransition(
             node.getState(), node.getLabel());
 
-        if(node.hasChildren())
-        {
-            node.getLeft().setState(sonsStates.getFirst());
-            node.getRight().setState(sonsStates.getSecond());
-        }
-        else
+        node.getLeft().setState(sonsStates.getFirst());
+        node.getRight().setState(sonsStates.getSecond());
+
+        if(node.isLeaf())
         {
             leafStates.add(sonsStates.getFirst());
             leafStates.add(sonsStates.getSecond());

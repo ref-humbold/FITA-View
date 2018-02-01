@@ -28,7 +28,7 @@ public class TopDownBFS
 
         TreeNode node = nodeDeque.removeFirst();
 
-        if(node.hasChildren())
+        if(!node.isLeaf())
         {
             processChild(node.getLeft());
             processChild(node.getRight());

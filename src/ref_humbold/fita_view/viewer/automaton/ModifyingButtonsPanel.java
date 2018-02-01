@@ -153,7 +153,6 @@ public class ModifyingButtonsPanel
         {
             case USER:
                 nonDeterministicAutomaton.setChoice(StateChoiceFactory.createUserChoice(
-                    (JFrame)SwingUtilities.windowForComponent(this),
                     nonDeterministicAutomaton::convertKeyToString,
                     nonDeterministicAutomaton::convertResultToString));
                 break;
