@@ -32,7 +32,7 @@ public class TreeDrawingArea
     private Pointer<Pair<TreeNode, Integer>> treePointer;
     private Stack<NodeParameters> repeatNodes = new Stack<>();
     private Map<Pair<Integer, Integer>, TreeNode> nodesPoints = new HashMap<>();
-    private List<TreeNode> currentNodes = new ArrayList<>();
+    private Set<TreeNode> currentNodes = new HashSet<>();
     private int horizontalAxis = 0;
     private int verticalAxis = 0;
     private int zoomLevel = 0;
@@ -71,9 +71,6 @@ public class TreeDrawingArea
     {
         currentNodes.clear();
         message.getParam().forEach(currentNodes::add);
-
-        TreeNode lastNode = currentNodes.get(currentNodes.size() - 1);
-
         repaint();
     }
 
@@ -293,7 +290,7 @@ public class TreeDrawingArea
         int cornerY = position.getSecond() - nodeSide / 2;
 
         if(node.isNull())
-            graphics.fillOval(cornerX, cornerY, nodeSide, nodeSide);
+            graphics.fillOval(cornerX, cornerY + nodeSide / 4, nodeSide, nodeSide / 2);
         else
             graphics.fillRect(cornerX, cornerY, nodeSide, nodeSide);
 

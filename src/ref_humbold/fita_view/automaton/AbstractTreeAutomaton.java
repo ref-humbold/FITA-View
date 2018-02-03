@@ -81,7 +81,7 @@ public abstract class AbstractTreeAutomaton
         assertFiniteness(tree);
 
         this.tree = tree;
-        this.setRunningMode(AutomatonRunningMode.STOPPED);
+        this.stopTraversing();
     }
 
     @Override

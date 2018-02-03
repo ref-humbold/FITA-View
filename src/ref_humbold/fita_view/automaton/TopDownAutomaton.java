@@ -38,7 +38,13 @@ public abstract class TopDownAutomaton
 
     @Override
     public void setTraversing(TraversingMode mode)
+        throws AutomatonIsRunningException
     {
+        if(this.runningMode == AutomatonRunningMode.RUNNING
+            || this.runningMode == AutomatonRunningMode.CONTINUING)
+            throw new AutomatonIsRunningException(
+                "Cannot change traversing strategy when automaton is running.");
+
         this.traversing = TraversingFactory.getTopDownTraversing(mode);
     }
 
@@ -131,8 +137,10 @@ public abstract class TopDownAutomaton
 
         if(isSendingMessages)
             TransitionSender.getInstance()
-                            .send(Triple.make(sonsStates.getFirst(), node.getState(),
-                                              sonsStates.getSecond()));
+                            .send(Triple.make(
+                                Pair.make(node.getLeft().getLabel(), sonsStates.getFirst()),
+                                Pair.make(node.getLabel(), node.getState()),
+                                Pair.make(node.getRight().getLabel(), sonsStates.getSecond())));
     }
 
     /**

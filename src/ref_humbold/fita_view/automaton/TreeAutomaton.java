@@ -44,7 +44,7 @@ public interface TreeAutomaton
      * @throws IncorrectTraversingException if traversing mode is not supported
      */
     void setTraversing(TraversingMode mode)
-        throws IncorrectTraversingException;
+        throws IncorrectTraversingException, AutomatonIsRunningException;
 
     /**
      * @return transition function as string representation

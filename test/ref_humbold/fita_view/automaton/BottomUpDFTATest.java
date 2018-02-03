@@ -12,7 +12,6 @@ import org.junit.Test;
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
-import ref_humbold.fita_view.automaton.traversing.IncorrectTraversingException;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.tree.*;
 
@@ -242,7 +241,7 @@ public class BottomUpDFTATest
         {
             testObject.setTraversing(TraversingMode.LEVEL);
         }
-        catch(IncorrectTraversingException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -422,7 +421,7 @@ public class BottomUpDFTATest
         {
             testObject.setTraversing(TraversingMode.LEVEL);
         }
-        catch(IncorrectTraversingException e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());

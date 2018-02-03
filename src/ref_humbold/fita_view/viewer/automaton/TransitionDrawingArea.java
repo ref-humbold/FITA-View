@@ -22,15 +22,15 @@ import ref_humbold.fita_view.messaging.SignalReceiver;
 public class TransitionDrawingArea
     extends JPanel
     implements
-    MessageReceiver<Triple<Map<Variable, String>, Map<Variable, String>, Map<Variable, String>>>,
+    MessageReceiver<Triple<Pair<String, Map<Variable, String>>, Pair<String, Map<Variable, String>>, Pair<String, Map<Variable, String>>>>,
     SignalReceiver
 {
     private static final long serialVersionUID = -1303489069622584091L;
 
     private Pointer<TreeAutomaton> automatonPointer;
-    private Map<Variable, String> parentState;
-    private Map<Variable, String> leftSonState;
-    private Map<Variable, String> rightSonState;
+    private Pair<String, Map<Variable, String>> parentInfo;
+    private Pair<String, Map<Variable, String>> leftSonInfo;
+    private Pair<String, Map<Variable, String>> rightSonInfo;
     private int rectWidth;
     private int rectHeight;
 
@@ -68,11 +68,11 @@ public class TransitionDrawingArea
 
     @Override
     public void receiveMessage(
-        Message<Triple<Map<Variable, String>, Map<Variable, String>, Map<Variable, String>>> message)
+        Message<Triple<Pair<String, Map<Variable, String>>, Pair<String, Map<Variable, String>>, Pair<String, Map<Variable, String>>>> message)
     {
-        leftSonState = message.getParam().getFirst();
-        parentState = message.getParam().getSecond();
-        rightSonState = message.getParam().getThird();
+        leftSonInfo = message.getParam().getFirst();
+        parentInfo = message.getParam().getSecond();
+        rightSonInfo = message.getParam().getThird();
         repaint();
     }
 
@@ -88,29 +88,38 @@ public class TransitionDrawingArea
         rectWidth = 2 * getWidth() / 5;
         rectHeight = 2 * getHeight() / 5;
         graphics.setColor(Color.BLACK);
-        parentCorner = drawState(graphics, parentState, getWidth() / 2, getHeight() / 4);
-        leftSonCorner = drawState(graphics, leftSonState, getWidth() / 4, 3 * getHeight() / 4);
-        rightSonCorner = drawState(graphics, rightSonState, 3 * getWidth() / 4,
-                                   3 * getHeight() / 4);
-        if(parentCorner != null)
+
+        if(parentInfo != null)
         {
-            drawArrow(graphics, parentCorner.getFirst(), parentCorner.getSecond() + rectHeight / 2,
-                      leftSonCorner.getFirst() + rectWidth / 2, leftSonCorner.getSecond());
-            drawArrow(graphics, parentCorner.getFirst() + rectWidth,
-                      parentCorner.getSecond() + rectHeight / 2,
-                      rightSonCorner.getFirst() + rectWidth / 2, rightSonCorner.getSecond());
+            parentCorner = drawInfo(graphics, parentInfo.getFirst(), parentInfo.getSecond(),
+                                    getWidth() / 2, getHeight() / 4);
+            leftSonCorner = drawInfo(graphics, leftSonInfo.getFirst(), leftSonInfo.getSecond(),
+                                     getWidth() / 4, 3 * getHeight() / 4);
+            rightSonCorner = drawInfo(graphics, rightSonInfo.getFirst(), rightSonInfo.getSecond(),
+                                      3 * getWidth() / 4, 3 * getHeight() / 4);
+
+            if(parentCorner != null)
+            {
+                drawArrow(graphics, parentCorner.getFirst(),
+                          parentCorner.getSecond() + rectHeight / 2,
+                          leftSonCorner.getFirst() + rectWidth / 2, leftSonCorner.getSecond());
+                drawArrow(graphics, parentCorner.getFirst() + rectWidth,
+                          parentCorner.getSecond() + rectHeight / 2,
+                          rightSonCorner.getFirst() + rectWidth / 2, rightSonCorner.getSecond());
+            }
         }
     }
 
     private void resetStates()
     {
-        parentState = null;
-        leftSonState = null;
-        rightSonState = null;
+        parentInfo = null;
+        leftSonInfo = null;
+        rightSonInfo = null;
     }
 
-    private Pair<Integer, Integer> drawState(Graphics graphics, Map<Variable, String> state,
-                                             int verticalCentre, int horizontalCentre)
+    private Pair<Integer, Integer> drawInfo(Graphics graphics, String label,
+                                            Map<Variable, String> state, int verticalCentre,
+                                            int horizontalCentre)
     {
         if(state == null)
             return null;
@@ -120,10 +129,11 @@ public class TransitionDrawingArea
         List<Map.Entry<Variable, String>> entries = new ArrayList<>(state.entrySet());
 
         graphics.drawRoundRect(leftAxis, upperAxis, rectWidth, rectHeight, 5, 5);
+        graphics.drawString("\'" + label + "\'", leftAxis + rectWidth / 4, upperAxis + 15);
 
         for(int i = 0; i < entries.size(); ++i)
             graphics.drawString(getEntryString(entries.get(i)), leftAxis + 10,
-                                upperAxis + 15 + 15 * i);
+                                upperAxis + 30 + 15 * i);
 
         return Pair.make(leftAxis, upperAxis);
     }

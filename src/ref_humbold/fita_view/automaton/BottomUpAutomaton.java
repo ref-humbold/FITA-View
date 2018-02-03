@@ -2,6 +2,7 @@ package ref_humbold.fita_view.automaton;
 
 import java.util.*;
 
+import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
@@ -35,8 +36,13 @@ public abstract class BottomUpAutomaton
 
     @Override
     public void setTraversing(TraversingMode mode)
-        throws IncorrectTraversingException
+        throws IncorrectTraversingException, AutomatonIsRunningException
     {
+        if(this.runningMode == AutomatonRunningMode.RUNNING
+            || this.runningMode == AutomatonRunningMode.CONTINUING)
+            throw new AutomatonIsRunningException(
+                "Cannot change traversing strategy when automaton is running.");
+
         this.traversing = TraversingFactory.getBottomUpTraversing(mode);
     }
 
@@ -109,8 +115,10 @@ public abstract class BottomUpAutomaton
 
         if(isSendingMessages)
             TransitionSender.getInstance()
-                            .send(Triple.make(node.getLeft().getState(), node.getState(),
-                                              node.getRight().getState()));
+                            .send(Triple.make(
+                                Pair.make(node.getLeft().getLabel(), node.getLeft().getState()),
+                                Pair.make(node.getLabel(), node.getState()),
+                                Pair.make(node.getRight().getLabel(), node.getRight().getState())));
     }
 
     /**

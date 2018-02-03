@@ -3,6 +3,8 @@ package ref_humbold.fita_view.viewer.automaton;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -80,13 +82,13 @@ public class AutomatonTreeView
         String keyString = message.getParam().getSecond();
         String valueString = message.getParam().getThird();
 
-        lastTransitions.put(var, getTransitionEntryString(var, keyString, valueString));
+        lastTransitions.put(var, getTransitionEntryString(keyString, valueString));
         treeModel.reload();
     }
 
-    String getTransitionEntryString(Variable var, String key, String value)
+    String getTransitionEntryString(String key, String value)
     {
-        return var.getVarName() + " :: " + key + " -> " + value;
+        return key + " -> " + value;
     }
 
     private void initializeTree()
@@ -122,13 +124,11 @@ public class AutomatonTreeView
         List<Variable> variables = automaton.getVariables();
         DefaultMutableTreeNode variablesNode = new DefaultMutableTreeNode("Variables");
 
-        for(Variable var : variables)
-        {
+        variables.forEach(var -> {
             DefaultMutableTreeNode varNode = new DefaultMutableTreeNode(var.getVarName());
-
             var.forEach(value -> varNode.add(new VariableTreeViewNode(var, value)));
             variablesNode.add(varNode);
-        }
+        });
 
         rootNode.add(variablesNode);
     }
@@ -138,31 +138,37 @@ public class AutomatonTreeView
         AcceptanceConditions accepting = automaton.getAcceptanceConditions();
         DefaultMutableTreeNode acceptNode = new DefaultMutableTreeNode("Acceptance conditions");
 
-        for(Map<Variable, Pair<String, Boolean>> mapping : accepting.getStatesConditions())
-        {
+        accepting.getStatesConditions().forEach(mapping -> {
             DefaultMutableTreeNode conditionNode = new DefaultMutableTreeNode("condition");
-
             mapping.entrySet()
                    .stream()
                    .map(entry -> new DefaultMutableTreeNode(
                        AcceptanceConditions.getEntryString(entry)))
                    .forEach(conditionNode::add);
             acceptNode.add(conditionNode);
-        }
+        });
 
         rootNode.add(acceptNode);
     }
 
     private void loadTransitions(TreeAutomaton automaton)
     {
-        Map<Pair<Variable, String>, String> stringTransition = automaton.getTransitionAsStrings();
+        Map<Pair<Variable, String>, String> stringTransitions = automaton.getTransitionAsStrings();
         DefaultMutableTreeNode transitionNode = new DefaultMutableTreeNode("Transition function");
+        Map<Variable, DefaultMutableTreeNode> varNodes = automaton.getVariables()
+                                                                  .stream()
+                                                                  .collect(Collectors.toMap(
+                                                                      Function.identity(),
+                                                                      var -> new DefaultMutableTreeNode(
+                                                                          var.getVarName()),
+                                                                      (a, b) -> b));
 
-        stringTransition.forEach((key, value) -> transitionNode.add(
-            new TransitionTreeViewNode(key.getFirst(),
-                                       getTransitionEntryString(key.getFirst(), key.getSecond(),
-                                                                value))));
-
+        stringTransitions.forEach((key, value) -> varNodes.get(key.getFirst())
+                                                          .add(new TransitionTreeViewNode(
+                                                              key.getFirst(),
+                                                              getTransitionEntryString(
+                                                                  key.getSecond(), value))));
+        varNodes.values().forEach(transitionNode::add);
         rootNode.add(transitionNode);
     }
 

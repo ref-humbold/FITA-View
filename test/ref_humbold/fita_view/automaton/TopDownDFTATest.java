@@ -288,7 +288,15 @@ public class TopDownDFTATest
     public void testRunWhenNoTree()
         throws EmptyTreeException
     {
-        testObject.setTraversing(TraversingMode.LEVEL);
+        try
+        {
+            testObject.setTraversing(TraversingMode.LEVEL);
+        }
+        catch(AutomatonIsRunningException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
@@ -508,7 +516,15 @@ public class TopDownDFTATest
     public void testMakeStepForwardWhenNoTree()
         throws EmptyTreeException
     {
-        testObject.setTraversing(TraversingMode.LEVEL);
+        try
+        {
+            testObject.setTraversing(TraversingMode.LEVEL);
+        }
+        catch(AutomatonIsRunningException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
 
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
