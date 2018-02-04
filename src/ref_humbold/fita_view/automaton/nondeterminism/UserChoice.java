@@ -16,10 +16,11 @@ import java.util.Objects;
 import java.util.function.Function;
 import javax.swing.*;
 
+import ref_humbold.fita_view.viewer.UserMessageBox;
+
 public class UserChoice<K, R>
     implements StateChoice<K, R>, ActionListener, PropertyChangeListener
 {
-    private final JFrame userChoiceFrame = new JFrame();
     private final WindowAdapter windowAdapter = new UserWindowAdapter();
     private JDialog dialog;
     private ButtonGroup buttonGroup;
@@ -58,6 +59,7 @@ public class UserChoice<K, R>
         resultStates = statesList;
         createDialog(key);
         current = statesList.get(0);
+        UserChoiceVisibility.getInstance().isVisible = true;
         dialog.setVisible(true);
 
         return current;
@@ -68,7 +70,10 @@ public class UserChoice<K, R>
     {
         if(dialog.isVisible() && event.getSource() == optionPane && Objects.equals(
             event.getPropertyName(), JOptionPane.VALUE_PROPERTY))
+        {
             dialog.dispose();
+            UserChoiceVisibility.getInstance().isVisible = false;
+        }
     }
 
     private void createDialog(K key)
@@ -85,13 +90,12 @@ public class UserChoice<K, R>
         panel.add(Box.createRigidArea(new Dimension(0, 5)));
         panel.add(this.generateButtons());
 
-        dialog = new JDialog(userChoiceFrame, true);
+        dialog = new JDialog();
         optionPane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE,
                                      JOptionPane.DEFAULT_OPTION, null, options, options[0]);
 
-        dialog.addWindowListener(windowAdapter);
-
         optionPane.addPropertyChangeListener(this);
+        dialog.addWindowListener(windowAdapter);
         dialog.setTitle("USER non-deterministic choice");
         dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         dialog.setContentPane(optionPane);
@@ -127,8 +131,8 @@ public class UserChoice<K, R>
         @Override
         public void windowClosing(WindowEvent windowEvent)
         {
-            JOptionPane.showMessageDialog(null, "New states haven't been chosen!", "Choose states!",
-                                          JOptionPane.ERROR_MESSAGE);
+            UserMessageBox.showException(
+                new StateNotChosenException("New states haven't been chosen! Choose states!"));
         }
     }
 }

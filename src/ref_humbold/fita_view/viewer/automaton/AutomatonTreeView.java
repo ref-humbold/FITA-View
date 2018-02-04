@@ -2,7 +2,10 @@ package ref_humbold.fita_view.viewer.automaton;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
@@ -112,7 +115,7 @@ public class AutomatonTreeView
 
     private void loadAlphabet(TreeAutomaton automaton)
     {
-        Set<String> alphabet = automaton.getAlphabet();
+        Collection<String> alphabet = automaton.getAlphabet();
         DefaultMutableTreeNode alphabetNode = new DefaultMutableTreeNode("Alphabet");
 
         alphabet.stream().map(DefaultMutableTreeNode::new).forEach(alphabetNode::add);
@@ -121,11 +124,12 @@ public class AutomatonTreeView
 
     private void loadVariables(TreeAutomaton automaton)
     {
-        List<Variable> variables = automaton.getVariables();
+        Collection<Variable> variables = automaton.getVariables();
         DefaultMutableTreeNode variablesNode = new DefaultMutableTreeNode("Variables");
 
         variables.forEach(var -> {
             DefaultMutableTreeNode varNode = new DefaultMutableTreeNode(var.getVarName());
+
             var.forEach(value -> varNode.add(new VariableTreeViewNode(var, value)));
             variablesNode.add(varNode);
         });

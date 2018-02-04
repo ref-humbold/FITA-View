@@ -1,8 +1,7 @@
 package ref_humbold.fita_view.automaton;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
@@ -15,24 +14,24 @@ import ref_humbold.fita_view.tree.UndefinedStateValueException;
 public interface TreeAutomaton
 {
     /**
-     * @return name of automaton's type
+     * @return type name of the automaton
      */
     String getTypeName();
 
     /**
-     * @return Traversing direction of the automaton
+     * @return traversing direction of the automaton
      */
     AutomatonDirection getDirection();
 
     /**
-     * @return list of all variables in the automaton
+     * @return all variables in the automaton
      */
-    List<Variable> getVariables();
+    Collection<Variable> getVariables();
 
     /**
      * @return label alphabet recognized by the automaton
      */
-    Set<String> getAlphabet();
+    Collection<String> getAlphabet();
 
     /**
      * @return current traversing strategy of the automaton
@@ -40,6 +39,7 @@ public interface TreeAutomaton
     TreeTraversing getTraversing();
 
     /**
+     * Setting a new traversing strategy specified by traversing mode.
      * @param mode new traversing mode for the automaton
      * @throws IncorrectTraversingException if traversing mode is not supported
      */
@@ -62,6 +62,16 @@ public interface TreeAutomaton
     AutomatonRunningMode getRunningMode();
 
     /**
+     * Testing if the automaton is traversing an associated tree.
+     * @return {@code true} if the automaton is running, otherwise {@code false}
+     */
+    default boolean isRunning()
+    {
+        return getRunningMode() == AutomatonRunningMode.RUNNING
+            || getRunningMode() == AutomatonRunningMode.CONTINUING;
+    }
+
+    /**
      * Testing if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      * @throws UndefinedAcceptanceException if no accepting conditions were defined
@@ -72,7 +82,7 @@ public interface TreeAutomaton
         throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException;
 
     /**
-     * @param tree new tree to run automaton on
+     * @param tree new tree to associate the automaton with
      * @throws TreeFinitenessException if tree finiteness is not suitable for the automaton
      * @throws EmptyTreeException if tree is empty
      */
@@ -80,7 +90,7 @@ public interface TreeAutomaton
         throws TreeFinitenessException, EmptyTreeException;
 
     /**
-     * @param sendingMessages when {@code true} then the automaton sends messages after making each step
+     * @param sendingMessages if {@code true} then the automaton sends messages informing about its work
      */
     void setSendingMessages(boolean sendingMessages);
 
@@ -120,14 +130,7 @@ public interface TreeAutomaton
                NoNonDeterministicStrategyException;
 
     /**
-     * Ending of traversing of the automaton over the tree.
+     * Stopping traversing the tree by the automaton.
      */
     void stopTraversing();
-
-    /**
-     * Generating a sample tree that could be accepted by the automaton.
-     * @return sample accepted tree
-     */
-    boolean checkEmptiness()
-        throws UndefinedAcceptanceException, UndefinedStateValueException;
 }

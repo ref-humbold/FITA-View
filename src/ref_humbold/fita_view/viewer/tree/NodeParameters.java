@@ -16,7 +16,7 @@ class NodeParameters
         this(0, 0, 0, node, treeDepth);
     }
 
-    private NodeParameters(int xDist, int yDist, int depth, TreeNode node, int treeDepth)
+    NodeParameters(int xDist, int yDist, int depth, TreeNode node, int treeDepth)
     {
         this.treeDepth = treeDepth;
         this.node = node;
@@ -42,13 +42,13 @@ class NodeParameters
 
         if(node.isLeaf())
         {
-            leftXDist = xDist == 0 ? -1 : xDist > 0 ? xDist : xDist - 1;
-            leftYDist = xDist == 0 ? 1 : xDist > 0 ? yDist + 1 : yDist;
+            leftXDist = xDist - 1;
+            leftYDist = yDist + 1;
         }
         else
         {
-            leftXDist = xDist == 0 ? -4 : xDist > 0 ? xDist : xDist - 1 - getInvertedDepth();
-            leftYDist = xDist == 0 ? 4 : xDist > 0 ? yDist + getLeavesNumber() : yDist;
+            leftXDist = xDist > 0 ? xDist - 1 : xDist - 1 - getInvertedDepth();
+            leftYDist = xDist > 0 ? yDist + getLeavesNumber() : yDist + 1;
         }
 
         return new NodeParameters(leftXDist, leftYDist, depth + 1, node.getLeft(), treeDepth);
@@ -61,24 +61,24 @@ class NodeParameters
 
         if(node.isLeaf())
         {
-            rightXDist = xDist == 0 ? 2 : xDist > 0 ? xDist + 1 : xDist;
-            rightYDist = xDist == 0 ? 2 : xDist > 0 ? yDist : yDist + 1;
+            rightXDist = xDist + 1;
+            rightYDist = yDist + 1;
         }
         else
         {
-            rightXDist = xDist == 0 ? 4 : xDist > 0 ? xDist + 1 + getInvertedDepth() : xDist;
-            rightYDist = xDist == 0 ? 4 : xDist > 0 ? yDist : yDist + getLeavesNumber();
+            rightXDist = xDist >= 0 ? xDist + 1 + getInvertedDepth() : xDist + 1;
+            rightYDist = xDist >= 0 ? yDist + 1 : yDist + getLeavesNumber();
         }
 
         return new NodeParameters(rightXDist, rightYDist, depth + 1, node.getRight(), treeDepth);
     }
 
-    private int getLeavesNumber()
+    int getLeavesNumber()
     {
-        return 1 << getInvertedDepth();
+        return node.isNull() ? 0 : 1 << getInvertedDepth();
     }
 
-    private int getInvertedDepth()
+    int getInvertedDepth()
     {
         return treeDepth - depth - 1;
     }

@@ -31,7 +31,7 @@ import ref_humbold.fita_view.viewer.UserMessageBox;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.swing.*")
-@PrepareForTest(UserMessageBox.class)
+@PrepareForTest({UserMessageBox.class, UserChoiceVisibility.class})
 public class ModifyingButtonsPanelTest
 {
     @Mock
@@ -43,6 +43,9 @@ public class ModifyingButtonsPanelTest
     @Mock
     private Message<Void> mockMessage;
 
+    @Mock
+    private UserChoiceVisibility mockVisibility;
+
     @InjectMocks
     private ModifyingButtonsPanel testObject;
 
@@ -50,6 +53,8 @@ public class ModifyingButtonsPanelTest
     public void setUp()
     {
         PowerMockito.mockStatic(UserMessageBox.class);
+        PowerMockito.mockStatic(UserChoiceVisibility.class);
+        PowerMockito.when(UserChoiceVisibility.getInstance()).thenReturn(mockVisibility);
         Mockito.when(mockMessage.getSource()).thenReturn(mockPointer);
     }
 
@@ -63,30 +68,21 @@ public class ModifyingButtonsPanelTest
     public void testActionPerformedWhenBottomUpDFS()
         throws Exception
     {
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
         Mockito.when(mockPointer.get())
                .thenReturn(new BottomUpDFTA(Collections.emptySet(), Collections.emptySet()));
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DFS");
-        PowerMockito.doAnswer(new Answer<Exception>()
+        PowerMockito.doAnswer(new Answer<Void>()
         {
             @Override
-            public Exception answer(InvocationOnMock invocation)
-                throws Throwable
+            public Void answer(InvocationOnMock invocation)
+                throws Exception
             {
                 throw (Exception)invocation.getArguments()[0];
             }
         }).when(UserMessageBox.class, "showException", Matchers.any(Exception.class));
 
-        try
-        {
-            testObject.actionPerformed(mockActionEvent);
-        }
-        catch(Exception e)
-        {
-            Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-            Mockito.verify(mockPointer, Mockito.times(3)).get();
-
-            throw e;
-        }
+        testObject.actionPerformed(mockActionEvent);
     }
 
     @Test
@@ -94,6 +90,7 @@ public class ModifyingButtonsPanelTest
     {
         BottomUpDFTA automaton = new BottomUpDFTA(Collections.emptySet(), Collections.emptySet());
 
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("BFS");
 
@@ -103,8 +100,6 @@ public class ModifyingButtonsPanelTest
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof BottomUpBFS);
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -112,6 +107,7 @@ public class ModifyingButtonsPanelTest
     {
         BottomUpDFTA automaton = new BottomUpDFTA(Collections.emptySet(), Collections.emptySet());
 
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEVEL");
 
@@ -121,8 +117,6 @@ public class ModifyingButtonsPanelTest
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof BottomUpLevel);
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -130,6 +124,7 @@ public class ModifyingButtonsPanelTest
     {
         TopDownDFTA automaton = new TopDownDFTA(Collections.emptySet(), Collections.emptySet());
 
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DFS");
 
@@ -139,8 +134,6 @@ public class ModifyingButtonsPanelTest
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof TopDownDFS);
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -148,6 +141,7 @@ public class ModifyingButtonsPanelTest
     {
         TopDownDFTA automaton = new TopDownDFTA(Collections.emptySet(), Collections.emptySet());
 
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("BFS");
 
@@ -157,8 +151,6 @@ public class ModifyingButtonsPanelTest
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof TopDownBFS);
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -166,6 +158,7 @@ public class ModifyingButtonsPanelTest
     {
         TopDownDFTA automaton = new TopDownDFTA(Collections.emptySet(), Collections.emptySet());
 
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEVEL");
 
@@ -175,8 +168,27 @@ public class ModifyingButtonsPanelTest
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof TopDownLevel);
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
+    }
+
+    @Test(expected = StateNotChosenException.class)
+    public void testActionPerformedWhenTraversingAndVisibleIsTrue()
+        throws Exception
+    {
+        Mockito.when(mockPointer.get())
+               .thenReturn(new TopDownNFTA(Collections.emptySet(), Collections.emptyList()));
+        Mockito.when(mockVisibility.getVisible()).thenReturn(true);
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEVEL");
+        PowerMockito.doAnswer(new Answer<Void>()
+        {
+            @Override
+            public Void answer(InvocationOnMock invocation)
+                throws Exception
+            {
+                throw (Exception)invocation.getArguments()[0];
+            }
+        }).when(UserMessageBox.class, "showException", Matchers.any(Exception.class));
+
+        testObject.actionPerformed(mockActionEvent);
     }
 
     @Test
@@ -184,6 +196,7 @@ public class ModifyingButtonsPanelTest
     {
         TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
 
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("FIRST");
 
@@ -193,8 +206,6 @@ public class ModifyingButtonsPanelTest
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof FirstElementChoice);
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -202,6 +213,7 @@ public class ModifyingButtonsPanelTest
     {
         TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
 
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("RANDOM");
 
@@ -211,8 +223,6 @@ public class ModifyingButtonsPanelTest
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof RandomChoice);
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -220,6 +230,7 @@ public class ModifyingButtonsPanelTest
     {
         TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
 
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEAST");
 
@@ -229,8 +240,6 @@ public class ModifyingButtonsPanelTest
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof LeastHashCodeChoice);
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -238,6 +247,7 @@ public class ModifyingButtonsPanelTest
     {
         TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
 
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("GREATEST");
 
@@ -247,8 +257,44 @@ public class ModifyingButtonsPanelTest
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result instanceof GreatestHashCodeChoice);
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
+    }
+
+    @Test
+    public void testActionPerformedWhenUserChoice()
+    {
+        TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
+
+        Mockito.when(mockVisibility.getVisible()).thenReturn(false);
+        Mockito.when(mockPointer.get()).thenReturn(automaton);
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("USER");
+
+        testObject.actionPerformed(mockActionEvent);
+
+        StateChoice<Pair<String, String>, Pair<String, String>> result = automaton.getChoice();
+
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result instanceof UserChoice);
+    }
+
+    @Test(expected = StateNotChosenException.class)
+    public void testActionPerformedWhenStateChoiceAndVisibleIsTrue()
+        throws Exception
+    {
+        Mockito.when(mockPointer.get())
+               .thenReturn(new TopDownNFTA(Collections.emptySet(), Collections.emptyList()));
+        Mockito.when(mockVisibility.getVisible()).thenReturn(true);
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("USER");
+        PowerMockito.doAnswer(new Answer<Void>()
+        {
+            @Override
+            public Void answer(InvocationOnMock invocation)
+                throws Exception
+            {
+                throw (Exception)invocation.getArguments()[0];
+            }
+        }).when(UserMessageBox.class, "showException", Matchers.any(Exception.class));
+
+        testObject.actionPerformed(mockActionEvent);
     }
 
     @Test
@@ -259,8 +305,6 @@ public class ModifyingButtonsPanelTest
         testObject.receiveSignal(mockMessage);
 
         Assert.assertEquals(2, testObject.getComponentCount());
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -272,8 +316,6 @@ public class ModifyingButtonsPanelTest
         testObject.receiveSignal(mockMessage);
 
         Assert.assertEquals(3, testObject.getComponentCount());
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -285,8 +327,6 @@ public class ModifyingButtonsPanelTest
         testObject.receiveSignal(mockMessage);
 
         Assert.assertEquals(3, testObject.getComponentCount());
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -298,7 +338,5 @@ public class ModifyingButtonsPanelTest
         testObject.receiveSignal(mockMessage);
 
         Assert.assertEquals(5, testObject.getComponentCount());
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 }

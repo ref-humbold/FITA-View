@@ -38,8 +38,7 @@ public abstract class BottomUpAutomaton
     public void setTraversing(TraversingMode mode)
         throws IncorrectTraversingException, AutomatonIsRunningException
     {
-        if(this.runningMode == AutomatonRunningMode.RUNNING
-            || this.runningMode == AutomatonRunningMode.CONTINUING)
+        if(this.isRunning())
             throw new AutomatonIsRunningException(
                 "Cannot change traversing strategy when automaton is running.");
 
@@ -75,6 +74,13 @@ public abstract class BottomUpAutomaton
     public abstract void addTransition(Variable var, String leftValue, String rightValue,
                                        String label, String result)
         throws DuplicatedTransitionException, IllegalTransitionException;
+
+    /**
+     * Testing if the automaton can accept at least one tree.
+     * @return {@code true} if the automaton cannot accept any tree, otherwise {@code false}
+     */
+    public abstract boolean checkEmptiness()
+        throws UndefinedAcceptanceException, UndefinedStateValueException;
 
     @Override
     protected void changeRunningMode()

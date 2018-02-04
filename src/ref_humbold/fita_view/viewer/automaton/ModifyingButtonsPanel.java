@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.swing.*;
 
@@ -15,9 +13,7 @@ import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AbstractTreeAutomaton;
 import ref_humbold.fita_view.automaton.NonDeterministicAutomaton;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
-import ref_humbold.fita_view.automaton.nondeterminism.IncorrectStateChoiceModeException;
-import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceFactory;
-import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceMode;
+import ref_humbold.fita_view.automaton.nondeterminism.*;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
@@ -34,6 +30,7 @@ public class ModifyingButtonsPanel
     private Pointer<TreeAutomaton> automatonPointer;
     private ButtonGroup traversingGroup = new ButtonGroup();
     private ButtonGroup nonDeterminismGroup = new ButtonGroup();
+    private Map<StateChoiceMode, JRadioButton> nonDeterminismButtons = new HashMap<>();
     private Map<TraversingMode, JRadioButton> traversingButtons = new HashMap<>();
     private JPanel traversingPanel = new JPanel();
     private JPanel nonDeterminismPanel = new JPanel();
@@ -57,15 +54,20 @@ public class ModifyingButtonsPanel
     public void actionPerformed(ActionEvent actionEvent)
     {
         String actionCommand = actionEvent.getActionCommand();
+        TreeAutomaton automaton = automatonPointer.get();
 
         if(TraversingFactory.isCorrectMode(actionCommand))
             try
             {
-                automatonPointer.get().setTraversing(TraversingMode.valueOf(actionCommand));
+                if(UserChoiceVisibility.getInstance().getVisible())
+                    throw new StateNotChosenException(
+                        "New states haven't been chosen! Choose states!");
+
+                automaton.setTraversing(TraversingMode.valueOf(actionCommand));
             }
             catch(FITAViewException e)
             {
-                TreeTraversing traversing = automatonPointer.get().getTraversing();
+                TreeTraversing traversing = automaton.getTraversing();
 
                 traversingGroup.clearSelection();
 
@@ -75,7 +77,7 @@ public class ModifyingButtonsPanel
                 UserMessageBox.showException(e);
             }
         else if(StateChoiceFactory.isCorrectMode(actionCommand))
-            setChoice(actionCommand, automatonPointer.get());
+            setChoice(actionCommand, automaton);
     }
 
     @Override
@@ -89,8 +91,6 @@ public class ModifyingButtonsPanel
 
     private void initializeComponents()
     {
-        List<JRadioButton> nonDeterminismButtons = new ArrayList<>();
-
         for(TraversingMode mode : TraversingMode.values())
         {
             JRadioButton button = new JRadioButton(mode.toString());
@@ -112,7 +112,7 @@ public class ModifyingButtonsPanel
             button.addActionListener(this);
             button.setBackground(Color.CYAN);
 
-            nonDeterminismButtons.add(button);
+            nonDeterminismButtons.put(mode, button);
             nonDeterminismGroup.add(button);
         }
 
@@ -120,7 +120,7 @@ public class ModifyingButtonsPanel
         nonDeterminismPanel.setLayout(new GridLayout(StateChoiceMode.values().length, 1));
 
         traversingButtons.values().forEach(button -> traversingPanel.add(button));
-        nonDeterminismButtons.forEach(button -> nonDeterminismPanel.add(button));
+        nonDeterminismButtons.values().forEach(button -> nonDeterminismPanel.add(button));
     }
 
     private void addComponents()
@@ -149,25 +149,35 @@ public class ModifyingButtonsPanel
     {
         NonDeterministicAutomaton<K, R> nonDeterministicAutomaton = (NonDeterministicAutomaton<K, R>)automaton;
 
-        switch(StateChoiceMode.valueOf(actionCommand))
+        try
         {
-            case USER:
-                nonDeterministicAutomaton.setChoice(StateChoiceFactory.createUserChoice(
-                    nonDeterministicAutomaton::convertKeyToString,
-                    nonDeterministicAutomaton::convertResultToString));
-                break;
+            if(UserChoiceVisibility.getInstance().getVisible())
+                throw new StateNotChosenException("New states haven't been chosen! Choose states!");
 
-            default:
-                try
-                {
+            switch(StateChoiceMode.valueOf(actionCommand))
+            {
+                case USER:
+                    nonDeterministicAutomaton.setChoice(StateChoiceFactory.createUserChoice(
+                        nonDeterministicAutomaton::convertKeyToString,
+                        nonDeterministicAutomaton::convertResultToString));
+                    break;
+
+                default:
                     nonDeterministicAutomaton.setChoice(StateChoiceFactory.createAutomatedChoice(
                         StateChoiceMode.valueOf(actionCommand)));
-                }
-                catch(IncorrectStateChoiceModeException e)
-                {
-                    UserMessageBox.showException(e);
-                }
-                break;
+                    break;
+            }
+        }
+        catch(FITAViewException e)
+        {
+            StateChoice<K, R> choice = nonDeterministicAutomaton.getChoice();
+
+            nonDeterminismGroup.clearSelection();
+
+            if(choice != null)
+                nonDeterminismButtons.get(choice.getMode()).setSelected(true);
+
+            UserMessageBox.showException(e);
         }
     }
 }

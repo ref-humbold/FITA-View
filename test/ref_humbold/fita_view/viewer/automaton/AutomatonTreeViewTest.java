@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -28,6 +27,9 @@ public class AutomatonTreeViewTest
     private Pointer<TreeAutomaton> mockPointer;
 
     @Mock
+    private TreeAutomaton mockAutomaton;
+
+    @Mock
     private Message<Void> mockSignal;
 
     @Mock
@@ -39,7 +41,6 @@ public class AutomatonTreeViewTest
     @Before
     public void setUp()
     {
-        Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
     }
 
     @After
@@ -59,8 +60,6 @@ public class AutomatonTreeViewTest
 
         Assert.assertEquals(0, rootNode.getChildCount());
         Assert.assertEquals(AutomatonTreeView.EMPTY_ROOT_TEXT, rootNode.getUserObject());
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -114,6 +113,7 @@ public class AutomatonTreeViewTest
         }
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
+        Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
 
         testObject.receiveSignal(mockSignal);
 
@@ -162,19 +162,20 @@ public class AutomatonTreeViewTest
             transition2Values.add(
                 (String)((DefaultMutableTreeNode)transition2Node.getChildAt(i)).getUserObject());
 
-        List<String> expectedVariable1Values = automaton.getVariables().get(0).getValuesList();
-        List<String> expectedVariable2Values = automaton.getVariables().get(1).getValuesList();
+        List<Variable> expectedVariables = new ArrayList<>(automaton.getVariables());
+        List<String> expectedVariable1Values = expectedVariables.get(0).getValuesList();
+        List<String> expectedVariable2Values = expectedVariables.get(1).getValuesList();
         List<String> expectedAccept1Values = new ArrayList<>();
         List<String> expectedTransition1Values = new ArrayList<>();
         List<String> expectedTransition2Values = new ArrayList<>();
 
         for(int i = 0; i < expectedVariable1Values.size(); ++i)
-            if(Objects.equals(automaton.getVariables().get(0).getInitValue(),
+            if(Objects.equals(expectedVariables.get(0).getInitValue(),
                               expectedVariable1Values.get(i)))
                 expectedVariable1Values.set(i, expectedVariable1Values.get(i) + " [init value]");
 
         for(int i = 0; i < expectedVariable2Values.size(); ++i)
-            if(Objects.equals(automaton.getVariables().get(1).getInitValue(),
+            if(Objects.equals(expectedVariables.get(1).getInitValue(),
                               expectedVariable2Values.get(i)))
                 expectedVariable2Values.set(i, expectedVariable2Values.get(i) + " [init value]");
 
@@ -206,16 +207,14 @@ public class AutomatonTreeViewTest
         Assert.assertEquals(automaton.getAlphabet().size(), alphabetChild.getChildCount());
 
         Assert.assertEquals("Variables", variableChild.getUserObject());
-        Assert.assertEquals(automaton.getVariables().size(), variableChild.getChildCount());
+        Assert.assertEquals(expectedVariables.size(), variableChild.getChildCount());
 
         Assert.assertArrayEquals(automaton.getAlphabet().toArray(), alphabetValues.toArray());
 
-        Assert.assertEquals(automaton.getVariables().get(0).getVarName(),
-                            variable1Node.getUserObject());
+        Assert.assertEquals(expectedVariables.get(0).getVarName(), variable1Node.getUserObject());
         Assert.assertArrayEquals(expectedVariable1Values.toArray(), variable1Values.toArray());
 
-        Assert.assertEquals(automaton.getVariables().get(1).getVarName(),
-                            variable2Node.getUserObject());
+        Assert.assertEquals(expectedVariables.get(1).getVarName(), variable2Node.getUserObject());
         Assert.assertArrayEquals(expectedVariable2Values.toArray(), variable2Values.toArray());
 
         Assert.assertEquals("Acceptance conditions", acceptChild.getUserObject());
@@ -232,9 +231,6 @@ public class AutomatonTreeViewTest
                             transition1Values.size() + transition2Values.size());
         Assert.assertArrayEquals(expectedTransition1Values.toArray(), transition1Values.toArray());
         Assert.assertArrayEquals(expectedTransition2Values.toArray(), transition2Values.toArray());
-
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
     }
 
     @Test
@@ -283,6 +279,7 @@ public class AutomatonTreeViewTest
         }
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
+        Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
 
         testObject.receiveSignal(mockSignal);
 
@@ -331,19 +328,20 @@ public class AutomatonTreeViewTest
             transition2Values.add(
                 (String)((DefaultMutableTreeNode)transition2Node.getChildAt(i)).getUserObject());
 
-        List<String> expectedVariable1Values = automaton.getVariables().get(0).getValuesList();
-        List<String> expectedVariable2Values = automaton.getVariables().get(1).getValuesList();
+        List<Variable> expectedVariables = new ArrayList<>(automaton.getVariables());
+        List<String> expectedVariable1Values = expectedVariables.get(0).getValuesList();
+        List<String> expectedVariable2Values = expectedVariables.get(1).getValuesList();
         List<String> expectedAccept1Values = new ArrayList<>();
         List<String> expectedTransition1Values = new ArrayList<>();
         List<String> expectedTransition2Values = new ArrayList<>();
 
         for(int i = 0; i < expectedVariable1Values.size(); i++)
-            if(Objects.equals(automaton.getVariables().get(0).getInitValue(),
+            if(Objects.equals(expectedVariables.get(0).getInitValue(),
                               expectedVariable1Values.get(i)))
                 expectedVariable1Values.set(i, expectedVariable1Values.get(i) + " [init value]");
 
         for(int i = 0; i < expectedVariable2Values.size(); i++)
-            if(Objects.equals(automaton.getVariables().get(1).getInitValue(),
+            if(Objects.equals(expectedVariables.get(1).getInitValue(),
                               expectedVariable2Values.get(i)))
                 expectedVariable2Values.set(i, expectedVariable2Values.get(i) + " [init value]");
 
@@ -377,14 +375,12 @@ public class AutomatonTreeViewTest
         Assert.assertArrayEquals(automaton.getAlphabet().toArray(), alphabetValues.toArray());
 
         Assert.assertEquals("Variables", variableChild.getUserObject());
-        Assert.assertEquals(automaton.getVariables().size(), variableChild.getChildCount());
+        Assert.assertEquals(expectedVariables.size(), variableChild.getChildCount());
 
-        Assert.assertEquals(automaton.getVariables().get(0).getVarName(),
-                            variable1Node.getUserObject());
+        Assert.assertEquals(expectedVariables.get(0).getVarName(), variable1Node.getUserObject());
         Assert.assertArrayEquals(expectedVariable1Values.toArray(), variable1Values.toArray());
 
-        Assert.assertEquals(automaton.getVariables().get(1).getVarName(),
-                            variable2Node.getUserObject());
+        Assert.assertEquals(expectedVariables.get(1).getVarName(), variable2Node.getUserObject());
         Assert.assertArrayEquals(expectedVariable2Values.toArray(), variable2Values.toArray());
 
         Assert.assertEquals("Acceptance conditions", acceptChild.getUserObject());
@@ -401,9 +397,19 @@ public class AutomatonTreeViewTest
                             transition1Values.size() + transition2Values.size());
         Assert.assertArrayEquals(expectedTransition1Values.toArray(), transition1Values.toArray());
         Assert.assertArrayEquals(expectedTransition2Values.toArray(), transition2Values.toArray());
+    }
 
-        Mockito.verify(mockPointer, Mockito.never()).set(Matchers.any());
-        Mockito.verify(mockPointer, Mockito.times(2)).get();
+    @Test
+    public void testReceiveSignal()
+    {
+        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
+        Mockito.when(mockPointer.isEmpty()).thenReturn(false);
+        Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
+        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.STOPPED);
+
+        testObject.receiveSignal(mockSignal);
+
+        Assert.assertTrue(testObject.lastTransitions.isEmpty());
     }
 
     @Test

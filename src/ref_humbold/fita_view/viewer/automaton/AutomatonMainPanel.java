@@ -13,8 +13,11 @@ import org.xml.sax.SAXException;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
+import ref_humbold.fita_view.automaton.AutomatonIsRunningException;
 import ref_humbold.fita_view.automaton.AutomatonReader;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
+import ref_humbold.fita_view.automaton.nondeterminism.StateNotChosenException;
+import ref_humbold.fita_view.automaton.nondeterminism.UserChoiceVisibility;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.tree.TreeNode;
@@ -56,6 +59,20 @@ public class AutomatonMainPanel
     @Override
     public void receiveMessage(Message<String> message)
     {
+        if(UserChoiceVisibility.getInstance().getVisible())
+        {
+            UserMessageBox.showException(
+                new StateNotChosenException("New states haven't been chosen! Choose states!"));
+            return;
+        }
+
+        if(!automatonPointer.isEmpty() && automatonPointer.get().isRunning())
+        {
+            UserMessageBox.showException(
+                new AutomatonIsRunningException("Automaton is currently running on tree!"));
+            return;
+        }
+
         if(Objects.equals(message.getParam(), "openFileButton"))
         {
             File file = chooseFile();

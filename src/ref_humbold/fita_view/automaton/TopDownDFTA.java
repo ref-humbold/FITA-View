@@ -35,13 +35,6 @@ public class TopDownDFTA
     }
 
     @Override
-    public boolean checkEmptiness()
-    {
-        //TODO: implement
-        return false;
-    }
-
-    @Override
     public boolean equals(Object o)
     {
         if(this == o)

@@ -36,13 +36,13 @@ public abstract class AbstractTreeAutomaton
     }
 
     @Override
-    public Set<String> getAlphabet()
+    public Collection<String> getAlphabet()
     {
         return this.alphabet;
     }
 
     @Override
-    public List<Variable> getVariables()
+    public Collection<Variable> getVariables()
     {
         return this.variables;
     }
@@ -114,8 +114,7 @@ public abstract class AbstractTreeAutomaton
             throw new NoTraversingStrategyException("Automaton has no traversing strategy.");
         }
 
-        if(runningMode == AutomatonRunningMode.STOPPED
-            || runningMode == AutomatonRunningMode.FINISHED)
+        if(!isRunning())
             initialize();
 
         while(getTraversing().hasNext())

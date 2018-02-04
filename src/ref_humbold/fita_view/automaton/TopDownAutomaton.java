@@ -40,8 +40,7 @@ public abstract class TopDownAutomaton
     public void setTraversing(TraversingMode mode)
         throws AutomatonIsRunningException
     {
-        if(this.runningMode == AutomatonRunningMode.RUNNING
-            || this.runningMode == AutomatonRunningMode.CONTINUING)
+        if(this.isRunning())
             throw new AutomatonIsRunningException(
                 "Cannot change traversing strategy when automaton is running.");
 

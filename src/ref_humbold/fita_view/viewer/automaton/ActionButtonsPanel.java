@@ -12,10 +12,9 @@ import javax.swing.*;
 
 import ref_humbold.fita_view.FITAViewException;
 import ref_humbold.fita_view.Pointer;
-import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
-import ref_humbold.fita_view.automaton.IllegalVariableValueException;
-import ref_humbold.fita_view.automaton.InfiniteTreeAutomaton;
-import ref_humbold.fita_view.automaton.TreeAutomaton;
+import ref_humbold.fita_view.automaton.*;
+import ref_humbold.fita_view.automaton.nondeterminism.StateNotChosenException;
+import ref_humbold.fita_view.automaton.nondeterminism.UserChoiceVisibility;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.SignalReceiver;
 import ref_humbold.fita_view.viewer.UserMessageBox;
@@ -26,7 +25,7 @@ public class ActionButtonsPanel
 {
     private static final long serialVersionUID = 5921531603338297434L;
 
-    private ButtonsType buttonsType = ButtonsType.NONE;
+    ButtonsType buttonsType = ButtonsType.NONE;
     private Pointer<TreeAutomaton> automatonPointer;
     private List<JButton> runningButtons = new ArrayList<>();
     private List<JButton> continuingButtons = new ArrayList<>();
@@ -53,6 +52,9 @@ public class ActionButtonsPanel
     {
         try
         {
+            if(UserChoiceVisibility.getInstance().getVisible())
+                throw new StateNotChosenException("New states haven't been chosen! Choose states!");
+
             TreeAutomaton automaton = automatonPointer.get();
             InfiniteTreeAutomaton infiniteAutomaton;
 
@@ -85,7 +87,9 @@ public class ActionButtonsPanel
                     break;
 
                 case "CHECK EMPTINESS":
-                    if(automaton.checkEmptiness())
+                    BottomUpAutomaton bottomUp = (BottomUpAutomaton)automaton;
+
+                    if(bottomUp.checkEmptiness())
                         UserMessageBox.showWarning("AUTOMATON IS EMPTY",
                                                    "No tree can be accepted by the automaton.");
                     else
@@ -110,7 +114,9 @@ public class ActionButtonsPanel
         }
         else if(signal.getSource() == AutomatonRunningModeSender.getInstance())
         {
-            if(!automatonPointer.isEmpty())
+            if(automatonPointer.isEmpty())
+                buttonsType = ButtonsType.NONE;
+            else
                 switch(automatonPointer.get().getRunningMode())
                 {
                     case RUNNING:
@@ -184,9 +190,13 @@ public class ActionButtonsPanel
                 lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
                 lowerPanel.add(stopRunningButton);
                 lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-                lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-                lowerPanel.add(emptinessButton);
-                lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+
+                if(automatonPointer.get() instanceof BottomUpAutomaton)
+                {
+                    lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+                    lowerPanel.add(emptinessButton);
+                    lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+                }
                 break;
         }
         lowerPanel.add(Box.createHorizontalGlue());
@@ -225,7 +235,7 @@ public class ActionButtonsPanel
         return button;
     }
 
-    private enum ButtonsType
+    enum ButtonsType
     {
         RUN, CONTINUE, NONE
     }

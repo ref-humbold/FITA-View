@@ -137,11 +137,11 @@ public class AcceptancePanelTest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        PowerMockito.doAnswer(new Answer<Exception>()
+        PowerMockito.doAnswer(new Answer<Void>()
         {
             @Override
-            public Exception answer(InvocationOnMock invocation)
-                throws Throwable
+            public Void answer(InvocationOnMock invocation)
+                throws Exception
             {
                 throw (Exception)invocation.getArguments()[0];
             }

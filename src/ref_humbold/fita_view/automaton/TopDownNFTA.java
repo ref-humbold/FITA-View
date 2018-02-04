@@ -61,14 +61,6 @@ public class TopDownNFTA
     }
 
     @Override
-    public boolean checkEmptiness()
-    {
-
-        //TODO: implement
-        return false;
-    }
-
-    @Override
     public void addTransition(Variable var, String value, String label, String leftResult,
                               String rightResult)
         throws DuplicatedTransitionException, IllegalTransitionException

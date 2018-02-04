@@ -50,14 +50,6 @@ public class TopDownDITA
     }
 
     @Override
-    public boolean checkEmptiness()
-    {
-
-        //TODO: implement
-        return false;
-    }
-
-    @Override
     public void continueRecursive()
         throws RecursiveContinuationException
     {

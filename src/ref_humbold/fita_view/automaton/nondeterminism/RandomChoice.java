@@ -7,7 +7,7 @@ import java.util.Random;
 public class RandomChoice<K, R>
     implements StateChoice<K, R>
 {
-    private static final Random random = new Random();
+    private final Random random = new Random();
 
     @Override
     public StateChoiceMode getMode()
