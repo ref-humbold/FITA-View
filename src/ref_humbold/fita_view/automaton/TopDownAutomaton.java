@@ -135,11 +135,17 @@ public abstract class TopDownAutomaton
         }
 
         if(isSendingMessages)
+        {
             TransitionSender.getInstance()
-                            .send(Triple.make(
-                                Pair.make(node.getLeft().getLabel(), sonsStates.getFirst()),
-                                Pair.make(node.getLabel(), node.getState()),
-                                Pair.make(node.getRight().getLabel(), sonsStates.getSecond())));
+                            .send(Triple.make(NodeInfoSource.LEFT_SON, node.getLeft().getLabel(),
+                                              sonsStates.getFirst()));
+            TransitionSender.getInstance()
+                            .send(Triple.make(NodeInfoSource.PARENT, node.getLabel(),
+                                              node.getState()));
+            TransitionSender.getInstance()
+                            .send(Triple.make(NodeInfoSource.RIGHT_SON, node.getRight().getLabel(),
+                                              sonsStates.getSecond()));
+        }
     }
 
     /**

@@ -2,8 +2,6 @@ package ref_humbold.fita_view.viewer.automaton;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -11,28 +9,23 @@ import javax.swing.JPanel;
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.Triple;
-import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
-import ref_humbold.fita_view.automaton.TransitionSender;
-import ref_humbold.fita_view.automaton.TreeAutomaton;
-import ref_humbold.fita_view.automaton.Variable;
+import ref_humbold.fita_view.automaton.*;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.messaging.SignalReceiver;
 
 public class TransitionDrawingArea
     extends JPanel
-    implements
-    MessageReceiver<Triple<Pair<String, Map<Variable, String>>, Pair<String, Map<Variable, String>>, Pair<String, Map<Variable, String>>>>,
-    SignalReceiver
+    implements MessageReceiver<Triple<NodeInfoSource, String, Map<Variable, String>>>,
+               SignalReceiver
 {
     private static final long serialVersionUID = -1303489069622584091L;
 
+    Pair<String, Map<Variable, String>> parentInfo;
+    Pair<String, Map<Variable, String>> leftSonInfo;
+    Pair<String, Map<Variable, String>> rightSonInfo;
+    private StateDrawer stateDrawer = new StateDrawer();
     private Pointer<TreeAutomaton> automatonPointer;
-    private Pair<String, Map<Variable, String>> parentInfo;
-    private Pair<String, Map<Variable, String>> leftSonInfo;
-    private Pair<String, Map<Variable, String>> rightSonInfo;
-    private int rectWidth;
-    private int rectHeight;
 
     public TransitionDrawingArea(Pointer<TreeAutomaton> automatonPointer)
     {
@@ -68,11 +61,25 @@ public class TransitionDrawingArea
 
     @Override
     public void receiveMessage(
-        Message<Triple<Pair<String, Map<Variable, String>>, Pair<String, Map<Variable, String>>, Pair<String, Map<Variable, String>>>> message)
+        Message<Triple<NodeInfoSource, String, Map<Variable, String>>> message)
     {
-        leftSonInfo = message.getParam().getFirst();
-        parentInfo = message.getParam().getSecond();
-        rightSonInfo = message.getParam().getThird();
+        Triple<NodeInfoSource, String, Map<Variable, String>> param = message.getParam();
+
+        switch(param.getFirst())
+        {
+            case LEFT_SON:
+                leftSonInfo = Pair.make(param.getSecond(), param.getThird());
+                break;
+
+            case PARENT:
+                parentInfo = Pair.make(param.getSecond(), param.getThird());
+                break;
+
+            case RIGHT_SON:
+                rightSonInfo = Pair.make(param.getSecond(), param.getThird());
+                break;
+        }
+
         repaint();
     }
 
@@ -81,32 +88,26 @@ public class TransitionDrawingArea
     {
         super.paintComponent(graphics);
 
-        Pair<Integer, Integer> parentCorner;
-        Pair<Integer, Integer> leftSonCorner;
-        Pair<Integer, Integer> rightSonCorner;
-
-        rectWidth = 2 * getWidth() / 5;
-        rectHeight = 2 * getHeight() / 5;
         graphics.setColor(Color.BLACK);
+        stateDrawer.setRectWidth(2 * getWidth() / 5);
+        stateDrawer.setRectHeight(2 * getHeight() / 5);
+        stateDrawer.setGraphics(graphics);
 
-        if(parentInfo != null)
+        if(!automatonPointer.isEmpty() && parentInfo != null)
         {
-            parentCorner = drawInfo(graphics, parentInfo.getFirst(), parentInfo.getSecond(),
-                                    getWidth() / 2, getHeight() / 4);
-            leftSonCorner = drawInfo(graphics, leftSonInfo.getFirst(), leftSonInfo.getSecond(),
-                                     getWidth() / 4, 3 * getHeight() / 4);
-            rightSonCorner = drawInfo(graphics, rightSonInfo.getFirst(), rightSonInfo.getSecond(),
-                                      3 * getWidth() / 4, 3 * getHeight() / 4);
+            AutomatonDirection direction = automatonPointer.get().getDirection();
 
-            if(parentCorner != null)
-            {
-                drawArrow(graphics, parentCorner.getFirst(),
-                          parentCorner.getSecond() + rectHeight / 2,
-                          leftSonCorner.getFirst() + rectWidth / 2, leftSonCorner.getSecond());
-                drawArrow(graphics, parentCorner.getFirst() + rectWidth,
-                          parentCorner.getSecond() + rectHeight / 2,
-                          rightSonCorner.getFirst() + rectWidth / 2, rightSonCorner.getSecond());
-            }
+            stateDrawer.drawInfo(parentInfo.getFirst(), parentInfo.getSecond(),
+                                 Pair.make(getWidth() / 2, getHeight() / 4));
+            stateDrawer.drawInfo(leftSonInfo.getFirst(), leftSonInfo.getSecond(),
+                                 Pair.make(getWidth() / 4, 3 * getHeight() / 4));
+            stateDrawer.drawInfo(rightSonInfo.getFirst(), rightSonInfo.getSecond(),
+                                 Pair.make(3 * getWidth() / 4, 3 * getHeight() / 4));
+
+            stateDrawer.drawArrow(Pair.make(getWidth() / 2, getHeight() / 4),
+                                  Pair.make(getWidth() / 4, 3 * getHeight() / 4), direction);
+            stateDrawer.drawArrow(Pair.make(getWidth() / 2, getHeight() / 4),
+                                  Pair.make(3 * getWidth() / 4, 3 * getHeight() / 4), direction);
         }
     }
 
@@ -115,61 +116,5 @@ public class TransitionDrawingArea
         parentInfo = null;
         leftSonInfo = null;
         rightSonInfo = null;
-    }
-
-    private Pair<Integer, Integer> drawInfo(Graphics graphics, String label,
-                                            Map<Variable, String> state, int verticalCentre,
-                                            int horizontalCentre)
-    {
-        if(state == null)
-            return null;
-
-        int leftAxis = verticalCentre - rectWidth / 2;
-        int upperAxis = horizontalCentre - rectHeight / 2;
-        List<Map.Entry<Variable, String>> entries = new ArrayList<>(state.entrySet());
-
-        graphics.drawRoundRect(leftAxis, upperAxis, rectWidth, rectHeight, 5, 5);
-        graphics.drawString("\'" + label + "\'", leftAxis + rectWidth / 4, upperAxis + 15);
-
-        for(int i = 0; i < entries.size(); ++i)
-            graphics.drawString(getEntryString(entries.get(i)), leftAxis + 10,
-                                upperAxis + 30 + 15 * i);
-
-        return Pair.make(leftAxis, upperAxis);
-    }
-
-    private void drawArrow(Graphics graphics, int parentX, int parentY, int sonX, int sonY)
-    {
-        if(automatonPointer.isEmpty())
-            return;
-
-        int arrowSize = 8;
-
-        graphics.drawLine(parentX, parentY, sonX, parentY);
-        graphics.drawLine(sonX, parentY, sonX, sonY);
-
-        switch(automatonPointer.get().getDirection())
-        {
-            case BOTTOM_UP:
-                if(sonX > parentX)
-                    graphics.fillPolygon(
-                        new int[]{parentX, parentX + arrowSize, parentX + arrowSize},
-                        new int[]{parentY, parentY - arrowSize / 2, parentY + arrowSize / 2}, 3);
-                else
-                    graphics.fillPolygon(
-                        new int[]{parentX, parentX - arrowSize, parentX - arrowSize},
-                        new int[]{parentY, parentY - arrowSize / 2, parentY + arrowSize / 2}, 3);
-                break;
-
-            case TOP_DOWN:
-                graphics.fillPolygon(new int[]{sonX, sonX + 10, sonX - 10},
-                                     new int[]{sonY, sonY - 20, sonY - 20}, 3);
-                break;
-        }
-    }
-
-    private String getEntryString(Map.Entry<Variable, String> entry)
-    {
-        return entry.getKey().getVarName() + " :: " + entry.getValue();
     }
 }

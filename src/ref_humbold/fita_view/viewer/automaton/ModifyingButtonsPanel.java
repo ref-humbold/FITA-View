@@ -83,6 +83,8 @@ public class ModifyingButtonsPanel
     @Override
     public void receiveSignal(Message<Void> signal)
     {
+        traversingGroup.clearSelection();
+        nonDeterminismGroup.clearSelection();
         removeAll();
         addComponents();
         revalidate();

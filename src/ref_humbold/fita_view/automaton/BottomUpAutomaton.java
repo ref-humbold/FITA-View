@@ -2,7 +2,6 @@ package ref_humbold.fita_view.automaton;
 
 import java.util.*;
 
-import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Triple;
 import ref_humbold.fita_view.automaton.transition.DuplicatedTransitionException;
 import ref_humbold.fita_view.automaton.transition.IllegalTransitionException;
@@ -120,11 +119,17 @@ public abstract class BottomUpAutomaton
                                       node.getLabel()));
 
         if(isSendingMessages)
+        {
             TransitionSender.getInstance()
-                            .send(Triple.make(
-                                Pair.make(node.getLeft().getLabel(), node.getLeft().getState()),
-                                Pair.make(node.getLabel(), node.getState()),
-                                Pair.make(node.getRight().getLabel(), node.getRight().getState())));
+                            .send(Triple.make(NodeInfoSource.LEFT_SON, node.getLeft().getLabel(),
+                                              node.getLeft().getState()));
+            TransitionSender.getInstance()
+                            .send(Triple.make(NodeInfoSource.PARENT, node.getLabel(),
+                                              node.getState()));
+            TransitionSender.getInstance()
+                            .send(Triple.make(NodeInfoSource.RIGHT_SON, node.getRight().getLabel(),
+                                              node.getRight().getState()));
+        }
     }
 
     /**
