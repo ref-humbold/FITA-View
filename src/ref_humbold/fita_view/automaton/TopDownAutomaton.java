@@ -48,7 +48,7 @@ public abstract class TopDownAutomaton
     }
 
     @Override
-    public boolean isAccepted()
+    public Boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
     {
         if(tree == null)

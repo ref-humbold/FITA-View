@@ -24,6 +24,7 @@ public class ZoomButtonsPanelTest
     @Before
     public void setUp()
     {
+        Mockito.doNothing().when(mockDrawingArea).revalidate();
         Mockito.doNothing().when(mockDrawingArea).repaint();
         Mockito.doCallRealMethod().when(mockDrawingArea).zeroZoom();
         Mockito.doCallRealMethod().when(mockDrawingArea).zoom(Matchers.anyInt());

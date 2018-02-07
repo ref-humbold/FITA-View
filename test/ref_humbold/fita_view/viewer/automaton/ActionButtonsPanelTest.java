@@ -16,14 +16,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.*;
-import ref_humbold.fita_view.automaton.nondeterminism.StateNotChosenException;
-import ref_humbold.fita_view.automaton.nondeterminism.UserChoiceVisibility;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.swing.*")
-@PrepareForTest({UserMessageBox.class, UserChoiceVisibility.class})
+@PrepareForTest(UserMessageBox.class)
 public class ActionButtonsPanelTest
 {
     @Mock
@@ -44,9 +42,6 @@ public class ActionButtonsPanelTest
     @Mock
     private Message<Void> mockMessage;
 
-    @Mock
-    private UserChoiceVisibility mockVisibility;
-
     @InjectMocks
     private ActionButtonsPanel testObject;
 
@@ -54,8 +49,6 @@ public class ActionButtonsPanelTest
     public void setUp()
     {
         PowerMockito.mockStatic(UserMessageBox.class);
-        PowerMockito.mockStatic(UserChoiceVisibility.class);
-        PowerMockito.when(UserChoiceVisibility.getInstance()).thenReturn(mockVisibility);
     }
 
     @After
@@ -69,7 +62,6 @@ public class ActionButtonsPanelTest
     {
         try
         {
-            Mockito.when(mockVisibility.getVisible()).thenReturn(false);
             Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("RUN");
             Mockito.doNothing().when(mockAutomaton).run();
@@ -90,7 +82,6 @@ public class ActionButtonsPanelTest
     {
         try
         {
-            Mockito.when(mockVisibility.getVisible()).thenReturn(false);
             Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("STEP FORWARD");
             Mockito.doNothing().when(mockAutomaton).makeStepForward();
@@ -111,7 +102,6 @@ public class ActionButtonsPanelTest
     {
         try
         {
-            Mockito.when(mockVisibility.getVisible()).thenReturn(false);
             Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("STOP TRAVERSING");
             Mockito.doNothing().when(mockAutomaton).makeStepForward();
@@ -132,7 +122,6 @@ public class ActionButtonsPanelTest
     {
         try
         {
-            Mockito.when(mockVisibility.getVisible()).thenReturn(false);
             Mockito.when(mockPointer.get()).thenReturn(mockInfinite);
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CONTINUE RUN");
             Mockito.doNothing().when(mockInfinite).continueRecursive();
@@ -157,7 +146,6 @@ public class ActionButtonsPanelTest
     {
         try
         {
-            Mockito.when(mockVisibility.getVisible()).thenReturn(false);
             Mockito.when(mockPointer.get()).thenReturn(mockInfinite);
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CONTINUE STEP FORWARD");
             Mockito.doNothing().when(mockInfinite).continueRecursive();
@@ -184,7 +172,6 @@ public class ActionButtonsPanelTest
         {
             Object[] result = new Object[2];
 
-            Mockito.when(mockVisibility.getVisible()).thenReturn(false);
             Mockito.when(mockPointer.get()).thenReturn(mockBottomUp);
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CHECK EMPTINESS");
             Mockito.when(mockBottomUp.checkEmptiness()).thenReturn(true);
@@ -220,7 +207,6 @@ public class ActionButtonsPanelTest
         {
             Object[] result = new Object[2];
 
-            Mockito.when(mockVisibility.getVisible()).thenReturn(false);
             Mockito.when(mockPointer.get()).thenReturn(mockBottomUp);
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CHECK EMPTINESS");
             Mockito.when(mockBottomUp.checkEmptiness()).thenReturn(false);
@@ -245,45 +231,6 @@ public class ActionButtonsPanelTest
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
-    }
-
-    @Test(expected = StateNotChosenException.class)
-    public void testActionPerformedWhenVisibleIsTrue()
-        throws Exception
-    {
-        Mockito.when(mockVisibility.getVisible()).thenReturn(true);
-        PowerMockito.doAnswer(new Answer<Void>()
-        {
-            @Override
-            public Void answer(InvocationOnMock invocation)
-                throws Exception
-            {
-                throw (Exception)invocation.getArguments()[0];
-            }
-        }).when(UserMessageBox.class, "showException", Matchers.any(Exception.class));
-
-        try
-        {
-            testObject.actionPerformed(mockActionEvent);
-        }
-        catch(Exception e)
-        {
-            Mockito.verify(mockPointer, Mockito.never()).get();
-
-            throw e;
-        }
-    }
-
-    @Test
-    public void testReceiveSignalWhenSourcePointerIsEmpty()
-    {
-        Mockito.when(mockMessage.getSource()).thenReturn(mockPointer);
-        Mockito.when(mockPointer.isEmpty()).thenReturn(true);
-
-        testObject.receiveSignal(mockMessage);
-
-        Assert.assertEquals(ActionButtonsPanel.ButtonsType.NONE, testObject.buttonsType);
-        Mockito.verify(mockPointer, Mockito.never()).get();
     }
 
     @Test

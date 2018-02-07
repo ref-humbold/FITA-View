@@ -63,6 +63,28 @@ public class AcceptancePanel
                     }
                     break;
 
+                case CONTINUING:
+                    try
+                    {
+                        if(!automatonPointer.isEmpty())
+                        {
+                            Boolean accepted = automatonPointer.get().isAccepted();
+
+                            if(accepted == null)
+                                setTreeUndefined();
+                            else if(accepted)
+                                setTreeAccepted();
+                            else
+                                setTreeRejected();
+                        }
+                    }
+                    catch(FITAViewException e)
+                    {
+                        UserMessageBox.showException(e);
+                        setTreeUndefined();
+                    }
+                    break;
+
                 default:
                     setTreeUndefined();
                     break;

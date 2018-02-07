@@ -1,0 +1,80 @@
+<automaton determinism="true">
+  <alphabet>
+    <word>0</word>
+    <word>1</word>
+    <word>x</word>
+    <word>and</word>
+    <word>nand</word>
+    <word>or</word>
+    <word>nor</word>
+    <word>impl</word>
+    <word>iff</word>
+  </alphabet>
+  <variables>
+    <var id="1" init="OP">
+      <value>VAR</value>
+      <value>CONST</value>
+    </var>
+  </variables>
+  <leaf-accepting>
+    <conditions>
+      <accept var-id="1" exclude="OP" />
+    </conditions>
+  </leaf-accepting>
+  <transitions>
+    <trans var-id="1">
+      <node-value>OP</node-value>
+      <label>0</label>
+      <left-result>CONST</left-result>
+      <right-result>CONST</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>OP</node-value>
+      <label>1</label>
+      <left-result>CONST</left-result>
+      <right-result>CONST</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>OP</node-value>
+      <label>x</label>
+      <left-result>VAR</left-result>
+      <right-result>VAR</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>OP</node-value>
+      <label>and</label>
+      <left-result>OP</left-result>
+      <right-result>OP</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>OP</node-value>
+      <label>or</label>
+      <left-result>OP</left-result>
+      <right-result>OP</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>OP</node-value>
+      <label>nand</label>
+      <left-result>OP</left-result>
+      <right-result>OP</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>OP</node-value>
+      <label>nor</label>
+      <left-result>OP</left-result>
+      <right-result>OP</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>OP</node-value>
+      <label>impl</label>
+      <left-result>OP</left-result>
+      <right-result>OP</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>OP</node-value>
+      <label>iff</label>
+      <left-result>OP</left-result>
+      <right-result>OP</right-result>
+    </trans>
+  </transitions>
+</automaton>

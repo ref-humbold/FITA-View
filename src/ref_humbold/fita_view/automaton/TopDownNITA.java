@@ -8,6 +8,8 @@ import java.util.Objects;
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.automaton.transition.NoSuchTransitionException;
 import ref_humbold.fita_view.automaton.traversing.RecursiveContinuationException;
+import ref_humbold.fita_view.automaton.traversing.TopDownDFS;
+import ref_humbold.fita_view.automaton.traversing.TopDownTraversing;
 import ref_humbold.fita_view.tree.NodeType;
 import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedStateValueException;
@@ -16,12 +18,16 @@ public class TopDownNITA
     extends TopDownNFTA
     implements InfiniteTreeAutomaton
 {
+    private Integer statesNum;
     private AcceptanceConditions infiniteAcceptanceConditions = new AcceptanceConditions();
-    private Map<TreeNode, Map<Map<Variable, String>, Integer>> recursiveNodesStates = new HashMap<>();
+    private Map<TreeNode, Map<Map<Variable, String>, Boolean>> repeatingStates = new HashMap<>();
 
     public TopDownNITA(Collection<Variable> variables, Collection<String> alphabet)
     {
         super(variables, alphabet);
+
+        statesNum = variables.parallelStream()
+                             .reduce(1, (u, var) -> u * var.size(), (a, b) -> a * b);
     }
 
     @Override
@@ -31,22 +37,32 @@ public class TopDownNITA
     }
 
     @Override
-    public boolean isInfinitelyAccepted()
+    public Boolean isInfinitelyAccepted()
         throws UndefinedStateValueException, UndefinedAcceptanceException
     {
-        for(Map<Map<Variable, String>, Integer> map : recursiveNodesStates.values())
-            for(Map.Entry<Map<Variable, String>, Integer> entry : map.entrySet())
-                if(entry.getValue() > 1 && infiniteAcceptanceConditions.check(entry.getKey()))
+        if(repeatingStates.isEmpty())
+            return true;
+
+        for(Map<Map<Variable, String>, Boolean> map : repeatingStates.values())
+            for(Map.Entry<Map<Variable, String>, Boolean> entry : map.entrySet())
+                if(entry.getValue() && infiniteAcceptanceConditions.check(entry.getKey()))
                     return true;
 
-        return false;
+        boolean allStates = repeatingStates.values()
+                                           .stream()
+                                           .map(map -> (map.keySet().size() == statesNum))
+                                           .reduce(true, (a, b) -> a && b);
+
+        return allStates ? false : null;
     }
 
     @Override
-    public boolean isAccepted()
+    public Boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
     {
-        return super.isAccepted() && isInfinitelyAccepted();
+        Boolean infiniteAcc = isInfinitelyAccepted();
+
+        return infiniteAcc == null ? null : infiniteAcc && super.isAccepted();
     }
 
     @Override
@@ -113,9 +129,8 @@ public class TopDownNITA
         throws IllegalVariableValueException, EmptyTreeException, NoTraversingStrategyException,
                NoNonDeterministicStrategyException
     {
-        recursiveNodesStates.clear();
-
         super.initialize();
+        findRepeating();
     }
 
     @Override
@@ -123,10 +138,37 @@ public class TopDownNITA
         throws IllegalVariableValueException, UndefinedStateValueException,
                NoSuchTransitionException
     {
-        if(node.getType() == NodeType.REC)
-            recursiveNodesStates.computeIfAbsent(node, k -> new HashMap<>())
-                                .merge(node.getState(), 1, Integer::sum);
+        if(repeatingStates.containsKey(node))
+        {
+            repeatingStates.get(node).computeIfPresent(node.getState(), (k, v) -> true);
+            repeatingStates.get(node).putIfAbsent(node.getState(), false);
+        }
 
         super.processNode(node);
+    }
+
+    private void findRepeating()
+    {
+        TopDownTraversing t = new TopDownDFS();
+
+        repeatingStates.clear();
+        t.initialize(tree);
+
+        t.forEachRemaining(iterator -> iterator.forEach(v -> {
+            if(v.getLeft().getType() == NodeType.REC)
+                addRepeating(v);
+
+            if(v.getRight().getType() == NodeType.REC)
+                addRepeating(v);
+        }));
+    }
+
+    private void addRepeating(TreeNode node)
+    {
+        while(node != null && node.getType() != NodeType.REPEAT)
+        {
+            repeatingStates.put(node, new HashMap<>());
+            node = node.getParent();
+        }
     }
 }

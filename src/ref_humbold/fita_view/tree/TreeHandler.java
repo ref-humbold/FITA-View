@@ -113,7 +113,9 @@ class TreeHandler
                     {
                         Pair<StandardNode, TreeChild> nodesPair = nodes.pop();
 
-                        if(nodesPair.getSecond() == TreeChild.RIGHT)
+                        if(nodesPair.getSecond() == TreeChild.LEFT)
+                            index /= 2;
+                        else if(nodesPair.getSecond() == TreeChild.RIGHT)
                             throw new OneChildException(writePosition()
                                                             + "Node must have zero or two children, but it has one.");
 
@@ -132,7 +134,7 @@ class TreeHandler
                             case LEFT:
                                 parent.getFirst().setLeft(node);
                                 nodes.push(Pair.make(parent.getFirst(), TreeChild.RIGHT));
-                                --index;
+                                index *= 2;
                                 break;
 
                             case RIGHT:

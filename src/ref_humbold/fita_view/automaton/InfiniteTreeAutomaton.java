@@ -13,7 +13,7 @@ public interface InfiniteTreeAutomaton
      * Testing if associated tree is accepted by the automaton in terms of infinitely appearing states.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      */
-    boolean isInfinitelyAccepted()
+    Boolean isInfinitelyAccepted()
         throws UndefinedStateValueException, UndefinedAcceptanceException;
 
     /**

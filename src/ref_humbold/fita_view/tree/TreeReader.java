@@ -19,7 +19,7 @@ public class TreeReader
     private SAXParser parser;
 
     public TreeReader(File file)
-        throws SAXException, FileFormatException
+        throws SAXException
     {
         if(!file.getName().endsWith(".tree.xml"))
             throw new FileFormatException(

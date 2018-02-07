@@ -45,21 +45,21 @@ public abstract class BottomUpAutomaton
     }
 
     @Override
-    public boolean isAccepted()
+    public void setTree(TreeNode tree)
+        throws TreeFinitenessException, EmptyTreeException
+    {
+        super.setTree(tree);
+        this.findLeaves();
+    }
+
+    @Override
+    public Boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
     {
         if(tree == null)
             throw new EmptyTreeException("Tree is empty.");
 
         return acceptanceConditions.check(tree.getState());
-    }
-
-    @Override
-    public void setTree(TreeNode tree)
-        throws TreeFinitenessException, EmptyTreeException
-    {
-        super.setTree(tree);
-        this.findLeaves();
     }
 
     /**

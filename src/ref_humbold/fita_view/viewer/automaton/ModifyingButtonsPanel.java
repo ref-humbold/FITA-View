@@ -13,7 +13,9 @@ import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AbstractTreeAutomaton;
 import ref_humbold.fita_view.automaton.NonDeterministicAutomaton;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
-import ref_humbold.fita_view.automaton.nondeterminism.*;
+import ref_humbold.fita_view.automaton.nondeterminism.StateChoice;
+import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceFactory;
+import ref_humbold.fita_view.automaton.nondeterminism.StateChoiceMode;
 import ref_humbold.fita_view.automaton.traversing.TraversingFactory;
 import ref_humbold.fita_view.automaton.traversing.TraversingMode;
 import ref_humbold.fita_view.automaton.traversing.TreeTraversing;
@@ -59,10 +61,6 @@ public class ModifyingButtonsPanel
         if(TraversingFactory.isCorrectMode(actionCommand))
             try
             {
-                if(UserChoiceVisibility.getInstance().getVisible())
-                    throw new StateNotChosenException(
-                        "New states haven't been chosen! Choose states!");
-
                 automaton.setTraversing(TraversingMode.valueOf(actionCommand));
             }
             catch(FITAViewException e)
@@ -153,9 +151,6 @@ public class ModifyingButtonsPanel
 
         try
         {
-            if(UserChoiceVisibility.getInstance().getVisible())
-                throw new StateNotChosenException("New states haven't been chosen! Choose states!");
-
             switch(StateChoiceMode.valueOf(actionCommand))
             {
                 case USER:

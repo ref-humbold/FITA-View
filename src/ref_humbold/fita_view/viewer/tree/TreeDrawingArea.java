@@ -71,6 +71,7 @@ public class TreeDrawingArea
     {
         currentNodes.clear();
         message.getParam().forEach(currentNodes::add);
+        revalidate();
         repaint();
     }
 
@@ -94,6 +95,7 @@ public class TreeDrawingArea
     {
         horizontalAxis = checkBounds(horizontalAxis + y * getStepUnit(), -(1 << 24), 1 << 10);
         verticalAxis = checkBounds(verticalAxis + x * getStepUnit(), -(1 << 24), 1 << 24);
+        revalidate();
         repaint();
     }
 
@@ -101,6 +103,7 @@ public class TreeDrawingArea
     {
         horizontalAxis = 0;
         verticalAxis = 0;
+        revalidate();
         repaint();
     }
 
@@ -108,6 +111,7 @@ public class TreeDrawingArea
     {
         zoomLevel = checkBounds(zoomLevel + i, 0, MAX_ZOOM);
         unitFactor = zoomLevel / 2 + 1;
+        revalidate();
         repaint();
     }
 
@@ -115,6 +119,7 @@ public class TreeDrawingArea
     {
         zoomLevel = 0;
         unitFactor = 1;
+        revalidate();
         repaint();
     }
 

@@ -72,16 +72,6 @@ public interface TreeAutomaton
     }
 
     /**
-     * Testing if associated tree is accepted by the automaton.
-     * @return {@code true} if automaton accepts tree, otherwise {@code false}
-     * @throws UndefinedAcceptanceException if no accepting conditions were defined
-     * @throws UndefinedStateValueException if state of the tree is undefined
-     * @throws EmptyTreeException if tree is empty
-     */
-    boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException;
-
-    /**
      * @param tree new tree to associate the automaton with
      * @throws TreeFinitenessException if tree finiteness is not suitable for the automaton
      * @throws EmptyTreeException if tree is empty
@@ -93,6 +83,16 @@ public interface TreeAutomaton
      * @param sendingMessages if {@code true} then the automaton sends messages informing about its work
      */
     void setSendingMessages(boolean sendingMessages);
+
+    /**
+     * Testing if associated tree is accepted by the automaton.
+     * @return {@code true} if automaton accepts tree, otherwise {@code false}
+     * @throws UndefinedAcceptanceException if no accepting conditions were defined
+     * @throws UndefinedStateValueException if state of the tree is undefined
+     * @throws EmptyTreeException if tree is empty
+     */
+    Boolean isAccepted()
+        throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException;
 
     /**
      * Adding accepting conditions for states to the automaton.

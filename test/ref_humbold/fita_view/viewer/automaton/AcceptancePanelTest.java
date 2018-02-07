@@ -175,11 +175,73 @@ public class AcceptancePanelTest
     }
 
     @Test
+    public void testReceiveSignalWhenContinuingAndAccepted()
+    {
+        try
+        {
+            Mockito.when(mockSignal.getSource())
+                   .thenReturn(AutomatonRunningModeSender.getInstance());
+            Mockito.when(mockAutomaton.getRunningMode())
+                   .thenReturn(AutomatonRunningMode.CONTINUING);
+            Mockito.when(mockPointer.isEmpty()).thenReturn(false);
+            Mockito.when(mockAutomaton.isAccepted()).thenReturn(true);
+        }
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        testObject.receiveSignal(mockSignal);
+
+        Assert.assertEquals(Color.GREEN, testObject.getBackground());
+        Assert.assertEquals(Color.BLACK, testObject.acceptanceLabel.getForeground());
+        Assert.assertEquals("TREE ACCEPTED :)", testObject.acceptanceLabel.getText());
+    }
+
+    @Test
+    public void testReceiveSignalWhenContinuingAndRejects()
+    {
+        try
+        {
+            Mockito.when(mockSignal.getSource())
+                   .thenReturn(AutomatonRunningModeSender.getInstance());
+            Mockito.when(mockAutomaton.getRunningMode())
+                   .thenReturn(AutomatonRunningMode.CONTINUING);
+            Mockito.when(mockPointer.isEmpty()).thenReturn(false);
+            Mockito.when(mockAutomaton.isAccepted()).thenReturn(false);
+        }
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        testObject.receiveSignal(mockSignal);
+
+        Assert.assertEquals(AcceptancePanel.DARK_RED, testObject.getBackground());
+        Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
+        Assert.assertEquals("TREE REJECTED :(", testObject.acceptanceLabel.getText());
+    }
+
+    @Test
     public void testReceiveSignalWhenContinuing()
     {
-        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
-        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.CONTINUING);
-
+        try
+        {
+            Mockito.when(mockSignal.getSource())
+                   .thenReturn(AutomatonRunningModeSender.getInstance());
+            Mockito.when(mockAutomaton.getRunningMode())
+                   .thenReturn(AutomatonRunningMode.CONTINUING);
+            Mockito.when(mockPointer.isEmpty()).thenReturn(false);
+            Mockito.when(mockAutomaton.isAccepted()).thenReturn(null);
+        }
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+        
         testObject.receiveSignal(mockSignal);
 
         Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());

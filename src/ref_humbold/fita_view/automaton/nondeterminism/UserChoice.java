@@ -22,6 +22,7 @@ public class UserChoice<K, R>
     implements StateChoice<K, R>, ActionListener, PropertyChangeListener
 {
     private final WindowAdapter windowAdapter = new UserWindowAdapter();
+    private final JFrame frame = new JFrame();
     private JDialog dialog;
     private ButtonGroup buttonGroup;
     private JOptionPane optionPane;
@@ -59,7 +60,6 @@ public class UserChoice<K, R>
         resultStates = statesList;
         createDialog(key);
         current = statesList.get(0);
-        UserChoiceVisibility.getInstance().isVisible = true;
         dialog.setVisible(true);
 
         return current;
@@ -70,10 +70,7 @@ public class UserChoice<K, R>
     {
         if(dialog.isVisible() && event.getSource() == optionPane && Objects.equals(
             event.getPropertyName(), JOptionPane.VALUE_PROPERTY))
-        {
             dialog.dispose();
-            UserChoiceVisibility.getInstance().isVisible = false;
-        }
     }
 
     private void createDialog(K key)
@@ -90,13 +87,12 @@ public class UserChoice<K, R>
         panel.add(Box.createRigidArea(new Dimension(0, 5)));
         panel.add(this.generateButtons());
 
-        dialog = new JDialog();
+        dialog = new JDialog(frame, "USER non-deterministic choice", true);
         optionPane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE,
                                      JOptionPane.DEFAULT_OPTION, null, options, options[0]);
 
         optionPane.addPropertyChangeListener(this);
         dialog.addWindowListener(windowAdapter);
-        dialog.setTitle("USER non-deterministic choice");
         dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         dialog.setContentPane(optionPane);
         dialog.pack();

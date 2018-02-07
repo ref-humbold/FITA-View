@@ -13,8 +13,6 @@ import javax.swing.*;
 import ref_humbold.fita_view.FITAViewException;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.*;
-import ref_humbold.fita_view.automaton.nondeterminism.StateNotChosenException;
-import ref_humbold.fita_view.automaton.nondeterminism.UserChoiceVisibility;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.SignalReceiver;
 import ref_humbold.fita_view.viewer.UserMessageBox;
@@ -52,9 +50,6 @@ public class ActionButtonsPanel
     {
         try
         {
-            if(UserChoiceVisibility.getInstance().getVisible())
-                throw new StateNotChosenException("New states haven't been chosen! Choose states!");
-
             TreeAutomaton automaton = automatonPointer.get();
             InfiniteTreeAutomaton infiniteAutomaton;
 

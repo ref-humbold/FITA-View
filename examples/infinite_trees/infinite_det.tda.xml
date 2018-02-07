@@ -1,0 +1,235 @@
+<automaton determinism="true">
+  <alphabet>
+    <word>0</word>
+    <word>1</word>
+    <word>2</word>
+    <word>3</word>
+    <word>4</word>
+    <word>5</word>
+    <word>6</word>
+    <word>7</word>
+    <word>8</word>
+    <word>9</word>
+    <word>10</word>
+    <word>11</word>
+    <word>12</word>
+    <word>13</word>
+    <word>14</word>
+    <word>15</word>
+  </alphabet>
+  <variables>
+    <var id="0" init="Even">
+      <value>Odd</value>
+    </var>
+    <var id="1" init="Zero">
+      <value>One</value>
+      <value>Two</value>
+    </var>
+  </variables>
+  <buchi-accepting>
+    <conditions>
+      <accept var-id="0" include="Even" />
+      <accept var-id="1" include="Zero" />
+    </conditions>
+  </buchi-accepting>
+  <leaf-accepting>
+    <conditions>
+      <accept var-id="0" include="(*)" />
+      <accept var-id="1" include="(*)" />
+    </conditions>
+  </leaf-accepting>
+  <transitions>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>0</label>
+      <left-result>Even</left-result>
+      <right-result>Even</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>1</label>
+      <left-result>Odd</left-result>
+      <right-result>Odd</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>2</label>
+      <left-result>Even</left-result>
+      <right-result>Even</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>3</label>
+      <left-result>Odd</left-result>
+      <right-result>Odd</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>4</label>
+      <left-result>Even</left-result>
+      <right-result>Even</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>5</label>
+      <left-result>Odd</left-result>
+      <right-result>Odd</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>6</label>
+      <left-result>Even</left-result>
+      <right-result>Even</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>7</label>
+      <left-result>Odd</left-result>
+      <right-result>Odd</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>8</label>
+      <left-result>Even</left-result>
+      <right-result>Even</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>9</label>
+      <left-result>Odd</left-result>
+      <right-result>Odd</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>10</label>
+      <left-result>Even</left-result>
+      <right-result>Even</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>11</label>
+      <left-result>Odd</left-result>
+      <right-result>Odd</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>12</label>
+      <left-result>Even</left-result>
+      <right-result>Even</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>13</label>
+      <left-result>Odd</left-result>
+      <right-result>Odd</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>14</label>
+      <left-result>Even</left-result>
+      <right-result>Even</right-result>
+    </trans>
+    <trans var-id="0">
+      <node-value>(*)</node-value>
+      <label>15</label>
+      <left-result>Odd</left-result>
+      <right-result>Odd</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>0</label>
+      <left-result>Zero</left-result>
+      <right-result>Zero</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>1</label>
+      <left-result>One</left-result>
+      <right-result>One</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>2</label>
+      <left-result>Two</left-result>
+      <right-result>Two</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>3</label>
+      <left-result>Zero</left-result>
+      <right-result>Zero</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>4</label>
+      <left-result>One</left-result>
+      <right-result>One</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>5</label>
+      <left-result>Two</left-result>
+      <right-result>Two</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>6</label>
+      <left-result>Zero</left-result>
+      <right-result>Zero</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>7</label>
+      <left-result>One</left-result>
+      <right-result>One</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>8</label>
+      <left-result>Two</left-result>
+      <right-result>Two</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>9</label>
+      <left-result>Zero</left-result>
+      <right-result>Zero</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>10</label>
+      <left-result>One</left-result>
+      <right-result>One</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>11</label>
+      <left-result>Two</left-result>
+      <right-result>Two</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>12</label>
+      <left-result>Zero</left-result>
+      <right-result>Zero</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>13</label>
+      <left-result>One</left-result>
+      <right-result>One</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>14</label>
+      <left-result>Two</left-result>
+      <right-result>Two</right-result>
+    </trans>
+    <trans var-id="1">
+      <node-value>(*)</node-value>
+      <label>15</label>
+      <left-result>Zero</left-result>
+      <right-result>Zero</right-result>
+    </trans>
+  </transitions>
+</automaton>

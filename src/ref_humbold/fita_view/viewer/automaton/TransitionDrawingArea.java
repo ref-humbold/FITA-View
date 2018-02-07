@@ -56,6 +56,7 @@ public class TransitionDrawingArea
                     break;
             }
 
+        revalidate();
         repaint();
     }
 
@@ -80,6 +81,7 @@ public class TransitionDrawingArea
                 break;
         }
 
+        revalidate();
         repaint();
     }
 

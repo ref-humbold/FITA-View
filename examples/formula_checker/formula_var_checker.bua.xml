@@ -1,0 +1,152 @@
+<automaton determinism="false">
+  <alphabet>
+    <word>0</word>
+    <word>1</word>
+    <word>p</word>
+    <word>and</word>
+    <word>nand</word>
+    <word>or</word>
+    <word>nor</word>
+    <word>impl</word>
+    <word>iff</word>
+  </alphabet>
+  <variables>
+    <var id="0" init="X">
+      <value>T</value>
+      <value>F</value>
+    </var>
+  </variables>
+  <accepting>
+    <conditions>
+      <accept var-id="0" include="T" />
+    </conditions>
+  </accepting>
+  <transitions>
+    <trans var-id="0">
+      <left-value>X</left-value>
+      <right-value>X</right-value>
+      <label>1</label>
+      <node-result>T</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>X</left-value>
+      <right-value>X</right-value>
+      <label>0</label>
+      <node-result>F</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>X</left-value>
+      <right-value>X</right-value>
+      <label>p</label>
+      <node-result>F</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>X</left-value>
+      <right-value>X</right-value>
+      <label>p</label>
+      <node-result>T</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>T</left-value>
+      <right-value>T</right-value>
+      <label>and</label>
+      <node-result>T</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>F</left-value>
+      <right-value>(*)</right-value>
+      <label>and</label>
+      <node-result>F</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>(*)</left-value>
+      <right-value>F</right-value>
+      <label>and</label>
+      <node-result>F</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>T</left-value>
+      <right-value>T</right-value>
+      <label>nand</label>
+      <node-result>F</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>F</left-value>
+      <right-value>(*)</right-value>
+      <label>nand</label>
+      <node-result>T</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>(*)</left-value>
+      <right-value>F</right-value>
+      <label>nand</label>
+      <node-result>T</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>F</left-value>
+      <right-value>F</right-value>
+      <label>or</label>
+      <node-result>F</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>T</left-value>
+      <right-value>(*)</right-value>
+      <label>or</label>
+      <node-result>T</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>(*)</left-value>
+      <right-value>T</right-value>
+      <label>or</label>
+      <node-result>T</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>F</left-value>
+      <right-value>F</right-value>
+      <label>nor</label>
+      <node-result>T</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>T</left-value>
+      <right-value>(*)</right-value>
+      <label>nor</label>
+      <node-result>F</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>(*)</left-value>
+      <right-value>T</right-value>
+      <label>nor</label>
+      <node-result>F</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>F</left-value>
+      <right-value>(*)</right-value>
+      <label>impl</label>
+      <node-result>T</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>T</left-value>
+      <right-value>(*)</right-value>
+      <label>impl</label>
+      <node-result>(=^)</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>(*)</left-value>
+      <right-value>(=)</right-value>
+      <label>iff</label>
+      <node-result>(^=)</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>T</left-value>
+      <right-value>F</right-value>
+      <label>iff</label>
+      <node-result>F</node-result>
+    </trans>
+    <trans var-id="0">
+      <left-value>F</left-value>
+      <right-value>T</right-value>
+      <label>iff</label>
+      <node-result>F</node-result>
+    </trans>
+  </transitions>
+</automaton>

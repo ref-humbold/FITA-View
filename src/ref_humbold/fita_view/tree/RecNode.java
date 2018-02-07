@@ -114,7 +114,7 @@ public class RecNode
 
         RecNode other = (RecNode)o;
 
-        return this.recursive.index == other.recursive.index;
+        return this.recursive.index == other.recursive.index && this.index == other.index;
     }
 
     @Override
