@@ -224,7 +224,7 @@ public class AutomatonTreeViewTest
         Assert.assertEquals("condition", accept1Node.getUserObject());
         Assert.assertArrayEquals(expectedAccept1Values.toArray(), accept1Values.toArray());
 
-        Assert.assertEquals("Transition function", transitionChild.getUserObject());
+        Assert.assertEquals("Transition relation", transitionChild.getUserObject());
         Assert.assertEquals(2, transitionChild.getChildCount());
 
         Assert.assertEquals(automaton.getTransitionAsStrings().size(),
@@ -390,7 +390,7 @@ public class AutomatonTreeViewTest
         Assert.assertEquals("condition", accept1Node.getUserObject());
         Assert.assertArrayEquals(expectedAccept1Values.toArray(), accept1Values.toArray());
 
-        Assert.assertEquals("Transition function", transitionChild.getUserObject());
+        Assert.assertEquals("Transition relation", transitionChild.getUserObject());
         Assert.assertEquals(2, transitionChild.getChildCount());
 
         Assert.assertEquals(automaton.getTransitionAsStrings().size(),

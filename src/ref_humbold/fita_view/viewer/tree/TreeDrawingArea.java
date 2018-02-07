@@ -232,15 +232,17 @@ public class TreeDrawingArea
 
     private void drawRecursiveEdge(Graphics graphics, NodeParameters parameters)
     {
-        Pair<Integer, Integer> position = countNodePos(parameters);
+        Pair<Integer, Integer> recPosition = countNodePos(parameters);
         Pair<Integer, Integer> repeatPosition = countNodePos(repeatNodes.peek());
-        int yEdgePos = position.getFirst() + 3 * NODE_SIDE / 4;
+        int horizontalEdgePos = recPosition.getSecond() + 3 * countUnit() / 4;
 
         graphics.setColor(Color.MAGENTA);
-        graphics.drawLine(position.getFirst(), position.getSecond(), position.getFirst(), yEdgePos);
-        graphics.drawLine(position.getFirst(), yEdgePos, repeatPosition.getFirst(), yEdgePos);
-        graphics.drawLine(repeatPosition.getFirst(), yEdgePos, repeatPosition.getFirst(),
-                          repeatPosition.getSecond() + NODE_SIDE / 2);
+        graphics.drawLine(recPosition.getFirst(), recPosition.getSecond(), recPosition.getFirst(),
+                          horizontalEdgePos);
+        graphics.drawLine(recPosition.getFirst(), horizontalEdgePos, repeatPosition.getFirst(),
+                          horizontalEdgePos);
+        graphics.drawLine(repeatPosition.getFirst(), horizontalEdgePos, repeatPosition.getFirst(),
+                          repeatPosition.getSecond() + countNodeSide() / 2);
     }
 
     private void drawEdges(Graphics graphics, NodeParameters parameters)
@@ -249,7 +251,11 @@ public class TreeDrawingArea
         Pair<Integer, Integer> leftPosition = countNodePos(parameters.getLeftParams());
         Pair<Integer, Integer> rightPosition = countNodePos(parameters.getRightParams());
 
-        graphics.setColor(Color.BLACK);
+        if(parameters.getNode().isLeaf())
+            graphics.setColor(Color.LIGHT_GRAY);
+        else
+            graphics.setColor(Color.BLACK);
+
         graphics.drawLine(position.getFirst(), position.getSecond(), leftPosition.getFirst(),
                           leftPosition.getSecond());
         graphics.drawLine(position.getFirst(), position.getSecond(), rightPosition.getFirst(),
@@ -267,7 +273,7 @@ public class TreeDrawingArea
                 break;
 
             case REPEAT:
-                graphics.setColor(Color.ORANGE);
+                graphics.setColor(new Color(128, 0, 255));
                 break;
 
             case REC:

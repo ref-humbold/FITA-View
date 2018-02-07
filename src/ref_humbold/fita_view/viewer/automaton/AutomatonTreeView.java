@@ -158,7 +158,7 @@ public class AutomatonTreeView
     private void loadTransitions(TreeAutomaton automaton)
     {
         Map<Pair<Variable, String>, String> stringTransitions = automaton.getTransitionAsStrings();
-        DefaultMutableTreeNode transitionNode = new DefaultMutableTreeNode("Transition function");
+        DefaultMutableTreeNode transitionNode = new DefaultMutableTreeNode("Transition relation");
         Map<Variable, DefaultMutableTreeNode> varNodes = automaton.getVariables()
                                                                   .stream()
                                                                   .collect(Collectors.toMap(
