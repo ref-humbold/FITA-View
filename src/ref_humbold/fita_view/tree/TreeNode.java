@@ -73,6 +73,7 @@ public abstract class TreeNode
 
     /**
      * @param state new state for the node
+     * @throws IllegalVariableValueException if any of variable values is incorrect
      */
     public abstract void setState(Map<Variable, String> state)
         throws IllegalVariableValueException;
@@ -129,6 +130,7 @@ public abstract class TreeNode
     /**
      * @param var state variable
      * @param value variable value
+     * @throws IllegalVariableValueException if variable value is incorrect
      */
     public abstract void setStateValue(Variable var, String value)
         throws IllegalVariableValueException;

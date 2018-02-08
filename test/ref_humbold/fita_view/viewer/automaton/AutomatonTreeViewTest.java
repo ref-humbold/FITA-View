@@ -84,7 +84,7 @@ public class AutomatonTreeViewTest
 
         accept.put(variables.get(0), Pair.make("T", true));
         accept.put(variables.get(1), Pair.make(Wildcard.EVERY_VALUE, true));
-        automaton.addAcceptingConditions(accept);
+        automaton.addAcceptanceConditions(accept);
 
         try
         {
@@ -255,7 +255,7 @@ public class AutomatonTreeViewTest
 
         accept.put(variables.get(0), Pair.make("X", true));
         accept.put(variables.get(1), Pair.make("!", false));
-        automaton.addAcceptingConditions(accept);
+        automaton.addAcceptanceConditions(accept);
 
         try
         {

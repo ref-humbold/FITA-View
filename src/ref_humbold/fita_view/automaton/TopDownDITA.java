@@ -18,16 +18,14 @@ public class TopDownDITA
     extends TopDownDFTA
     implements InfiniteTreeAutomaton
 {
-    private Integer statesNum;
     private AcceptanceConditions infiniteAcceptanceConditions = new AcceptanceConditions();
-    private Map<TreeNode, Map<Map<Variable, String>, Boolean>> repeatingStates = new HashMap<>();
+    private Map<TreeNode, Map<Map<Variable, String>, Integer>> repeatingStates = new HashMap<>();
+    private Map<TreeNode, Integer> numberRecursive = new HashMap<>();
+    private int maximumRecursive = 0;
 
     public TopDownDITA(Collection<Variable> variables, Collection<String> alphabet)
     {
         super(variables, alphabet);
-
-        statesNum = variables.parallelStream()
-                             .reduce(1, (u, var) -> u * var.size(), (a, b) -> a * b);
     }
 
     @Override
@@ -43,17 +41,20 @@ public class TopDownDITA
         if(repeatingStates.isEmpty())
             return true;
 
-        for(Map<Map<Variable, String>, Boolean> map : repeatingStates.values())
-            for(Map.Entry<Map<Variable, String>, Boolean> entry : map.entrySet())
-                if(entry.getValue() && infiniteAcceptanceConditions.check(entry.getKey()))
+        for(Map<Map<Variable, String>, Integer> map : repeatingStates.values())
+            for(Map.Entry<Map<Variable, String>, Integer> entry : map.entrySet())
+                if(entry.getValue() >= maximumRecursive + 2 && infiniteAcceptanceConditions.check(
+                    entry.getKey()))
                     return true;
 
-        boolean allStates = repeatingStates.values()
-                                           .stream()
-                                           .map(map -> (map.keySet().size() == statesNum))
-                                           .reduce(true, (a, b) -> a && b);
+        boolean allNotAccept = false;
 
-        return allStates ? false : null;
+        for(Map<Map<Variable, String>, Integer> map : repeatingStates.values())
+            for(Map.Entry<Map<Variable, String>, Integer> entry : map.entrySet())
+                if(entry.getValue() > maximumRecursive + 2)
+                    allNotAccept |= !infiniteAcceptanceConditions.check(entry.getKey());
+
+        return allNotAccept ? false : null;
     }
 
     @Override
@@ -131,6 +132,7 @@ public class TopDownDITA
     {
         super.initialize();
         findRepeating();
+        maximumRecursive = numberRecursive.values().stream().reduce(0, Math::max);
     }
 
     @Override
@@ -140,8 +142,8 @@ public class TopDownDITA
     {
         if(repeatingStates.containsKey(node))
         {
-            repeatingStates.get(node).computeIfPresent(node.getState(), (k, v) -> true);
-            repeatingStates.get(node).putIfAbsent(node.getState(), false);
+            repeatingStates.get(node).putIfAbsent(node.getState(), 0);
+            repeatingStates.get(node).computeIfPresent(node.getState(), (k, v) -> v + 1);
         }
 
         super.processNode(node);
@@ -156,10 +158,10 @@ public class TopDownDITA
 
         t.forEachRemaining(iterator -> iterator.forEach(v -> {
             if(v.getLeft().getType() == NodeType.REC)
-                addRepeating(v);
+                addRepeating(v.getLeft());
 
             if(v.getRight().getType() == NodeType.REC)
-                addRepeating(v);
+                addRepeating(v.getRight());
         }));
     }
 
@@ -167,8 +169,14 @@ public class TopDownDITA
     {
         while(node != null && node.getType() != NodeType.REPEAT)
         {
-            repeatingStates.putIfAbsent(node, new HashMap<>());
+            repeatingStates.put(node, new HashMap<>());
             node = node.getParent();
+        }
+
+        if(node != null && node.getType() == NodeType.REPEAT)
+        {
+            numberRecursive.putIfAbsent(node, 0);
+            numberRecursive.computeIfPresent(node, (k, v) -> v + 1);
         }
     }
 }

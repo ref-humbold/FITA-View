@@ -82,7 +82,7 @@ class TopDownAutomatonHandler
                 if(isInfiniteAccept)
                     ((InfiniteTreeAutomaton)automaton).addInfinitelyAcceptingConditions(conditions);
                 else
-                    automaton.addAcceptingConditions(conditions);
+                    automaton.addAcceptanceConditions(conditions);
                 break;
 
             case "label":

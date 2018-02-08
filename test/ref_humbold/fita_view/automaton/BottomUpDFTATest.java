@@ -157,7 +157,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts);
+            testObject.addAcceptanceConditions(accepts);
 
             node13 = new StandardNode("1", 13);
             node12 = new StandardNode("1", 12);
@@ -279,7 +279,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts);
+            testObject.addAcceptanceConditions(accepts);
 
             node13 = new StandardNode("1", 13);
             node12 = new StandardNode("1", 12);
@@ -459,7 +459,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts);
+            testObject.addAcceptanceConditions(accepts);
 
             node13 = new StandardNode("1", 13);
             node12 = new StandardNode("1", 12);
@@ -558,7 +558,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts);
+            testObject.addAcceptanceConditions(accepts);
 
             TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
                                                                          new StandardNode("1", 7,
@@ -616,7 +616,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts);
+            testObject.addAcceptanceConditions(accepts);
 
             TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
                                                                          new StandardNode("1", 7,
@@ -675,7 +675,7 @@ public class BottomUpDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts);
+            testObject.addAcceptanceConditions(accepts);
 
             TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
                                                                          new StandardNode("1", 7,
@@ -878,7 +878,7 @@ public class BottomUpDFTATest
     {
         boolean result = false;
 
-        testObject.addAcceptingConditions(accepts);
+        testObject.addAcceptanceConditions(accepts);
 
         try
         {
@@ -902,7 +902,7 @@ public class BottomUpDFTATest
         testAccepts.put(variables.get(0), Pair.make("F", true));
         testAccepts.put(variables.get(1), Pair.make(Wildcard.EVERY_VALUE, true));
 
-        testObject.addAcceptingConditions(testAccepts);
+        testObject.addAcceptanceConditions(testAccepts);
 
         try
         {
@@ -926,7 +926,7 @@ public class BottomUpDFTATest
         testAccepts.put(variables.get(0), Pair.make("X", true));
         testAccepts.put(variables.get(1), Pair.make(Wildcard.EVERY_VALUE, true));
 
-        testObject.addAcceptingConditions(testAccepts);
+        testObject.addAcceptanceConditions(testAccepts);
 
         try
         {

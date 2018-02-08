@@ -91,7 +91,7 @@ public abstract class AbstractTreeAutomaton
     }
 
     @Override
-    public void addAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept)
+    public void addAcceptanceConditions(Map<Variable, Pair<String, Boolean>> accept)
     {
         acceptanceConditions.add(accept);
     }

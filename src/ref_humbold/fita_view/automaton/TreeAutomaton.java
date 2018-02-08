@@ -95,10 +95,10 @@ public interface TreeAutomaton
         throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException;
 
     /**
-     * Adding accepting conditions for states to the automaton.
+     * Adding acceptance conditions for states to the automaton.
      * @param accept mapping from variables to accepting conditions on their values
      */
-    void addAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept);
+    void addAcceptanceConditions(Map<Variable, Pair<String, Boolean>> accept);
 
     /**
      * Testing if label is present in alphabet recognised by the automaton.

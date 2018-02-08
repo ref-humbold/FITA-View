@@ -68,7 +68,7 @@ public class AutomatonReaderTest
         TopDownDFTA expected = new TopDownDFTA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
-        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("B", false)));
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", false)));
 
         try
         {
@@ -122,7 +122,7 @@ public class AutomatonReaderTest
         TopDownDFTA expected = new TopDownDFTA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
-        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("A", false)));
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("A", false)));
 
         try
         {
@@ -439,7 +439,7 @@ public class AutomatonReaderTest
         TopDownNFTA expected = new TopDownNFTA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
-        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("B", true)));
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", true)));
 
         try
         {
@@ -502,7 +502,7 @@ public class AutomatonReaderTest
 
         expected.addInfinitelyAcceptingConditions(
             Collections.singletonMap(v, Pair.make("C", true)));
-        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("B", false)));
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", false)));
 
         try
         {
@@ -561,7 +561,7 @@ public class AutomatonReaderTest
 
         expected.addInfinitelyAcceptingConditions(
             Collections.singletonMap(v, Pair.make("A", false)));
-        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("B", true)));
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", true)));
 
         try
         {
@@ -622,7 +622,7 @@ public class AutomatonReaderTest
         BottomUpDFTA expected = new BottomUpDFTA(Collections.singletonList(v),
                                                  Arrays.asList("0", "1"));
 
-        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("C", true)));
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
 
         try
         {
@@ -688,7 +688,7 @@ public class AutomatonReaderTest
         BottomUpDFTA expected = new BottomUpDFTA(Collections.singletonList(v),
                                                  Arrays.asList("0", "1"));
 
-        expected.addAcceptingConditions(
+        expected.addAcceptanceConditions(
             Collections.singletonMap(v, Pair.make(Wildcard.EVERY_VALUE, true)));
 
         try
@@ -1060,7 +1060,7 @@ public class AutomatonReaderTest
         BottomUpNFTA expected = new BottomUpNFTA(Collections.singletonList(v),
                                                  Arrays.asList("0", "1"));
 
-        expected.addAcceptingConditions(Collections.singletonMap(v, Pair.make("C", true)));
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
 
         try
         {

@@ -168,9 +168,9 @@ public class TopDownDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts.get(0));
-            testObject.addAcceptingConditions(accepts.get(1));
-            testObject.addAcceptingConditions(accepts.get(2));
+            testObject.addAcceptanceConditions(accepts.get(0));
+            testObject.addAcceptanceConditions(accepts.get(1));
+            testObject.addAcceptanceConditions(accepts.get(2));
 
             node13 = new StandardNode("2", 13);
             node12 = new StandardNode("1", 12);
@@ -330,9 +330,9 @@ public class TopDownDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts.get(0));
-            testObject.addAcceptingConditions(accepts.get(1));
-            testObject.addAcceptingConditions(accepts.get(2));
+            testObject.addAcceptanceConditions(accepts.get(0));
+            testObject.addAcceptanceConditions(accepts.get(1));
+            testObject.addAcceptanceConditions(accepts.get(2));
 
             node13 = new StandardNode("2", 13);
             node12 = new StandardNode("1", 12);
@@ -558,9 +558,9 @@ public class TopDownDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts.get(0));
-            testObject.addAcceptingConditions(accepts.get(1));
-            testObject.addAcceptingConditions(accepts.get(2));
+            testObject.addAcceptanceConditions(accepts.get(0));
+            testObject.addAcceptanceConditions(accepts.get(1));
+            testObject.addAcceptanceConditions(accepts.get(2));
 
             node13 = new StandardNode("2", 13);
             node12 = new StandardNode("1", 12);
@@ -698,9 +698,9 @@ public class TopDownDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts.get(0));
-            testObject.addAcceptingConditions(accepts.get(1));
-            testObject.addAcceptingConditions(accepts.get(2));
+            testObject.addAcceptanceConditions(accepts.get(0));
+            testObject.addAcceptanceConditions(accepts.get(1));
+            testObject.addAcceptanceConditions(accepts.get(2));
 
             TreeNode node = new StandardNode("0", 1,
                                              new StandardNode("3", 3, new StandardNode("0", 7),
@@ -737,9 +737,9 @@ public class TopDownDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts.get(0));
-            testObject.addAcceptingConditions(accepts.get(1));
-            testObject.addAcceptingConditions(accepts.get(2));
+            testObject.addAcceptanceConditions(accepts.get(0));
+            testObject.addAcceptanceConditions(accepts.get(1));
+            testObject.addAcceptanceConditions(accepts.get(2));
 
             TreeNode node = new StandardNode("2", 1,
                                              new StandardNode("4", 3, new StandardNode("3", 7),
@@ -794,9 +794,9 @@ public class TopDownDFTATest
         try
         {
             testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptingConditions(accepts.get(0));
-            testObject.addAcceptingConditions(accepts.get(1));
-            testObject.addAcceptingConditions(accepts.get(2));
+            testObject.addAcceptanceConditions(accepts.get(0));
+            testObject.addAcceptanceConditions(accepts.get(1));
+            testObject.addAcceptanceConditions(accepts.get(2));
 
             TreeNode node = new StandardNode("2", 1,
                                              new StandardNode("4", 3, new StandardNode("3", 7),

@@ -63,7 +63,7 @@ class BottomUpAutomatonHandler
                                 + "has no accepting condition.");
                 }
 
-                automaton.addAcceptingConditions(conditions);
+                automaton.addAcceptanceConditions(conditions);
                 break;
 
             case "trans":
