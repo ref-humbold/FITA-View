@@ -300,7 +300,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = NoAcceptingForVariableException.class)
+    @Test(expected = NoAcceptanceForVariableException.class)
     public void testReadTopDownDFTAWhenNoAcceptingValueForVariable()
         throws SAXException
     {
@@ -326,7 +326,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = DuplicatedAcceptingValueException.class)
+    @Test(expected = DuplicatedAcceptanceValueException.class)
     public void testReadTopDownDFTAWhenDuplicatedAcceptingValueForVariable()
         throws SAXException
     {
@@ -352,7 +352,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = IncorrectAcceptingConditionException.class)
+    @Test(expected = IncorrectAcceptanceConditionException.class)
     public void testReadTopDownDFTAWhenAcceptingUnspecified()
         throws SAXException
     {
@@ -500,8 +500,7 @@ public class AutomatonReaderTest
         TopDownDITA expected = new TopDownDITA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
-        expected.addInfinitelyAcceptingConditions(
-            Collections.singletonMap(v, Pair.make("C", true)));
+        expected.addBuchiAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
         expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", false)));
 
         try
@@ -559,8 +558,7 @@ public class AutomatonReaderTest
         TopDownNITA expected = new TopDownNITA(Collections.singletonList(v),
                                                Arrays.asList("0", "1"));
 
-        expected.addInfinitelyAcceptingConditions(
-            Collections.singletonMap(v, Pair.make("A", false)));
+        expected.addBuchiAcceptanceConditions(Collections.singletonMap(v, Pair.make("A", false)));
         expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", true)));
 
         try
@@ -921,7 +919,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = NoAcceptingForVariableException.class)
+    @Test(expected = NoAcceptanceForVariableException.class)
     public void testReadBottomUpDFTAWhenNoAcceptingValueForVariable()
         throws SAXException
     {
@@ -947,7 +945,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = DuplicatedAcceptingValueException.class)
+    @Test(expected = DuplicatedAcceptanceValueException.class)
     public void testReadBottomUpDFTAWhenDuplicatedAcceptingValueForVariable()
         throws SAXException
     {
@@ -973,7 +971,7 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = IncorrectAcceptingConditionException.class)
+    @Test(expected = IncorrectAcceptanceConditionException.class)
     public void testReadBottomUpDFTAWhenAcceptingIncludesAndExcludes()
         throws SAXException
     {

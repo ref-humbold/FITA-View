@@ -2,7 +2,7 @@
   <alphabet>
     <word>0</word>
     <word>1</word>
-    <word>x</word>
+    <word>p</word>
     <word>and</word>
     <word>nand</word>
     <word>or</word>
@@ -36,7 +36,7 @@
     </trans>
     <trans var-id="1">
       <node-value>OP</node-value>
-      <label>x</label>
+      <label>p</label>
       <left-result>VAR</left-result>
       <right-result>VAR</right-result>
     </trans>

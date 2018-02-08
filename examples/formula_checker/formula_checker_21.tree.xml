@@ -1,0 +1,28 @@
+<node label="nand">
+  <node label="or">
+    <node label="and">
+      <node label="1" />
+      <node label="impl">
+        <node label="p" />
+        <node label="1" />
+      </node>
+    </node>
+    <node label="nor">
+      <node label="1">
+        <node label="or">
+          <node label="1" />
+          <node label="1" />
+        </node>
+        <node label="0" />
+      </node>
+      <node label="p" />
+    </node>
+  </node>
+  <node label="iff">
+    <node label="and">
+      <node label="0" />
+      <node label="p" />
+    </node>
+    <node label="1" />
+  </node>
+</node>

@@ -13,7 +13,7 @@ public class AcceptanceConditions
     private Set<Map<Variable, Pair<String, Boolean>>> statesConditions = new HashSet<>();
 
     /**
-     * Describing single accepting entry with condition on value for variable.
+     * Describing single acceptance entry with condition on value for variable.
      * @param entry equality on value for variable
      * @return description of the entry
      */
@@ -48,7 +48,7 @@ public class AcceptanceConditions
 
     /**
      * Adding a new acceptance condition.
-     * @param mapping mapping from variables to accepting conditions on their values
+     * @param mapping mapping from variables to acceptance conditions on their values
      */
     public void add(Map<Variable, Pair<String, Boolean>> mapping)
     {
@@ -60,14 +60,14 @@ public class AcceptanceConditions
      * @param state state from a tree node
      * @return {@code true} if state is accepted, otherwise {@code false}
      * @throws UndefinedStateValueException if state contains a variable with undefined value
-     * @throws UndefinedAcceptanceException if set of accepting conditions is empty
+     * @throws UndefinedAcceptanceException if set of acceptance conditions is empty
      */
     public boolean check(Map<Variable, String> state)
         throws UndefinedStateValueException, UndefinedAcceptanceException
     {
         if(statesConditions.isEmpty())
             throw new UndefinedAcceptanceException(
-                "Automaton has no accepting conditions defined.");
+                "Automaton has no acceptance conditions defined.");
 
         for(Map<Variable, Pair<String, Boolean>> condition : statesConditions)
         {

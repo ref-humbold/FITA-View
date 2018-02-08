@@ -1,0 +1,19 @@
+<node label="or">
+  <node label="and">
+    <node label="1" />
+    <node label="or">
+      <node label="0" />
+      <node label="p" />
+    </node>
+  </node>
+  <node label="nor">
+    <node label="and">
+      <node label="p" />
+      <node label="0" />
+    </node>
+    <node label="and">
+      <node label="p" />
+      <node label="1" />
+    </node>
+  </node>
+</node>

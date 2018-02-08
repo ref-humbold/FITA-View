@@ -8,7 +8,7 @@ class TopDownAutomatonHandler
     extends AutomatonHandler
 {
     private TopDownAutomaton automaton;
-    private boolean isInfiniteAccept = false;
+    private boolean isBuchiAccept = false;
     private String nodeValue;
     private String label;
     private String leftResult;
@@ -30,17 +30,17 @@ class TopDownAutomatonHandler
         switch(qName)
         {
             case "buchi-accepting":
-                isInfiniteAccept = true;
+                isBuchiAccept = true;
                 automaton = isDeterministic ? new TopDownDITA(variables.values(), alphabet)
                                             : new TopDownNITA(variables.values(), alphabet);
                 break;
 
             case "leaf-accepting":
-                if(!isInfiniteAccept)
+                if(!isBuchiAccept)
                     automaton = isDeterministic ? new TopDownDFTA(variables.values(), alphabet)
                                                 : new TopDownNFTA(variables.values(), alphabet);
 
-                isInfiniteAccept = false;
+                isBuchiAccept = false;
                 break;
 
             case "label":
@@ -74,13 +74,13 @@ class TopDownAutomatonHandler
                 for(Integer id : variables.keySet())
                 {
                     if(conditions.get(variables.get(id)) == null)
-                        throw new NoAcceptingForVariableException(
+                        throw new NoAcceptanceForVariableException(
                             writePosition() + "Variable with ID " + id
-                                + "has no accepting condition.");
+                                + "has no acceptance condition.");
                 }
 
-                if(isInfiniteAccept)
-                    ((InfiniteTreeAutomaton)automaton).addInfinitelyAcceptingConditions(conditions);
+                if(isBuchiAccept)
+                    ((InfiniteTreeAutomaton)automaton).addBuchiAcceptanceConditions(conditions);
                 else
                     automaton.addAcceptanceConditions(conditions);
                 break;

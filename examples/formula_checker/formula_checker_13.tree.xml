@@ -1,0 +1,31 @@
+<node label="iff">
+  <node label="nor">
+    <node label="and">
+      <node label="or">
+        <node label="or">
+          <node label="0" />
+          <node label="p" />
+        </node>
+        <node label="and">
+          <node label="1" />
+          <node label="p" />
+        </node>
+      </node>
+      <node label="0" />
+    </node>
+    <node label="impl">
+      <node label="p" />
+      <node label="0" />
+    </node>
+  </node>
+  <node label="and">
+    <node label="and">
+      <node label="p" />
+      <node label="1" />
+    </node>
+    <node label="impl">
+      <node label="1" />
+      <node label="p" />
+    </node>
+  </node>
+</node>

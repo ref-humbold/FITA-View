@@ -52,7 +52,7 @@ public interface TreeAutomaton
     Map<Pair<Variable, String>, String> getTransitionAsStrings();
 
     /**
-     * @return accepting conditions for states in the automaton
+     * @return acceptance conditions for states in the automaton
      */
     AcceptanceConditions getAcceptanceConditions();
 
@@ -87,7 +87,7 @@ public interface TreeAutomaton
     /**
      * Testing if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
-     * @throws UndefinedAcceptanceException if no accepting conditions were defined
+     * @throws UndefinedAcceptanceException if no acceptance conditions were defined
      * @throws UndefinedStateValueException if state of the tree is undefined
      * @throws EmptyTreeException if tree is empty
      */
@@ -96,7 +96,7 @@ public interface TreeAutomaton
 
     /**
      * Adding acceptance conditions for states to the automaton.
-     * @param accept mapping from variables to accepting conditions on their values
+     * @param accept mapping from variables to acceptance conditions on their values
      */
     void addAcceptanceConditions(Map<Variable, Pair<String, Boolean>> accept);
 

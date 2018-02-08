@@ -1,0 +1,19 @@
+<node label="impl">
+  <node label="impl">
+    <node label="p" />
+    <node label="impl">
+      <node label="p" />
+      <node label="p" />
+    </node>
+  </node>
+  <node label="impl">
+    <node label="impl">
+      <node label="p" />
+      <node label="p" />
+    </node>
+    <node label="impl">
+      <node label="p" />
+      <node label="p" />
+    </node>
+  </node>
+</node>

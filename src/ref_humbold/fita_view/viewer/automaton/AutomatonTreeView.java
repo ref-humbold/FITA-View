@@ -18,10 +18,7 @@ import javax.swing.tree.TreeSelectionModel;
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.Triple;
-import ref_humbold.fita_view.automaton.AcceptanceConditions;
-import ref_humbold.fita_view.automaton.AutomatonRunningModeSender;
-import ref_humbold.fita_view.automaton.TreeAutomaton;
-import ref_humbold.fita_view.automaton.Variable;
+import ref_humbold.fita_view.automaton.*;
 import ref_humbold.fita_view.automaton.transition.TransitionsSender;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
@@ -107,6 +104,10 @@ public class AutomatonTreeView
             loadAlphabet(automaton);
             loadVariables(automaton);
             loadAccepting(automaton);
+
+            if(automaton instanceof InfiniteTreeAutomaton)
+                loadBuchiAccepting((InfiniteTreeAutomaton)automaton);
+
             loadTransitions(automaton);
         }
         else
@@ -139,8 +140,17 @@ public class AutomatonTreeView
 
     private void loadAccepting(TreeAutomaton automaton)
     {
-        AcceptanceConditions accepting = automaton.getAcceptanceConditions();
-        DefaultMutableTreeNode acceptNode = new DefaultMutableTreeNode("Acceptance conditions");
+        loadAccepting(automaton.getAcceptanceConditions(), "Acceptance conditions");
+    }
+
+    private void loadBuchiAccepting(InfiniteTreeAutomaton automaton)
+    {
+        loadAccepting(automaton.getBuchiAcceptanceConditions(), "Buechi acceptance conditions");
+    }
+
+    private void loadAccepting(AcceptanceConditions accepting, String text)
+    {
+        DefaultMutableTreeNode acceptNode = new DefaultMutableTreeNode(text);
 
         accepting.getStatesConditions().forEach(mapping -> {
             DefaultMutableTreeNode conditionNode = new DefaultMutableTreeNode("condition");

@@ -224,22 +224,6 @@ public class ModifyingButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenUserChoice()
-    {
-        TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
-
-        Mockito.when(mockPointer.get()).thenReturn(automaton);
-        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("USER");
-
-        testObject.actionPerformed(mockActionEvent);
-
-        StateChoice<Pair<String, String>, Pair<String, String>> result = automaton.getChoice();
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof UserChoice);
-    }
-
-    @Test
     public void testReceiveSignalWhenNullAutomaton()
     {
         Mockito.when(mockPointer.get()).thenReturn(null);

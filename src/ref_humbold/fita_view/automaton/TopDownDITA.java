@@ -35,7 +35,13 @@ public class TopDownDITA
     }
 
     @Override
-    public Boolean isInfinitelyAccepted()
+    public AcceptanceConditions getBuchiAcceptanceConditions()
+    {
+        return this.infiniteAcceptanceConditions;
+    }
+
+    @Override
+    public Boolean isBuchiAccepted()
         throws UndefinedStateValueException, UndefinedAcceptanceException
     {
         if(repeatingStates.isEmpty())
@@ -61,7 +67,7 @@ public class TopDownDITA
     public Boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
     {
-        Boolean infiniteAcc = isInfinitelyAccepted();
+        Boolean infiniteAcc = isBuchiAccepted();
 
         return infiniteAcc == null ? null : infiniteAcc && super.isAccepted();
     }
@@ -74,7 +80,7 @@ public class TopDownDITA
     }
 
     @Override
-    public void addInfinitelyAcceptingConditions(Map<Variable, Pair<String, Boolean>> accept)
+    public void addBuchiAcceptanceConditions(Map<Variable, Pair<String, Boolean>> accept)
     {
         infiniteAcceptanceConditions.add(accept);
     }

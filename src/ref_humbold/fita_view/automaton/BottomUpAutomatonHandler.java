@@ -58,9 +58,9 @@ class BottomUpAutomatonHandler
                 for(Integer id : variables.keySet())
                 {
                     if(conditions.get(variables.get(id)) == null)
-                        throw new NoAcceptingForVariableException(
+                        throw new NoAcceptanceForVariableException(
                             writePosition() + "Variable with ID " + id
-                                + "has no accepting condition.");
+                                + "has no acceptance condition.");
                 }
 
                 automaton.addAcceptanceConditions(conditions);
