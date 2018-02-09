@@ -21,7 +21,8 @@ public class TopDownDITA
     private AcceptanceConditions infiniteAcceptanceConditions = new AcceptanceConditions();
     private Map<TreeNode, Map<Map<Variable, String>, Integer>> repeatingStates = new HashMap<>();
     private Map<TreeNode, Integer> numberRecursive = new HashMap<>();
-    private int maximumRecursive = 0;
+    private int maximumRecursive;
+    private boolean isTreeFinite;
 
     public TopDownDITA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -41,12 +42,17 @@ public class TopDownDITA
     }
 
     @Override
+    public void setTree(TreeNode tree)
+        throws TreeFinitenessException, EmptyTreeException
+    {
+        super.setTree(tree);
+        isTreeFinite = !containsRecursiveNode(this.tree);
+    }
+
+    @Override
     public Boolean isBuchiAccepted()
         throws UndefinedStateValueException, UndefinedAcceptanceException
     {
-        if(repeatingStates.isEmpty())
-            return true;
-
         for(Map<Map<Variable, String>, Integer> map : repeatingStates.values())
             for(Map.Entry<Map<Variable, String>, Integer> entry : map.entrySet())
                 if(entry.getValue() >= maximumRecursive + 2 && infiniteAcceptanceConditions.check(
@@ -67,6 +73,9 @@ public class TopDownDITA
     public Boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
     {
+        if(isTreeFinite)
+            return super.isAccepted();
+
         Boolean infiniteAcc = isBuchiAccepted();
 
         return infiniteAcc == null ? null : infiniteAcc && super.isAccepted();
