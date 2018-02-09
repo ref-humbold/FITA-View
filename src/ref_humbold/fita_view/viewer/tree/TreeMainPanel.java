@@ -14,6 +14,7 @@ import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
 import ref_humbold.fita_view.automaton.AutomatonIsRunningException;
 import ref_humbold.fita_view.automaton.TreeAutomaton;
+import ref_humbold.fita_view.automaton.TreeFinitenessException;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.tree.TreeNode;
@@ -92,6 +93,16 @@ public class TreeMainPanel
         else if(Objects.equals(message.getParam(), "removeButton"))
         {
             treePointer.delete();
+
+            if(!automatonPointer.isEmpty())
+                try
+                {
+                    automatonPointer.get().setTree(null);
+                }
+                catch(TreeFinitenessException e)
+                {
+                    UserMessageBox.showException(e);
+                }
         }
     }
 

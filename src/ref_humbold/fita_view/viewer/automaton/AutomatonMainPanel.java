@@ -13,7 +13,10 @@ import org.xml.sax.SAXException;
 
 import ref_humbold.fita_view.Pair;
 import ref_humbold.fita_view.Pointer;
-import ref_humbold.fita_view.automaton.*;
+import ref_humbold.fita_view.automaton.AutomatonIsRunningException;
+import ref_humbold.fita_view.automaton.AutomatonReader;
+import ref_humbold.fita_view.automaton.TreeAutomaton;
+import ref_humbold.fita_view.automaton.TreeFinitenessException;
 import ref_humbold.fita_view.messaging.Message;
 import ref_humbold.fita_view.messaging.MessageReceiver;
 import ref_humbold.fita_view.tree.TreeNode;
@@ -74,13 +77,15 @@ public class AutomatonMainPanel
                     automaton.setSendingMessages(true);
                     automatonPointer.set(automaton);
 
-                    if(!treePointer.isEmpty())
+                    if(treePointer.isEmpty())
+                        automatonPointer.get().setTree(null);
+                    else
                         automatonPointer.get().setTree(treePointer.get().getFirst());
 
                     UserMessageBox.showInfo("SUCCESS",
                                             "Successfully loaded file " + file.getName());
                 }
-                catch(IOException | TreeFinitenessException | SAXException | EmptyTreeException e)
+                catch(IOException | TreeFinitenessException | SAXException e)
                 {
                     automatonPointer.delete();
                     UserMessageBox.showException(e);

@@ -104,20 +104,11 @@ public class TopDownDITATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        try
-        {
-            testObject.setTree(node);
-        }
-        catch(EmptyTreeException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        testObject.setTree(node);
     }
 
-    @Test(expected = EmptyTreeException.class)
+    @Test
     public void testSetTreeWhenEmptyTree()
-        throws EmptyTreeException
     {
         try
         {
@@ -128,6 +119,8 @@ public class TopDownDITATest
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
+
+        Assert.assertNull(testObject.tree);
     }
 
     public void testSetTreeWhenInfiniteTree()
@@ -147,7 +140,7 @@ public class TopDownDITATest
 
             testObject.setTree(node);
         }
-        catch(TreeFinitenessException | NodeHasParentException | EmptyTreeException e)
+        catch(TreeFinitenessException | NodeHasParentException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());

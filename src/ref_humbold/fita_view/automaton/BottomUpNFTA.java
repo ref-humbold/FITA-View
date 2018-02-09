@@ -94,7 +94,7 @@ public class BottomUpNFTA
                         if(newStates1 != null)
                         {
                             for(Map<Variable, String> state : newStates1)
-                                if(reachableStates.contains(state))
+                                if(!reachableStates.contains(state))
                                 {
                                     if(acceptanceConditions.check(state))
                                         return false;
@@ -111,7 +111,7 @@ public class BottomUpNFTA
                         if(newStates2 != null)
                         {
                             for(Map<Variable, String> state : newStates2)
-                                if(reachableStates.contains(state))
+                                if(!reachableStates.contains(state))
                                 {
                                     if(acceptanceConditions.check(state))
                                         return false;

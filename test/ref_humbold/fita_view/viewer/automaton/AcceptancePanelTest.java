@@ -81,7 +81,7 @@ public class AcceptancePanelTest
             Mockito.when(mockPointer.isEmpty()).thenReturn(false);
             Mockito.when(mockAutomaton.isAccepted()).thenReturn(true);
         }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -105,7 +105,7 @@ public class AcceptancePanelTest
             Mockito.when(mockPointer.isEmpty()).thenReturn(false);
             Mockito.when(mockAutomaton.isAccepted()).thenReturn(false);
         }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -131,7 +131,7 @@ public class AcceptancePanelTest
             Mockito.when(mockAutomaton.isAccepted())
                    .thenThrow(new UndefinedAcceptanceException(""));
         }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -186,7 +186,7 @@ public class AcceptancePanelTest
             Mockito.when(mockPointer.isEmpty()).thenReturn(false);
             Mockito.when(mockAutomaton.isAccepted()).thenReturn(true);
         }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -211,7 +211,7 @@ public class AcceptancePanelTest
             Mockito.when(mockPointer.isEmpty()).thenReturn(false);
             Mockito.when(mockAutomaton.isAccepted()).thenReturn(false);
         }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -236,12 +236,12 @@ public class AcceptancePanelTest
             Mockito.when(mockPointer.isEmpty()).thenReturn(false);
             Mockito.when(mockAutomaton.isAccepted()).thenReturn(null);
         }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
-        
+
         testObject.receiveSignal(mockSignal);
 
         Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());

@@ -73,12 +73,10 @@ public abstract class AbstractTreeAutomaton
 
     @Override
     public void setTree(TreeNode tree)
-        throws TreeFinitenessException, EmptyTreeException
+        throws TreeFinitenessException
     {
-        if(tree == null)
-            throw new EmptyTreeException("Tree is empty.");
-
-        assertFiniteness(tree);
+        if(tree != null)
+            assertFiniteness(tree);
 
         this.tree = tree;
         this.stopTraversing();
@@ -105,7 +103,7 @@ public abstract class AbstractTreeAutomaton
     @Override
     public void run()
         throws IllegalVariableValueException, NoSuchTransitionException,
-               NoTraversingStrategyException, UndefinedStateValueException, EmptyTreeException,
+               NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
                NoNonDeterministicStrategyException
     {
         if(getTraversing() == null)
@@ -124,7 +122,7 @@ public abstract class AbstractTreeAutomaton
     @Override
     public void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException,
-               NoTraversingStrategyException, UndefinedStateValueException, EmptyTreeException,
+               NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
                NoNonDeterministicStrategyException
     {
         if(getTraversing() == null)
@@ -187,14 +185,14 @@ public abstract class AbstractTreeAutomaton
      * Initializing automaton and tree before running on tree.
      */
     protected void initialize()
-        throws IllegalVariableValueException, EmptyTreeException, NoTraversingStrategyException,
+        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
                NoNonDeterministicStrategyException
     {
+        if(tree == null)
+            throw new NoTreeException("No tree specified.");
+
         if(getTraversing() == null)
             throw new NoTraversingStrategyException("Automaton has no traversing strategy.");
-
-        if(tree == null)
-            throw new EmptyTreeException("No tree specified.");
 
         deleteTreeStates();
         setRunningMode(AutomatonRunningMode.RUNNING);

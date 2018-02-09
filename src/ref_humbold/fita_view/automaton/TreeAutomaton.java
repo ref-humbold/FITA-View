@@ -74,10 +74,9 @@ public interface TreeAutomaton
     /**
      * @param tree new tree to associate the automaton with
      * @throws TreeFinitenessException if tree finiteness is not suitable for the automaton
-     * @throws EmptyTreeException if tree is empty
      */
     void setTree(TreeNode tree)
-        throws TreeFinitenessException, EmptyTreeException;
+        throws TreeFinitenessException;
 
     /**
      * @param sendingMessages if {@code true} then the automaton sends messages informing about its work
@@ -89,10 +88,10 @@ public interface TreeAutomaton
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      * @throws UndefinedAcceptanceException if no acceptance conditions were defined
      * @throws UndefinedStateValueException if state of the tree is undefined
-     * @throws EmptyTreeException if tree is empty
+     * @throws NoTreeException if the automaton contains no tree
      */
     Boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException;
+        throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException;
 
     /**
      * Adding acceptance conditions for states to the automaton.
@@ -112,10 +111,12 @@ public interface TreeAutomaton
      * @throws IllegalVariableValueException if state of any node in tree is illegal
      * @throws NoSuchTransitionException if no transition entry was found
      * @throws NoTraversingStrategyException if no traversing strategy was set
+     * @throws NoTreeException if the automaton contains no tree
+     * @throws NoNonDeterministicStrategyException if strategy was not specified
      */
     void run()
         throws IllegalVariableValueException, NoSuchTransitionException,
-               NoTraversingStrategyException, UndefinedStateValueException, EmptyTreeException,
+               NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
                NoNonDeterministicStrategyException;
 
     /**
@@ -123,10 +124,12 @@ public interface TreeAutomaton
      * @throws IllegalVariableValueException if state of any node in tree is illegal
      * @throws NoSuchTransitionException if no transition entry was found
      * @throws NoTraversingStrategyException if no traversing strategy was set
+     * @throws NoTreeException if the automaton contains no tree
+     * @throws NoNonDeterministicStrategyException if strategy was not specified
      */
     void makeStepForward()
         throws NoSuchTransitionException, IllegalVariableValueException,
-               NoTraversingStrategyException, UndefinedStateValueException, EmptyTreeException,
+               NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
                NoNonDeterministicStrategyException;
 
     /**

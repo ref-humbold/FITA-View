@@ -1,0 +1,10 @@
+<repeat label="12">
+  <node label="7">
+    <rec />
+    <rec />
+  </node>
+  <node label="10">
+    <node label="15" />
+    <rec />
+  </node>
+</repeat>

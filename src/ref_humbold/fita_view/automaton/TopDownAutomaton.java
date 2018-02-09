@@ -49,10 +49,10 @@ public abstract class TopDownAutomaton
 
     @Override
     public Boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
+        throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
         if(tree == null)
-            throw new EmptyTreeException("Tree is empty.");
+            throw new NoTreeException("No tree specified.");
 
         if(leafStates.isEmpty())
             throw new UndefinedStateValueException("States in tree leaves are undefined.");
@@ -115,7 +115,7 @@ public abstract class TopDownAutomaton
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, EmptyTreeException, NoTraversingStrategyException,
+        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
                NoNonDeterministicStrategyException
     {
         super.initialize();

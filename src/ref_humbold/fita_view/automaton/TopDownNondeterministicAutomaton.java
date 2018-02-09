@@ -77,7 +77,7 @@ public abstract class TopDownNondeterministicAutomaton
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, EmptyTreeException, NoTraversingStrategyException,
+        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
                NoNonDeterministicStrategyException
     {
         if(choice == null)

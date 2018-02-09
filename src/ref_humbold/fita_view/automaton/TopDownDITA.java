@@ -62,7 +62,7 @@ public class TopDownDITA
 
     @Override
     public Boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
+        throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
         Boolean infiniteAcc = isBuchiAccepted();
 
@@ -133,7 +133,7 @@ public class TopDownDITA
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, EmptyTreeException, NoTraversingStrategyException,
+        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
                NoNonDeterministicStrategyException
     {
         super.initialize();

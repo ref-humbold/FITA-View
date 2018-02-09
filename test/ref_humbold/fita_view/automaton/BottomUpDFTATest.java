@@ -100,9 +100,8 @@ public class BottomUpDFTATest
         Assert.assertSame(node, testObject.tree);
     }
 
-    @Test(expected = EmptyTreeException.class)
+    @Test
     public void testSetTreeWhenEmptyTree()
-        throws EmptyTreeException
     {
         try
         {
@@ -113,6 +112,8 @@ public class BottomUpDFTATest
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
+
+        Assert.assertNull(testObject.tree);
     }
 
     @Test(expected = TreeFinitenessException.class)
@@ -132,7 +133,7 @@ public class BottomUpDFTATest
 
             testObject.setTree(node1);
         }
-        catch(NodeHasParentException | EmptyTreeException e)
+        catch(NodeHasParentException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -226,16 +227,16 @@ public class BottomUpDFTATest
         {
             testObject.run();
         }
-        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
+        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
     }
 
-    @Test(expected = EmptyTreeException.class)
+    @Test(expected = NoTreeException.class)
     public void testRunWhenNoTree()
-        throws EmptyTreeException
+        throws NoTreeException
     {
         try
         {
@@ -406,16 +407,16 @@ public class BottomUpDFTATest
         {
             testObject.makeStepForward();
         }
-        catch(EmptyTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
+        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
     }
 
-    @Test(expected = EmptyTreeException.class)
+    @Test(expected = NoTreeException.class)
     public void testMakeStepForwardWhenNoTree()
-        throws EmptyTreeException
+        throws NoTreeException
     {
         try
         {
@@ -601,7 +602,7 @@ public class BottomUpDFTATest
         {
             result = testObject.isAccepted();
         }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -659,7 +660,7 @@ public class BottomUpDFTATest
         {
             result = testObject.isAccepted();
         }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -715,7 +716,7 @@ public class BottomUpDFTATest
         {
             testObject.isAccepted();
         }
-        catch(UndefinedAcceptanceException | EmptyTreeException e)
+        catch(UndefinedAcceptanceException | NoTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
@@ -769,16 +770,16 @@ public class BottomUpDFTATest
         {
             testObject.isAccepted();
         }
-        catch(UndefinedStateValueException | EmptyTreeException e)
+        catch(UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
     }
 
-    @Test(expected = EmptyTreeException.class)
+    @Test(expected = NoTreeException.class)
     public void testIsAcceptedWhenAutomatonHasEmptyTree()
-        throws EmptyTreeException
+        throws NoTreeException
     {
         try
         {

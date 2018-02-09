@@ -145,7 +145,7 @@ public class AutomatonTreeView
 
     private void loadBuchiAccepting(InfiniteTreeAutomaton automaton)
     {
-        loadAccepting(automaton.getBuchiAcceptanceConditions(), "Buechi acceptance conditions");
+        loadAccepting(automaton.getBuchiAcceptanceConditions(), "Buchi acceptance conditions");
     }
 
     private void loadAccepting(AcceptanceConditions accepting, String text)

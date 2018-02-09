@@ -6,6 +6,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import ref_humbold.fita_view.Pair;
+import ref_humbold.fita_view.tree.UndefinedStateValueException;
+
 public class BottomUpNFTATest
 {
     private BottomUpNFTA testObject;
@@ -22,6 +25,11 @@ public class BottomUpNFTATest
     public void setUp()
         throws Exception
     {
+        Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
+
+        accept.put(variables.get(0), Pair.make("B", true));
+        accept.put(variables.get(1), Pair.make("Y", true));
+
         testObject = new BottomUpNFTA(variables, alphabet);
         testObject.addTransition(variables.get(0), Wildcard.EVERY_VALUE, Wildcard.SAME_VALUE,
                                  Wildcard.EVERY_VALUE, "A");
@@ -42,6 +50,7 @@ public class BottomUpNFTATest
         testObject.addTransition(variables.get(1), "Y", "Y", "0", "Y");
         testObject.addTransition(variables.get(1), "Y", "Y", "1", "X");
         testObject.addTransition(variables.get(1), "Y", "Y", "1", "Y");
+        testObject.addAcceptanceConditions(accept);
     }
 
     @After
@@ -112,5 +121,23 @@ public class BottomUpNFTATest
 
         Assert.assertEquals(2, result.size());
         Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void testCheckEmptiness()
+    {
+        boolean result = false;
+
+        try
+        {
+            result = testObject.checkEmptiness();
+        }
+        catch(UndefinedStateValueException | UndefinedAcceptanceException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+
+        Assert.assertFalse(result);
     }
 }
