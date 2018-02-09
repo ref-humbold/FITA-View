@@ -63,7 +63,7 @@ public abstract class BottomUpAutomaton
     }
 
     /**
-     * Adding new transition entry to transition function of automaton.
+     * Adding new transition entry to transition relation of automaton.
      * @param var variable
      * @param leftValue variable value in left son
      * @param rightValue variable value in right son
@@ -133,7 +133,7 @@ public abstract class BottomUpAutomaton
     }
 
     /**
-     * Applying transition function with specified arguments.
+     * Applying transition relation with specified arguments.
      * @param var variable
      * @param leftValue variable value in left son
      * @param rightValue variable value in right son
@@ -146,7 +146,7 @@ public abstract class BottomUpAutomaton
         throws NoSuchTransitionException;
 
     /**
-     * Applying transition function on the whole state.
+     * Applying transition relation on the whole state.
      * @param leftState state from left son
      * @param rightState state from right son
      * @param label label of node

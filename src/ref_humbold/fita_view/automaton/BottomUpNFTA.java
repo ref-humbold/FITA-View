@@ -163,7 +163,7 @@ public class BottomUpNFTA
                                      String label)
         throws NoSuchTransitionException
     {
-        return choice.chooseState(Triple.make(leftValue, rightValue, label),
+        return choice.chooseState(var, Triple.make(leftValue, rightValue, label),
                                   getAllTransitionResults(var, leftValue, rightValue, label));
     }
 

@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
 
+import ref_humbold.fita_view.automaton.Variable;
+
 public class RandomChoice<K, R>
     implements StateChoice<K, R>
 {
@@ -22,7 +24,7 @@ public class RandomChoice<K, R>
      * @return variable value chosen randomly
      */
     @Override
-    public R chooseState(K key, Collection<R> states)
+    public R chooseState(Variable var, K key, Collection<R> states)
     {
         if(states.size() == 1)
             return states.iterator().next();

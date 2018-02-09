@@ -65,7 +65,7 @@ public abstract class TopDownAutomaton
     }
 
     /**
-     * Adding new transition entry to transition function of automaton.
+     * Adding new transition entry to transition relation of automaton.
      * @param var variable
      * @param value variable value in node
      * @param label tree label of node
@@ -77,16 +77,24 @@ public abstract class TopDownAutomaton
         throws DuplicatedTransitionException, IllegalTransitionException;
 
     /**
-     * Calling a transition function with specified arguments.
+     * Calling a transition relation with specified arguments.
      * @param var variable
      * @param value variable value in node
      * @param label tree label of node
      * @return pair of variable values in sons (first left, second right)
+     * @throws NoSuchTransitionException if no transition entry was found
      */
     protected abstract Pair<String, String> applyTransition(Variable var, String value,
                                                             String label)
         throws NoSuchTransitionException;
 
+    /**
+     * Calling a transition relation on the whole state with specified arguments.
+     * @param state state of the automaton
+     * @param label tree label of node
+     * @return pair of states in sons (first left, second right)
+     * @throws NoSuchTransitionException if no transition entry was found
+     */
     protected Pair<Map<Variable, String>, Map<Variable, String>> applyTransition(
         Map<Variable, String> state, String label)
         throws NoSuchTransitionException

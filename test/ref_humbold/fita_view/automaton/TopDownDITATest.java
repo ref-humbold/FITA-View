@@ -86,8 +86,9 @@ public class TopDownDITATest
         Assert.assertEquals("Top-down deterministic infinite tree automaton", result);
     }
 
-    @Test
+    @Test(expected = TreeFinitenessException.class)
     public void testSetTreeWhenFiniteTree()
+        throws TreeFinitenessException
     {
         TreeNode node = null;
 
@@ -96,8 +97,6 @@ public class TopDownDITATest
             node = new StandardNode("and", 1, new StandardNode("1", 3),
                                     new StandardNode("or", 2, new StandardNode("0", 5),
                                                      new StandardNode("1", 4)));
-
-            testObject.setTree(node);
         }
         catch(Exception e)
         {
@@ -105,8 +104,15 @@ public class TopDownDITATest
             Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertNotNull(testObject.tree);
-        Assert.assertSame(node, testObject.tree);
+        try
+        {
+            testObject.setTree(node);
+        }
+        catch(EmptyTreeException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
     }
 
     @Test(expected = EmptyTreeException.class)

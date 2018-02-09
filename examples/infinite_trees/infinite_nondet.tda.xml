@@ -1,4 +1,4 @@
-<automaton determinism="true">
+<automaton determinism="false">
   <alphabet>
     <word>0</word>
     <word>1</word>
@@ -389,7 +389,6 @@
       <left-result>X</left-result>
       <right-result>Even</right-result>
     </trans>
-    V
     <trans var-id="0">
       <node-value>X</node-value>
       <label>14</label>

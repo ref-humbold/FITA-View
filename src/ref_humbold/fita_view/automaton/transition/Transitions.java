@@ -26,7 +26,7 @@ public abstract class Transitions<K, V>
     }
 
     /**
-     * Testing if specified variable and arguments are present in transition function.
+     * Testing if specified variable and arguments are present in transition relation.
      * @param var variable
      * @param key arguments of transition
      * @return {@code true} if there is transition entry with the exact arguments
@@ -37,7 +37,7 @@ public abstract class Transitions<K, V>
     }
 
     /**
-     * Testing if specified variable and arguments fit for any entry in transition function.
+     * Testing if specified variable and arguments fit for any entry in transition relation.
      * @param var variable
      * @param key arguments of transition
      * @return {@code true} if there is any transition entry fitting the arguments
@@ -45,7 +45,7 @@ public abstract class Transitions<K, V>
     public abstract boolean containsEntry(Variable var, K key);
 
     /**
-     * Adding new arguments-result entry to transition function for specified variable.
+     * Adding new arguments-result entry to transition relation for specified variable.
      * @param var variable
      * @param key arguments of transition
      * @param value result of transition
@@ -61,7 +61,7 @@ public abstract class Transitions<K, V>
     }
 
     /**
-     * Getting all results of transition function for specified arguments and variable.
+     * Getting all results of transition relation for specified arguments and variable.
      * @param var variable
      * @param key arguments of transition
      * @return list of possible results of transition for the arguments
@@ -71,7 +71,7 @@ public abstract class Transitions<K, V>
         throws NoSuchTransitionException;
 
     /**
-     * Getting first matched result of transition function for specified arguments and variable.
+     * Getting first matched result of transition relation for specified arguments and variable.
      * @param var variable
      * @param key arguments of transition
      * @return matched results of transition for the arguments
@@ -82,8 +82,8 @@ public abstract class Transitions<K, V>
 
     /**
      * /**
-     * Converting each key and value in transition function to strings according to conversion functions.
-     * @return transition function with string representations
+     * Converting each key and value in transition relation to strings according to conversion functions.
+     * @return transition relation with string representations
      */
     public Map<Pair<Variable, String>, String> convertToStringMap()
     {

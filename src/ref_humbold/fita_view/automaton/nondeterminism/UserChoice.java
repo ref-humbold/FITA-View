@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import javax.swing.*;
 
+import ref_humbold.fita_view.automaton.Variable;
 import ref_humbold.fita_view.viewer.UserMessageBox;
 
 public class UserChoice<K, R>
@@ -50,7 +51,7 @@ public class UserChoice<K, R>
     }
 
     @Override
-    public R chooseState(K key, Collection<R> states)
+    public R chooseState(Variable var, K key, Collection<R> states)
     {
         ArrayList<R> statesList = new ArrayList<>(states);
 
@@ -58,7 +59,7 @@ public class UserChoice<K, R>
             return statesList.get(0);
 
         resultStates = statesList;
-        createDialog(key);
+        createDialog(var, key);
         current = statesList.get(0);
         dialog.setVisible(true);
 
@@ -73,15 +74,16 @@ public class UserChoice<K, R>
             dialog.dispose();
     }
 
-    private void createDialog(K key)
+    private void createDialog(Variable var, K key)
     {
         Object[] options = new Object[]{"CHOOSE"};
-        JLabel label = new JLabel(convertKey.apply(key));
+        JLabel label = new JLabel(var.getVarName() + " -- " + convertKey.apply(key));
         JPanel panel = new JPanel();
 
         label.setFont(new Font(null, Font.BOLD, 16));
         label.setVerticalAlignment(SwingConstants.CENTER);
         label.setHorizontalAlignment(SwingConstants.CENTER);
+
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(label);
         panel.add(Box.createRigidArea(new Dimension(0, 5)));

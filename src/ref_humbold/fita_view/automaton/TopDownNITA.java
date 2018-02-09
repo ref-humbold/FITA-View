@@ -15,14 +15,13 @@ import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public class TopDownNITA
-    extends TopDownNFTA
+    extends TopDownNondeterministicAutomaton
     implements InfiniteTreeAutomaton
 {
     private AcceptanceConditions infiniteAcceptanceConditions = new AcceptanceConditions();
     private Map<TreeNode, Map<Map<Variable, String>, Integer>> repeatingStates = new HashMap<>();
     private Map<TreeNode, Integer> numberRecursive = new HashMap<>();
     private int maximumRecursive;
-    private boolean isTreeFinite;
 
     public TopDownNITA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -39,14 +38,6 @@ public class TopDownNITA
     public AcceptanceConditions getBuchiAcceptanceConditions()
     {
         return this.infiniteAcceptanceConditions;
-    }
-
-    @Override
-    public void setTree(TreeNode tree)
-        throws TreeFinitenessException, EmptyTreeException
-    {
-        super.setTree(tree);
-        isTreeFinite = !containsRecursiveNode(this.tree);
     }
 
     @Override
@@ -73,9 +64,6 @@ public class TopDownNITA
     public Boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
     {
-        if(isTreeFinite)
-            return super.isAccepted();
-
         Boolean infiniteAcc = isBuchiAccepted();
 
         return infiniteAcc == null ? null : infiniteAcc && super.isAccepted();
@@ -137,7 +125,10 @@ public class TopDownNITA
 
     @Override
     protected void assertFiniteness(TreeNode tree)
+        throws TreeFinitenessException
     {
+        if(!containsRecursiveNode(tree))
+            throw new TreeFinitenessException("Tree is finite.");
     }
 
     @Override

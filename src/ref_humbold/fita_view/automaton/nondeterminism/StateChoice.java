@@ -2,6 +2,8 @@ package ref_humbold.fita_view.automaton.nondeterminism;
 
 import java.util.Collection;
 
+import ref_humbold.fita_view.automaton.Variable;
+
 public interface StateChoice<K, R>
 {
     /**
@@ -11,9 +13,10 @@ public interface StateChoice<K, R>
 
     /**
      * Non-deterministically choosing variable values.
+     * @param var variable
      * @param key transition key node
      * @param states possible state variable values
      * @return variable value chosen
      */
-    R chooseState(K key, Collection<R> states);
+    R chooseState(Variable var, K key, Collection<R> states);
 }

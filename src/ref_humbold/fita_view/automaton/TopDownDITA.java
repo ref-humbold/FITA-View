@@ -15,14 +15,13 @@ import ref_humbold.fita_view.tree.TreeNode;
 import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public class TopDownDITA
-    extends TopDownDFTA
+    extends TopDownDeterministicAutomaton
     implements InfiniteTreeAutomaton
 {
     private AcceptanceConditions infiniteAcceptanceConditions = new AcceptanceConditions();
     private Map<TreeNode, Map<Map<Variable, String>, Integer>> repeatingStates = new HashMap<>();
     private Map<TreeNode, Integer> numberRecursive = new HashMap<>();
     private int maximumRecursive;
-    private boolean isTreeFinite;
 
     public TopDownDITA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -39,14 +38,6 @@ public class TopDownDITA
     public AcceptanceConditions getBuchiAcceptanceConditions()
     {
         return this.infiniteAcceptanceConditions;
-    }
-
-    @Override
-    public void setTree(TreeNode tree)
-        throws TreeFinitenessException, EmptyTreeException
-    {
-        super.setTree(tree);
-        isTreeFinite = !containsRecursiveNode(this.tree);
     }
 
     @Override
@@ -73,9 +64,6 @@ public class TopDownDITA
     public Boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedStateValueException, EmptyTreeException
     {
-        if(isTreeFinite)
-            return super.isAccepted();
-
         Boolean infiniteAcc = isBuchiAccepted();
 
         return infiniteAcc == null ? null : infiniteAcc && super.isAccepted();
@@ -127,17 +115,20 @@ public class TopDownDITA
     }
 
     @Override
+    protected void assertFiniteness(TreeNode tree)
+        throws TreeFinitenessException
+    {
+        if(!containsRecursiveNode(tree))
+            throw new TreeFinitenessException("Tree is infinite.");
+    }
+
+    @Override
     protected void changeRunningMode()
     {
         setRunningMode(traversing.hasNext() ? AutomatonRunningMode.RUNNING
                                             : traversing.canContinue()
                                               ? AutomatonRunningMode.CONTINUING
                                               : AutomatonRunningMode.FINISHED);
-    }
-
-    @Override
-    protected void assertFiniteness(TreeNode tree)
-    {
     }
 
     @Override

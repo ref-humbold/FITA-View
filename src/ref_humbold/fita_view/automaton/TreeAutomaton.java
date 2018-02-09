@@ -47,7 +47,7 @@ public interface TreeAutomaton
         throws IncorrectTraversingException, AutomatonIsRunningException;
 
     /**
-     * @return transition function as string representation
+     * @return transition relation as string representation
      */
     Map<Pair<Variable, String>, String> getTransitionAsStrings();
 

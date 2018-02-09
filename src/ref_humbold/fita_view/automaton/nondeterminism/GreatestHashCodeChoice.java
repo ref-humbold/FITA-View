@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
+import ref_humbold.fita_view.automaton.Variable;
+
 public class GreatestHashCodeChoice<K, R>
     implements StateChoice<K, R>
 {
@@ -20,7 +22,7 @@ public class GreatestHashCodeChoice<K, R>
      * @return variable value chosen as value with greatest hash code
      */
     @Override
-    public R chooseState(K key, Collection<R> states)
+    public R chooseState(Variable var, K key, Collection<R> states)
     {
         return Collections.max(states, Comparator.comparingInt(Object::hashCode));
     }
