@@ -94,7 +94,11 @@ public class TopDownLevelTest
             ArrayList<TreeNode> nodes = new ArrayList<>();
 
             for(TreeNode v : testObject.next())
+            {
                 nodes.add(v);
+                testObject.addNewRecursive(v.getLeft());
+                testObject.addNewRecursive(v.getRight());
+            }
 
             Assert.assertTrue(nodes.size() > 0);
 
@@ -124,7 +128,11 @@ public class TopDownLevelTest
             ArrayList<TreeNode> nodes = new ArrayList<>();
 
             for(TreeNode v : testObject.next())
+            {
                 nodes.add(v);
+                testObject.addNewRecursive(v.getLeft());
+                testObject.addNewRecursive(v.getRight());
+            }
 
             Assert.assertTrue(nodes.size() > 0);
 
@@ -226,7 +234,11 @@ public class TopDownLevelTest
 
         while(testObject.hasNext())
         {
-            testObject.next();
+            for(TreeNode v : testObject.next())
+            {
+                testObject.addNewRecursive(v.getLeft());
+                testObject.addNewRecursive(v.getRight());
+            }
         }
 
         Assert.assertFalse(testObject.hasNext());
@@ -250,7 +262,11 @@ public class TopDownLevelTest
 
         while(testObject.hasNext())
         {
-            testObject.next();
+            for(TreeNode v : testObject.next())
+            {
+                testObject.addNewRecursive(v.getLeft());
+                testObject.addNewRecursive(v.getRight());
+            }
         }
 
         try

@@ -52,13 +52,17 @@ public abstract class TopDownTraversing
         newRecursiveNodes.clear();
     }
 
+    public void addNewRecursive(TreeNode node)
+    {
+        if(node.getType() == NodeType.REC)
+            newRecursiveNodes.add(Pair.make(node, node.getStateWithNulls()));
+    }
+
     protected abstract void addNextNode(TreeNode node);
 
     protected void processChild(TreeNode node)
     {
-        if(node.getType() == NodeType.REC)
-            newRecursiveNodes.add(Pair.make(node, node.getStateWithNulls()));
-        else
+        if(node.getType() != NodeType.REC)
             addNextNode(node);
     }
 
@@ -66,18 +70,18 @@ public abstract class TopDownTraversing
     {
         if(nodeDeque.isEmpty() && !pendingRecursiveNodes.isEmpty())
         {
-            Pair<TreeNode, Map<Variable, String>> pending = pendingRecursiveNodes.remove();
+            Pair<TreeNode, Map<Variable, String>> pair = pendingRecursiveNodes.remove();
 
             try
             {
-                pending.getFirst().setState(pending.getSecond());
+                pair.getFirst().setState(pair.getSecond());
             }
             catch(IllegalVariableValueException e)
             {
-                throw new IllegalStateException(e.getMessage(), e);
+                throw new IllegalStateException("Unexpected TreeNode#setState error.");
             }
 
-            addNextNode(pending.getFirst());
+            addNextNode(pair.getFirst());
         }
     }
 }

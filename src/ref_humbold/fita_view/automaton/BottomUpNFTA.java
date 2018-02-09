@@ -167,6 +167,18 @@ public class BottomUpNFTA
                                   getAllTransitionResults(var, leftValue, rightValue, label));
     }
 
+    @Override
+    protected void initialize()
+        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
+               NoNonDeterministicStrategyException
+    {
+        if(choice == null)
+            throw new NoNonDeterministicStrategyException(
+                "Automaton has no non-deterministic strategy.");
+
+        super.initialize();
+    }
+
     Set<Map<Variable, String>> getNextStates(Map<Variable, String> leftState,
                                              Map<Variable, String> rightState, String word)
     {

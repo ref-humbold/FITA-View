@@ -136,6 +136,9 @@ public abstract class TopDownAutomaton
         node.getLeft().setState(sonsStates.getFirst());
         node.getRight().setState(sonsStates.getSecond());
 
+        traversing.addNewRecursive(node.getLeft());
+        traversing.addNewRecursive(node.getRight());
+
         if(node.isLeaf())
         {
             leafStates.add(sonsStates.getFirst());

@@ -81,6 +81,7 @@ public class TreeDrawingArea
         Pair<TreeNode, Integer> pair = treePointer.get();
 
         nodesPoints.clear();
+        currentNodes.clear();
         centralize();
 
         if(pair != null)

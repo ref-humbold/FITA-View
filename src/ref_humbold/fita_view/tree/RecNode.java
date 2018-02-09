@@ -12,6 +12,7 @@ public class RecNode
 {
     private RepeatNode recursive;
     private TreeNode parent;
+    private Map<Variable, String> stateCopy;
 
     public RecNode(RepeatNode recursive, int index)
     {
@@ -21,6 +22,7 @@ public class RecNode
             throw new IllegalArgumentException("Recursive node is null");
 
         this.recursive = recursive;
+        this.stateCopy = recursive.getStateWithNulls();
     }
 
     @Override
@@ -62,7 +64,7 @@ public class RecNode
     @Override
     public Map<Variable, String> getStateWithNulls()
     {
-        return recursive.getStateWithNulls();
+        return stateCopy;
     }
 
     @Override
@@ -70,18 +72,20 @@ public class RecNode
         throws IllegalVariableValueException
     {
         recursive.setState(state);
+        stateCopy = state;
     }
 
     @Override
     public void setInitialState(Collection<Variable> vars)
     {
         recursive.setInitialState(vars);
+        stateCopy = recursive.getStateWithNulls();
     }
 
     @Override
     public String getStateValueOrNull(Variable var)
     {
-        return recursive.getStateValueOrNull(var);
+        return stateCopy.get(var);
     }
 
     @Override
@@ -89,12 +93,14 @@ public class RecNode
         throws IllegalVariableValueException
     {
         recursive.setStateValue(var, value);
+        stateCopy = recursive.getStateWithNulls();
     }
 
     @Override
     public void deleteState()
     {
         recursive.deleteState();
+        stateCopy.clear();
     }
 
     @Override
@@ -120,6 +126,6 @@ public class RecNode
     @Override
     public int hashCode()
     {
-        return Objects.hash(recursive.index, getLabel());
+        return Objects.hash(this.index, recursive.index, getLabel());
     }
 }
