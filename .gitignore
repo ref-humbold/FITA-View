@@ -1,14 +1,10 @@
-text
-
-# Visual Paradigm backup files
-UML/*.bak*
-
-# Java output
+# Java output folders and files
 bin
+# docs
 junit_results
 junit_reports
 
-# IntelliJ project files
+# IntelliJ project folders and files
 *.iml
 .idea
 out
