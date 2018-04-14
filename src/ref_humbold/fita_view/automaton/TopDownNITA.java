@@ -64,6 +64,9 @@ public class TopDownNITA
     public Boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
+        if(tree == null)
+            throw new NoTreeException("No tree specified.");
+
         Boolean infiniteAcc = isBuchiAccepted();
 
         return infiniteAcc == null ? null : infiniteAcc && super.isAccepted();

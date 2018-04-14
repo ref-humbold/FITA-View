@@ -51,12 +51,6 @@ public abstract class TopDownAutomaton
     public Boolean isAccepted()
         throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
-        if(tree == null)
-            throw new NoTreeException("No tree specified.");
-
-        if(leafStates.isEmpty())
-            throw new UndefinedStateValueException("States in tree leaves are undefined.");
-
         for(Map<Variable, String> state : leafStates)
             if(!acceptanceConditions.check(state))
                 return false;

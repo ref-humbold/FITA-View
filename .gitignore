@@ -9,3 +9,6 @@ junit_reports
 .idea
 out
 gen
+
+# Visual Paradigm backup files
+UML/*.bak*

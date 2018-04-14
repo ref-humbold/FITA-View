@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 import ref_humbold.fita_view.tree.TreeNode;
+import ref_humbold.fita_view.tree.UndefinedStateValueException;
 
 public class TopDownDFTA
     extends TopDownDeterministicAutomaton
@@ -17,6 +18,19 @@ public class TopDownDFTA
     public String getTypeName()
     {
         return "Top-down deterministic finite tree automaton";
+    }
+
+    @Override
+    public Boolean isAccepted()
+        throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
+    {
+        if(tree == null)
+            throw new NoTreeException("No tree specified.");
+
+        if(leafStates.isEmpty())
+            throw new UndefinedStateValueException("States in tree leaves are undefined.");
+
+        return super.isAccepted();
     }
 
     @Override
