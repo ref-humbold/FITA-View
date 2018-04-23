@@ -1,6 +1,6 @@
 # Java output folders and files
 bin
-# docs
+docs
 junit_results
 junit_reports
 
@@ -9,6 +9,3 @@ junit_reports
 .idea
 out
 gen
-
-# Visual Paradigm backup files
-UML/*.bak*
