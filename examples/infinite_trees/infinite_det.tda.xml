@@ -28,8 +28,8 @@
   </variables>
   <buchi-accepting>
     <conditions>
-      <accept var-id="0" include="Even" />
-      <accept var-id="1" include="Zero" />
+      <accept var-id="0" include="Odd" />
+      <accept var-id="1" include="One" />
     </conditions>
   </buchi-accepting>
   <leaf-accepting>

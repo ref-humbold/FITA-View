@@ -1,10 +1,12 @@
-# Java output folders and files
+# Java output
 bin
 docs
+
+# JUnit output
 junit_results
 junit_reports
 
-# IntelliJ project folders and files
+# IntelliJ project
 *.iml
 .idea
 out
