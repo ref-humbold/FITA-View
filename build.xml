@@ -65,7 +65,7 @@
         <attribute name="Specification-Title" value="Finite and Infinite Tree Automata Viewer" />
         <attribute name="Specification-Version" value="${version}" />
         <attribute name="Specification-Vendor" value="${vendor}" />
-        <attribute name="Implementation-Title" value="FITA-View" />
+        <attribute name="Implementation-Title" value="ref_humbold.fita_view" />
         <attribute name="Implementation-Verion" value="${version}-build${build.number}" />
         <attribute name="Implementation-Vendor" value="${vendor}" />
       </manifest>
