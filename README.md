@@ -26,11 +26,10 @@ For unit testing in FITA-View following libraries are required:
 ### How to build?
 FITA-View can be built with **[Apache ANT](http://ant.apache.org/)**. Possible targets are:
 + `ant` - same as `ant all`
-+ `ant make` - compile only source files, create executable jar
-+ `ant make-test` - compile source and tests files, create executable jar *(libraries required)*
++ `ant release` - compile source files, create executable jar
 + `ant test` - run all tests *(libraries required)*
 + `ant javadocs` - generate Javadocs
-+ `ant all` - compile source and tests files, run all tests and generate Javadocs *(libraries required)*
++ `ant all` - compile source files, run all tests, create executable jar and generate Javadocs *(libraries required)*
 
 ### How to run?
 FITA-View can be run by an executable sh script:

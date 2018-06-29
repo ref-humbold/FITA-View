@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="FITA-View" basedir="." default="all">
+  <property name="vendor" value="Rafał Kaleta" />
+  <property name="version" value="1.0" />
   <property name="src.dir" value="src" />
   <property name="test.dir" value="test" />
   <property name="build.dir" value="bin" />
@@ -48,15 +50,6 @@
     <javac source="${source}" target="${target}" debug="true" debuglevel="${debuglevel}"
            destdir="${build.dir}" includeantruntime="false">
       <src path="${src.dir}" />
-      <compilerarg line="-Xlint" />
-      <classpath refid="FITA-View.classpath" />
-    </javac>
-  </target>
-
-  <target name="build-test" depends="init">
-    <javac source="${source}" target="${target}" debug="true" debuglevel="${debuglevel}"
-           destdir="${build.dir}" includeantruntime="false">
-      <src path="${src.dir}" />
       <src path="${test.dir}" />
       <compilerarg line="-Xlint" />
       <classpath refid="FITA-View_test.classpath" />
@@ -64,10 +57,17 @@
   </target>
 
   <target name="jar" depends="build">
+    <buildnumber />
     <jar destfile="fita_view.jar" basedir="${build.dir}" excludes="**/*Test.class">
       <manifest>
-        <attribute name="Built-By" value="Rafał Kaleta" />
+        <attribute name="Built-By" value="${vendor}" />
         <attribute name="Main-Class" value="ref_humbold.fita_view.FITAView" />
+        <attribute name="Specification-Title" value="Dependency Injection Container" />
+        <attribute name="Specification-Version" value="${version}" />
+        <attribute name="Specification-Vendor" value="${vendor}" />
+        <attribute name="Implementation-Title" value="ref_humbold.di_container" />
+        <attribute name="Implementation-Verion" value="${version}-build${build.number}" />
+        <attribute name="Implementation-Vendor" value="${vendor}" />
       </manifest>
     </jar>
   </target>
@@ -98,9 +98,7 @@
     </javadoc>
   </target>
 
-  <target name="make" depends="clean, build, jar" />
+  <target name="release" depends="clean, build, jar" />
 
-  <target name="make-test" depends="clean, build-test, jar" />
-
-  <target name="all" depends="make-test, test, javadocs" />
+  <target name="all" depends="clean, build, test, jar, javadocs" />
 </project>
