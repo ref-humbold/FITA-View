@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="FITA-View" basedir="." default="all">
   <property name="vendor" value="Rafał Kaleta" />
-  <property name="version" value="1.0" />
+  <property name="major.version" value="1" />
+  <property name="minor.version" value="0" />
   <property name="src.dir" value="src" />
   <property name="test.dir" value="test" />
   <property name="build.dir" value="bin" />
@@ -63,10 +64,10 @@
         <attribute name="Built-By" value="${vendor}" />
         <attribute name="Main-Class" value="ref_humbold.fita_view.FITAView" />
         <attribute name="Specification-Title" value="Finite and Infinite Tree Automata Viewer" />
-        <attribute name="Specification-Version" value="${version}" />
+        <attribute name="Specification-Version" value="${major.version}" />
         <attribute name="Specification-Vendor" value="${vendor}" />
         <attribute name="Implementation-Title" value="ref_humbold.fita_view" />
-        <attribute name="Implementation-Verion" value="${version}-build${build.number}" />
+        <attribute name="Implementation-Verion" value="${major.version}.${minor.version}-b${build.number}" />
         <attribute name="Implementation-Vendor" value="${vendor}" />
       </manifest>
     </jar>
