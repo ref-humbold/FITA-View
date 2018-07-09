@@ -6,6 +6,9 @@ docs
 junit_results
 junit_reports
 
+# Apache ANT and Apache Ivy dependencies
+lib
+
 # IntelliJ project
 *.iml
 .idea

@@ -16,20 +16,21 @@ Trees and automata can be loaded from XML files with extensions *filename.tree.x
 ### Dependencies
 FITA-View requires at least **[Java Standard Edition version 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)** installed. There are no dependencies on additional libraries.
 
-For unit testing in FITA-View following libraries are required:
-+ JUnit 4
-+ Mockito 1.10.19 (or newer)
-+ PowerMock 1.7.1 (or newer)
+For unit testing of FITA-View following libraries are required. They are automatically downloaded when build is performing:
++ JUnit 4.12
++ Mockito 1.10.19
++ PowerMock 1.7.1
 
 ----
 
 ### How to build?
-FITA-View can be built with **[Apache ANT](http://ant.apache.org/)**. Possible targets are:
+FITA-View can be built with **[Apache ANT](http://ant.apache.org/)** using **[Apache Ivy](http://ant.apache.org/ivy/)** to resolve all dependencies. **Apache Ivy** and all libraries are downloaded during build, so make sure Internet connection is working! Possible targets are:
 + `ant` - same as `ant all`
-+ `ant release` - compile source files, create executable jar
-+ `ant test` - run all tests *(libraries required)*
++ `ant resolve` - resolve dependencies
++ `ant release` - resolve dependencies, compile source files, create executable jar
++ `ant test` - run all tests *(dependencies required)*
 + `ant javadocs` - generate Javadocs
-+ `ant all` - compile source files, run all tests, create executable jar and generate Javadocs *(libraries required)*
++ `ant all` - resolve dependencies, compile source files, run all tests, create executable jar and generate Javadocs
 
 ### How to run?
 FITA-View can be run by an executable sh script:
