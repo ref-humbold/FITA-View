@@ -1,15 +1,11 @@
-# Java output
+# Java, JUnit, Apache ANT, Apache Ivy
 bin
 docs
-
-# JUnit output
+lib
 junit_results
 junit_reports
 
-# Apache ANT and Apache Ivy dependencies
-lib
-
-# IntelliJ project
+# IntelliJ
 *.iml
 .idea
 out
