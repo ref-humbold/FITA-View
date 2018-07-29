@@ -40,6 +40,6 @@ $ /path/to/directory/FITA-View
 
 Antoher way is to directly execute jar file:
 ```sh
-$ java -jar path/to/directory/fita_view.jar
+$ java -jar path/to/directory/fitaview.jar
 ```
 

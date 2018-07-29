@@ -1,0 +1,146 @@
+package refhumbold.fitaview.viewer.automaton;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import org.xml.sax.SAXException;
+
+import refhumbold.fitaview.Pair;
+import refhumbold.fitaview.Pointer;
+import refhumbold.fitaview.automaton.AutomatonIsRunningException;
+import refhumbold.fitaview.automaton.AutomatonReader;
+import refhumbold.fitaview.automaton.TreeAutomaton;
+import refhumbold.fitaview.automaton.TreeFinitenessException;
+import refhumbold.fitaview.messaging.Message;
+import refhumbold.fitaview.messaging.MessageReceiver;
+import refhumbold.fitaview.tree.TreeNode;
+import refhumbold.fitaview.viewer.EmptyPanel;
+import refhumbold.fitaview.viewer.TitlePanel;
+import refhumbold.fitaview.viewer.UserMessageBox;
+import refhumbold.fitaview.viewer.XMLFileChooser;
+
+public class AutomatonMainPanel
+    extends JPanel
+    implements MessageReceiver<String>
+{
+    private static final long serialVersionUID = -7678389910832412322L;
+
+    private Pointer<TreeAutomaton> automatonPointer;
+    private Pointer<Pair<TreeNode, Integer>> treePointer;
+    private TitlePanel titlePanel = new TitlePanel("automaton", KeyEvent.VK_A, KeyEvent.VK_N);
+    private AcceptancePanel acceptancePanel;
+    private AutomatonScrollTreeView scrollTreeView;
+    private TransitionDrawingArea transitionDrawingArea;
+    private ModifyingButtonsPanel modifyingButtonsPanel;
+    private ActionButtonsPanel actionButtonsPanel;
+
+    public AutomatonMainPanel(Pointer<TreeAutomaton> automatonPointer,
+                              Pointer<Pair<TreeNode, Integer>> treePointer)
+    {
+        super();
+
+        this.automatonPointer = automatonPointer;
+        this.treePointer = treePointer;
+
+        this.initializeComponents();
+        this.setBackground(Color.BLUE);
+        this.setLayout(new BorderLayout(10, 10));
+
+        this.addComponents();
+    }
+
+    @Override
+    public void receiveMessage(Message<String> message)
+    {
+        if(!automatonPointer.isEmpty() && automatonPointer.get().isRunning())
+        {
+            UserMessageBox.showException(
+                new AutomatonIsRunningException("Automaton is currently running on tree!"));
+            return;
+        }
+
+        if(Objects.equals(message.getParam(), "openFileButton"))
+        {
+            File file = chooseFile();
+
+            if(file != null)
+                try
+                {
+                    TreeAutomaton automaton = loadAutomaton(file);
+
+                    automaton.setSendingMessages(true);
+                    automatonPointer.set(automaton);
+
+                    if(treePointer.isEmpty())
+                        automatonPointer.get().setTree(null);
+                    else
+                        automatonPointer.get().setTree(treePointer.get().getFirst());
+
+                    UserMessageBox.showInfo("SUCCESS",
+                                            "Successfully loaded file " + file.getName());
+                }
+                catch(IOException | TreeFinitenessException | SAXException e)
+                {
+                    automatonPointer.delete();
+                    UserMessageBox.showException(e);
+                }
+        }
+        else if(Objects.equals(message.getParam(), "removeButton"))
+        {
+            automatonPointer.delete();
+        }
+    }
+
+    private void addComponents()
+    {
+        JPanel centralPanel = new JPanel(new BorderLayout(5, 5));
+        JPanel infoPanel = new JPanel(new GridLayout(2, 1));
+
+        infoPanel.add(this.scrollTreeView);
+        infoPanel.add(this.transitionDrawingArea);
+        centralPanel.add(infoPanel, BorderLayout.CENTER);
+        centralPanel.add(this.acceptancePanel, BorderLayout.PAGE_END);
+        centralPanel.setOpaque(false);
+
+        this.add(this.titlePanel, BorderLayout.PAGE_START);
+        this.add(new EmptyPanel(), BorderLayout.LINE_START);
+        this.add(centralPanel, BorderLayout.CENTER);
+        this.add(this.modifyingButtonsPanel, BorderLayout.LINE_END);
+        this.add(this.actionButtonsPanel, BorderLayout.PAGE_END);
+    }
+
+    private File chooseFile()
+    {
+        int result = XMLFileChooser.getInstance().showOpenDialog(this);
+
+        if(result == JFileChooser.APPROVE_OPTION)
+            return XMLFileChooser.getInstance().getSelectedFile();
+
+        return null;
+    }
+
+    private TreeAutomaton loadAutomaton(File file)
+        throws IOException, SAXException
+    {
+        AutomatonReader reader = new AutomatonReader(file);
+
+        return reader.read();
+    }
+
+    private void initializeComponents()
+    {
+        titlePanel.addReceiver(this);
+
+        acceptancePanel = new AcceptancePanel(automatonPointer);
+        scrollTreeView = new AutomatonScrollTreeView(automatonPointer);
+        transitionDrawingArea = new TransitionDrawingArea(automatonPointer);
+        modifyingButtonsPanel = new ModifyingButtonsPanel(automatonPointer);
+        actionButtonsPanel = new ActionButtonsPanel(automatonPointer);
+    }
+}

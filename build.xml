@@ -62,7 +62,7 @@
   </target>
 
   <target name="jar" depends="build">
-    <jar destfile="fita_view.jar" basedir="${build.dir}" excludes="**/*Test.class">
+    <jar destfile="fitaview.jar" basedir="${build.dir}" excludes="**/*Test.class">
       <manifest>
         <attribute name="Built-By" value="${vendor}" />
         <attribute name="Main-Class" value="ref_humbold.fita_view.FITAView" />
@@ -98,7 +98,7 @@
     <delete dir="${javadoc.output.dir}" />
     <mkdir dir="${javadoc.output.dir}" />
     <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
-      <package name="ref_humbold.fita_view.*" />
+      <package name="refhumbold.fitaview.*" />
     </javadoc>
   </target>
 
