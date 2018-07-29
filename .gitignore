@@ -1,9 +1,9 @@
 # Java, JUnit, Apache ANT, Apache Ivy
 bin
 docs
-lib
-junit_results
 junit_reports
+junit_results
+lib
 
 # IntelliJ
 *.iml
