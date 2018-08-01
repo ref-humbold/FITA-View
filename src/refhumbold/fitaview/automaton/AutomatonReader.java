@@ -17,7 +17,7 @@ public class AutomatonReader
     private AutomatonType type;
 
     public AutomatonReader(File file)
-        throws SAXException, FileFormatException
+        throws SAXException
     {
         if(file.getName().endsWith(".bua.xml"))
             this.type = AutomatonType.BOTTOM_UP;
