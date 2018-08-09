@@ -2,7 +2,7 @@ package refhumbold.fitaview;
 
 import java.util.Objects;
 
-public class Triple<F, S, T>
+public final class Triple<F, S, T>
 {
     private final F first;
     private final S second;
@@ -52,7 +52,7 @@ public class Triple<F, S, T>
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof Triple))
+        if(!(o instanceof Triple))
             return false;
 
         Triple<?, ?, ?> other = (Triple<?, ?, ?>)o;
