@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="FITA-View" basedir="." default="all">
   <property name="vendor" value="Rafał Kaleta" />
-  <property name="major.version" value="1" />
-  <property name="minor.version" value="0" />
+  <property name="spec.version" value="1" />
   <property name="src.dir" value="src" />
   <property name="test.dir" value="test" />
   <property name="build.dir" value="bin" />
@@ -15,6 +14,11 @@
   <property name="debuglevel" value="source,lines,vars" />
   <property name="target" value="1.8" />
   <property name="source" value="1.8" />
+  <property name="exec.file" value="FITA-View" />
+
+  <tstamp>
+    <format property="jar.version" pattern="yyyy.M.d" locale="en,GB" />
+  </tstamp>
 
   <path id="FITA-View.classpath">
     <fileset dir="${ivy.lib.dir}" includes="*.jar" />
@@ -63,20 +67,29 @@
   </target>
 
   <target name="jar" depends="build">
-    <delete file="fitaview-*.jar" />
-    <jar destfile="fitaview-${major.version}.${minor.version}.jar" basedir="${build.dir}"
+    <delete>
+      <fileset dir="." includes="fitaview-*.jar" />
+    </delete>
+    <jar destfile="fitaview-${jar.version}.jar" basedir="${build.dir}"
          excludes="**/*Test.class">
       <manifest>
         <attribute name="Built-By" value="${vendor}" />
         <attribute name="Main-Class" value="${main.package}.FITAView" />
         <attribute name="Specification-Title" value="Finite and Infinite Tree Automata Viewer" />
-        <attribute name="Specification-Version" value="${major.version}" />
+        <attribute name="Specification-Version" value="${spec.version}" />
         <attribute name="Specification-Vendor" value="${vendor}" />
         <attribute name="Implementation-Title" value="${main.package}" />
-        <attribute name="Implementation-Verion" value="${major.version}.${minor.version}" />
+        <attribute name="Implementation-Version" value="${jar.version}" />
         <attribute name="Implementation-Vendor" value="${vendor}" />
       </manifest>
     </jar>
+  </target>
+
+  <target name="execfile" depends="jar">
+    <delete file="${exec.file}" />
+    <echo file="${exec.file}"
+          message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname $0)/fitaview-${jar.version}.jar" />
+    <chmod file="${exec.file}" perm="+x" />
   </target>
 
   <target name="test">
@@ -105,7 +118,7 @@
     </javadoc>
   </target>
 
-  <target name="release" depends="clean, build, jar" />
+  <target name="release" depends="clean, build, jar, execfile" />
 
-  <target name="all" depends="clean, build, test, jar, javadocs" />
+  <target name="all" depends="clean, build, test, jar, execfile, javadocs" />
 </project>
