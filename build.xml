@@ -67,7 +67,7 @@
   </target>
 
   <target name="jar" depends="build">
-    <delete>
+    <delete verbose="true">
       <fileset dir="." includes="fitaview-*.jar" />
     </delete>
     <jar destfile="fitaview-${jar.version}.jar" basedir="${build.dir}"
@@ -87,6 +87,7 @@
 
   <target name="execfile" depends="jar">
     <delete file="${exec.file}" />
+    <echo level="info" message="Building file: ${basedir}/${exec.file}" />
     <echo file="${exec.file}"
           message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname $0)/fitaview-${jar.version}.jar" />
     <chmod file="${exec.file}" perm="+x" />
