@@ -87,11 +87,11 @@ public class TitlePanel
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setVerticalAlignment(SwingConstants.CENTER);
 
-        openFileButton.setText("Load " + name + " from file");
+        openFileButton.setText(String.format("Load %s from file", name));
         openFileButton.setMnemonic(loadShortcut);
         openFileButton.addActionListener(this);
 
-        removeButton.setText("Remove " + name);
+        removeButton.setText(String.format("Remove %s", name));
         removeButton.setMnemonic(removeShortcut);
         removeButton.addActionListener(this);
     }

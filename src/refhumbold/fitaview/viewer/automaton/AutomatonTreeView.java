@@ -18,7 +18,11 @@ import javax.swing.tree.TreeSelectionModel;
 import refhumbold.fitaview.Pair;
 import refhumbold.fitaview.Pointer;
 import refhumbold.fitaview.Triple;
-import refhumbold.fitaview.automaton.*;
+import refhumbold.fitaview.automaton.AcceptanceConditions;
+import refhumbold.fitaview.automaton.AutomatonRunningModeSender;
+import refhumbold.fitaview.automaton.InfiniteTreeAutomaton;
+import refhumbold.fitaview.automaton.TreeAutomaton;
+import refhumbold.fitaview.automaton.Variable;
 import refhumbold.fitaview.automaton.transition.TransitionsSender;
 import refhumbold.fitaview.messaging.Message;
 import refhumbold.fitaview.messaging.MessageReceiver;
@@ -35,7 +39,6 @@ public class AutomatonTreeView
     Map<Variable, String> lastTransitions = new HashMap<>();
     private Pointer<TreeAutomaton> automatonPointer;
     private DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
-    private AutomatonTreeViewRenderer renderer = new AutomatonTreeViewRenderer();
 
     public AutomatonTreeView(Pointer<TreeAutomaton> automatonPointer)
     {
@@ -49,7 +52,7 @@ public class AutomatonTreeView
         this.setModel(treeModel);
         this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         this.setShowsRootHandles(true);
-        this.setCellRenderer(renderer);
+        this.setCellRenderer(new AutomatonTreeViewRenderer());
         this.setBorder(BorderFactory.createLoweredBevelBorder());
 
         this.initializeTree();
@@ -88,7 +91,7 @@ public class AutomatonTreeView
 
     String getTransitionEntryString(String key, String value)
     {
-        return key + " -> " + value;
+        return String.format("%s -> %s", key, value);
     }
 
     private void initializeTree()
@@ -230,7 +233,7 @@ public class AutomatonTreeView
         }
     }
 
-    private class VariableTreeViewNode
+    private final class VariableTreeViewNode
         extends DefaultMutableTreeNode
     {
         private static final long serialVersionUID = -2455947033876221381L;

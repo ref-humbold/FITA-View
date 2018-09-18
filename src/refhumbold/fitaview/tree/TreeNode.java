@@ -65,7 +65,7 @@ public abstract class TreeNode
         {
             if(entry.getValue() == null)
                 throw new UndefinedStateValueException(
-                    "Node has undefined state for variable " + entry.getKey() + ".");
+                    "Node has undefined state for variable " + entry.getKey());
         }
 
         return state;
@@ -115,8 +115,7 @@ public abstract class TreeNode
         String value = getStateValueOrNull(var);
 
         if(value == null)
-            throw new UndefinedStateValueException(
-                "Node has undefined state for variable " + var + ".");
+            throw new UndefinedStateValueException("Node has undefined state for variable " + var);
 
         return value;
     }

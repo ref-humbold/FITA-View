@@ -56,6 +56,6 @@ public final class Pair<F, S>
     @Override
     public String toString()
     {
-        return "(" + Objects.toString(first) + ", " + Objects.toString(second) + ")";
+        return String.format("(%s, %s)", Objects.toString(first), Objects.toString(second));
     }
 }

@@ -97,7 +97,7 @@ class TopDownAutomatonHandler
                                                                                      nodeValue))
                     throw new IllegalVariableValueException(
                         writePosition() + "Given node-value  \'" + nodeValue
-                            + "\' is not a value of variable with ID " + varID + ".");
+                            + "\' is not a value of variable with ID " + varID);
                 break;
 
             case "left-result":
@@ -109,7 +109,7 @@ class TopDownAutomatonHandler
                                                                                      leftResult))
                     throw new IllegalVariableValueException(
                         writePosition() + "Given left-result \'" + leftResult
-                            + "\' is not a value of variable with ID " + varID + ".");
+                            + "\' is not a value of variable with ID " + varID);
                 break;
 
             case "right-result":
@@ -121,7 +121,7 @@ class TopDownAutomatonHandler
                                                                                       rightResult))
                     throw new IllegalVariableValueException(
                         writePosition() + "Given right-result \'" + rightResult
-                            + "\'is not a value of variable with ID " + varID + ".");
+                            + "\'is not a value of variable with ID " + varID);
                 break;
 
             default:

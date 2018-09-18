@@ -91,7 +91,7 @@ public class TopDownDITA
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof TopDownDITA))
+        if(!(o instanceof TopDownDITA))
             return false;
 
         TopDownDITA other = (TopDownDITA)o;

@@ -57,7 +57,7 @@ public class TopDownTransitions<V>
 
         if(results.isEmpty())
             throw new NoSuchTransitionException(
-                "No entry for arguments " + key + " with variable " + var + ".");
+                "No entry for arguments " + key + " with variable " + var);
 
         return results;
     }
@@ -82,7 +82,7 @@ public class TopDownTransitions<V>
         }
 
         throw new NoSuchTransitionException(
-            "No entry for arguments " + key + " with variable " + var + ".");
+            "No entry for arguments " + key + " with variable " + var);
     }
 
     @Override

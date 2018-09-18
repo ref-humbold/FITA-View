@@ -85,7 +85,7 @@ public class BottomUpDFTA
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof BottomUpDFTA))
+        if(!(o instanceof BottomUpDFTA))
             return false;
 
         BottomUpDFTA other = (BottomUpDFTA)o;
@@ -99,8 +99,8 @@ public class BottomUpDFTA
     @Override
     public String toString()
     {
-        return "BottomUpDFTA:\n  alphabet = " + alphabet.toString() + "\n  variables = " + variables
-            .toString() + "\n  transitions = " + transitions.toString();
+        return String.format("BottomUpDFTA:\n  alphabet = %s\n  variables = %s\n  transitions = %s",
+                             alphabet.toString(), variables.toString(), transitions.toString());
     }
 
     @Override

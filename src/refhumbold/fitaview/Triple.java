@@ -64,7 +64,7 @@ public final class Triple<F, S, T>
     @Override
     public String toString()
     {
-        return "(" + Objects.toString(first) + ", " + Objects.toString(second) + ", "
-            + Objects.toString(third) + ")";
+        return String.format("(%s, %s, %s)", Objects.toString(first), Objects.toString(second),
+                             Objects.toString(third));
     }
 }

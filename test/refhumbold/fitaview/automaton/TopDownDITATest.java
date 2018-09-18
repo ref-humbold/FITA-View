@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import refhumbold.fitaview.Pair;
 import refhumbold.fitaview.tree.NodeHasParentException;
 import refhumbold.fitaview.tree.RecNode;
 import refhumbold.fitaview.tree.RepeatNode;
@@ -20,19 +21,20 @@ public class TopDownDITATest
     private TopDownDITA testObject;
     private List<Variable> variables;
     private List<String> alphabet = Arrays.asList("0", "1", "2", "3", "4");
-    private List<Map<Variable, String>> accepts = Arrays.asList(new HashMap<>(), new HashMap<>(),
-                                                                new HashMap<>());
+    private List<Map<Variable, Pair<String, Boolean>>> accepts = Arrays.asList(new HashMap<>(),
+                                                                               new HashMap<>(),
+                                                                               new HashMap<>());
 
     public TopDownDITATest()
         throws Exception
     {
         variables = Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "!", "@", "#", "$"));
-        accepts.get(0).put(variables.get(0), "+ A");
-        accepts.get(0).put(variables.get(1), "+ @");
-        accepts.get(1).put(variables.get(0), "+ B");
-        accepts.get(1).put(variables.get(1), "+ $");
-        accepts.get(2).put(variables.get(0), "+ " + Wildcard.EVERY_VALUE);
-        accepts.get(2).put(variables.get(1), "+ #");
+        accepts.get(0).put(variables.get(0), Pair.make("A", true));
+        accepts.get(0).put(variables.get(1), Pair.make("@", true));
+        accepts.get(1).put(variables.get(0), Pair.make("B", true));
+        accepts.get(1).put(variables.get(1), Pair.make("$", true));
+        accepts.get(2).put(variables.get(0), Pair.make(Wildcard.EVERY_VALUE, true));
+        accepts.get(2).put(variables.get(1), Pair.make("#", true));
     }
 
     @Before
@@ -74,6 +76,9 @@ public class TopDownDITATest
         testObject.addTransition(variables.get(1), "$", "2", "!", "@");
         testObject.addTransition(variables.get(1), "$", "3", "@", "#");
         testObject.addTransition(variables.get(1), "$", "4", "#", "$");
+        testObject.addBuchiAcceptanceConditions(accepts.get(0));
+        testObject.addBuchiAcceptanceConditions(accepts.get(1));
+        testObject.addBuchiAcceptanceConditions(accepts.get(2));
     }
 
     @After
@@ -127,6 +132,7 @@ public class TopDownDITATest
         Assert.assertNull(testObject.tree);
     }
 
+    @Test
     public void testSetTreeWhenInfiniteTree()
     {
         TreeNode node = null;

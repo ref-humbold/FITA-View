@@ -33,7 +33,7 @@ public class Variable
 
         for(String v : values)
             if(v == null || v.isEmpty())
-                throw new IllegalVariableValueException("Value is null or empty.");
+                throw new IllegalVariableValueException("Value is null or empty");
 
         this.values.addAll(values);
     }
@@ -53,7 +53,7 @@ public class Variable
      */
     public String getVarName()
     {
-        return "Var_" + Integer.toString(index);
+        return String.format("Var_%d", index);
     }
 
     /**
@@ -92,7 +92,7 @@ public class Variable
         if(this == obj)
             return true;
 
-        if(obj == null || !(obj instanceof Variable))
+        if(!(obj instanceof Variable))
             return false;
 
         Variable other = (Variable)obj;
@@ -104,6 +104,6 @@ public class Variable
     @Override
     public String toString()
     {
-        return getVarName() + "::" + values.toString();
+        return String.format("%s::%s", getVarName(), values.toString());
     }
 }

@@ -52,8 +52,8 @@ class BottomUpAutomatonHandler
                 {
                     if(conditions.get(variables.get(id)) == null)
                         throw new NoAcceptanceForVariableException(
-                            writePosition() + "Variable with ID " + id
-                                + "has no acceptance condition.");
+                            String.format("%s: Variable with ID %d has no acceptance condition",
+                                          writePosition(), id));
                 }
 
                 result.addAcceptanceConditions(conditions);
@@ -71,7 +71,7 @@ class BottomUpAutomatonHandler
                 if(!Objects.equals(label, Wildcard.EVERY_VALUE) && !alphabet.contains(label))
                     throw new IllegalAlphabetWordException(
                         writePosition() + "Given label \'" + label
-                            + "\' is not a part of result's alphabet.");
+                            + "\' is not a part of result's alphabet");
                 break;
 
             case "left-value":
@@ -83,7 +83,7 @@ class BottomUpAutomatonHandler
                     && !variables.get(varID).contains(leftValue))
                     throw new IllegalVariableValueException(
                         writePosition() + "Given left-value \'" + leftValue
-                            + "\' is not a value of variable with ID " + varID + ".");
+                            + "\' is not a value of variable with ID " + varID);
                 break;
 
             case "right-value":
@@ -95,7 +95,7 @@ class BottomUpAutomatonHandler
                     && !variables.get(varID).contains(rightValue))
                     throw new IllegalVariableValueException(
                         writePosition() + "Given right-value \'" + rightValue
-                            + "\' is not a value of variable with ID " + varID + ".");
+                            + "\' is not a value of variable with ID " + varID);
                 break;
 
             case "node-result":
@@ -107,7 +107,7 @@ class BottomUpAutomatonHandler
                     && !variables.get(varID).contains(nodeResult))
                     throw new IllegalVariableValueException(
                         writePosition() + "Given node-result \'" + nodeResult
-                            + "\' is not a value of variable with ID " + varID + ".");
+                            + "\' is not a value of variable with ID " + varID);
                 break;
 
             default:

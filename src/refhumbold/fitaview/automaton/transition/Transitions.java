@@ -19,7 +19,7 @@ public abstract class Transitions<K, V>
     public Transitions(Function<K, String> keyConversion, Function<V, String> valueConversion)
     {
         if(keyConversion == null || valueConversion == null)
-            throw new IllegalArgumentException("Conversion function is null.");
+            throw new IllegalArgumentException("Conversion function is null");
 
         this.keyConversion = keyConversion;
         this.valueConversion = valueConversion;
@@ -55,7 +55,8 @@ public abstract class Transitions<K, V>
     {
         if(containsKey(var, key))
             throw new DuplicatedTransitionException(
-                "Duplicated transition entry for " + var + " + " + key + ".");
+                String.format("Duplicated transition entry for %s + %s", var.toString(),
+                              key.toString()));
 
         map.put(Pair.make(var, key), value);
     }
@@ -108,7 +109,7 @@ public abstract class Transitions<K, V>
         if(this == obj)
             return true;
 
-        if(obj == null || !(obj instanceof Transitions))
+        if(!(obj instanceof Transitions))
             return false;
 
         Transitions<?, ?> other = (Transitions<?, ?>)obj;
@@ -119,7 +120,7 @@ public abstract class Transitions<K, V>
     @Override
     public String toString()
     {
-        return "Transitions::" + map.toString();
+        return String.format("Transitions::%s", map.toString());
     }
 
     /**

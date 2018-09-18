@@ -88,7 +88,7 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
                     if(!Objects.equals(value, Wildcard.EVERY_VALUE) && !v.contains(value))
                         throw new IllegalVariableValueException(
                             writePosition() + "Given value \'" + value
-                                + "\'is not a value of variable with ID " + id + ".");
+                                + "\'is not a value of variable with ID " + id);
 
                     conditions.put(v, Pair.make(value, true));
                 }
