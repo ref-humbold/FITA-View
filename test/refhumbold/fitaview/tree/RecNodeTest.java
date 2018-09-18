@@ -71,7 +71,7 @@ public class RecNodeTest
         catch(UndefinedStateValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -96,7 +96,7 @@ public class RecNodeTest
         catch(UndefinedStateValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -130,7 +130,7 @@ public class RecNodeTest
         catch(IllegalVariableValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         String result = testObject.getStateValueOrNull(variable2);

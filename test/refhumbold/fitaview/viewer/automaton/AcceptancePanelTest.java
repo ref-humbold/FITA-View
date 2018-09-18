@@ -18,7 +18,11 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import refhumbold.fitaview.Pointer;
-import refhumbold.fitaview.automaton.*;
+import refhumbold.fitaview.automaton.AutomatonRunningMode;
+import refhumbold.fitaview.automaton.AutomatonRunningModeSender;
+import refhumbold.fitaview.automaton.NoTreeException;
+import refhumbold.fitaview.automaton.TreeAutomaton;
+import refhumbold.fitaview.automaton.UndefinedAcceptanceException;
 import refhumbold.fitaview.messaging.Message;
 import refhumbold.fitaview.tree.UndefinedStateValueException;
 import refhumbold.fitaview.viewer.UserMessageBox;
@@ -84,7 +88,7 @@ public class AcceptancePanelTest
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         testObject.receiveSignal(mockSignal);
@@ -108,7 +112,7 @@ public class AcceptancePanelTest
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         testObject.receiveSignal(mockSignal);
@@ -134,7 +138,7 @@ public class AcceptancePanelTest
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         PowerMockito.doAnswer(new Answer<Void>()
@@ -189,7 +193,7 @@ public class AcceptancePanelTest
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         testObject.receiveSignal(mockSignal);
@@ -214,7 +218,7 @@ public class AcceptancePanelTest
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         testObject.receiveSignal(mockSignal);
@@ -239,7 +243,7 @@ public class AcceptancePanelTest
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         testObject.receiveSignal(mockSignal);

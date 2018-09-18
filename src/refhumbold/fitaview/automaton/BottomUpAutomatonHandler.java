@@ -5,19 +5,12 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 class BottomUpAutomatonHandler
-    extends AutomatonHandler
+    extends AutomatonHandler<BottomUpAutomaton>
 {
-    private BottomUpAutomaton automaton;
     private String label;
     private String leftValue;
     private String rightValue;
     private String nodeResult;
-
-    @Override
-    public TreeAutomaton getAutomaton()
-    {
-        return automaton;
-    }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
@@ -50,8 +43,8 @@ class BottomUpAutomatonHandler
                 break;
 
             case "variables":
-                automaton = isDeterministic ? new BottomUpDFTA(variables.values(), alphabet)
-                                            : new BottomUpNFTA(variables.values(), alphabet);
+                result = isDeterministic ? new BottomUpDFTA(variables.values(), alphabet)
+                                         : new BottomUpNFTA(variables.values(), alphabet);
                 break;
 
             case "conditions":
@@ -63,12 +56,12 @@ class BottomUpAutomatonHandler
                                 + "has no acceptance condition.");
                 }
 
-                automaton.addAcceptanceConditions(conditions);
+                result.addAcceptanceConditions(conditions);
                 break;
 
             case "trans":
-                automaton.addTransition(variables.get(varID), leftValue, rightValue, label,
-                                        nodeResult);
+                result.addTransition(variables.get(varID), leftValue, rightValue, label,
+                                     nodeResult);
                 break;
 
             case "label":
@@ -78,7 +71,7 @@ class BottomUpAutomatonHandler
                 if(!Objects.equals(label, Wildcard.EVERY_VALUE) && !alphabet.contains(label))
                     throw new IllegalAlphabetWordException(
                         writePosition() + "Given label \'" + label
-                            + "\' is not a part of automaton's alphabet.");
+                            + "\' is not a part of result's alphabet.");
                 break;
 
             case "left-value":

@@ -5,20 +5,13 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 class TopDownAutomatonHandler
-    extends AutomatonHandler
+    extends AutomatonHandler<TopDownAutomaton>
 {
-    private TopDownAutomaton automaton;
     private boolean isBuchiAccept = false;
     private String nodeValue;
     private String label;
     private String leftResult;
     private String rightResult;
-
-    @Override
-    public TreeAutomaton getAutomaton()
-    {
-        return automaton;
-    }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
@@ -31,14 +24,14 @@ class TopDownAutomatonHandler
         {
             case "buchi-accepting":
                 isBuchiAccept = true;
-                automaton = isDeterministic ? new TopDownDITA(variables.values(), alphabet)
-                                            : new TopDownNITA(variables.values(), alphabet);
+                result = isDeterministic ? new TopDownDITA(variables.values(), alphabet)
+                                         : new TopDownNITA(variables.values(), alphabet);
                 break;
 
             case "leaf-accepting":
                 if(!isBuchiAccept)
-                    automaton = isDeterministic ? new TopDownDFTA(variables.values(), alphabet)
-                                                : new TopDownNFTA(variables.values(), alphabet);
+                    result = isDeterministic ? new TopDownDFTA(variables.values(), alphabet)
+                                             : new TopDownNFTA(variables.values(), alphabet);
 
                 isBuchiAccept = false;
                 break;
@@ -66,8 +59,8 @@ class TopDownAutomatonHandler
                 break;
 
             case "trans":
-                automaton.addTransition(variables.get(varID), nodeValue, label, leftResult,
-                                        rightResult);
+                result.addTransition(variables.get(varID), nodeValue, label, leftResult,
+                                     rightResult);
                 break;
 
             case "conditions":
@@ -80,9 +73,9 @@ class TopDownAutomatonHandler
                 }
 
                 if(isBuchiAccept)
-                    ((InfiniteTreeAutomaton)automaton).addBuchiAcceptanceConditions(conditions);
+                    ((InfiniteTreeAutomaton)result).addBuchiAcceptanceConditions(conditions);
                 else
-                    automaton.addAcceptanceConditions(conditions);
+                    result.addAcceptanceConditions(conditions);
                 break;
 
             case "label":
@@ -92,7 +85,7 @@ class TopDownAutomatonHandler
                 if(!Objects.equals(label, Wildcard.EVERY_VALUE) && !alphabet.contains(label))
                     throw new IllegalAlphabetWordException(
                         writePosition() + "Given label \'" + label
-                            + "\' is not a part of automaton's alphabet.");
+                            + "\' is not a part of result's alphabet.");
                 break;
 
             case "node-value":

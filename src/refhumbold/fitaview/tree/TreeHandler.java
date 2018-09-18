@@ -3,45 +3,30 @@ package refhumbold.fitaview.tree;
 import java.util.Objects;
 import java.util.Stack;
 import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import refhumbold.fitaview.Pair;
+import refhumbold.fitaview.XMLHandler;
 
 class TreeHandler
-    extends DefaultHandler
+    extends XMLHandler<TreeNode>
 {
     private Stack<Pair<StandardNode, TreeChild>> nodes = new Stack<>();
     private Stack<RepeatNode> repeats = new Stack<>();
-    private TreeNode tree = null;
-    private Locator locator;
     private int index = 1;
     private int actualDepth = 0;
     private int maxDepth = 0;
 
-    public TreeNode getTree()
+    @Override
+    public TreeNode getResult()
     {
-        return tree;
+        return result;
     }
 
     public int getMaxDepth()
     {
         return this.maxDepth;
-    }
-
-    @Override
-    public void setDocumentLocator(Locator locator)
-    {
-        this.locator = locator;
-    }
-
-    @Override
-    public void error(SAXParseException e)
-        throws SAXException
-    {
-        throw new TreeParsingException(e.getMessage(), e);
     }
 
     @Override
@@ -55,8 +40,8 @@ class TreeHandler
 
         if(actualDepth > TreeNode.MAX_HEIGHT)
             throw new TreeDepthException(
-                writePosition() + "Tree depth is greater than allowed " + Integer.toString(
-                    TreeNode.MAX_HEIGHT) + ".");
+                String.format("%s: Tree depth is greater than allowed %d", writePosition(),
+                              TreeNode.MAX_HEIGHT));
 
         switch(qName)
         {
@@ -67,7 +52,8 @@ class TreeHandler
                 label = attributes.getValue("label");
 
                 if(label == null)
-                    throw new TreeParsingException(writePosition() + "Label is null");
+                    throw new TreeParsingException(
+                        String.format("%s: Label is null", writePosition()));
 
                 StandardNode standardNode = new StandardNode(label, index);
 
@@ -79,7 +65,8 @@ class TreeHandler
                 label = attributes.getValue("label");
 
                 if(label == null)
-                    throw new TreeParsingException(writePosition() + "Label is null");
+                    throw new TreeParsingException(
+                        String.format("%s: Label is null", writePosition()));
 
                 RepeatNode repeatNode = new RepeatNode(label, index);
 
@@ -90,7 +77,7 @@ class TreeHandler
 
             default:
                 throw new TreeParsingException(
-                    writePosition() + "Unexpected tag: \'" + qName + "\'");
+                    String.format("%s: Unexpected tag: \'%s\'", writePosition(), qName));
         }
     }
 
@@ -116,8 +103,9 @@ class TreeHandler
                         if(nodesPair.getSecond() == TreeChild.LEFT)
                             index /= 2;
                         else if(nodesPair.getSecond() == TreeChild.RIGHT)
-                            throw new OneChildException(writePosition()
-                                                            + "Node must have zero or two children, but it has one.");
+                            throw new OneChildException(String.format(
+                                "%s: Node must have zero or two children, but it has one",
+                                writePosition()));
 
                         node = nodesPair.getFirst();
                     }
@@ -148,7 +136,7 @@ class TreeHandler
                     }
                     catch(NodeHasParentException e)
                     {
-                        throw new TreeParsingException("Child node has parent.", e);
+                        throw new TreeParsingException("Child node has parent", e);
                     }
 
                     if(Objects.equals(qName, "repeat"))
@@ -158,22 +146,21 @@ class TreeHandler
 
             default:
                 throw new TreeParsingException(
-                    writePosition() + "Unexpected tag: \'" + qName + "\'");
+                    String.format("%s: Unexpected tag: \'%s\'", writePosition(), qName));
         }
     }
 
     @Override
     public void endDocument()
     {
-        tree = nodes.empty() ? null : nodes.get(0).getFirst();
+        result = nodes.empty() ? null : nodes.get(0).getFirst();
     }
 
-    private String writePosition()
+    @Override
+    public void error(SAXParseException e)
+        throws SAXException
     {
-        if(locator == null)
-            return "";
-
-        return "LINE " + locator.getLineNumber() + ", COLUMN " + locator.getColumnNumber() + ": ";
+        throw new TreeParsingException(e.getMessage(), e);
     }
 
     private enum TreeChild

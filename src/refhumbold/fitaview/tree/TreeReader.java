@@ -56,6 +56,6 @@ public class TreeReader
 
         parser.parse(file, handler);
 
-        return Pair.make(handler.getTree(), handler.getMaxDepth());
+        return Pair.make(handler.getResult(), handler.getMaxDepth());
     }
 }

@@ -6,7 +6,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InOrder;
+import org.mockito.InjectMocks;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
@@ -15,7 +19,11 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import refhumbold.fitaview.Pointer;
-import refhumbold.fitaview.automaton.*;
+import refhumbold.fitaview.automaton.AutomatonRunningMode;
+import refhumbold.fitaview.automaton.AutomatonRunningModeSender;
+import refhumbold.fitaview.automaton.BottomUpAutomaton;
+import refhumbold.fitaview.automaton.InfiniteTreeAutomaton;
+import refhumbold.fitaview.automaton.TreeAutomaton;
 import refhumbold.fitaview.messaging.Message;
 import refhumbold.fitaview.viewer.UserMessageBox;
 
@@ -73,7 +81,7 @@ public class ActionButtonsPanelTest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -93,7 +101,7 @@ public class ActionButtonsPanelTest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -113,7 +121,7 @@ public class ActionButtonsPanelTest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -137,7 +145,7 @@ public class ActionButtonsPanelTest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -161,7 +169,7 @@ public class ActionButtonsPanelTest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -196,7 +204,7 @@ public class ActionButtonsPanelTest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -229,7 +237,7 @@ public class ActionButtonsPanelTest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 

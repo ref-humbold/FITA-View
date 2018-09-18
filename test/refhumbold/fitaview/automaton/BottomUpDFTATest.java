@@ -93,7 +93,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(testObject.tree);
@@ -110,7 +110,7 @@ public class BottomUpDFTATest
         catch(TreeFinitenessException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNull(testObject.tree);
@@ -136,7 +136,7 @@ public class BottomUpDFTATest
         catch(NodeHasParentException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -177,7 +177,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
@@ -189,7 +189,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
@@ -230,7 +230,7 @@ public class BottomUpDFTATest
         catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -245,7 +245,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
@@ -258,7 +258,7 @@ public class BottomUpDFTATest
         catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -299,7 +299,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
@@ -311,7 +311,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
@@ -345,7 +345,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
@@ -371,7 +371,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
@@ -389,7 +389,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
@@ -410,7 +410,7 @@ public class BottomUpDFTATest
         catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -425,7 +425,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
@@ -438,7 +438,7 @@ public class BottomUpDFTATest
         catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -479,7 +479,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
@@ -491,7 +491,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
@@ -525,7 +525,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
@@ -593,7 +593,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         boolean result = false;
@@ -605,7 +605,7 @@ public class BottomUpDFTATest
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertTrue(result);
@@ -651,7 +651,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         boolean result = false;
@@ -663,7 +663,7 @@ public class BottomUpDFTATest
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertFalse(result);
@@ -709,7 +709,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         try
@@ -719,7 +719,7 @@ public class BottomUpDFTATest
         catch(UndefinedAcceptanceException | NoTreeException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -763,7 +763,7 @@ public class BottomUpDFTATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         try
@@ -773,7 +773,7 @@ public class BottomUpDFTATest
         catch(UndefinedStateValueException | NoTreeException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -788,7 +788,7 @@ public class BottomUpDFTATest
         catch(UndefinedStateValueException | UndefinedAcceptanceException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -888,7 +888,7 @@ public class BottomUpDFTATest
         catch(UndefinedAcceptanceException | UndefinedStateValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertFalse(result);
@@ -912,7 +912,7 @@ public class BottomUpDFTATest
         catch(UndefinedAcceptanceException | UndefinedStateValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertFalse(result);
@@ -936,7 +936,7 @@ public class BottomUpDFTATest
         catch(UndefinedAcceptanceException | UndefinedStateValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertTrue(result);
@@ -953,7 +953,7 @@ public class BottomUpDFTATest
         catch(UndefinedStateValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 }

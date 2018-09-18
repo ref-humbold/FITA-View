@@ -9,7 +9,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import refhumbold.fitaview.tree.*;
+import refhumbold.fitaview.tree.NodeHasParentException;
+import refhumbold.fitaview.tree.RecNode;
+import refhumbold.fitaview.tree.RepeatNode;
+import refhumbold.fitaview.tree.StandardNode;
+import refhumbold.fitaview.tree.TreeNode;
 
 public class TopDownDITATest
 {
@@ -101,7 +105,7 @@ public class TopDownDITATest
         catch(Exception e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         testObject.setTree(node);
@@ -117,7 +121,7 @@ public class TopDownDITATest
         catch(TreeFinitenessException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNull(testObject.tree);
@@ -143,7 +147,7 @@ public class TopDownDITATest
         catch(TreeFinitenessException | NodeHasParentException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(testObject.tree);

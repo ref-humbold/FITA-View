@@ -43,15 +43,15 @@ public class AutomatonReader
 
         try
         {
-            Schema schema = getSchema(this.type);
+            Schema schema = getSchema(type);
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             parserFactory.setSchema(schema);
-            this.parser = parserFactory.newSAXParser();
+            parser = parserFactory.newSAXParser();
         }
         catch(ParserConfigurationException | SAXException e)
         {
-            throw new SAXException("Cannot start parser: " + e.getMessage(), e);
+            throw new SAXException(String.format("Cannot start parser; %s", e.getMessage()), e);
         }
     }
 
@@ -64,11 +64,11 @@ public class AutomatonReader
     public TreeAutomaton read()
         throws IOException, SAXException
     {
-        AutomatonHandler handler = getHandler(type);
+        AutomatonHandler<? extends TreeAutomaton> handler = getHandler(type);
 
         parser.parse(file, handler);
 
-        return handler.getAutomaton();
+        return handler.getResult();
     }
 
     private Schema getSchema(AutomatonType type)
@@ -85,10 +85,10 @@ public class AutomatonReader
                 return schemaFactory.newSchema(getClass().getResource("TopDownAutomaton.xsd"));
         }
 
-        throw new SAXException("Incorrect type.");
+        throw new SAXException("Incorrect automaton type");
     }
 
-    private AutomatonHandler getHandler(AutomatonType type)
+    private AutomatonHandler<? extends TreeAutomaton> getHandler(AutomatonType type)
         throws SAXException
     {
         switch(type)
@@ -100,7 +100,7 @@ public class AutomatonReader
                 return new TopDownAutomatonHandler();
         }
 
-        throw new SAXException("Incorrect type.");
+        throw new SAXException("Incorrect automaton type");
     }
 
     private enum AutomatonType

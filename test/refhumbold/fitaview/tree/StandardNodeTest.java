@@ -59,7 +59,7 @@ public class StandardNodeTest
         catch(NodeHasParentException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         String result = testObject.toString();
@@ -79,7 +79,7 @@ public class StandardNodeTest
         catch(NodeHasParentException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertSame(node, testObject.getLeft());
@@ -100,7 +100,7 @@ public class StandardNodeTest
         catch(NodeHasParentException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNull(node1.getParent());
@@ -121,7 +121,7 @@ public class StandardNodeTest
         catch(NodeHasParentException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         testObject.setLeft(node.getLeft());
@@ -139,7 +139,7 @@ public class StandardNodeTest
         catch(NodeHasParentException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertSame(node, testObject.getRight());
@@ -160,7 +160,7 @@ public class StandardNodeTest
         catch(NodeHasParentException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNull(node1.getParent());
@@ -181,7 +181,7 @@ public class StandardNodeTest
         catch(NodeHasParentException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         testObject.setRight(node.getLeft());
@@ -199,7 +199,7 @@ public class StandardNodeTest
         catch(UndefinedStateValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -225,7 +225,7 @@ public class StandardNodeTest
         catch(UndefinedStateValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -259,7 +259,7 @@ public class StandardNodeTest
         catch(IllegalVariableValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         String result = testObject.getStateValueOrNull(variable2);

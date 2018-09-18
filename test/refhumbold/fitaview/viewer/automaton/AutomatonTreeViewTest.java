@@ -76,7 +76,7 @@ public class AutomatonTreeViewTest
         catch(IllegalVariableValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
@@ -109,7 +109,7 @@ public class AutomatonTreeViewTest
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
@@ -247,7 +247,7 @@ public class AutomatonTreeViewTest
         catch(IllegalVariableValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
@@ -275,7 +275,7 @@ public class AutomatonTreeViewTest
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
@@ -424,7 +424,7 @@ public class AutomatonTreeViewTest
         catch(IllegalVariableValueException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Mockito.when(mockMessage.getParam()).thenReturn(param);

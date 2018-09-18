@@ -2,15 +2,14 @@ package refhumbold.fitaview.automaton;
 
 import java.util.*;
 import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import refhumbold.fitaview.Pair;
+import refhumbold.fitaview.XMLHandler;
 
-abstract class AutomatonHandler
-    extends DefaultHandler
+abstract class AutomatonHandler<T extends TreeAutomaton>
+    extends XMLHandler<T>
 {
     protected Collection<String> alphabet = new ArrayList<>();
     protected Map<Integer, Variable> variables = new HashMap<>();
@@ -19,16 +18,7 @@ abstract class AutomatonHandler
     protected String tagName;
     protected Integer varID;
     protected boolean isDeterministic;
-    private Locator locator;
     private List<String> varValues = new ArrayList<>();
-
-    protected abstract TreeAutomaton getAutomaton();
-
-    @Override
-    public void setDocumentLocator(Locator locator)
-    {
-        this.locator = locator;
-    }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
@@ -64,7 +54,7 @@ abstract class AutomatonHandler
 
                 if(!variables.containsKey(varID))
                     throw new NoVariableWithIDException(
-                        writePosition() + "No variable with with ID " + varID + ".");
+                        String.format("%s: No variable with with ID %d.", writePosition(), varID));
                 break;
 
             case "accept":
@@ -72,7 +62,7 @@ abstract class AutomatonHandler
 
                 if(!variables.containsKey(varID))
                     throw new NoVariableWithIDException(
-                        writePosition() + "No variable with with ID " + varID + ".");
+                        String.format("%s: No variable with with ID %d.", writePosition(), varID));
 
                 Variable v = variables.get(id);
 
@@ -109,7 +99,7 @@ abstract class AutomatonHandler
                     if(!v.contains(value))
                         throw new IllegalVariableValueException(
                             writePosition() + "Given value \'" + value
-                                + "\'is not a value of variable with ID " + id + ".");
+                                + "\'is not a value of variable with ID " + id);
 
                     conditions.put(v, Pair.make(value, false));
                 }
@@ -117,7 +107,7 @@ abstract class AutomatonHandler
 
             default:
                 throw new AutomatonParsingException(
-                    writePosition() + "Unexpected tag: \'" + qName + "\'");
+                    String.format("%s: Unexpected tag \'%s\'", writePosition(), qName));
         }
     }
 
@@ -151,14 +141,14 @@ abstract class AutomatonHandler
                 catch(IllegalVariableValueException e)
                 {
                     throw new IllegalVariableValueException(
-                        writePosition() + "Illegal value of variable with ID " + varID + ". "
-                            + e.getMessage());
+                        String.format("%s: Illegal value of variable with ID %d; %s",
+                                      writePosition(), varID, e.getMessage()));
                 }
                 break;
 
             default:
                 throw new AutomatonParsingException(
-                    writePosition() + "Unexpected tag: \'" + qName + "\'");
+                    String.format("%s: Unexpected tag \'%s\'", writePosition(), qName));
         }
     }
 
@@ -173,13 +163,5 @@ abstract class AutomatonHandler
         throws SAXException
     {
         throw new AutomatonParsingException(e.getMessage(), e);
-    }
-
-    protected String writePosition()
-    {
-        if(locator == null)
-            return "";
-
-        return "LINE " + locator.getLineNumber() + ", COLUMN " + locator.getColumnNumber() + ": ";
     }
 }

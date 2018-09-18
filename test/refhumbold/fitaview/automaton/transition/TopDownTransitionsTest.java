@@ -115,7 +115,7 @@ public class TopDownTransitionsTest
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         boolean result = testObject.containsKey(v, Pair.make("B", "10"));
@@ -133,7 +133,7 @@ public class TopDownTransitionsTest
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         boolean result = testObject.containsKey(v, Pair.make(Wildcard.EVERY_VALUE, "11"));
@@ -160,7 +160,7 @@ public class TopDownTransitionsTest
         catch(IllegalTransitionException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
 
@@ -176,7 +176,7 @@ public class TopDownTransitionsTest
         catch(NoSuchTransitionException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -211,7 +211,7 @@ public class TopDownTransitionsTest
         catch(NoSuchTransitionException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -230,7 +230,7 @@ public class TopDownTransitionsTest
         catch(NoSuchTransitionException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -249,7 +249,7 @@ public class TopDownTransitionsTest
         catch(NoSuchTransitionException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
