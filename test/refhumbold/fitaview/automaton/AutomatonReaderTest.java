@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import refhumbold.fitaview.Pair;
@@ -27,6 +30,8 @@ public class AutomatonReaderTest
         testObject = null;
     }
 
+    // region files
+
     @Test(expected = FileFormatException.class)
     public void testReadWhenIncorrectFileExtension()
         throws SAXException
@@ -35,6 +40,39 @@ public class AutomatonReaderTest
             new File(DIRECTORY + "testReadWhenIncorrectFileExtension.xml"));
     }
 
+    @Test(expected = TheFreddyMercuryConfusingFileNameException.class)
+    public void testReadWhenExpectedBottomUpButNamedTopDown()
+        throws TheFreddyMercuryConfusingFileNameException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadTopDownAutomaton.bua.xml"));
+        }
+        catch(SAXException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    @Test(expected = TheFreddyMercuryConfusingFileNameException.class)
+    public void testReadWhenExpectedTopDownButNamedBottomUp()
+        throws TheFreddyMercuryConfusingFileNameException
+    {
+        try
+        {
+            testObject = new AutomatonReader(
+                new File(DIRECTORY + "testReadBottomUpAutomaton.tda.xml"));
+        }
+        catch(SAXException e)
+        {
+            e.printStackTrace();
+            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+        }
+    }
+
+    // endregion
     // region TopDownDFTA
 
     @Test
@@ -405,7 +443,6 @@ public class AutomatonReaderTest
     }
 
     // endregion
-
     // region TopDownNFTA
 
     @Test
@@ -466,7 +503,6 @@ public class AutomatonReaderTest
     }
 
     // endregion
-
     // region TopDownDITA
 
     @Test
@@ -524,7 +560,6 @@ public class AutomatonReaderTest
     }
 
     // endregion
-
     // region TopDownNITA
 
     @Test
@@ -586,7 +621,6 @@ public class AutomatonReaderTest
     }
 
     // endregion
-
     // region BottomUpDFTA
 
     @Test
@@ -1024,7 +1058,6 @@ public class AutomatonReaderTest
     }
 
     // endregion
-
     // region BottomUpNFTA
 
     @Test
@@ -1096,38 +1129,4 @@ public class AutomatonReaderTest
     }
 
     // endregion
-
-    @Ignore("Easter Egg \'TopDown.bua.xml\' not implemented yet.")
-    @Test(expected = FileFormatException.class)
-    public void testReadWhenExpectedBottomUpButNamedTopDown()
-        throws FileFormatException
-    {
-        try
-        {
-            testObject = new AutomatonReader(
-                new File(DIRECTORY + "testReadTopDownAutomaton.bua.xml"));
-        }
-        catch(SAXException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
-
-    @Ignore("Easter Egg \'BottomUp.tda.xml\' not implemented yet.")
-    @Test(expected = FileFormatException.class)
-    public void testReadWhenExpectedTopDownButNamedBottomUp()
-        throws FileFormatException
-    {
-        try
-        {
-            testObject = new AutomatonReader(
-                new File(DIRECTORY + "testReadBottomUpAutomaton.tda.xml"));
-        }
-        catch(SAXException e)
-        {
-            e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-    }
 }

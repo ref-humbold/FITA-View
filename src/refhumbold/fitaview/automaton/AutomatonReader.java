@@ -19,10 +19,22 @@ public class AutomatonReader
     public AutomatonReader(File file)
         throws SAXException
     {
-        if(file.getName().endsWith(".bua.xml"))
+        String fileName = file.getName();
+
+        if(fileName.endsWith(".bua.xml"))
+        {
             this.type = AutomatonType.BOTTOM_UP;
-        else if(file.getName().endsWith(".tda.xml"))
+
+            if(fileName.matches("(?i).*top[_-]?down.*"))
+                throw new TheFreddyMercuryConfusingFileNameException("You don't fool me!");
+        }
+        else if(fileName.endsWith(".tda.xml"))
+        {
             this.type = AutomatonType.TOP_DOWN;
+
+            if(fileName.matches("(?i).*bottom[_-]?up.*"))
+                throw new TheFreddyMercuryConfusingFileNameException("You don't fool me!");
+        }
         else
             throw new FileFormatException(
                 "File extension is not recognizable, should be one of \'.bua.xml\' or \'.tda.xml\'.");
