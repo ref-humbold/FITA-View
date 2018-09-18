@@ -69,7 +69,7 @@ class TopDownAutomatonHandler
                     if(conditions.get(variables.get(id)) == null)
                         throw new NoAcceptanceForVariableException(
                             writePosition() + "Variable with ID " + id
-                                + "has no acceptance condition.");
+                                + "has no acceptance condition");
                 }
 
                 if(isBuchiAccept)
@@ -85,7 +85,7 @@ class TopDownAutomatonHandler
                 if(!Objects.equals(label, Wildcard.EVERY_VALUE) && !alphabet.contains(label))
                     throw new IllegalAlphabetWordException(
                         writePosition() + "Given label \'" + label
-                            + "\' is not a part of result's alphabet.");
+                            + "\' is not a part of result's alphabet");
                 break;
 
             case "node-value":

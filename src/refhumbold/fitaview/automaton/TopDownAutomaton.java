@@ -42,7 +42,7 @@ public abstract class TopDownAutomaton
     {
         if(this.isRunning())
             throw new AutomatonIsRunningException(
-                "Cannot change traversing strategy when automaton is running.");
+                "Cannot change traversing strategy when automaton is running");
 
         this.traversing = TraversingFactory.getTopDownTraversing(mode);
     }

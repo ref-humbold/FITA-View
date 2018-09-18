@@ -27,7 +27,7 @@ public class BottomUpBFS
     public Iterable<TreeNode> next()
     {
         if(!hasNext())
-            throw new NoSuchElementException("No more nodes in traversing.");
+            throw new NoSuchElementException("No more nodes in traversing");
 
         TreeNode node = nodeQueue.remove();
 

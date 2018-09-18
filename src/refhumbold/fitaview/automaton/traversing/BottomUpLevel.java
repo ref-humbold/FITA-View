@@ -31,7 +31,7 @@ public class BottomUpLevel
     public Iterable<TreeNode> next()
     {
         if(!hasNext())
-            throw new NoSuchElementException("No more nodes in traversing.");
+            throw new NoSuchElementException("No more nodes in traversing");
 
         ArrayList<TreeNode> nodes = new ArrayList<>();
         int index = nodeQueue.element().getIndex();

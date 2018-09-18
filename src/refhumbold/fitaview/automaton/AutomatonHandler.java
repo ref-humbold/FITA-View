@@ -54,7 +54,7 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
 
                 if(!variables.containsKey(varID))
                     throw new NoVariableWithIDException(
-                        String.format("%s: No variable with with ID %d.", writePosition(), varID));
+                        String.format("%s: No variable with with ID %d", writePosition(), varID));
                 break;
 
             case "accept":
@@ -62,24 +62,24 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
 
                 if(!variables.containsKey(varID))
                     throw new NoVariableWithIDException(
-                        String.format("%s: No variable with with ID %d.", writePosition(), varID));
+                        String.format("%s: No variable with with ID %d", writePosition(), varID));
 
                 Variable v = variables.get(id);
 
                 if(conditions.containsKey(v))
                     throw new DuplicatedAcceptanceValueException(
                         writePosition() + "Acceptance condition for variable with ID " + id
-                            + " has been already defined.");
+                            + " has been already defined");
 
                 if(attributes.getIndex("include") >= 0 && attributes.getIndex("exclude") >= 0)
                     throw new IncorrectAcceptanceConditionException(
                         writePosition() + "Acceptance condition for variable with ID " + id
-                            + "contains both \'include\' and \'exclude\'.");
+                            + "contains both \'include\' and \'exclude\'");
 
                 if(attributes.getIndex("include") < 0 && attributes.getIndex("exclude") < 0)
                     throw new IncorrectAcceptanceConditionException(
                         writePosition() + "Acceptance condition for variable with ID " + id
-                            + "contains neither \'include\' nor \'exclude\'.");
+                            + "contains neither \'include\' nor \'exclude\'");
 
                 if(attributes.getIndex("include") >= 0)
                 {

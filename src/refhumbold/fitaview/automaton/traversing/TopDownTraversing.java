@@ -1,6 +1,10 @@
 package refhumbold.fitaview.automaton.traversing;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.Map;
+import java.util.Queue;
 
 import refhumbold.fitaview.Pair;
 import refhumbold.fitaview.automaton.IllegalVariableValueException;
@@ -46,7 +50,7 @@ public abstract class TopDownTraversing
     {
         if(!canContinue())
             throw new RecursiveContinuationException(
-                "Automaton is not ready yet to recursively continue traversing.");
+                "Automaton is not ready yet to recursively continue traversing");
 
         pendingRecursiveNodes.addAll(newRecursiveNodes);
         newRecursiveNodes.clear();
@@ -78,7 +82,7 @@ public abstract class TopDownTraversing
             }
             catch(IllegalVariableValueException e)
             {
-                throw new IllegalStateException("Unexpected TreeNode#setState error.");
+                throw new IllegalStateException("Unexpected TreeNode#setState error");
             }
 
             addNextNode(pair.getFirst());

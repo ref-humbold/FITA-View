@@ -198,8 +198,8 @@ public class ActionButtonsPanelTest
 
             testObject.actionPerformed(mockActionEvent);
 
-            Assert.assertEquals(result[0], "AUTOMATON IS EMPTY");
-            Assert.assertEquals(result[1], "No tree can be accepted by the automaton.");
+            Assert.assertEquals("AUTOMATON IS EMPTY", result[0]);
+            Assert.assertEquals("No tree can be accepted by the automaton", result[1]);
         }
         catch(Exception e)
         {
@@ -231,8 +231,8 @@ public class ActionButtonsPanelTest
 
             testObject.actionPerformed(mockActionEvent);
 
-            Assert.assertEquals(result[0], "AUTOMATON IS NON-EMPTY");
-            Assert.assertEquals(result[1], "The automaton can accept at least one tree.");
+            Assert.assertEquals("AUTOMATON IS NON-EMPTY", result[0]);
+            Assert.assertEquals("The automaton can accept at least one tree", result[1]);
         }
         catch(Exception e)
         {

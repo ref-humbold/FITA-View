@@ -82,7 +82,7 @@ public abstract class TopDownNondeterministicAutomaton
     {
         if(choice == null)
             throw new NoNonDeterministicStrategyException(
-                "Automaton has no non-deterministic strategy.");
+                "Automaton has no non-deterministic strategy");
 
         super.initialize();
     }

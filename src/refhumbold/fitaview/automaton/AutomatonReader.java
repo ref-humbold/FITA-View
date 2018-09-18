@@ -37,7 +37,7 @@ public class AutomatonReader
         }
         else
             throw new FileFormatException(
-                "File extension is not recognizable, should be one of \'.bua.xml\' or \'.tda.xml\'.");
+                "File extension is not recognizable, should be one of \'.bua.xml\' or \'.tda.xml\'");
 
         this.file = file;
 

@@ -55,7 +55,7 @@ public class StandardNode
 
         if(node.getParent() != null)
             throw new NodeHasParentException(
-                "Node has already got a parent, so it cannot be assigned as a child.");
+                "Node has already got a parent, so it cannot be assigned as a child");
 
         this.left.setParent(null);
         this.left = node;
@@ -76,7 +76,7 @@ public class StandardNode
 
         if(node.getParent() != null)
             throw new NodeHasParentException(
-                "Node has already got a parent, so it cannot be assigned as a child.");
+                "Node has already got a parent, so it cannot be assigned as a child");
 
         this.right.setParent(null);
         this.right = node;
@@ -156,7 +156,7 @@ public class StandardNode
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof StandardNode))
+        if(!(o instanceof StandardNode))
             return false;
 
         StandardNode other = (StandardNode)o;

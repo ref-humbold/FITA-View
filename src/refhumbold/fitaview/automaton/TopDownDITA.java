@@ -65,7 +65,7 @@ public class TopDownDITA
         throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
         if(tree == null)
-            throw new NoTreeException("No tree specified.");
+            throw new NoTreeException("No tree specified");
 
         Boolean infiniteAcc = isBuchiAccepted();
 
@@ -122,7 +122,7 @@ public class TopDownDITA
         throws TreeFinitenessException
     {
         if(!containsRecursiveNode(tree))
-            throw new TreeFinitenessException("Tree is infinite.");
+            throw new TreeFinitenessException("Tree is infinite");
     }
 
     @Override

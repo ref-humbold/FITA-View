@@ -15,7 +15,7 @@ public class TraversingFactory
 
             case DFS:
                 throw new IncorrectTraversingException(
-                    "Cannot perform DFS traversing on bottom-up automaton.");
+                    "Cannot perform DFS traversing on bottom-up automaton");
         }
 
         return null;

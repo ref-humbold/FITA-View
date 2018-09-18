@@ -23,7 +23,7 @@ public class TreeReader
     {
         if(!file.getName().endsWith(".tree.xml"))
             throw new FileFormatException(
-                "File extension is not recognizable, should be \'.tree.xml\'.");
+                "File extension is not recognizable, should be \'.tree.xml\'");
 
         this.file = file;
 
@@ -39,7 +39,7 @@ public class TreeReader
         }
         catch(ParserConfigurationException | SAXException e)
         {
-            throw new SAXException("Cannot start parser.", e);
+            throw new SAXException("Cannot start parser", e);
         }
     }
 

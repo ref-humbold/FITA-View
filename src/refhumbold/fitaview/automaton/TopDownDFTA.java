@@ -25,10 +25,10 @@ public class TopDownDFTA
         throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
         if(tree == null)
-            throw new NoTreeException("No tree specified.");
+            throw new NoTreeException("No tree specified");
 
         if(leafStates.isEmpty())
-            throw new UndefinedStateValueException("States in tree leaves are undefined.");
+            throw new UndefinedStateValueException("States in tree leaves are undefined");
 
         return super.isAccepted();
     }
@@ -39,7 +39,7 @@ public class TopDownDFTA
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof TopDownDFTA))
+        if(!(o instanceof TopDownDFTA))
             return false;
 
         TopDownDFTA other = (TopDownDFTA)o;
@@ -68,7 +68,7 @@ public class TopDownDFTA
         throws TreeFinitenessException
     {
         if(containsRecursiveNode(tree))
-            throw new TreeFinitenessException("Tree is infinite.");
+            throw new TreeFinitenessException("Tree is infinite");
     }
 
     @Override

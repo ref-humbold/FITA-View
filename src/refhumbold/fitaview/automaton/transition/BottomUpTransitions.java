@@ -62,7 +62,7 @@ public class BottomUpTransitions<V>
             key.getFirst(), Wildcard.EVERY_VALUE)))
             throw new IllegalTransitionException(
                 "Transition cannot contain wildcard " + Wildcard.SAME_VALUE
-                    + " as both left and right value.");
+                    + " as both left and right value");
 
         super.add(var, key, value);
     }

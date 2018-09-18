@@ -103,7 +103,7 @@ public class AcceptancePanel
         setBackground(Color.GREEN);
         acceptanceLabel.setForeground(Color.BLACK);
         acceptanceLabel.setText("TREE ACCEPTED :)");
-        UserMessageBox.showInfo("ACCEPTED", "Automaton has accepted the tree.");
+        UserMessageBox.showInfo("ACCEPTED", "Automaton has accepted the tree");
     }
 
     private void setTreeRejected()
@@ -111,7 +111,7 @@ public class AcceptancePanel
         setBackground(DARK_RED);
         acceptanceLabel.setForeground(Color.WHITE);
         acceptanceLabel.setText("TREE REJECTED :(");
-        UserMessageBox.showInfo("REJECTED", "Automaton has rejected the tree.");
+        UserMessageBox.showInfo("REJECTED", "Automaton has rejected the tree");
     }
 
     private void setTreeUndefined()

@@ -13,7 +13,7 @@ public class Variable
         throws IllegalVariableValueException
     {
         if(init == null || init.isEmpty())
-            throw new IllegalVariableValueException("Initial value is null or empty.");
+            throw new IllegalVariableValueException("Initial value is null or empty");
 
         this.index = index;
         this.initValue = init;

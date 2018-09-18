@@ -134,7 +134,7 @@ public class BottomUpNFTA
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof BottomUpNFTA))
+        if(!(o instanceof BottomUpNFTA))
             return false;
 
         BottomUpNFTA other = (BottomUpNFTA)o;
@@ -174,7 +174,7 @@ public class BottomUpNFTA
     {
         if(choice == null)
             throw new NoNonDeterministicStrategyException(
-                "Automaton has no non-deterministic strategy.");
+                "Automaton has no non-deterministic strategy");
 
         super.initialize();
     }

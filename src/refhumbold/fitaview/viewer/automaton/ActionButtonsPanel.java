@@ -12,7 +12,11 @@ import javax.swing.*;
 
 import refhumbold.fitaview.FITAViewException;
 import refhumbold.fitaview.Pointer;
-import refhumbold.fitaview.automaton.*;
+import refhumbold.fitaview.automaton.AutomatonRunningModeSender;
+import refhumbold.fitaview.automaton.BottomUpAutomaton;
+import refhumbold.fitaview.automaton.IllegalVariableValueException;
+import refhumbold.fitaview.automaton.InfiniteTreeAutomaton;
+import refhumbold.fitaview.automaton.TreeAutomaton;
 import refhumbold.fitaview.messaging.Message;
 import refhumbold.fitaview.messaging.SignalReceiver;
 import refhumbold.fitaview.viewer.UserMessageBox;
@@ -86,10 +90,10 @@ public class ActionButtonsPanel
 
                     if(bottomUp.checkEmptiness())
                         UserMessageBox.showWarning("AUTOMATON IS EMPTY",
-                                                   "No tree can be accepted by the automaton.");
+                                                   "No tree can be accepted by the automaton");
                     else
                         UserMessageBox.showInfo("AUTOMATON IS NON-EMPTY",
-                                                "The automaton can accept at least one tree.");
+                                                "The automaton can accept at least one tree");
                     break;
             }
         }

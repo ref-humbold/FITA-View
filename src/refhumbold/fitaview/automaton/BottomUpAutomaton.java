@@ -39,7 +39,7 @@ public abstract class BottomUpAutomaton
     {
         if(this.isRunning())
             throw new AutomatonIsRunningException(
-                "Cannot change traversing strategy when automaton is running.");
+                "Cannot change traversing strategy when automaton is running");
 
         this.traversing = TraversingFactory.getBottomUpTraversing(mode);
     }
@@ -59,7 +59,7 @@ public abstract class BottomUpAutomaton
         throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
         if(tree == null)
-            throw new NoTreeException("No tree specified.");
+            throw new NoTreeException("No tree specified");
 
         return acceptanceConditions.check(tree.getState());
     }
@@ -109,7 +109,7 @@ public abstract class BottomUpAutomaton
         throws TreeFinitenessException
     {
         if(containsRecursiveNode(tree))
-            throw new TreeFinitenessException("Tree is infinite.");
+            throw new TreeFinitenessException("Tree is infinite");
     }
 
     @Override

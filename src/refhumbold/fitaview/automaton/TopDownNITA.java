@@ -65,7 +65,7 @@ public class TopDownNITA
         throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
         if(tree == null)
-            throw new NoTreeException("No tree specified.");
+            throw new NoTreeException("No tree specified");
 
         Boolean infiniteAcc = isBuchiAccepted();
 
@@ -91,7 +91,7 @@ public class TopDownNITA
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof TopDownNITA))
+        if(!(o instanceof TopDownNITA))
             return false;
 
         TopDownNITA other = (TopDownNITA)o;
@@ -131,7 +131,7 @@ public class TopDownNITA
         throws TreeFinitenessException
     {
         if(!containsRecursiveNode(tree))
-            throw new TreeFinitenessException("Tree is finite.");
+            throw new TreeFinitenessException("Tree is finite");
     }
 
     @Override

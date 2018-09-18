@@ -67,7 +67,7 @@ public class AcceptanceConditions
     {
         if(statesConditions.isEmpty())
             throw new UndefinedAcceptanceException(
-                "Automaton has no acceptance conditions defined.");
+                "Automaton has no acceptance conditions defined");
 
         for(Map<Variable, Pair<String, Boolean>> condition : statesConditions)
         {
@@ -77,7 +77,7 @@ public class AcceptanceConditions
             {
                 if(state.get(var) == null)
                     throw new UndefinedStateValueException(
-                        "State contains a variable with undefined value.");
+                        "State contains a variable with undefined value");
 
                 Pair<String, Boolean> valueEquality = condition.get(var);
 
@@ -101,7 +101,7 @@ public class AcceptanceConditions
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof AcceptanceConditions))
+        if(!(o instanceof AcceptanceConditions))
             return false;
 
         AcceptanceConditions other = (AcceptanceConditions)o;
