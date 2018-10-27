@@ -1,12 +1,17 @@
-# Java, JUnit, Apache ANT, Apache Ivy
+# Java, Apache ANT, Apache Ivy
 bin
 docs
-junit_reports
-junit_results
 lib
 
-# IntelliJ
+# JUnit
+junit_reports
+junit_results
+
+# IntelliJ IDEA
 *.iml
 .idea
 out
 gen
+
+# Visual Paradigm
+UML/*.bak*
