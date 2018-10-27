@@ -1,7 +1,9 @@
 # Java, Apache ANT, Apache Ivy
 bin
-docs
 lib
+
+# Javadoc
+docs
 
 # JUnit
 junit_reports
