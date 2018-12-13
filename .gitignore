@@ -1,6 +1,8 @@
 # Java, Apache ANT, Apache Ivy
 bin
 lib
+FITA-View
+fitaview-*.jar
 
 # Javadoc
 docs
