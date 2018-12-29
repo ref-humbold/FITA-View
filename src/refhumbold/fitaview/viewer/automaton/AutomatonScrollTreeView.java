@@ -11,15 +11,11 @@ public class AutomatonScrollTreeView
 {
     private static final long serialVersionUID = 4304767885791508959L;
 
-    private AutomatonTreeView treeView;
-
     public AutomatonScrollTreeView(Pointer<TreeAutomaton> pointer)
     {
         super();
-
-        this.treeView = new AutomatonTreeView(pointer);
-        this.setViewportView(this.treeView);
-        this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        setViewportView(new AutomatonTreeView(pointer));
+        setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     }
 }

@@ -61,9 +61,7 @@ public abstract class AbstractTreeAutomaton
             AutomatonRunningModeSender.getInstance().send();
     }
 
-    /**
-     * @return initial state of tree in the automaton.
-     */
+    /** @return initial state of tree in the automaton */
     protected Map<Variable, String> getInitialState()
     {
         return variables.stream()
@@ -79,13 +77,13 @@ public abstract class AbstractTreeAutomaton
             assertFiniteness(tree);
 
         this.tree = tree;
-        this.stopTraversing();
+        stopTraversing();
     }
 
     @Override
-    public void setSendingMessages(boolean sendingMessages)
+    public void setSendingMessages(boolean isSendingMessages)
     {
-        this.isSendingMessages = sendingMessages;
+        this.isSendingMessages = isSendingMessages;
     }
 
     @Override
@@ -168,22 +166,18 @@ public abstract class AbstractTreeAutomaton
             AutomatonCurrentNodesSender.getInstance().send(Collections::emptyIterator);
     }
 
-    /**
-     * Changing the running mode of the automaton.
-     */
+    /** Changing the running mode of the automaton */
     protected abstract void changeRunningMode();
 
     /**
-     * Verifying finiteness of the tree.
+     * Verifying finiteness of the tree
      * @param tree tree to verify
      * @throws TreeFinitenessException if tree finiteness is violated
      */
     protected abstract void assertFiniteness(TreeNode tree)
         throws TreeFinitenessException;
 
-    /**
-     * Initializing automaton and tree before running on tree.
-     */
+    /** Initializing automaton and tree before running on tree */
     protected void initialize()
         throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
                NoNonDeterministicStrategyException
@@ -199,7 +193,7 @@ public abstract class AbstractTreeAutomaton
     }
 
     /**
-     * Testing if specified tree contains a recursive node.
+     * Testing if specified tree contains a recursive node
      * @param node tree node
      * @return {@code true} if tree has a recursive node, otherwise {@code false}
      */
@@ -210,7 +204,7 @@ public abstract class AbstractTreeAutomaton
     }
 
     /**
-     * Processing tree nodes in each step.
+     * Processing tree nodes in each step
      * @param node nodes to process
      */
     protected abstract void processNode(TreeNode node)

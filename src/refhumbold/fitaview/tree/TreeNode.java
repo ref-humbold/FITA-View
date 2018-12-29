@@ -17,39 +17,27 @@ public abstract class TreeNode
         this.index = index;
     }
 
-    /**
-     * @return index of the node
-     */
+    /** @return index of the node */
     public int getIndex()
     {
-        return this.index;
+        return index;
     }
 
-    /**
-     * @return type of the node
-     */
+    /** @return type of the node */
     public abstract NodeType getType();
 
-    /**
-     * @return left son of the node
-     */
+    /** @return left son of the node */
     public abstract TreeNode getLeft();
 
-    /**
-     * @return right son of the node
-     */
+    /** @return right son of the node */
     public abstract TreeNode getRight();
 
-    /**
-     * @return parent of the node
-     */
+    /** @return parent of the node */
     public abstract TreeNode getParent();
 
-    protected abstract void setParent(TreeNode node);
+    protected abstract void setParent(TreeNode parent);
 
-    /**
-     * @return label of the node
-     */
+    /** @return label of the node */
     public abstract String getLabel();
 
     /**
@@ -78,30 +66,22 @@ public abstract class TreeNode
     public abstract void setState(Map<Variable, String> state)
         throws IllegalVariableValueException;
 
-    /**
-     * @return values of all variables in the node
-     */
+    /** @return values of all variables in the node */
     public abstract Map<Variable, String> getStateWithNulls();
 
-    /**
-     * @return {@code true} if node is a null node, otherwise {@code false}
-     */
+    /** @return {@code true} if node is a null node, otherwise {@code false} */
     public boolean isNull()
     {
         return getType() == NodeType.NULL;
     }
 
-    /**
-     * @return {@code true} if node is a leaf, otherwise {@code false}
-     */
+    /** @return {@code true} if node is a leaf, otherwise {@code false} */
     public boolean isLeaf()
     {
         return getLeft().isNull() && getRight().isNull();
     }
 
-    /**
-     * @param vars state variables
-     */
+    /** @param vars state variables */
     public abstract void setInitialState(Collection<Variable> vars);
 
     /**
@@ -134,8 +114,6 @@ public abstract class TreeNode
     public abstract void setStateValue(Variable var, String value)
         throws IllegalVariableValueException;
 
-    /**
-     * Removing values of all state variables in the node.
-     */
+    /** Removing values of all state variables in the node */
     public abstract void deleteState();
 }

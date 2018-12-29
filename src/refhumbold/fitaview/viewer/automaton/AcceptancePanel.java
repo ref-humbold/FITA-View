@@ -29,13 +29,12 @@ public class AcceptancePanel
         super();
 
         this.automatonPointer = automatonPointer;
-        this.automatonPointer.addReceiver(this);
+        automatonPointer.addReceiver(this);
         AutomatonRunningModeSender.getInstance().addReceiver(this);
 
-        this.initializeComponents();
-        this.setTreeUndefined();
-
-        this.add(acceptanceLabel);
+        initializeComponents();
+        setTreeUndefined();
+        add(acceptanceLabel);
     }
 
     @Override

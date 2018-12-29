@@ -25,7 +25,6 @@ public class UserChoice<K, R>
     private final WindowAdapter windowAdapter = new UserWindowAdapter();
     private final JFrame frame = new JFrame();
     private JDialog dialog;
-    private ButtonGroup buttonGroup;
     private JOptionPane optionPane;
     private R current;
     private List<R> resultStates;
@@ -87,7 +86,7 @@ public class UserChoice<K, R>
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(label);
         panel.add(Box.createRigidArea(new Dimension(0, 5)));
-        panel.add(this.generateButtons());
+        panel.add(generateButtons());
 
         dialog = new JDialog(frame, "USER non-deterministic choice", true);
         optionPane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE,
@@ -103,8 +102,7 @@ public class UserChoice<K, R>
     private JPanel generateButtons()
     {
         JPanel buttonsPanel = new JPanel(new GridLayout(resultStates.size(), 1));
-
-        buttonGroup = new ButtonGroup();
+        ButtonGroup buttonGroup = new ButtonGroup();
 
         for(int i = 0; i < resultStates.size(); ++i)
         {

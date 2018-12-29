@@ -1,6 +1,5 @@
 package refhumbold.fitaview.viewer.automaton;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +7,11 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import refhumbold.fitaview.FITAViewException;
 import refhumbold.fitaview.Pointer;
@@ -19,10 +22,11 @@ import refhumbold.fitaview.automaton.InfiniteTreeAutomaton;
 import refhumbold.fitaview.automaton.TreeAutomaton;
 import refhumbold.fitaview.messaging.Message;
 import refhumbold.fitaview.messaging.SignalReceiver;
+import refhumbold.fitaview.viewer.ButtonsPanel;
 import refhumbold.fitaview.viewer.UserMessageBox;
 
 public class ActionButtonsPanel
-    extends JPanel
+    extends ButtonsPanel
     implements ActionListener, SignalReceiver
 {
     private static final long serialVersionUID = 5921531603338297434L;
@@ -39,14 +43,13 @@ public class ActionButtonsPanel
         super();
 
         this.automatonPointer = automatonPointer;
-        this.automatonPointer.addReceiver(this);
+        automatonPointer.addReceiver(this);
         AutomatonRunningModeSender.getInstance().addReceiver(this);
 
-        this.initializeButtons();
-        this.setLayout(new GridLayout(2, 1));
-        this.setOpaque(false);
-
-        this.addComponents();
+        initializeButtons();
+        setLayout(new GridLayout(2, 1));
+        setOpaque(false);
+        addComponents();
     }
 
     @Override
@@ -143,15 +146,8 @@ public class ActionButtonsPanel
 
     private void addComponents()
     {
-        JPanel upperPanel = new JPanel();
-        JPanel lowerPanel = new JPanel();
-
-        upperPanel.setOpaque(false);
-        upperPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.X_AXIS));
-        lowerPanel.setOpaque(false);
-        lowerPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        lowerPanel.setLayout(new BoxLayout(lowerPanel, BoxLayout.X_AXIS));
+        JPanel upperPanel = createPanel();
+        JPanel lowerPanel = createPanel();
 
         upperPanel.add(Box.createHorizontalGlue());
 
@@ -159,17 +155,13 @@ public class ActionButtonsPanel
         {
             case RUN:
                 runningButtons.forEach(button -> {
-                    upperPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-                    upperPanel.add(button);
-                    upperPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+                    addButtonToPanel(upperPanel, button, 10, 0);
                 });
                 break;
 
             case CONTINUE:
                 continuingButtons.forEach(button -> {
-                    upperPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-                    upperPanel.add(button);
-                    upperPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+                    addButtonToPanel(upperPanel, button, 10, 0);
                 });
                 break;
 
@@ -180,28 +172,28 @@ public class ActionButtonsPanel
         upperPanel.add(Box.createHorizontalGlue());
         lowerPanel.add(Box.createHorizontalGlue());
 
-        switch(buttonsType)
+        if(buttonsType != ButtonsType.NONE)
         {
-            case NONE:
-                break;
+            addButtonToPanel(lowerPanel, stopRunningButton, 10, 0);
 
-            default:
-                lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-                lowerPanel.add(stopRunningButton);
-                lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-
-                if(automatonPointer.get() instanceof BottomUpAutomaton)
-                {
-                    lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-                    lowerPanel.add(emptinessButton);
-                    lowerPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-                }
-                break;
+            if(automatonPointer.get() instanceof BottomUpAutomaton)
+                addButtonToPanel(lowerPanel, emptinessButton, 10, 0);
         }
-        lowerPanel.add(Box.createHorizontalGlue());
 
-        this.add(upperPanel);
-        this.add(lowerPanel);
+        lowerPanel.add(Box.createHorizontalGlue());
+        add(upperPanel);
+        add(lowerPanel);
+    }
+
+    private JPanel createPanel()
+    {
+        JPanel panel = new JPanel();
+
+        panel.setOpaque(false);
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+        return panel;
     }
 
     private void initializeButtons()
@@ -225,11 +217,7 @@ public class ActionButtonsPanel
     {
         JButton button = new JButton(text);
 
-        button.setMnemonic(key);
-        button.setVerticalTextPosition(AbstractButton.CENTER);
-        button.setHorizontalTextPosition(AbstractButton.CENTER);
-        button.setActionCommand(text);
-        button.addActionListener(this);
+        initButton(button, text, key);
 
         return button;
     }

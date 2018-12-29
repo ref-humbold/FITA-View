@@ -10,6 +10,6 @@ public interface SignalSender
 
     default void send()
     {
-        this.sendSignal(new Message<>(this));
+        sendSignal(new Message<>(this));
     }
 }

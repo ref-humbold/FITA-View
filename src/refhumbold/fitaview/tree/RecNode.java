@@ -22,7 +22,7 @@ public class RecNode
             throw new IllegalArgumentException("Recursive node is null");
 
         this.recursive = recursive;
-        this.stateCopy = recursive.getStateWithNulls();
+        stateCopy = recursive.getStateWithNulls();
     }
 
     @Override
@@ -50,9 +50,9 @@ public class RecNode
     }
 
     @Override
-    protected void setParent(TreeNode node)
+    protected void setParent(TreeNode parent)
     {
-        parent = node;
+        this.parent = parent;
     }
 
     @Override
@@ -115,7 +115,7 @@ public class RecNode
         if(this == o)
             return true;
 
-        if(o == null || !(o instanceof RecNode))
+        if(!(o instanceof RecNode))
             return false;
 
         RecNode other = (RecNode)o;

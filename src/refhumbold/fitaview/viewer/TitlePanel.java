@@ -1,10 +1,8 @@
 package refhumbold.fitaview.viewer;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.*;
@@ -14,8 +12,8 @@ import refhumbold.fitaview.messaging.MessageReceiver;
 import refhumbold.fitaview.messaging.MessageSender;
 
 public class TitlePanel
-    extends JPanel
-    implements ActionListener, MessageSender<String>
+    extends ButtonsPanel
+    implements MessageSender<String>
 {
     private static final long serialVersionUID = -7262175220400657532L;
 
@@ -28,13 +26,12 @@ public class TitlePanel
     {
         super();
 
-        this.initializeComponents(name, loadShortcut, removeShortcut);
-        this.setLayout(new GridLayout(2, 1));
-        this.setOpaque(false);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
-        this.add(titleLabel);
-        this.add(createButtonsPanel());
+        initializeComponents(name, loadShortcut, removeShortcut);
+        setLayout(new GridLayout(2, 1));
+        setOpaque(false);
+        setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        add(titleLabel);
+        add(createButtonsPanel());
     }
 
     @Override
@@ -70,11 +67,9 @@ public class TitlePanel
 
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
         buttonsPanel.setOpaque(false);
-
         buttonsPanel.add(Box.createHorizontalGlue());
-        buttonsPanel.add(openFileButton);
-        buttonsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        buttonsPanel.add(removeButton);
+        addButtonToPanel(buttonsPanel, openFileButton, 2, 0);
+        addButtonToPanel(buttonsPanel, removeButton, 2, 0);
         buttonsPanel.add(Box.createHorizontalGlue());
 
         return buttonsPanel;

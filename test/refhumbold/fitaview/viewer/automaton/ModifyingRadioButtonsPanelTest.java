@@ -24,7 +24,11 @@ import refhumbold.fitaview.automaton.BottomUpDFTA;
 import refhumbold.fitaview.automaton.TopDownDFTA;
 import refhumbold.fitaview.automaton.TopDownNFTA;
 import refhumbold.fitaview.automaton.TreeAutomaton;
-import refhumbold.fitaview.automaton.nondeterminism.*;
+import refhumbold.fitaview.automaton.nondeterminism.FirstElementChoice;
+import refhumbold.fitaview.automaton.nondeterminism.GreatestHashCodeChoice;
+import refhumbold.fitaview.automaton.nondeterminism.LeastHashCodeChoice;
+import refhumbold.fitaview.automaton.nondeterminism.RandomChoice;
+import refhumbold.fitaview.automaton.nondeterminism.StateChoice;
 import refhumbold.fitaview.automaton.traversing.*;
 import refhumbold.fitaview.messaging.Message;
 import refhumbold.fitaview.viewer.UserMessageBox;
@@ -32,7 +36,7 @@ import refhumbold.fitaview.viewer.UserMessageBox;
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.swing.*")
 @PrepareForTest(UserMessageBox.class)
-public class ModifyingButtonsPanelTest
+public class ModifyingRadioButtonsPanelTest
 {
     @Mock
     private Pointer<TreeAutomaton> mockPointer;
@@ -44,7 +48,7 @@ public class ModifyingButtonsPanelTest
     private Message<Void> mockMessage;
 
     @InjectMocks
-    private ModifyingButtonsPanel testObject;
+    private ModifyingRadioButtonsPanel testObject;
 
     @Before
     public void setUp()

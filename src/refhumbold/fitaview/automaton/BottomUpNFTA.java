@@ -29,7 +29,7 @@ public class BottomUpNFTA
     @Override
     public StateChoice<Triple<String, String, String>, String> getChoice()
     {
-        return this.choice;
+        return choice;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class BottomUpNFTA
     @Override
     public Map<Pair<Variable, String>, String> getTransitionAsStrings()
     {
-        return this.transitions.convertToStringMap();
+        return transitions.convertToStringMap();
     }
 
     @Override
@@ -87,39 +87,13 @@ public class BottomUpNFTA
                 for(int j = i; j < currentStates.size(); ++j)
                     for(String word : alphabet)
                     {
-                        Set<Map<Variable, String>> newStates1 = getNextStates(currentStates.get(i),
-                                                                              currentStates.get(j),
-                                                                              word);
+                        if(addNextStates(reachableStates, currentStates.get(i),
+                                         currentStates.get(j), generatedStates, word))
+                            return false;
 
-                        if(newStates1 != null)
-                        {
-                            for(Map<Variable, String> state : newStates1)
-                                if(!reachableStates.contains(state))
-                                {
-                                    if(acceptanceConditions.check(state))
-                                        return false;
-
-                                    reachableStates.add(state);
-                                    generatedStates.add(state);
-                                }
-                        }
-
-                        Set<Map<Variable, String>> newStates2 = getNextStates(currentStates.get(j),
-                                                                              currentStates.get(i),
-                                                                              word);
-
-                        if(newStates2 != null)
-                        {
-                            for(Map<Variable, String> state : newStates2)
-                                if(!reachableStates.contains(state))
-                                {
-                                    if(acceptanceConditions.check(state))
-                                        return false;
-
-                                    reachableStates.add(state);
-                                    generatedStates.add(state);
-                                }
-                        }
+                        if(addNextStates(reachableStates, currentStates.get(j),
+                                         currentStates.get(i), generatedStates, word))
+                            return false;
                     }
 
             currentStates = new ArrayList<>(generatedStates);
@@ -197,6 +171,30 @@ public class BottomUpNFTA
         }
 
         return pairsToMap(convert(mapToPairs(result)));
+    }
+
+    private boolean addNextStates(Set<Map<Variable, String>> reachableStates,
+                                  Map<Variable, String> currentState1,
+                                  Map<Variable, String> currentState2,
+                                  Set<Map<Variable, String>> generatedStates, String word)
+        throws UndefinedStateValueException, UndefinedAcceptanceException
+    {
+        Set<Map<Variable, String>> nextStates = getNextStates(currentState1, currentState2, word);
+
+        if(nextStates != null)
+        {
+            for(Map<Variable, String> state : nextStates)
+                if(!reachableStates.contains(state))
+                {
+                    if(acceptanceConditions.check(state))
+                        return true;
+
+                    reachableStates.add(state);
+                    generatedStates.add(state);
+                }
+        }
+
+        return false;
     }
 
     private Set<String> getAllTransitionResults(Variable var, String leftValue, String rightValue,

@@ -22,7 +22,7 @@ public abstract class TopDownTraversing
     @Override
     public void initialize(TreeNode... nodes)
     {
-        this.clear();
+        clear();
         nodeDeque.addAll(Arrays.asList(nodes));
     }
 

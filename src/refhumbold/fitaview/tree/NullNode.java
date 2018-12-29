@@ -40,13 +40,13 @@ public class NullNode
     @Override
     public TreeNode getParent()
     {
-        return this.parent;
+        return parent;
     }
 
     @Override
-    protected void setParent(TreeNode node)
+    protected void setParent(TreeNode parent)
     {
-        this.parent = node;
+        this.parent = parent;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class NullNode
     @Override
     public Map<Variable, String> getStateWithNulls()
     {
-        return this.state;
+        return state;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class NullNode
     public void setInitialState(Collection<Variable> vars)
     {
         for(Variable var : vars)
-            this.state.put(var, var.getInitValue());
+            state.put(var, var.getInitValue());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class NullNode
         if(!var.contains(value))
             throw new IllegalVariableValueException(value);
 
-        this.state.put(var, value);
+        state.put(var, value);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class NullNode
     @Override
     public boolean equals(Object o)
     {
-        return this == o || o != null && o instanceof NullNode;
+        return this == o || o instanceof NullNode;
     }
 
     @Override

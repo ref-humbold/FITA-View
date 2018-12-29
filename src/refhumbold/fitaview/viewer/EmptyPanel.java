@@ -10,7 +10,6 @@ public class EmptyPanel
     public EmptyPanel()
     {
         super();
-
-        this.setOpaque(false);
+        setOpaque(false);
     }
 }

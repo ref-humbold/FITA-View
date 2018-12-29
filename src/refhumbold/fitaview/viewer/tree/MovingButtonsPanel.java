@@ -1,16 +1,19 @@
 package refhumbold.fitaview.viewer.tree;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+import refhumbold.fitaview.viewer.ButtonsPanel;
 
 public class MovingButtonsPanel
-    extends JPanel
-    implements ActionListener
+    extends ButtonsPanel
 {
     private static final long serialVersionUID = -1998309322600823517L;
 
@@ -22,21 +25,16 @@ public class MovingButtonsPanel
         super();
 
         this.drawingArea = drawingArea;
-        this.initializeButtons();
+        initializeButtons();
 
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        this.setOpaque(false);
-        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-
-        this.add(Box.createHorizontalGlue());
-
-        this.buttons.forEach(button -> {
-            this.add(Box.createRigidArea(new Dimension(1, 0)));
-            this.add(button);
-            this.add(Box.createRigidArea(new Dimension(1, 0)));
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setOpaque(false);
+        setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        add(Box.createHorizontalGlue());
+        buttons.forEach(button -> {
+            addButtonToPanel(this, button, 1, 0);
         });
-
-        this.add(Box.createHorizontalGlue());
+        add(Box.createHorizontalGlue());
     }
 
     @Override
@@ -87,11 +85,7 @@ public class MovingButtonsPanel
         ImageIcon icon = new ImageIcon(getClass().getResource(iconFilename));
         JButton button = new JButton(icon);
 
-        button.setMnemonic(key);
-        button.setVerticalTextPosition(AbstractButton.CENTER);
-        button.setHorizontalTextPosition(AbstractButton.CENTER);
-        button.setActionCommand(direction.toString());
-        button.addActionListener(this);
+        initButton(button, direction.toString(), key);
 
         return button;
     }

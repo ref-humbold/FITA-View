@@ -37,7 +37,7 @@ public abstract class BottomUpAutomaton
     public void setTraversing(TraversingMode mode)
         throws IncorrectTraversingException, AutomatonIsRunningException
     {
-        if(this.isRunning())
+        if(isRunning())
             throw new AutomatonIsRunningException(
                 "Cannot change traversing strategy when automaton is running");
 
@@ -51,7 +51,7 @@ public abstract class BottomUpAutomaton
         super.setTree(tree);
 
         if(tree != null)
-            this.findLeaves();
+            findLeaves();
     }
 
     @Override

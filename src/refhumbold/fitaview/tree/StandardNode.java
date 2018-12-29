@@ -31,8 +31,8 @@ public class StandardNode
         throws NodeHasParentException
     {
         this(label, index);
-        this.setLeft(left);
-        this.setRight(right);
+        setLeft(left);
+        setRight(right);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class StandardNode
     @Override
     public TreeNode getLeft()
     {
-        return this.left;
+        return left;
     }
 
     protected void setLeft(TreeNode node)
@@ -57,15 +57,15 @@ public class StandardNode
             throw new NodeHasParentException(
                 "Node has already got a parent, so it cannot be assigned as a child");
 
-        this.left.setParent(null);
-        this.left = node;
-        this.left.setParent(this);
+        left.setParent(null);
+        left = node;
+        left.setParent(this);
     }
 
     @Override
     public TreeNode getRight()
     {
-        return this.right;
+        return right;
     }
 
     protected void setRight(TreeNode node)
@@ -86,25 +86,25 @@ public class StandardNode
     @Override
     public TreeNode getParent()
     {
-        return this.parent;
+        return parent;
     }
 
     @Override
-    protected void setParent(TreeNode node)
+    protected void setParent(TreeNode parent)
     {
-        this.parent = node;
+        this.parent = parent;
     }
 
     @Override
     public String getLabel()
     {
-        return this.label;
+        return label;
     }
 
     @Override
     public Map<Variable, String> getStateWithNulls()
     {
-        return this.state;
+        return state;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class StandardNode
     public void setInitialState(Collection<Variable> vars)
     {
         for(Variable var : vars)
-            this.state.put(var, var.getInitValue());
+            state.put(var, var.getInitValue());
     }
 
     @Override
@@ -135,7 +135,7 @@ public class StandardNode
         if(!var.contains(value))
             throw new IllegalVariableValueException(value);
 
-        this.state.put(var, value);
+        state.put(var, value);
     }
 
     @Override

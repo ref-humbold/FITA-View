@@ -10,6 +10,6 @@ public interface MessageSender<T>
 
     default void send(T param)
     {
-        this.sendMessage(new Message<>(this, param));
+        sendMessage(new Message<>(this, param));
     }
 }

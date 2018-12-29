@@ -23,7 +23,7 @@ import refhumbold.fitaview.messaging.Message;
 import refhumbold.fitaview.messaging.SignalReceiver;
 import refhumbold.fitaview.viewer.UserMessageBox;
 
-public class ModifyingButtonsPanel
+public class ModifyingRadioButtonsPanel
     extends JPanel
     implements ActionListener, SignalReceiver
 {
@@ -37,19 +37,18 @@ public class ModifyingButtonsPanel
     private JPanel traversingPanel = new JPanel();
     private JPanel nonDeterminismPanel = new JPanel();
 
-    public ModifyingButtonsPanel(Pointer<TreeAutomaton> automatonPointer)
+    public ModifyingRadioButtonsPanel(Pointer<TreeAutomaton> automatonPointer)
     {
         super();
 
         this.automatonPointer = automatonPointer;
-        this.automatonPointer.addReceiver(this);
+        automatonPointer.addReceiver(this);
 
-        this.initializeComponents();
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        this.setOpaque(false);
-        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-
-        this.addComponents();
+        initializeComponents();
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setOpaque(false);
+        setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        addComponents();
     }
 
     @Override
@@ -117,9 +116,8 @@ public class ModifyingButtonsPanel
         }
 
         traversingPanel.setLayout(new GridLayout(TraversingMode.values().length, 1));
-        nonDeterminismPanel.setLayout(new GridLayout(StateChoiceMode.values().length, 1));
-
         traversingButtons.values().forEach(button -> traversingPanel.add(button));
+        nonDeterminismPanel.setLayout(new GridLayout(StateChoiceMode.values().length, 1));
         nonDeterminismButtons.values().forEach(button -> nonDeterminismPanel.add(button));
     }
 
@@ -151,18 +149,16 @@ public class ModifyingButtonsPanel
 
         try
         {
-            switch(StateChoiceMode.valueOf(actionCommand))
+            if(StateChoiceMode.valueOf(actionCommand) == StateChoiceMode.USER)
             {
-                case USER:
-                    nonDeterministicAutomaton.setChoice(StateChoiceFactory.createUserChoice(
-                        nonDeterministicAutomaton::convertKeyToString,
-                        nonDeterministicAutomaton::convertResultToString));
-                    break;
-
-                default:
-                    nonDeterministicAutomaton.setChoice(StateChoiceFactory.createAutomatedChoice(
-                        StateChoiceMode.valueOf(actionCommand)));
-                    break;
+                nonDeterministicAutomaton.setChoice(StateChoiceFactory.createUserChoice(
+                    nonDeterministicAutomaton::convertKeyToString,
+                    nonDeterministicAutomaton::convertResultToString));
+            }
+            else
+            {
+                nonDeterministicAutomaton.setChoice(StateChoiceFactory.createAutomatedChoice(
+                    StateChoiceMode.valueOf(actionCommand)));
             }
         }
         catch(FITAViewException e)

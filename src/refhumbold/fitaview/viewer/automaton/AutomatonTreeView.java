@@ -18,11 +18,7 @@ import javax.swing.tree.TreeSelectionModel;
 import refhumbold.fitaview.Pair;
 import refhumbold.fitaview.Pointer;
 import refhumbold.fitaview.Triple;
-import refhumbold.fitaview.automaton.AcceptanceConditions;
-import refhumbold.fitaview.automaton.AutomatonRunningModeSender;
-import refhumbold.fitaview.automaton.InfiniteTreeAutomaton;
-import refhumbold.fitaview.automaton.TreeAutomaton;
-import refhumbold.fitaview.automaton.Variable;
+import refhumbold.fitaview.automaton.*;
 import refhumbold.fitaview.automaton.transition.TransitionsSender;
 import refhumbold.fitaview.messaging.Message;
 import refhumbold.fitaview.messaging.MessageReceiver;
@@ -45,17 +41,16 @@ public class AutomatonTreeView
         super();
 
         this.automatonPointer = automatonPointer;
-        this.automatonPointer.addReceiver(this);
+        automatonPointer.addReceiver(this);
         TransitionsSender.getInstance().addReceiver(this);
         AutomatonRunningModeSender.getInstance().addReceiver(this);
 
-        this.setModel(treeModel);
-        this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        this.setShowsRootHandles(true);
-        this.setCellRenderer(new AutomatonTreeViewRenderer());
-        this.setBorder(BorderFactory.createLoweredBevelBorder());
-
-        this.initializeTree();
+        setModel(treeModel);
+        getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        setShowsRootHandles(true);
+        setCellRenderer(new AutomatonTreeViewRenderer());
+        setBorder(BorderFactory.createLoweredBevelBorder());
+        initializeTree();
     }
 
     @Override
@@ -64,16 +59,9 @@ public class AutomatonTreeView
         if(signal.getSource() == automatonPointer)
             initializeTree();
         else if(signal.getSource() == AutomatonRunningModeSender.getInstance()
-            && !automatonPointer.isEmpty())
-            switch(automatonPointer.get().getRunningMode())
-            {
-                case STOPPED:
-                    lastTransitions.clear();
-                    break;
-
-                default:
-                    break;
-            }
+            && !automatonPointer.isEmpty()
+            && automatonPointer.get().getRunningMode() == AutomatonRunningMode.STOPPED)
+            lastTransitions.clear();
 
         treeModel.reload();
     }

@@ -3,7 +3,7 @@ package refhumbold.fitaview.viewer;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class XMLFileChooser
+public final class XMLFileChooser
     extends JFileChooser
 {
     private static final long serialVersionUID = -6720307160872607429L;
@@ -12,9 +12,8 @@ public class XMLFileChooser
     private XMLFileChooser()
     {
         super();
-
-        this.setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
-        this.setMultiSelectionEnabled(false);
+        setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
+        setMultiSelectionEnabled(false);
     }
 
     public static XMLFileChooser getInstance()

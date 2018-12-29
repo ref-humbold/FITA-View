@@ -79,9 +79,9 @@ public interface TreeAutomaton
         throws TreeFinitenessException;
 
     /**
-     * @param sendingMessages if {@code true} then the automaton sends messages informing about its work
+     * @param isSendingMessages if {@code true} then the automaton sends messages informing about its work
      */
-    void setSendingMessages(boolean sendingMessages);
+    void setSendingMessages(boolean isSendingMessages);
 
     /**
      * Testing if associated tree is accepted by the automaton.

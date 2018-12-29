@@ -37,7 +37,7 @@ public class AutomatonMainPanel
     private AcceptancePanel acceptancePanel;
     private AutomatonScrollTreeView scrollTreeView;
     private TransitionDrawingArea transitionDrawingArea;
-    private ModifyingButtonsPanel modifyingButtonsPanel;
+    private ModifyingRadioButtonsPanel modifyingRadioButtonsPanel;
     private ActionButtonsPanel actionButtonsPanel;
 
     public AutomatonMainPanel(Pointer<TreeAutomaton> automatonPointer,
@@ -48,11 +48,10 @@ public class AutomatonMainPanel
         this.automatonPointer = automatonPointer;
         this.treePointer = treePointer;
 
-        this.initializeComponents();
-        this.setBackground(Color.BLUE);
-        this.setLayout(new BorderLayout(10, 10));
-
-        this.addComponents();
+        initializeComponents();
+        setBackground(Color.BLUE);
+        setLayout(new BorderLayout(10, 10));
+        addComponents();
     }
 
     @Override
@@ -105,14 +104,14 @@ public class AutomatonMainPanel
         infoPanel.add(this.scrollTreeView);
         infoPanel.add(this.transitionDrawingArea);
         centralPanel.add(infoPanel, BorderLayout.CENTER);
-        centralPanel.add(this.acceptancePanel, BorderLayout.PAGE_END);
+        centralPanel.add(acceptancePanel, BorderLayout.PAGE_END);
         centralPanel.setOpaque(false);
 
-        this.add(this.titlePanel, BorderLayout.PAGE_START);
-        this.add(new EmptyPanel(), BorderLayout.LINE_START);
-        this.add(centralPanel, BorderLayout.CENTER);
-        this.add(this.modifyingButtonsPanel, BorderLayout.LINE_END);
-        this.add(this.actionButtonsPanel, BorderLayout.PAGE_END);
+        add(titlePanel, BorderLayout.PAGE_START);
+        add(new EmptyPanel(), BorderLayout.LINE_START);
+        add(centralPanel, BorderLayout.CENTER);
+        add(modifyingRadioButtonsPanel, BorderLayout.LINE_END);
+        add(actionButtonsPanel, BorderLayout.PAGE_END);
     }
 
     private File chooseFile()
@@ -140,7 +139,7 @@ public class AutomatonMainPanel
         acceptancePanel = new AcceptancePanel(automatonPointer);
         scrollTreeView = new AutomatonScrollTreeView(automatonPointer);
         transitionDrawingArea = new TransitionDrawingArea(automatonPointer);
-        modifyingButtonsPanel = new ModifyingButtonsPanel(automatonPointer);
+        modifyingRadioButtonsPanel = new ModifyingRadioButtonsPanel(automatonPointer);
         actionButtonsPanel = new ActionButtonsPanel(automatonPointer);
     }
 }

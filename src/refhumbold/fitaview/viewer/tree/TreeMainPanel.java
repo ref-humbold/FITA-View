@@ -45,15 +45,15 @@ public class TreeMainPanel
         this.automatonPointer = automatonPointer;
         this.treePointer = treePointer;
 
-        this.initializeComponents();
-        this.setBackground(Color.RED);
-        this.setLayout(new BorderLayout(10, 10));
+        initializeComponents();
+        setBackground(Color.RED);
+        setLayout(new BorderLayout(10, 10));
 
-        this.add(this.titlePanel, BorderLayout.PAGE_START);
-        this.add(this.zoomPanel, BorderLayout.LINE_START);
-        this.add(this.drawingArea, BorderLayout.CENTER);
-        this.add(new EmptyPanel(), BorderLayout.LINE_END);
-        this.add(this.movingPanel, BorderLayout.PAGE_END);
+        add(titlePanel, BorderLayout.PAGE_START);
+        add(zoomPanel, BorderLayout.LINE_START);
+        add(drawingArea, BorderLayout.CENTER);
+        add(new EmptyPanel(), BorderLayout.LINE_END);
+        add(movingPanel, BorderLayout.PAGE_END);
     }
 
     @Override
@@ -127,7 +127,6 @@ public class TreeMainPanel
     private void initializeComponents()
     {
         titlePanel.addReceiver(this);
-
         drawingArea = new TreeDrawingArea(treePointer);
         movingPanel = new MovingButtonsPanel(drawingArea);
         zoomPanel = new ZoomButtonsPanel(drawingArea);

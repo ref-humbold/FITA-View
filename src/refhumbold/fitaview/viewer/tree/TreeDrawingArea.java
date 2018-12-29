@@ -7,7 +7,11 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -43,17 +47,17 @@ public class TreeDrawingArea
         super();
 
         this.treePointer = treePointer;
-        this.treePointer.addReceiver(this);
+        treePointer.addReceiver(this);
         AutomatonCurrentNodesSender.getInstance().addReceiver(this);
-        this.addMouseListener(this);
 
-        this.setBackground(Color.WHITE);
-        this.setBorder(BorderFactory.createLoweredBevelBorder());
+        addMouseListener(this);
+        setBackground(Color.WHITE);
+        setBorder(BorderFactory.createLoweredBevelBorder());
     }
 
     public int getZoomLevel()
     {
-        return this.zoomLevel;
+        return zoomLevel;
     }
 
     public Pair<Integer, Integer> getAxisPoint()
@@ -328,7 +332,6 @@ public class TreeDrawingArea
     {
         graphics.setFont(new Font(null, Font.PLAIN, 12));
 
-        int nodeSide = countNodeSide();
         FontMetrics metrics = graphics.getFontMetrics();
         Rectangle2D rect = metrics.getStringBounds(node.getLabel(), graphics);
 
@@ -367,14 +370,14 @@ public class TreeDrawingArea
         return Pair.make(posX / unitFactor, posY / unitFactor);
     }
 
-    private int countUnit()
-    {
-        return unitFactor * countNodeSide();
-    }
-
     private int countNodeSide()
     {
         return zoomLevel + zoomLevel + NODE_SIDE;
+    }
+
+    private int countUnit()
+    {
+        return unitFactor * countNodeSide();
     }
 
     private int roundPos(double pos)

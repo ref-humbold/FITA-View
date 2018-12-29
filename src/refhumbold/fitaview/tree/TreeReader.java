@@ -35,7 +35,7 @@ public class TreeReader
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             parserFactory.setSchema(schema);
-            this.parser = parserFactory.newSAXParser();
+            parser = parserFactory.newSAXParser();
         }
         catch(ParserConfigurationException | SAXException e)
         {

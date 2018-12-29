@@ -3,15 +3,15 @@ package refhumbold.fitaview.viewer.tree;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
+import refhumbold.fitaview.viewer.ButtonsPanel;
+
 public class ZoomButtonsPanel
-    extends JPanel
-    implements ActionListener
+    extends ButtonsPanel
 {
     private static final long serialVersionUID = 4405922702318394293L;
 
@@ -24,21 +24,19 @@ public class ZoomButtonsPanel
         super();
 
         this.drawingArea = drawingArea;
-        this.initializeComponents();
+        initializeComponents();
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setOpaque(false);
-        this.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setOpaque(false);
+        setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 
-        this.add(Box.createVerticalGlue());
-        this.add(zoomLabel);
-        this.add(Box.createRigidArea(new Dimension(0, 4)));
-        this.buttons.forEach(button -> {
-            this.add(Box.createRigidArea(new Dimension(0, 1)));
-            this.add(button);
-            this.add(Box.createRigidArea(new Dimension(0, 1)));
+        add(Box.createVerticalGlue());
+        add(zoomLabel);
+        add(Box.createRigidArea(new Dimension(0, 4)));
+        buttons.forEach(button -> {
+            addButtonToPanel(this, button, 0, 1);
         });
-        this.add(Box.createVerticalGlue());
+        add(Box.createVerticalGlue());
     }
 
     @Override
@@ -83,11 +81,7 @@ public class ZoomButtonsPanel
         ImageIcon icon = new ImageIcon(getClass().getResource(iconFilename));
         JButton button = new JButton(icon);
 
-        button.setMnemonic(key);
-        button.setVerticalTextPosition(AbstractButton.CENTER);
-        button.setHorizontalTextPosition(AbstractButton.CENTER);
-        button.setActionCommand(zooming.toString());
-        button.addActionListener(this);
+        initButton(button, zooming.toString(), key);
 
         return button;
     }

@@ -32,11 +32,11 @@ public class TransitionDrawingArea
         super();
 
         this.automatonPointer = automatonPointer;
-        this.automatonPointer.addReceiver(this);
+        automatonPointer.addReceiver(this);
         TransitionSender.getInstance().addReceiver(this);
         AutomatonRunningModeSender.getInstance().addReceiver(this);
 
-        this.setBorder(BorderFactory.createRaisedBevelBorder());
+        setBorder(BorderFactory.createRaisedBevelBorder());
     }
 
     @Override
@@ -45,16 +45,9 @@ public class TransitionDrawingArea
         if(signal.getSource() == automatonPointer)
             resetStates();
         else if(signal.getSource() == AutomatonRunningModeSender.getInstance()
-            && !automatonPointer.isEmpty())
-            switch(automatonPointer.get().getRunningMode())
-            {
-                case STOPPED:
-                    resetStates();
-                    break;
-
-                default:
-                    break;
-            }
+            && !automatonPointer.isEmpty()
+            && automatonPointer.get().getRunningMode() == AutomatonRunningMode.STOPPED)
+            resetStates();
 
         revalidate();
         repaint();
