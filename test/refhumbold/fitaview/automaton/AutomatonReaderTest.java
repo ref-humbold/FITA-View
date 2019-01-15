@@ -40,9 +40,9 @@ public class AutomatonReaderTest
             new File(DIRECTORY + "testReadWhenIncorrectFileExtension.xml"));
     }
 
-    @Test(expected = TheFreddyMercuryConfusingFileNameException.class)
+    @Test(expected = TheFreddieMercuryConfusingFileNameException.class)
     public void testReadWhenExpectedBottomUpButNamedTopDown()
-        throws TheFreddyMercuryConfusingFileNameException
+        throws TheFreddieMercuryConfusingFileNameException
     {
         try
         {
@@ -56,9 +56,9 @@ public class AutomatonReaderTest
         }
     }
 
-    @Test(expected = TheFreddyMercuryConfusingFileNameException.class)
+    @Test(expected = TheFreddieMercuryConfusingFileNameException.class)
     public void testReadWhenExpectedTopDownButNamedBottomUp()
-        throws TheFreddyMercuryConfusingFileNameException
+        throws TheFreddieMercuryConfusingFileNameException
     {
         try
         {
