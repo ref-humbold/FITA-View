@@ -26,14 +26,14 @@ public class AutomatonReader
             this.type = AutomatonType.BOTTOM_UP;
 
             if(fileName.matches("(?i).*top[_-]?down.*"))
-                throw new TheFreddyMercuryConfusingFileNameException("You don't fool me!");
+                throw new TheFreddyMercuryConfusingFileNameException();
         }
         else if(fileName.endsWith(".tda.xml"))
         {
             this.type = AutomatonType.TOP_DOWN;
 
             if(fileName.matches("(?i).*bottom[_-]?up.*"))
-                throw new TheFreddyMercuryConfusingFileNameException("You don't fool me!");
+                throw new TheFreddyMercuryConfusingFileNameException();
         }
         else
             throw new FileFormatException(

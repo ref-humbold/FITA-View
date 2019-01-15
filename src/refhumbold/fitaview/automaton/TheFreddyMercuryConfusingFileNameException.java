@@ -5,8 +5,8 @@ public class TheFreddyMercuryConfusingFileNameException
 {
     private static final long serialVersionUID = -5348720011402037763L;
 
-    public TheFreddyMercuryConfusingFileNameException(String s)
+    public TheFreddyMercuryConfusingFileNameException()
     {
-        super(s);
+        super("You don't fool me...");
     }
 }
