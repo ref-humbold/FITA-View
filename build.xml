@@ -15,11 +15,13 @@
   <property name="debuglevel" value="source,lines,vars" />
   <property name="target" value="1.8" />
   <property name="source" value="1.8" />
-  <property name="exec.file" value="${dist.dir}/FITA-View" />
 
   <tstamp>
     <format property="jar.version" pattern="yyyy.M.d" locale="en,GB" />
   </tstamp>
+
+  <property name="jar.file" value="${dist.dir}/fitaview-${jar.version}.jar" />
+  <property name="exec.file" value="${dist.dir}/FITA-View" />
 
   <path id="FITA-View.classpath">
     <fileset dir="${ivy.lib.dir}" includes="*.jar" />
@@ -72,8 +74,7 @@
   </target>
 
   <target name="jar" depends="build">
-    <jar destfile="${dist.dir}/fitaview-${jar.version}.jar" basedir="${build.dir}"
-         excludes="**/*Test.class">
+    <jar destfile="${jar.file}" basedir="${build.dir}" excludes="**/*Test.class">
       <manifest>
         <attribute name="Built-By" value="${vendor}" />
         <attribute name="Main-Class" value="${main.package}.FITAView" />
