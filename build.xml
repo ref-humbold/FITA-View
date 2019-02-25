@@ -5,8 +5,9 @@
   <property name="src.dir" value="src" />
   <property name="test.dir" value="test" />
   <property name="build.dir" value="bin" />
-  <property name="junit.output.dir" value="junit_results" />
-  <property name="junit.report.dir" value="junit_reports" />
+  <property name="dist.dir" value="dist" />
+  <property name="junit.output.dir" value="junit/results" />
+  <property name="junit.report.dir" value="junit/reports" />
   <property name="javadoc.output.dir" value="docs" />
   <property name="main.package" value="refhumbold.fitaview" />
   <property name="ivy.lib.dir" value="lib" />
@@ -14,7 +15,7 @@
   <property name="debuglevel" value="source,lines,vars" />
   <property name="target" value="1.8" />
   <property name="source" value="1.8" />
-  <property name="exec.file" value="FITA-View" />
+  <property name="exec.file" value="${dist.dir}/FITA-View" />
 
   <tstamp>
     <format property="jar.version" pattern="yyyy.M.d" locale="en,GB" />
@@ -32,31 +33,35 @@
       dest="${ivy.lib.dir}/ivy-${ivy.install.version}.jar" usetimestamp="true" />
   </target>
 
-  <target name="init-ivy" depends="download-ivy">
+  <target name="resolve" depends="download-ivy">
     <path id="ivy.lib.path">
       <fileset dir="${ivy.lib.dir}" includes="*.jar" />
     </path>
     <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant"
              classpathref="ivy.lib.path" />
-  </target>
-
-  <target name="resolve" depends="init-ivy">
     <ivy:retrieve />
   </target>
 
   <target name="clean">
     <delete dir="${ivy.lib.dir}" />
     <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}" />
   </target>
 
-  <target name="init">
+  <target name="clean-all" depends="clean">
+    <delete dir="${junit.output.dir}" />
+    <delete dir="${junit.report.dir}" />
+    <delete dir="${javadoc.output.dir}" />
+  </target>
+
+  <target name="init" depends="resolve">
     <mkdir dir="${build.dir}" />
     <copy includeemptydirs="false" todir="${build.dir}">
       <fileset dir="${src.dir}" excludes="**/*.java" />
     </copy>
   </target>
 
-  <target name="build" depends="init, resolve">
+  <target name="build" depends="init">
     <javac source="${source}" target="${target}" debug="true" debuglevel="${debuglevel}"
            destdir="${build.dir}" includeantruntime="false">
       <src path="${src.dir}" />
@@ -67,10 +72,7 @@
   </target>
 
   <target name="jar" depends="build">
-    <delete verbose="true">
-      <fileset dir="." includes="fitaview-*.jar" />
-    </delete>
-    <jar destfile="fitaview-${jar.version}.jar" basedir="${build.dir}"
+    <jar destfile="${dist.dir}/fitaview-${jar.version}.jar" basedir="${build.dir}"
          excludes="**/*Test.class">
       <manifest>
         <attribute name="Built-By" value="${vendor}" />
@@ -86,7 +88,6 @@
   </target>
 
   <target name="execfile" depends="jar">
-    <delete file="${exec.file}" />
     <echo level="info" message="Building file: ${basedir}/${exec.file}" />
     <echo file="${exec.file}"
           message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname $0)/fitaview-${jar.version}.jar" />
@@ -94,7 +95,6 @@
   </target>
 
   <target name="test">
-    <delete dir="${junit.output.dir}" />
     <mkdir dir="${junit.output.dir}" />
     <junit fork="yes" printsummary="withOutAndErr">
       <formatter type="xml" />
@@ -103,7 +103,6 @@
       </batchtest>
       <classpath refid="FITA-View.classpath" />
     </junit>
-    <delete dir="${junit.report.dir}" />
     <mkdir dir="${junit.report.dir}" />
     <junitreport todir="${junit.report.dir}">
       <fileset dir="${junit.output.dir}" includes="TEST-*.xml" />
@@ -112,14 +111,13 @@
   </target>
 
   <target name="javadocs">
-    <delete dir="${javadoc.output.dir}" />
     <mkdir dir="${javadoc.output.dir}" />
     <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
       <package name="${main.package}.*" />
     </javadoc>
   </target>
 
-  <target name="release" depends="clean, build, jar, execfile" />
+  <target name="release" depends="clean, jar, execfile" />
 
-  <target name="all" depends="clean, build, test, jar, execfile, javadocs" />
+  <target name="all" depends="clean-all, jar, execfile, test, javadocs" />
 </project>

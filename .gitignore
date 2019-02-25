@@ -1,15 +1,11 @@
 # Java, Apache ANT, Apache Ivy
 bin
 lib
-FITA-View
-fitaview-*.jar
+dist
 
-# Javadoc
+# Javadoc, JUnit
 docs
-
-# JUnit
-junit_reports
-junit_results
+junit
 
 # IntelliJ IDEA
 *.iml
