@@ -118,7 +118,11 @@
     </javadoc>
   </target>
 
-  <target name="release" depends="clean, jar, execfile" />
+  <target name="release" depends="jar, execfile" />
 
-  <target name="all" depends="clean-all, jar, execfile, test, javadocs" />
+  <target name="all" depends="jar, execfile, test, javadocs" />
+
+  <target name="refresh" depends="clean, release" />
+
+  <target name="release-all" depends="clean-all, all" />
 </project>

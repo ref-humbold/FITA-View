@@ -30,6 +30,8 @@ FITA-View can be built with **[Apache ANT](http://ant.apache.org/)** using **[Ap
 + `ant test` - run all tests
 + `ant javadocs` - generate Javadoc
 + `ant all` - resolve dependencies & compile source and test files & create executable jar & run all tests & generate Javadoc
++ `ant refresh` - clean additional build files & resolve dependencies & compile source files & create executable jar
++ `ant refresh-all` - clean additional build files & resolve dependencies & compile source and test files & create executable jar & run all tests & generate Javadoc
 
 ## How to run?
 FITA-View can be run by the executable *sh* script:
