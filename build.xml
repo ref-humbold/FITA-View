@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="FITA-View" basedir="." default="all">
+  <tstamp>
+    <format property="date.version" pattern="yyMMdd" locale="en,GB" />
+  </tstamp>
+
   <property name="vendor" value="Rafał Kaleta" />
-  <property name="spec.version" value="1" />
+  <property name="major.version" value="1" />
+  <property name="minor.version" value="0" />
+  <property name="spec.version" value="${major.version}.${minor.version}" />
+  <property name="jar.version" value="${major.version}.${minor.version}.{date.version}" />
+
   <property name="src.dir" value="src" />
   <property name="test.dir" value="test" />
   <property name="build.dir" value="bin" />
   <property name="dist.dir" value="dist" />
-  <property name="junit.output.dir" value="junit/results" />
-  <property name="junit.report.dir" value="junit/reports" />
+  <property name="junit.output.dir" value="junit" />
+  <property name="junit.result.dir" value="${junit.output.dir}/results" />
+  <property name="junit.report.dir" value="${junit.output.dir}/reports" />
   <property name="javadoc.output.dir" value="docs" />
-  <property name="main.package" value="refhumbold.fitaview" />
+  <property name="jar.file" value="fitaview-${jar.version}.jar" />
+  <property name="exec.file" value="FITA-View" />
+
   <property name="ivy.lib.dir" value="lib" />
   <property name="ivy.install.version" value="2.4.0" />
-  <property name="debuglevel" value="source,lines,vars" />
-  <property name="target" value="1.8" />
-  <property name="source" value="1.8" />
 
-  <tstamp>
-    <format property="jar.version" pattern="yyyy.M.d" locale="en,GB" />
-  </tstamp>
-
-  <property name="jar.file" value="${dist.dir}/fitaview-${jar.version}.jar" />
-  <property name="exec.file" value="${dist.dir}/FITA-View" />
+  <property name="main.package" value="refhumbold.fitaview" />
+  <property name="debug.level" value="source,lines,vars" />
 
   <path id="FITA-View.classpath">
     <fileset dir="${ivy.lib.dir}" includes="*.jar" />
@@ -52,7 +56,6 @@
 
   <target name="clean-all" depends="clean">
     <delete dir="${junit.output.dir}" />
-    <delete dir="${junit.report.dir}" />
     <delete dir="${javadoc.output.dir}" />
   </target>
 
@@ -64,8 +67,8 @@
   </target>
 
   <target name="build" depends="init">
-    <javac source="${source}" target="${target}" debug="true" debuglevel="${debuglevel}"
-           destdir="${build.dir}" includeantruntime="false">
+    <javac debug="true" debuglevel="${debug.level}" destdir="${build.dir}"
+           includeantruntime="false">
       <src path="${src.dir}" />
       <src path="${test.dir}" />
       <compilerarg line="-Xlint" />
@@ -74,7 +77,7 @@
   </target>
 
   <target name="jar" depends="build">
-    <jar destfile="${jar.file}" basedir="${build.dir}" excludes="**/*Test.class">
+    <jar destfile="${dist.dir}/${jar.file}" basedir="${build.dir}" excludes="**/*Test.class">
       <manifest>
         <attribute name="Built-By" value="${vendor}" />
         <attribute name="Main-Class" value="${main.package}.FITAView" />
@@ -90,23 +93,23 @@
 
   <target name="execfile" depends="jar">
     <echo level="info" message="Building file: ${basedir}/${exec.file}" />
-    <echo file="${exec.file}"
-          message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname $0)/fitaview-${jar.version}.jar" />
+    <echo file="${dist.dir}/${exec.file}"
+          message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname $0)/${jar.file} $@" />
     <chmod file="${exec.file}" perm="+x" />
   </target>
 
   <target name="test">
-    <mkdir dir="${junit.output.dir}" />
+    <mkdir dir="${junit.result.dir}" />
     <junit fork="yes" printsummary="withOutAndErr">
       <formatter type="xml" />
-      <batchtest todir="${junit.output.dir}">
+      <batchtest todir="${junit.result.dir}">
         <fileset dir="${test.dir}" includes="**/*Test.java" />
       </batchtest>
       <classpath refid="FITA-View.classpath" />
     </junit>
     <mkdir dir="${junit.report.dir}" />
     <junitreport todir="${junit.report.dir}">
-      <fileset dir="${junit.output.dir}" includes="TEST-*.xml" />
+      <fileset dir="${junit.result.dir}" includes="TEST-*.xml" />
       <report format="frames" todir="${junit.report.dir}" />
     </junitreport>
   </target>
@@ -120,9 +123,9 @@
 
   <target name="release" depends="jar, execfile" />
 
-  <target name="all" depends="jar, execfile, test, javadocs" />
+  <target name="all" depends="release, test, javadocs" />
 
   <target name="refresh" depends="clean, release" />
 
-  <target name="release-all" depends="clean-all, all" />
+  <target name="refresh-all" depends="clean-all, all" />
 </project>
