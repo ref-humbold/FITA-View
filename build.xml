@@ -6,7 +6,7 @@
 
   <property name="vendor" value="Rafał Kaleta" />
   <property name="major.version" value="1" />
-  <property name="minor.version" value="0" />
+  <property name="minor.version" value="1" />
   <property name="spec.version" value="${major.version}.${minor.version}" />
   <property name="jar.version" value="${major.version}.${minor.version}.{date.version}" />
 
