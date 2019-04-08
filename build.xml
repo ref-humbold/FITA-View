@@ -9,7 +9,9 @@
   <property name="minor.version" value="1" />
   <property name="spec.version" value="${major.version}.${minor.version}" />
   <property name="jar.version" value="${major.version}.${minor.version}.{date.version}" />
-
+  
+  <property name="main.package" value="fitaview" />
+  <property name="toplevel.package" value="refhumbold.${main.package}" />
   <property name="src.dir" value="src" />
   <property name="test.dir" value="test" />
   <property name="build.dir" value="bin" />
@@ -18,13 +20,12 @@
   <property name="junit.result.dir" value="${junit.output.dir}/results" />
   <property name="junit.report.dir" value="${junit.output.dir}/reports" />
   <property name="javadoc.output.dir" value="docs" />
-  <property name="jar.file" value="fitaview-${jar.version}.jar" />
+  <property name="jar.file" value="${main.package}-${jar.version}.jar" />
   <property name="exec.file" value="FITA-View" />
 
   <property name="ivy.lib.dir" value="lib" />
   <property name="ivy.install.version" value="2.4.0" />
-
-  <property name="main.package" value="refhumbold.fitaview" />
+  
   <property name="source.level" value="8" />
   <property name="target.level" value="8" />
 
@@ -85,7 +86,7 @@
         <attribute name="Specification-Title" value="Finite and Infinite Tree Automata Viewer" />
         <attribute name="Specification-Version" value="${spec.version}" />
         <attribute name="Specification-Vendor" value="${vendor}" />
-        <attribute name="Implementation-Title" value="${main.package}" />
+        <attribute name="Implementation-Title" value="${toplevel.package}" />
         <attribute name="Implementation-Version" value="${jar.version}" />
         <attribute name="Implementation-Vendor" value="${vendor}" />
       </manifest>
@@ -118,7 +119,7 @@
   <target name="javadocs">
     <mkdir dir="${javadoc.output.dir}" />
     <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
-      <package name="${main.package}.*" />
+      <package name="${toplevel.package}.*" />
     </javadoc>
   </target>
 
