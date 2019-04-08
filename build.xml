@@ -35,6 +35,7 @@
   </path>
 
   <target name="download-ivy" unless="offline">
+    <delete dir="${ivy.lib.dir}" />
     <mkdir dir="${ivy.lib.dir}" />
     <get
       src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
@@ -51,7 +52,6 @@
   </target>
 
   <target name="clean">
-    <delete dir="${ivy.lib.dir}" />
     <delete dir="${build.dir}" />
     <delete dir="${dist.dir}" />
   </target>

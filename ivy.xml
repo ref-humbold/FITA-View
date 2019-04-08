@@ -1,9 +1,9 @@
 <ivy-module version="2.0">
   <info organisation="ref_humbold" module="fita_view" />
   <dependencies>
-    <dependency org="junit" name="junit" rev="4.12" />
-    <dependency org="org.mockito" name="mockito-all" rev="1.10.19"/>
-    <dependency org="org.powermock" name="powermock-api-mockito" rev="1.7.1"/>
-    <dependency org="org.powermock" name="powermock-module-junit4" rev="1.7.1"/>
+    <dependency org="junit" name="junit" rev="4.+" />
+    <dependency org="org.mockito" name="mockito-core" rev="1.10.+" />
+    <dependency org="org.powermock" name="powermock-api-mockito" rev="1.7.+" />
+    <dependency org="org.powermock" name="powermock-module-junit4" rev="1.7.+" />
   </dependencies>
 </ivy-module>

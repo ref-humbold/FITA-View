@@ -20,9 +20,9 @@ Build process:
 
 ### Unit testing
 Additional libraries (automatically downloaded during build process):
-+ JUnit 4.12
-+ Mockito 1.10.19
-+ PowerMock 1.7.1
++ JUnit 4.+
++ Mockito 1.10.+
++ PowerMock 1.7.+
 
 -----
 
