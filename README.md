@@ -39,12 +39,12 @@ FITA-View can be built with **Apache ANT** using **Apache Ivy** to resolve all d
 > + `ant refresh-all` - remove additional build files & resolve dependencies & compile source and test files & create executable jar & run all tests & generate Javadoc
 
 ## How to run?
-FITA-View can be run by the executable *sh* script:
+FITA-View can be run by the executable *sh* script in the `dist` directory:
 ```sh
-$ sh /path/to/directory/FITA-View
+$ sh /path-to-directory/dist/FITA-View
 ```
 
-Another way is to directly execute the *jar* file:
+Alternatively one may directly execute the *jar* file in the `dist` directory:
 ```sh
-$ java -jar path/to/directory/fitaview-{version}.jar
+$ java -jar /path-to-directory/dist/fitaview-{version}.jar
 ```
