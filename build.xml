@@ -25,7 +25,8 @@
   <property name="ivy.install.version" value="2.4.0" />
 
   <property name="main.package" value="refhumbold.fitaview" />
-  <property name="debug.level" value="source,lines,vars" />
+  <property name="source.level" value="8" />
+  <property name="target.level" value="8" />
 
   <path id="FITA-View.classpath">
     <fileset dir="${ivy.lib.dir}" includes="*.jar" />
@@ -67,7 +68,7 @@
   </target>
 
   <target name="build" depends="init">
-    <javac debug="true" debuglevel="${debug.level}" destdir="${build.dir}"
+    <javac source="${source.level}" target="${target.level}" destdir="${build.dir}"
            includeantruntime="false">
       <src path="${src.dir}" />
       <src path="${test.dir}" />
