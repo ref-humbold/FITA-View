@@ -4,12 +4,12 @@
     <format property="date.version" pattern="yyMMdd" locale="en,GB" />
   </tstamp>
 
-  <property name="vendor" value="Rafał Kaleta" />
   <property name="major.version" value="1" />
   <property name="minor.version" value="1" />
   <property name="spec.version" value="${major.version}.${minor.version}" />
   <property name="jar.version" value="${major.version}.${minor.version}.{date.version}" />
-  
+  <property name="vendor" value="Rafał Kaleta" />
+
   <property name="main.package" value="fitaview" />
   <property name="toplevel.package" value="refhumbold.${main.package}" />
   <property name="src.dir" value="src" />
@@ -25,7 +25,7 @@
 
   <property name="ivy.lib.dir" value="lib" />
   <property name="ivy.install.version" value="2.4.0" />
-  
+
   <property name="source.level" value="8" />
   <property name="target.level" value="8" />
 
@@ -65,6 +65,7 @@
     <mkdir dir="${build.dir}" />
     <copy includeemptydirs="false" todir="${build.dir}">
       <fileset dir="${src.dir}" excludes="**/*.java" />
+      <fileset dir="${test.dir}" excludes="**/*.java" />
     </copy>
   </target>
 
