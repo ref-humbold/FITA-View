@@ -20,7 +20,7 @@ import refhumbold.fitaview.automaton.transition.DuplicatedTransitionException;
 import refhumbold.fitaview.automaton.transition.IllegalTransitionException;
 import refhumbold.fitaview.messaging.Message;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class AutomatonTreeViewTest
 {
     @Mock
