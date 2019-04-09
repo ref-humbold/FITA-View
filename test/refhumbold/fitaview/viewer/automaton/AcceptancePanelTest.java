@@ -6,11 +6,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -50,8 +49,8 @@ public class AcceptancePanelTest
     {
         PowerMockito.mockStatic(UserMessageBox.class);
         PowerMockito.doNothing()
-                    .when(UserMessageBox.class, "showInfo", Matchers.anyString(),
-                          Matchers.anyString());
+                    .when(UserMessageBox.class, "showInfo", ArgumentMatchers.anyString(),
+                          ArgumentMatchers.anyString());
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
     }
 
@@ -141,15 +140,9 @@ public class AcceptancePanelTest
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
-        PowerMockito.doAnswer(new Answer<Void>()
-        {
-            @Override
-            public Void answer(InvocationOnMock invocation)
-                throws Exception
-            {
-                throw (Exception)invocation.getArguments()[0];
-            }
-        }).when(UserMessageBox.class, "showException", Matchers.any(Exception.class));
+        PowerMockito.doAnswer((Answer<Void>)invocation -> {
+            throw (Exception)invocation.getArguments()[0];
+        }).when(UserMessageBox.class, "showException", ArgumentMatchers.any(Exception.class));
 
         try
         {

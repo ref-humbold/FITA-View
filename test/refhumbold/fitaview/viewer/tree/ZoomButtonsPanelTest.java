@@ -6,8 +6,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InOrder;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ZoomButtonsPanelTest
@@ -27,7 +31,7 @@ public class ZoomButtonsPanelTest
         Mockito.doNothing().when(mockDrawingArea).revalidate();
         Mockito.doNothing().when(mockDrawingArea).repaint();
         Mockito.doCallRealMethod().when(mockDrawingArea).zeroZoom();
-        Mockito.doCallRealMethod().when(mockDrawingArea).zoom(Matchers.anyInt());
+        Mockito.doCallRealMethod().when(mockDrawingArea).zoom(ArgumentMatchers.anyInt());
         Mockito.doCallRealMethod().when(mockDrawingArea).getZoomLevel();
     }
 

@@ -10,12 +10,16 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import refhumbold.fitaview.Pair;
 import refhumbold.fitaview.Pointer;
 import refhumbold.fitaview.Triple;
-import refhumbold.fitaview.automaton.*;
+import refhumbold.fitaview.automaton.AutomatonRunningMode;
+import refhumbold.fitaview.automaton.AutomatonRunningModeSender;
+import refhumbold.fitaview.automaton.NodeInfoSource;
+import refhumbold.fitaview.automaton.TreeAutomaton;
+import refhumbold.fitaview.automaton.Variable;
 import refhumbold.fitaview.messaging.Message;
 
 @RunWith(MockitoJUnitRunner.class)
