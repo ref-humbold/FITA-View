@@ -22,7 +22,7 @@ Build process:
 Additional libraries (automatically downloaded during build process):
 + JUnit 4.+
 + Mockito 2.+
-+ PowerMock 1.7.+
++ PowerMock 2.+
 
 -----
 
