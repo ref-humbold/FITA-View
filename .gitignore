@@ -1,9 +1,7 @@
-# Java, Apache ANT, Apache Ivy
+# Java, Apache ANT, Apache Ivy, Javadoc, JUnit
 bin
 lib
 dist
-
-# Javadoc, JUnit
 docs
 junit
 
