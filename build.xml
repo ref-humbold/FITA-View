@@ -7,7 +7,7 @@
   <property name="major.version" value="1" />
   <property name="minor.version" value="1" />
   <property name="spec.version" value="${major.version}.${minor.version}" />
-  <property name="jar.version" value="${major.version}.${minor.version}.{date.version}" />
+  <property name="jar.version" value="${major.version}.${minor.version}.${date.version}" />
   <property name="vendor" value="Rafał Kaleta" />
 
   <property name="main.package" value="fitaview" />
@@ -17,8 +17,8 @@
   <property name="build.dir" value="bin" />
   <property name="dist.dir" value="dist" />
   <property name="junit.output.dir" value="junit" />
-  <property name="junit.result.dir" value="${junit.output.dir}/results" />
-  <property name="junit.report.dir" value="${junit.output.dir}/reports" />
+  <property name="junit.result.dir" value="${junit.output.dir}/result" />
+  <property name="junit.report.dir" value="${junit.output.dir}/report" />
   <property name="javadoc.output.dir" value="docs" />
   <property name="jar.file" value="${main.package}-${jar.version}.jar" />
   <property name="exec.file" value="FITA-View" />
@@ -54,9 +54,6 @@
   <target name="clean">
     <delete dir="${build.dir}" />
     <delete dir="${dist.dir}" />
-  </target>
-
-  <target name="clean-all" depends="clean">
     <delete dir="${junit.output.dir}" />
     <delete dir="${javadoc.output.dir}" />
   </target>
@@ -69,8 +66,8 @@
     </copy>
   </target>
 
-  <target name="build" depends="init">
-    <javac source="${source.level}" target="${target.level}" destdir="${build.dir}"
+  <target name="compile" depends="init">
+    <javac destdir="${build.dir}" source="${source.level}" target="${target.level}"
            includeantruntime="false">
       <src path="${src.dir}" />
       <src path="${test.dir}" />
@@ -79,7 +76,7 @@
     </javac>
   </target>
 
-  <target name="jar" depends="build">
+  <target name="jar" depends="compile">
     <jar destfile="${dist.dir}/${jar.file}" basedir="${build.dir}" excludes="**/*Test.class">
       <manifest>
         <attribute name="Built-By" value="${vendor}" />
@@ -117,18 +114,18 @@
     </junitreport>
   </target>
 
-  <target name="javadocs">
+  <target name="docs">
     <mkdir dir="${javadoc.output.dir}" />
     <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
       <package name="${toplevel.package}.*" />
     </javadoc>
   </target>
 
-  <target name="release" depends="jar, execfile" />
+  <target name="build" depends="execfile" />
 
-  <target name="all" depends="release, test, javadocs" />
+  <target name="all" depends="build, test" />
 
-  <target name="refresh" depends="clean, release" />
+  <target name="refresh" depends="clean, build" />
 
-  <target name="refresh-all" depends="clean-all, all" />
+  <target name="refresh-all" depends="clean, all" />
 </project>
