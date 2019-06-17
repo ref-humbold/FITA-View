@@ -17,14 +17,11 @@ import fitaview.Pair;
 @RunWith(MockitoJUnitRunner.class)
 public class MovingButtonsPanelTest
 {
-    @Mock
-    private TreeDrawingArea mockDrawingArea;
+    @Mock private TreeDrawingArea mockDrawingArea;
 
-    @Mock
-    private ActionEvent mockActionEvent;
+    @Mock private ActionEvent mockActionEvent;
 
-    @InjectMocks
-    private MovingButtonsPanel testObject;
+    @InjectMocks private MovingButtonsPanel testObject;
 
     @Before
     public void setUp()
@@ -54,8 +51,8 @@ public class MovingButtonsPanelTest
         Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).centralize();
-        Assert.assertEquals(new Integer(0), result.getFirst());
-        Assert.assertEquals(new Integer(0), result.getSecond());
+        Assert.assertEquals(Integer.valueOf(0), result.getFirst());
+        Assert.assertEquals(Integer.valueOf(0), result.getSecond());
     }
 
     @Test
@@ -68,8 +65,8 @@ public class MovingButtonsPanelTest
         Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(0, 1);
-        Assert.assertEquals(new Integer(mockDrawingArea.getStepUnit()), result.getFirst());
-        Assert.assertEquals(new Integer(0), result.getSecond());
+        Assert.assertEquals(Integer.valueOf(mockDrawingArea.getStepUnit()), result.getFirst());
+        Assert.assertEquals(Integer.valueOf(0), result.getSecond());
     }
 
     @Test
@@ -82,8 +79,8 @@ public class MovingButtonsPanelTest
         Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(0, -1);
-        Assert.assertEquals(new Integer(-mockDrawingArea.getStepUnit()), result.getFirst());
-        Assert.assertEquals(new Integer(0), result.getSecond());
+        Assert.assertEquals(Integer.valueOf(-mockDrawingArea.getStepUnit()), result.getFirst());
+        Assert.assertEquals(Integer.valueOf(0), result.getSecond());
     }
 
     @Test
@@ -96,8 +93,8 @@ public class MovingButtonsPanelTest
         Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(1, 0);
-        Assert.assertEquals(new Integer(0), result.getFirst());
-        Assert.assertEquals(new Integer(mockDrawingArea.getStepUnit()), result.getSecond());
+        Assert.assertEquals(Integer.valueOf(0), result.getFirst());
+        Assert.assertEquals(Integer.valueOf(mockDrawingArea.getStepUnit()), result.getSecond());
     }
 
     @Test
@@ -110,7 +107,7 @@ public class MovingButtonsPanelTest
         Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(-1, 0);
-        Assert.assertEquals(new Integer(0), result.getFirst());
-        Assert.assertEquals(new Integer(-mockDrawingArea.getStepUnit()), result.getSecond());
+        Assert.assertEquals(Integer.valueOf(0), result.getFirst());
+        Assert.assertEquals(Integer.valueOf(-mockDrawingArea.getStepUnit()), result.getSecond());
     }
 }
