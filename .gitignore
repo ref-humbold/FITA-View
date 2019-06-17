@@ -1,15 +1,22 @@
-# Java, Apache ANT, Apache Ivy, Javadoc, JUnit
+# [ Java ]
+# Java, Apache ANT output
 bin
 dist
+
+# Javadoc output
 docs
+
+# JUnit output
 junit
+
+# Apache Ivy dependencies
 lib
 
 # IntelliJ IDEA
-*.iml
 .idea
 out
-gen
 
-# Visual Paradigm
+# [ Visual Paradigm ]
+# backup files
 UML/*.bak*
+UML/*.vbak*

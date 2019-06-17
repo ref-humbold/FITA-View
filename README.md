@@ -14,9 +14,13 @@ Trees and automata can be loaded from XML files with extensions *filename.tree.x
 ## Dependencies
 
 ### Standard build & run
+> *versions used by the author are in double parentheses and italic*
+
 Build process:
-+ [Java Standard Edition 8](https://www.oracle.com/technetwork/java/javase/overview/index.html)
-+ [Apache ANT](http://ant.apache.org/)
++ operating system *((Debian testing))*
++ [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) *((Standard Edition 8))
+*
++ [Apache ANT](http://ant.apache.org/) *((1.10.5))*
 
 ### Unit testing
 Additional libraries (automatically downloaded during build process):
@@ -41,10 +45,10 @@ FITA-View can be built with **Apache ANT** using **Apache Ivy** to resolve all d
 ## How to run?
 FITA-View can be run by the executable *sh* script in the `dist` directory:
 ```sh
-$ sh /path-to-directory/dist/FITA-View
+$ sh /path-to-project-directory/dist/FITA-View
 ```
 
 Alternatively one may directly execute the *jar* file in the `dist` directory:
 ```sh
-$ java -jar /path-to-directory/dist/fitaview-{version}.jar
+$ java -jar /path-to-project-directory/dist/fitaview-{version}.jar
 ```
