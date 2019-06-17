@@ -1,5 +1,5 @@
-# [ Java , Apache ANT ]
-# output
+# [ Java ]
+# Java, Apache ANT output
 bin
 dist
 
@@ -17,5 +17,6 @@ lib
 out
 
 # [ Visual Paradigm ]
+# backup files
 UML/*.bak*
 UML/*.vbak*

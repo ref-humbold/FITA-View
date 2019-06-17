@@ -14,9 +14,13 @@ Trees and automata can be loaded from XML files with extensions *filename.tree.x
 ## Dependencies
 
 ### Standard build & run
+> *versions used by the author are in double parentheses and italic*
+
 Build process:
-+ [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) Standard Edition 8
-+ [Apache ANT](http://ant.apache.org/)
++ operating system *((Debian testing))*
++ [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) *((Standard Edition 8))
+*
++ [Apache ANT](http://ant.apache.org/) *((1.10.5))*
 
 ### Unit testing
 Additional libraries (automatically downloaded during build process):

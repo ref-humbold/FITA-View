@@ -11,7 +11,6 @@
   <property name="vendor" value="Rafał Kaleta" />
 
   <property name="main.package" value="fitaview" />
-  <property name="toplevel.package" value="refhumbold.${main.package}" />
   <property name="src.dir" value="src" />
   <property name="test.dir" value="test" />
   <property name="build.dir" value="bin" />
@@ -84,7 +83,7 @@
         <attribute name="Specification-Title" value="Finite and Infinite Tree Automata Viewer" />
         <attribute name="Specification-Version" value="${spec.version}" />
         <attribute name="Specification-Vendor" value="${vendor}" />
-        <attribute name="Implementation-Title" value="${toplevel.package}" />
+        <attribute name="Implementation-Title" value="${main.package}" />
         <attribute name="Implementation-Version" value="${jar.version}" />
         <attribute name="Implementation-Vendor" value="${vendor}" />
       </manifest>
@@ -117,7 +116,7 @@
   <target name="docs">
     <mkdir dir="${javadoc.output.dir}" />
     <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
-      <package name="${toplevel.package}.*" />
+      <package name="${main.package}.*" />
     </javadoc>
   </target>
 
