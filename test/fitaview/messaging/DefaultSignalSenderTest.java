@@ -6,11 +6,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -98,15 +97,10 @@ public class DefaultSignalSenderTest
     {
         Object[] arg = new Object[1];
 
-        Mockito.doAnswer(new Answer<Void>()
-        {
-            @Override
-            public Void answer(InvocationOnMock invocation)
-            {
-                arg[0] = invocation.getArguments()[0];
-                return null;
-            }
-        }).when(mockReceiver).receiveSignal(Matchers.any());
+        Mockito.doAnswer((Answer<Void>)invocation -> {
+            arg[0] = invocation.getArguments()[0];
+            return null;
+        }).when(mockReceiver).receiveSignal(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
         testObject.send();
@@ -125,15 +119,10 @@ public class DefaultSignalSenderTest
     {
         Object[] arg = new Object[1];
 
-        Mockito.doAnswer(new Answer<Void>()
-        {
-            @Override
-            public Void answer(InvocationOnMock invocation)
-            {
-                arg[0] = invocation.getArguments()[0];
-                return null;
-            }
-        }).when(mockReceiver).receiveSignal(Matchers.any());
+        Mockito.doAnswer((Answer<Void>)invocation -> {
+            arg[0] = invocation.getArguments()[0];
+            return null;
+        }).when(mockReceiver).receiveSignal(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
         testObject.sendSignal(new Message<>(mockSender));

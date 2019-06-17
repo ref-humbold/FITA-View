@@ -6,12 +6,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -183,18 +182,13 @@ public class ActionButtonsPanelTest
             Mockito.when(mockPointer.get()).thenReturn(mockBottomUp);
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CHECK EMPTINESS");
             Mockito.when(mockBottomUp.checkEmptiness()).thenReturn(true);
-            PowerMockito.doAnswer(new Answer<Void>()
-            {
-                @Override
-                public Void answer(InvocationOnMock invocation)
-                {
-                    result[0] = invocation.getArguments()[0];
-                    result[1] = invocation.getArguments()[1];
-                    return null;
-                }
+            PowerMockito.doAnswer((Answer<Void>)invocation -> {
+                result[0] = invocation.getArguments()[0];
+                result[1] = invocation.getArguments()[1];
+                return null;
             })
-                        .when(UserMessageBox.class, "showWarning", Matchers.anyString(),
-                              Matchers.anyString());
+                        .when(UserMessageBox.class, "showWarning", ArgumentMatchers.anyString(),
+                              ArgumentMatchers.anyString());
 
             testObject.actionPerformed(mockActionEvent);
 
@@ -218,16 +212,13 @@ public class ActionButtonsPanelTest
             Mockito.when(mockPointer.get()).thenReturn(mockBottomUp);
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CHECK EMPTINESS");
             Mockito.when(mockBottomUp.checkEmptiness()).thenReturn(false);
-            PowerMockito.doAnswer(new Answer<Void>()
-            {
-                @Override
-                public Void answer(InvocationOnMock invocation)
-                {
-                    result[0] = invocation.getArguments()[0];
-                    result[1] = invocation.getArguments()[1];
-                    return null;
-                }
-            }).when(UserMessageBox.class, "showInfo", Matchers.anyString(), Matchers.anyString());
+            PowerMockito.doAnswer((Answer<Void>)invocation -> {
+                result[0] = invocation.getArguments()[0];
+                result[1] = invocation.getArguments()[1];
+                return null;
+            })
+                        .when(UserMessageBox.class, "showInfo", ArgumentMatchers.anyString(),
+                              ArgumentMatchers.anyString());
 
             testObject.actionPerformed(mockActionEvent);
 

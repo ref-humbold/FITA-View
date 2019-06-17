@@ -6,11 +6,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import fitaview.Pair;
 
@@ -32,7 +32,7 @@ public class MovingButtonsPanelTest
         Mockito.doNothing().when(mockDrawingArea).repaint();
         Mockito.doCallRealMethod()
                .when(mockDrawingArea)
-               .moveArea(Matchers.anyInt(), Matchers.anyInt());
+               .moveArea(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt());
         Mockito.doCallRealMethod().when(mockDrawingArea).centralize();
         Mockito.doCallRealMethod().when(mockDrawingArea).getAxisPoint();
         Mockito.doCallRealMethod().when(mockDrawingArea).getStepUnit();
