@@ -23,7 +23,7 @@
   <property name="exec.file" value="FITA-View" />
 
   <property name="ivy.lib.dir" value="lib" />
-  <property name="ivy.install.version" value="2.5.0-rc1" />
+  <property name="ivy.install.version" value="2.5.0" />
 
   <property name="source.level" value="8" />
   <property name="target.level" value="8" />
