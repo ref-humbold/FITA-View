@@ -25,9 +25,6 @@
   <property name="ivy.lib.dir" value="lib" />
   <property name="ivy.install.version" value="2.5.0" />
 
-  <property name="source.level" value="8" />
-  <property name="target.level" value="8" />
-
   <path id="FITA-View.classpath">
     <fileset dir="${ivy.lib.dir}" includes="*.jar" />
     <pathelement location="${build.dir}" />
@@ -66,8 +63,7 @@
   </target>
 
   <target name="compile" depends="init">
-    <javac destdir="${build.dir}" source="${source.level}" target="${target.level}"
-           includeantruntime="false">
+    <javac destdir="${build.dir}" includeantruntime="false">
       <src path="${src.dir}" />
       <src path="${test.dir}" />
       <compilerarg line="-Xlint" />
