@@ -18,11 +18,12 @@ Trees and automata can be loaded from XML files with extensions *filename.tree.x
 
 Build process:
 + operating system *((Debian testing))*
-+ [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) *((Standard Edition 8))*
-+ [Apache ANT](http://ant.apache.org/) *((1.10.5))*
++ [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) *((Standard Edition 11))*
++ [Apache ANT](http://ant.apache.org/) *((1.10.+))*
 
 ### Unit testing
-Additional libraries (automatically downloaded during build process):
+> libraries are automatically downloaded during build process
+
 + JUnit 4.+
 + Mockito 2.+
 + PowerMock 2.+
