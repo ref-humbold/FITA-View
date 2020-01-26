@@ -35,11 +35,14 @@ FITA-View can be built with **Apache ANT** using **Apache Ivy** to resolve all d
 
 > Possible ANT targets are:
 > + `ant` - same as `ant all`
-> + `ant build` - resolve dependencies & compile source files & create executable jar
+> + `ant build` - compile source files & create executable jar
+> + `ant rebuild` - resolve dependencies & compile source files & create executable jar
 > + `ant test` - run all tests
 > + `ant docs` - generate Javadoc
+> + `ant main` - compile source and test files & create executable jar & run all tests
 > + `ant all` - resolve dependencies & compile source and test files & create executable jar & run all tests
 > + `ant refresh` - remove additional build files & resolve dependencies & compile source files & create executable jar
+> + `ant refresh-main` - remove additional build files & compile source and test files & create executable jar & run all tests
 > + `ant refresh-all` - remove additional build files & resolve dependencies & compile source and test files & create executable jar & run all tests
 
 ## How to run?

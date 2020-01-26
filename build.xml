@@ -54,7 +54,7 @@
     <delete dir="${javadoc.output.dir}" />
   </target>
 
-  <target name="init" depends="resolve">
+  <target name="init">
     <mkdir dir="${build.dir}" />
     <copy includeemptydirs="false" todir="${build.dir}">
       <fileset dir="${src.dir}" excludes="**/*.java" />
@@ -89,7 +89,7 @@
   <target name="execfile" depends="jar">
     <echo level="info" message="Building file: ${dist.dir}/${exec.file}" />
     <echo file="${dist.dir}/${exec.file}"
-          message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname $0)/${jar.file} $@" />
+          message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname &quot;$0&quot;)/${jar.file} $@" />
     <chmod file="${dist.dir}/${exec.file}" perm="+x" />
   </target>
 
@@ -118,9 +118,15 @@
 
   <target name="build" depends="execfile" />
 
-  <target name="all" depends="build, test" />
+  <target name="rebuild" depends="resolve, build" />
+
+  <target name="main" depends="build, test" />
+
+  <target name="all" depends="resolve, main" />
 
   <target name="refresh" depends="clean, build" />
+
+  <target name="refresh-main" depends="clean, main" />
 
   <target name="refresh-all" depends="clean, all" />
 </project>
