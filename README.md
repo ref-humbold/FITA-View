@@ -1,4 +1,6 @@
 # FITA-View
+[![Build Status](https://travis-ci.org/ref-humbold/FITA-View.svg?branch=master)](https://travis-ci.org/ref-humbold/FITA-View)
+
 ![Release](https://img.shields.io/github/v/release/ref-humbold/FITA-View?style=plastic)
 ![License](https://img.shields.io/github/license/ref-humbold/FITA-View?style=plastic)
 
