@@ -1,0 +1,13 @@
+os: linux
+dist: bionic
+addons:
+  apt:
+    packages:
+      - ant
+      - ant-optional
+
+language: java
+jdk: openjdk11
+
+install: ant rebuild
+script: ant -lib ./lib test
