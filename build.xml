@@ -95,7 +95,8 @@
 
   <target name="test">
     <mkdir dir="${junit.result.dir}" />
-    <junit fork="yes" printsummary="withOutAndErr">
+    <junit fork="yes" printsummary="withOutAndErr" failureproperty="junit.failure"
+           errorproperty="junit.error">
       <formatter type="xml" />
       <batchtest todir="${junit.result.dir}">
         <fileset dir="${test.dir}" includes="**/*Test.java" />
@@ -107,6 +108,8 @@
       <fileset dir="${junit.result.dir}" includes="TEST-*.xml" />
       <report format="frames" todir="${junit.report.dir}" />
     </junitreport>
+    <fail if="junit.failure" message="JUnit test(s) failed" />
+    <fail if="junit.error" message="JUnit test(s) threw an error" />
   </target>
 
   <target name="docs">
