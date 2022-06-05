@@ -8,11 +8,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fitaview.Pair;
-import fitaview.Triple;
 import fitaview.automaton.IllegalVariableValueException;
 import fitaview.automaton.Variable;
 import fitaview.automaton.Wildcard;
+import fitaview.utils.Pair;
+import fitaview.utils.Triple;
 
 public class BottomUpTransitionsTest
 {
@@ -20,13 +20,13 @@ public class BottomUpTransitionsTest
     private Variable v = new Variable(0, "A", "B", "C", "D");
 
     public BottomUpTransitionsTest()
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
     }
 
     @Before
     public void setUp()
-        throws Exception
+            throws Exception
     {
         testObject = new BottomUpTransitions<>(this::keyFunction, this::valueFunction);
         testObject.add(v, Triple.make("A", "B", "0"), "C");
@@ -161,7 +161,7 @@ public class BottomUpTransitionsTest
 
     @Test(expected = DuplicatedTransitionException.class)
     public void testAddWhenDuplicated()
-        throws DuplicatedTransitionException
+            throws DuplicatedTransitionException
     {
         try
         {
@@ -176,7 +176,7 @@ public class BottomUpTransitionsTest
 
     @Test(expected = IllegalTransitionException.class)
     public void testAddWhenIncorrectSameWildcard()
-        throws IllegalTransitionException
+            throws IllegalTransitionException
     {
         try
         {
@@ -211,14 +211,14 @@ public class BottomUpTransitionsTest
 
     @Test(expected = NoSuchTransitionException.class)
     public void testGetAllWhenKeyHasNull()
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         testObject.getAll(v, Triple.make(null, "B", "0"));
     }
 
     @Test(expected = NoSuchTransitionException.class)
     public void testGetAllWhenKeyHasNoEntry()
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         testObject.getAll(v, Triple.make("C", "C", "0"));
     }
@@ -301,14 +301,14 @@ public class BottomUpTransitionsTest
 
     @Test(expected = NoSuchTransitionException.class)
     public void testGetMatchedWhenKeyHasNull()
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         testObject.getMatched(v, Triple.make(null, "B", "0"));
     }
 
     @Test(expected = NoSuchTransitionException.class)
     public void testGetMatchedWhenKeyHasNoEntry()
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         testObject.getMatched(v, Triple.make("C", "C", "0"));
     }
@@ -322,9 +322,8 @@ public class BottomUpTransitionsTest
         expected.put(Pair.make(v, keyFunction(Triple.make("A", "B", "0"))), valueFunction("C"));
         expected.put(Pair.make(v, keyFunction(Triple.make(Wildcard.EVERY_VALUE, "C", "1"))),
                      valueFunction("B"));
-        expected.put(
-            Pair.make(v, keyFunction(Triple.make(Wildcard.SAME_VALUE, Wildcard.EVERY_VALUE, "2"))),
-            valueFunction("A"));
+        expected.put(Pair.make(v, keyFunction(
+                Triple.make(Wildcard.SAME_VALUE, Wildcard.EVERY_VALUE, "2"))), valueFunction("A"));
         expected.put(Pair.make(v, keyFunction(Triple.make("D", "C", "3"))),
                      valueFunction(Wildcard.RIGHT_VALUE));
         expected.put(Pair.make(v, keyFunction(Triple.make("C", "A", "4"))), valueFunction("C"));

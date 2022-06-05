@@ -6,18 +6,18 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import fitaview.Pair;
-import fitaview.Pointer;
-import fitaview.Triple;
 import fitaview.automaton.*;
 import fitaview.messaging.Message;
 import fitaview.messaging.MessageReceiver;
 import fitaview.messaging.SignalReceiver;
+import fitaview.utils.Pair;
+import fitaview.utils.Pointer;
+import fitaview.utils.Triple;
 
 public class TransitionDrawingArea
-    extends JPanel
-    implements MessageReceiver<Triple<NodeInfoSource, String, Map<Variable, String>>>,
-               SignalReceiver
+        extends JPanel
+        implements MessageReceiver<Triple<NodeInfoSource, String, Map<Variable, String>>>,
+                   SignalReceiver
 {
     private static final long serialVersionUID = -1303489069622584091L;
 
@@ -45,8 +45,8 @@ public class TransitionDrawingArea
         if(signal.getSource() == automatonPointer)
             resetStates();
         else if(signal.getSource() == AutomatonRunningModeSender.getInstance()
-            && !automatonPointer.isEmpty()
-            && automatonPointer.get().getRunningMode() == AutomatonRunningMode.STOPPED)
+                && !automatonPointer.isEmpty()
+                && automatonPointer.get().getRunningMode() == AutomatonRunningMode.STOPPED)
             resetStates();
 
         revalidate();
@@ -55,7 +55,7 @@ public class TransitionDrawingArea
 
     @Override
     public void receiveMessage(
-        Message<Triple<NodeInfoSource, String, Map<Variable, String>>> message)
+            Message<Triple<NodeInfoSource, String, Map<Variable, String>>> message)
     {
         Triple<NodeInfoSource, String, Map<Variable, String>> param = message.getParam();
 

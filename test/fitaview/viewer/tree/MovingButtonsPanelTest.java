@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import fitaview.Pair;
+import fitaview.utils.Pair;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovingButtonsPanelTest

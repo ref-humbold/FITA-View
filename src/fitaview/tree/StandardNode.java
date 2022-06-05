@@ -9,7 +9,7 @@ import fitaview.automaton.IllegalVariableValueException;
 import fitaview.automaton.Variable;
 
 public class StandardNode
-    extends TreeNode
+        extends TreeNode
 {
     private TreeNode left = new NullNode();
     private TreeNode right = new NullNode();
@@ -28,7 +28,7 @@ public class StandardNode
     }
 
     public StandardNode(String label, int index, TreeNode left, TreeNode right)
-        throws NodeHasParentException
+            throws NodeHasParentException
     {
         this(label, index);
         setLeft(left);
@@ -48,14 +48,14 @@ public class StandardNode
     }
 
     protected void setLeft(TreeNode node)
-        throws NodeHasParentException
+            throws NodeHasParentException
     {
         if(node == null)
             node = new NullNode();
 
         if(node.getParent() != null)
             throw new NodeHasParentException(
-                "Node has already got a parent, so it cannot be assigned as a child");
+                    "Node has already got a parent, so it cannot be assigned as a child");
 
         left.setParent(null);
         left = node;
@@ -69,18 +69,18 @@ public class StandardNode
     }
 
     protected void setRight(TreeNode node)
-        throws NodeHasParentException
+            throws NodeHasParentException
     {
         if(node == null)
             node = new NullNode();
 
         if(node.getParent() != null)
             throw new NodeHasParentException(
-                "Node has already got a parent, so it cannot be assigned as a child");
+                    "Node has already got a parent, so it cannot be assigned as a child");
 
-        this.right.setParent(null);
-        this.right = node;
-        this.right.setParent(this);
+        right.setParent(null);
+        right = node;
+        right.setParent(this);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class StandardNode
 
     @Override
     public void setState(Map<Variable, String> state)
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         for(Map.Entry<Variable, String> entry : state.entrySet())
             setStateValue(entry.getKey(), entry.getValue());
@@ -130,7 +130,7 @@ public class StandardNode
 
     @Override
     public void setStateValue(Variable var, String value)
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         if(!var.contains(value))
             throw new IllegalVariableValueException(value);
@@ -147,7 +147,7 @@ public class StandardNode
     @Override
     public String toString()
     {
-        return "<$ \'" + label + "\', " + left.toString() + ", " + right.toString() + " $>";
+        return "<$ '" + label + "', " + left.toString() + ", " + right.toString() + " $>";
     }
 
     @Override
@@ -161,8 +161,8 @@ public class StandardNode
 
         StandardNode other = (StandardNode)o;
 
-        return Objects.equals(this.label, other.label) && Objects.equals(this.left, other.left)
-            && Objects.equals(this.right, other.right);
+        return Objects.equals(label, other.label) && Objects.equals(left, other.left)
+                && Objects.equals(right, other.right);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package fitaview.tree;
 
 public class RepeatNode
-    extends StandardNode
+        extends StandardNode
 {
     public RepeatNode(String label, int index)
     {
@@ -16,14 +16,14 @@ public class RepeatNode
 
     @Override
     public void setLeft(TreeNode node)
-        throws NodeHasParentException
+            throws NodeHasParentException
     {
         super.setLeft(node);
     }
 
     @Override
     public void setRight(TreeNode node)
-        throws NodeHasParentException
+            throws NodeHasParentException
     {
         super.setRight(node);
     }
@@ -34,6 +34,6 @@ public class RepeatNode
         String leftString = getLeft() == null ? "#" : getLeft().toString();
         String rightString = getRight() == null ? "#" : getRight().toString();
 
-        return "<@ \'" + getLabel() + "\'," + leftString + ", " + rightString + " @>";
+        return "<@ '" + getLabel() + "'," + leftString + ", " + rightString + " @>";
     }
 }

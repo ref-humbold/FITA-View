@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
-import fitaview.Pair;
-import fitaview.Triple;
 import fitaview.automaton.Variable;
+import fitaview.utils.Pair;
+import fitaview.utils.Triple;
 
 public abstract class Transitions<K, V>
 {
@@ -51,12 +51,12 @@ public abstract class Transitions<K, V>
      * @param value result of transition
      */
     public void add(Variable var, K key, V value)
-        throws DuplicatedTransitionException, IllegalTransitionException
+            throws DuplicatedTransitionException, IllegalTransitionException
     {
         if(containsKey(var, key))
             throw new DuplicatedTransitionException(
-                String.format("Duplicated transition entry for %s + %s", var.toString(),
-                              key.toString()));
+                    String.format("Duplicated transition entry for %s + %s", var.toString(),
+                                  key.toString()));
 
         map.put(Pair.make(var, key), value);
     }
@@ -69,7 +69,7 @@ public abstract class Transitions<K, V>
      * @throws NoSuchTransitionException if there is no entry for specified arguments with variable.
      */
     public abstract List<V> getAll(Variable var, K key)
-        throws NoSuchTransitionException;
+            throws NoSuchTransitionException;
 
     /**
      * Getting first matched result of transition relation for specified arguments and variable.
@@ -79,11 +79,12 @@ public abstract class Transitions<K, V>
      * @throws NoSuchTransitionException if there is no entry for specified arguments with variable.
      */
     public abstract V getMatched(Variable var, K key)
-        throws NoSuchTransitionException;
+            throws NoSuchTransitionException;
 
     /**
      * /**
-     * Converting each key and value in transition relation to strings according to conversion functions.
+     * Converting each key and value in transition relation to strings according to conversion
+     * functions.
      * @return transition relation with string representations
      */
     public Map<Pair<Variable, String>, String> convertToStringMap()
@@ -91,8 +92,8 @@ public abstract class Transitions<K, V>
         Map<Pair<Variable, String>, String> stringMap = new HashMap<>();
 
         map.forEach((key, value) -> stringMap.put(
-            Pair.make(key.getFirst(), keyConversion.apply(key.getSecond())),
-            valueConversion.apply(value)));
+                Pair.make(key.getFirst(), keyConversion.apply(key.getSecond())),
+                valueConversion.apply(value)));
 
         return stringMap;
     }
@@ -114,7 +115,7 @@ public abstract class Transitions<K, V>
 
         Transitions<?, ?> other = (Transitions<?, ?>)obj;
 
-        return Objects.equals(this.map, other.map);
+        return Objects.equals(map, other.map);
     }
 
     @Override

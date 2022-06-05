@@ -6,14 +6,14 @@ import java.util.Deque;
 import java.util.Map;
 import java.util.Queue;
 
-import fitaview.Pair;
 import fitaview.automaton.IllegalVariableValueException;
 import fitaview.automaton.Variable;
 import fitaview.tree.NodeType;
 import fitaview.tree.TreeNode;
+import fitaview.utils.Pair;
 
 public abstract class TopDownTraversing
-    implements TreeTraversing
+        implements TreeTraversing
 {
     protected Deque<TreeNode> nodeDeque = new ArrayDeque<>();
     private Queue<Pair<TreeNode, Map<Variable, String>>> pendingRecursiveNodes = new ArrayDeque<>();
@@ -46,11 +46,11 @@ public abstract class TopDownTraversing
     }
 
     public void continueRecursive()
-        throws RecursiveContinuationException
+            throws RecursiveContinuationException
     {
         if(!canContinue())
             throw new RecursiveContinuationException(
-                "Automaton is not ready yet to recursively continue traversing");
+                    "Automaton is not ready yet to recursively continue traversing");
 
         pendingRecursiveNodes.addAll(newRecursiveNodes);
         newRecursiveNodes.clear();

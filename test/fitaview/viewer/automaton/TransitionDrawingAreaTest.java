@@ -12,15 +12,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import fitaview.Pair;
-import fitaview.Pointer;
-import fitaview.Triple;
 import fitaview.automaton.AutomatonRunningMode;
 import fitaview.automaton.AutomatonRunningModeSender;
 import fitaview.automaton.NodeInfoSource;
 import fitaview.automaton.TreeAutomaton;
 import fitaview.automaton.Variable;
 import fitaview.messaging.Message;
+import fitaview.utils.Pair;
+import fitaview.utils.Pointer;
+import fitaview.utils.Triple;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransitionDrawingAreaTest

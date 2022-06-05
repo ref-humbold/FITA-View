@@ -2,19 +2,19 @@ package fitaview.automaton;
 
 import java.util.*;
 
-import fitaview.Pair;
-import fitaview.Triple;
 import fitaview.automaton.transition.BottomUpTransitions;
 import fitaview.automaton.transition.DuplicatedTransitionException;
 import fitaview.automaton.transition.IllegalTransitionException;
 import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Pair;
+import fitaview.utils.Triple;
 
 public class BottomUpDFTA
-    extends BottomUpAutomaton
+        extends BottomUpAutomaton
 {
-    private BottomUpTransitions<String> transitions = new BottomUpTransitions<>(this::keyToString,
-                                                                                this::valueToString);
+    private BottomUpTransitions<String> transitions =
+            new BottomUpTransitions<>(this::keyToString, this::valueToString);
 
     public BottomUpDFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -24,7 +24,7 @@ public class BottomUpDFTA
     @Override
     public Map<Pair<Variable, String>, String> getTransitionAsStrings()
     {
-        return this.transitions.convertToStringMap();
+        return transitions.convertToStringMap();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class BottomUpDFTA
 
     @Override
     public boolean checkEmptiness()
-        throws UndefinedAcceptanceException, UndefinedStateValueException
+            throws UndefinedAcceptanceException, UndefinedStateValueException
     {
         Set<Map<Variable, String>> reachableStates = new HashSet<>();
         List<Map<Variable, String>> currentStates = Collections.singletonList(getInitialState());
@@ -48,8 +48,8 @@ public class BottomUpDFTA
                 for(int j = i; j < currentStates.size(); ++j)
                     for(String word : alphabet)
                     {
-                        Map<Variable, String> newState1 = getNextState(currentStates.get(i),
-                                                                       currentStates.get(j), word);
+                        Map<Variable, String> newState1 =
+                                getNextState(currentStates.get(i), currentStates.get(j), word);
 
                         if(newState1 != null && !reachableStates.contains(newState1))
                         {
@@ -60,8 +60,8 @@ public class BottomUpDFTA
                             generatedStates.add(newState1);
                         }
 
-                        Map<Variable, String> newState2 = getNextState(currentStates.get(j),
-                                                                       currentStates.get(i), word);
+                        Map<Variable, String> newState2 =
+                                getNextState(currentStates.get(j), currentStates.get(i), word);
 
                         if(newState2 != null && !reachableStates.contains(newState2))
                         {
@@ -90,10 +90,10 @@ public class BottomUpDFTA
 
         BottomUpDFTA other = (BottomUpDFTA)o;
 
-        return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
-                                                                               other.variables)
-            && Objects.equals(this.acceptanceConditions, other.acceptanceConditions)
-            && Objects.equals(this.transitions, other.transitions);
+        return Objects.equals(alphabet, other.alphabet) && Objects.equals(variables,
+                                                                          other.variables)
+                && Objects.equals(acceptanceConditions, other.acceptanceConditions)
+                && Objects.equals(transitions, other.transitions);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class BottomUpDFTA
     @Override
     public void addTransition(Variable var, String leftValue, String rightValue, String label,
                               String result)
-        throws DuplicatedTransitionException, IllegalTransitionException
+            throws DuplicatedTransitionException, IllegalTransitionException
     {
         transitions.add(var, Triple.make(leftValue, rightValue, label), result);
     }
@@ -120,7 +120,7 @@ public class BottomUpDFTA
     @Override
     protected String applyTransition(Variable var, String leftValue, String rightValue,
                                      String label)
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         String result = transitions.getMatched(var, Triple.make(leftValue, rightValue, label));
 

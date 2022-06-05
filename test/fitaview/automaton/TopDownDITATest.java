@@ -9,24 +9,23 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fitaview.Pair;
 import fitaview.tree.NodeHasParentException;
 import fitaview.tree.RecNode;
 import fitaview.tree.RepeatNode;
 import fitaview.tree.StandardNode;
 import fitaview.tree.TreeNode;
+import fitaview.utils.Pair;
 
 public class TopDownDITATest
 {
     private TopDownDITA testObject;
     private List<Variable> variables;
     private List<String> alphabet = Arrays.asList("0", "1", "2", "3", "4");
-    private List<Map<Variable, Pair<String, Boolean>>> accepts = Arrays.asList(new HashMap<>(),
-                                                                               new HashMap<>(),
-                                                                               new HashMap<>());
+    private List<Map<Variable, Pair<String, Boolean>>> accepts =
+            Arrays.asList(new HashMap<>(), new HashMap<>(), new HashMap<>());
 
     public TopDownDITATest()
-        throws Exception
+            throws Exception
     {
         variables = Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "!", "@", "#", "$"));
         accepts.get(0).put(variables.get(0), Pair.make("A", true));
@@ -39,7 +38,7 @@ public class TopDownDITATest
 
     @Before
     public void setUp()
-        throws Exception
+            throws Exception
     {
         testObject = new TopDownDITA(variables, alphabet);
         testObject.addTransition(variables.get(0), "A", "0", "A", "B");
@@ -97,7 +96,7 @@ public class TopDownDITATest
 
     @Test(expected = TreeFinitenessException.class)
     public void testSetTreeWhenFiniteTree()
-        throws TreeFinitenessException
+            throws TreeFinitenessException
     {
         TreeNode node = null;
 
@@ -141,8 +140,8 @@ public class TopDownDITATest
         {
             RepeatNode node2 = new RepeatNode("0", 2);
             TreeNode node4 = new StandardNode("1", 4);
-            TreeNode node5 = new StandardNode("3", 5, new StandardNode("1", 11),
-                                              new RecNode(node2, 10));
+            TreeNode node5 =
+                    new StandardNode("3", 5, new StandardNode("1", 11), new RecNode(node2, 10));
             node = new StandardNode("2", 1, new StandardNode("0", 3), node2);
 
             node2.setLeft(node5);

@@ -14,7 +14,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import fitaview.FITAViewException;
-import fitaview.Pointer;
 import fitaview.automaton.AutomatonRunningModeSender;
 import fitaview.automaton.BottomUpAutomaton;
 import fitaview.automaton.IllegalVariableValueException;
@@ -22,12 +21,13 @@ import fitaview.automaton.InfiniteTreeAutomaton;
 import fitaview.automaton.TreeAutomaton;
 import fitaview.messaging.Message;
 import fitaview.messaging.SignalReceiver;
+import fitaview.utils.Pointer;
 import fitaview.viewer.ButtonsPanel;
 import fitaview.viewer.UserMessageBox;
 
 public class ActionButtonsPanel
-    extends ButtonsPanel
-    implements ActionListener, SignalReceiver
+        extends ButtonsPanel
+        implements ActionListener, SignalReceiver
 {
     private static final long serialVersionUID = 5921531603338297434L;
 

@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.swing.*;
 
 import fitaview.FITAViewException;
-import fitaview.Pointer;
 import fitaview.automaton.AbstractTreeAutomaton;
 import fitaview.automaton.NonDeterministicAutomaton;
 import fitaview.automaton.TreeAutomaton;
@@ -21,11 +20,12 @@ import fitaview.automaton.traversing.TraversingMode;
 import fitaview.automaton.traversing.TreeTraversing;
 import fitaview.messaging.Message;
 import fitaview.messaging.SignalReceiver;
+import fitaview.utils.Pointer;
 import fitaview.viewer.UserMessageBox;
 
 public class ModifyingRadioButtonsPanel
-    extends JPanel
-    implements ActionListener, SignalReceiver
+        extends JPanel
+        implements ActionListener, SignalReceiver
 {
     private static final long serialVersionUID = -5817636533870146512L;
 
@@ -145,20 +145,21 @@ public class ModifyingRadioButtonsPanel
     @SuppressWarnings("unchecked")
     private <K, R> void setChoice(String actionCommand, TreeAutomaton automaton)
     {
-        NonDeterministicAutomaton<K, R> nonDeterministicAutomaton = (NonDeterministicAutomaton<K, R>)automaton;
+        NonDeterministicAutomaton<K, R> nonDeterministicAutomaton =
+                (NonDeterministicAutomaton<K, R>)automaton;
 
         try
         {
             if(StateChoiceMode.valueOf(actionCommand) == StateChoiceMode.USER)
             {
                 nonDeterministicAutomaton.setChoice(StateChoiceFactory.createUserChoice(
-                    nonDeterministicAutomaton::convertKeyToString,
-                    nonDeterministicAutomaton::convertResultToString));
+                        nonDeterministicAutomaton::convertKeyToString,
+                        nonDeterministicAutomaton::convertResultToString));
             }
             else
             {
                 nonDeterministicAutomaton.setChoice(StateChoiceFactory.createAutomatedChoice(
-                    StateChoiceMode.valueOf(actionCommand)));
+                        StateChoiceMode.valueOf(actionCommand)));
             }
         }
         catch(FITAViewException e)

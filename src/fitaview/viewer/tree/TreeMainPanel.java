@@ -10,8 +10,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import org.xml.sax.SAXException;
 
-import fitaview.Pair;
-import fitaview.Pointer;
 import fitaview.automaton.AutomatonIsRunningException;
 import fitaview.automaton.TreeAutomaton;
 import fitaview.automaton.TreeFinitenessException;
@@ -19,14 +17,16 @@ import fitaview.messaging.Message;
 import fitaview.messaging.MessageReceiver;
 import fitaview.tree.TreeNode;
 import fitaview.tree.TreeReader;
+import fitaview.utils.Pair;
+import fitaview.utils.Pointer;
 import fitaview.viewer.EmptyPanel;
 import fitaview.viewer.TitlePanel;
 import fitaview.viewer.UserMessageBox;
 import fitaview.viewer.XMLFileChooser;
 
 public class TreeMainPanel
-    extends JPanel
-    implements MessageReceiver<String>
+        extends JPanel
+        implements MessageReceiver<String>
 {
     private static final long serialVersionUID = 5944023926285119879L;
 
@@ -62,7 +62,7 @@ public class TreeMainPanel
         if(!automatonPointer.isEmpty() && automatonPointer.get().isRunning())
         {
             UserMessageBox.showException(
-                new AutomatonIsRunningException("Automaton is currently running on tree!"));
+                    new AutomatonIsRunningException("Automaton is currently running on tree!"));
 
             return;
         }
@@ -117,7 +117,7 @@ public class TreeMainPanel
     }
 
     private Pair<TreeNode, Integer> loadTree(File file)
-        throws SAXException, IOException
+            throws SAXException, IOException
     {
         TreeReader reader = new TreeReader(file);
 

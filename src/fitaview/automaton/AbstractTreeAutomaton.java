@@ -5,16 +5,16 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import fitaview.FITAViewException;
-import fitaview.Pair;
 import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.automaton.traversing.TopDownDFS;
 import fitaview.automaton.traversing.TopDownTraversing;
 import fitaview.tree.NodeType;
 import fitaview.tree.TreeNode;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Pair;
 
 public abstract class AbstractTreeAutomaton
-    implements TreeAutomaton
+        implements TreeAutomaton
 {
     protected TreeNode tree;
     protected Set<String> alphabet;
@@ -32,25 +32,25 @@ public abstract class AbstractTreeAutomaton
     @Override
     public AcceptanceConditions getAcceptanceConditions()
     {
-        return this.acceptanceConditions;
+        return acceptanceConditions;
     }
 
     @Override
     public Collection<String> getAlphabet()
     {
-        return this.alphabet;
+        return alphabet;
     }
 
     @Override
     public Collection<Variable> getVariables()
     {
-        return this.variables;
+        return variables;
     }
 
     @Override
     public AutomatonRunningMode getRunningMode()
     {
-        return this.runningMode;
+        return runningMode;
     }
 
     protected void setRunningMode(AutomatonRunningMode runningMode)
@@ -71,7 +71,7 @@ public abstract class AbstractTreeAutomaton
 
     @Override
     public void setTree(TreeNode tree)
-        throws TreeFinitenessException
+            throws TreeFinitenessException
     {
         if(tree != null)
             assertFiniteness(tree);
@@ -100,9 +100,9 @@ public abstract class AbstractTreeAutomaton
 
     @Override
     public void run()
-        throws IllegalVariableValueException, NoSuchTransitionException,
-               NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
-               NoNonDeterministicStrategyException
+            throws IllegalVariableValueException, NoSuchTransitionException,
+                   NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
+                   NoNonDeterministicStrategyException
     {
         if(getTraversing() == null)
         {
@@ -119,9 +119,9 @@ public abstract class AbstractTreeAutomaton
 
     @Override
     public void makeStepForward()
-        throws NoSuchTransitionException, IllegalVariableValueException,
-               NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
-               NoNonDeterministicStrategyException
+            throws NoSuchTransitionException, IllegalVariableValueException,
+                   NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
+                   NoNonDeterministicStrategyException
     {
         if(getTraversing() == null)
         {
@@ -175,12 +175,12 @@ public abstract class AbstractTreeAutomaton
      * @throws TreeFinitenessException if tree finiteness is violated
      */
     protected abstract void assertFiniteness(TreeNode tree)
-        throws TreeFinitenessException;
+            throws TreeFinitenessException;
 
     /** Initializing automaton and tree before running on tree */
     protected void initialize()
-        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
-               NoNonDeterministicStrategyException
+            throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
+                   NoNonDeterministicStrategyException
     {
         if(tree == null)
             throw new NoTreeException("No tree specified");
@@ -200,7 +200,7 @@ public abstract class AbstractTreeAutomaton
     protected boolean containsRecursiveNode(TreeNode node)
     {
         return node != null && (node.getType() == NodeType.REC || containsRecursiveNode(
-            node.getLeft()) || containsRecursiveNode(node.getRight()));
+                node.getLeft()) || containsRecursiveNode(node.getRight()));
     }
 
     /**
@@ -208,8 +208,8 @@ public abstract class AbstractTreeAutomaton
      * @param node nodes to process
      */
     protected abstract void processNode(TreeNode node)
-        throws NoSuchTransitionException, IllegalVariableValueException,
-               UndefinedStateValueException;
+            throws NoSuchTransitionException, IllegalVariableValueException,
+                   UndefinedStateValueException;
 
     private void deleteTreeStates()
     {

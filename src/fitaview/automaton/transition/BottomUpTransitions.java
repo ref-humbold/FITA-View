@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
-import fitaview.Pair;
-import fitaview.Triple;
 import fitaview.automaton.Variable;
 import fitaview.automaton.Wildcard;
+import fitaview.utils.Pair;
+import fitaview.utils.Triple;
 
 public class BottomUpTransitions<V>
-    extends Transitions<Triple<String, String, String>, V>
+        extends Transitions<Triple<String, String, String>, V>
 {
     private final String[] sameMasks = new String[]{"*=_", "=*_", "*=*", "=**"};
 
@@ -54,22 +54,22 @@ public class BottomUpTransitions<V>
 
     @Override
     public void add(Variable var, Triple<String, String, String> key, V value)
-        throws DuplicatedTransitionException, IllegalTransitionException
+            throws DuplicatedTransitionException, IllegalTransitionException
     {
         if((Objects.equals(key.getFirst(), Wildcard.SAME_VALUE) && !Objects.equals(key.getSecond(),
                                                                                    Wildcard.EVERY_VALUE))
-            || (Objects.equals(key.getSecond(), Wildcard.SAME_VALUE) && !Objects.equals(
-            key.getFirst(), Wildcard.EVERY_VALUE)))
+                || (Objects.equals(key.getSecond(), Wildcard.SAME_VALUE) && !Objects.equals(
+                key.getFirst(), Wildcard.EVERY_VALUE)))
             throw new IllegalTransitionException(
-                "Transition cannot contain wildcard " + Wildcard.SAME_VALUE
-                    + " as both left and right value");
+                    "Transition cannot contain wildcard " + Wildcard.SAME_VALUE
+                            + " as both left and right value");
 
         super.add(var, key, value);
     }
 
     @Override
     public List<V> getAll(Variable var, Triple<String, String, String> key)
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         if(hasNull(key))
             throw new NoSuchTransitionException("Key contains a null value");
@@ -105,14 +105,14 @@ public class BottomUpTransitions<V>
 
         if(results.isEmpty())
             throw new NoSuchTransitionException(
-                "No entry for arguments " + key + " with variable " + var);
+                    "No entry for arguments " + key + " with variable " + var);
 
         return results;
     }
 
     @Override
     public V getMatched(Variable var, Triple<String, String, String> key)
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         if(hasNull(key))
             throw new NoSuchTransitionException("Key contains a null value");
@@ -145,7 +145,7 @@ public class BottomUpTransitions<V>
         }
 
         throw new NoSuchTransitionException(
-            "No entry for arguments " + key + " with variable " + var);
+                "No entry for arguments " + key + " with variable " + var);
     }
 
     @Override

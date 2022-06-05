@@ -5,10 +5,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fitaview.Pair;
 import fitaview.tree.NodeHasParentException;
 import fitaview.tree.StandardNode;
 import fitaview.tree.TreeNode;
+import fitaview.utils.Pair;
 
 public class NodeParametersTest
 {
@@ -22,7 +22,7 @@ public class NodeParametersTest
     private TreeNode node1 = new StandardNode("1", 1, node3, node2);
 
     public NodeParametersTest()
-        throws NodeHasParentException
+            throws NodeHasParentException
     {
     }
 

@@ -17,27 +17,28 @@ public class AutomatonReader
     private AutomatonType type;
 
     public AutomatonReader(File file)
-        throws SAXException
+            throws SAXException
     {
         String fileName = file.getName();
 
         if(fileName.endsWith(".bua.xml"))
         {
-            this.type = AutomatonType.BOTTOM_UP;
+            type = AutomatonType.BOTTOM_UP;
 
             if(fileName.matches("(?i).*top[_-]?down.*"))
                 throw new TheFreddieMercuryConfusingFileNameException();
         }
         else if(fileName.endsWith(".tda.xml"))
         {
-            this.type = AutomatonType.TOP_DOWN;
+            type = AutomatonType.TOP_DOWN;
 
             if(fileName.matches("(?i).*bottom[_-]?up.*"))
                 throw new TheFreddieMercuryConfusingFileNameException();
         }
         else
             throw new FileFormatException(
-                "File extension is not recognizable, should be one of \'.bua.xml\' or \'.tda.xml\'");
+                    "File extension is not recognizable, should be one of '.bua.xml' or '.tda"
+                            + ".xml'");
 
         this.file = file;
 
@@ -62,7 +63,7 @@ public class AutomatonReader
      * @throws SAXException if any parsing error occurs
      */
     public TreeAutomaton read()
-        throws IOException, SAXException
+            throws IOException, SAXException
     {
         AutomatonHandler<? extends TreeAutomaton> handler = getHandler(type);
 
@@ -72,7 +73,7 @@ public class AutomatonReader
     }
 
     private Schema getSchema(AutomatonType type)
-        throws SAXException
+            throws SAXException
     {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
@@ -89,7 +90,7 @@ public class AutomatonReader
     }
 
     private AutomatonHandler<? extends TreeAutomaton> getHandler(AutomatonType type)
-        throws SAXException
+            throws SAXException
     {
         switch(type)
         {

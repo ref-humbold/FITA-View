@@ -2,8 +2,6 @@ package fitaview.automaton;
 
 import java.util.*;
 
-import fitaview.Pair;
-import fitaview.Triple;
 import fitaview.automaton.transition.DuplicatedTransitionException;
 import fitaview.automaton.transition.IllegalTransitionException;
 import fitaview.automaton.transition.NoSuchTransitionException;
@@ -12,9 +10,11 @@ import fitaview.automaton.traversing.TraversingFactory;
 import fitaview.automaton.traversing.TraversingMode;
 import fitaview.tree.TreeNode;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Pair;
+import fitaview.utils.Triple;
 
 public abstract class TopDownAutomaton
-    extends AbstractTreeAutomaton
+        extends AbstractTreeAutomaton
 {
     protected TopDownTraversing traversing;
     List<Map<Variable, String>> leafStates = new ArrayList<>();
@@ -38,18 +38,18 @@ public abstract class TopDownAutomaton
 
     @Override
     public void setTraversing(TraversingMode mode)
-        throws AutomatonIsRunningException
+            throws AutomatonIsRunningException
     {
         if(isRunning())
             throw new AutomatonIsRunningException(
-                "Cannot change traversing strategy when automaton is running");
+                    "Cannot change traversing strategy when automaton is running");
 
         traversing = TraversingFactory.getTopDownTraversing(mode);
     }
 
     @Override
     public Boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
+            throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
         for(Map<Variable, String> state : leafStates)
             if(!acceptanceConditions.check(state))
@@ -68,7 +68,7 @@ public abstract class TopDownAutomaton
      */
     public abstract void addTransition(Variable var, String value, String label, String leftResult,
                                        String rightResult)
-        throws DuplicatedTransitionException, IllegalTransitionException;
+            throws DuplicatedTransitionException, IllegalTransitionException;
 
     /**
      * Calling a transition relation with specified arguments.
@@ -80,7 +80,7 @@ public abstract class TopDownAutomaton
      */
     protected abstract Pair<String, String> applyTransition(Variable var, String value,
                                                             String label)
-        throws NoSuchTransitionException;
+            throws NoSuchTransitionException;
 
     /**
      * Calling a transition relation on the whole state with specified arguments.
@@ -90,8 +90,8 @@ public abstract class TopDownAutomaton
      * @throws NoSuchTransitionException if no transition entry was found
      */
     protected Pair<Map<Variable, String>, Map<Variable, String>> applyTransition(
-        Map<Variable, String> state, String label)
-        throws NoSuchTransitionException
+            Map<Variable, String> state, String label)
+            throws NoSuchTransitionException
     {
         Map<Variable, String> leftResult = new HashMap<>();
         Map<Variable, String> rightResult = new HashMap<>();
@@ -109,8 +109,8 @@ public abstract class TopDownAutomaton
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
-               NoNonDeterministicStrategyException
+            throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
+                   NoNonDeterministicStrategyException
     {
         super.initialize();
 
@@ -121,11 +121,11 @@ public abstract class TopDownAutomaton
 
     @Override
     protected void processNode(TreeNode node)
-        throws IllegalVariableValueException, UndefinedStateValueException,
-               NoSuchTransitionException
+            throws IllegalVariableValueException, UndefinedStateValueException,
+                   NoSuchTransitionException
     {
-        Pair<Map<Variable, String>, Map<Variable, String>> sonsStates = applyTransition(
-            node.getState(), node.getLabel());
+        Pair<Map<Variable, String>, Map<Variable, String>> sonsStates =
+                applyTransition(node.getState(), node.getLabel());
 
         node.getLeft().setState(sonsStates.getFirst());
         node.getRight().setState(sonsStates.getSecond());
@@ -160,7 +160,7 @@ public abstract class TopDownAutomaton
      */
     protected String keyToString(Pair<String, String> key)
     {
-        return "VALUE = \'" + key.getFirst() + "\', LABEL = \'" + key.getSecond() + "\'";
+        return "VALUE = '" + key.getFirst() + "', LABEL = '" + key.getSecond() + "'";
     }
 
     /**
@@ -170,8 +170,8 @@ public abstract class TopDownAutomaton
      */
     protected String valueToString(Pair<String, String> value)
     {
-        return "( LEFT VALUE = \'" + value.getFirst() + "\', RIGHT VALUE = " + value.getSecond()
-            + "\' )";
+        return "( LEFT VALUE = '" + value.getFirst() + "', RIGHT VALUE = " + value.getSecond()
+                + "' )";
     }
 
     /**
@@ -183,7 +183,7 @@ public abstract class TopDownAutomaton
     protected Pair<String, String> resolveWildcard(Pair<String, String> result, String nodeValue)
     {
         if(Objects.equals(result.getFirst(), Wildcard.SAME_VALUE) && Objects.equals(
-            result.getSecond(), Wildcard.SAME_VALUE))
+                result.getSecond(), Wildcard.SAME_VALUE))
             return Pair.make(nodeValue, nodeValue);
 
         if(Objects.equals(result.getFirst(), Wildcard.SAME_VALUE))

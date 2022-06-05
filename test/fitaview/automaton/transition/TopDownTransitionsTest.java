@@ -8,10 +8,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fitaview.Pair;
 import fitaview.automaton.IllegalVariableValueException;
 import fitaview.automaton.Variable;
 import fitaview.automaton.Wildcard;
+import fitaview.utils.Pair;
 
 public class TopDownTransitionsTest
 {
@@ -19,13 +19,13 @@ public class TopDownTransitionsTest
     private Variable v = new Variable(0, "A", "B", "C", "D");
 
     public TopDownTransitionsTest()
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
     }
 
     @Before
     public void setUp()
-        throws Exception
+            throws Exception
     {
         testObject = new TopDownTransitions<>(this::pairFunction, this::pairFunction);
         testObject.add(v, Pair.make("A", "0"), Pair.make("B", "C"));
@@ -151,7 +151,7 @@ public class TopDownTransitionsTest
 
     @Test(expected = DuplicatedTransitionException.class)
     public void testAddWhenDuplicated()
-        throws DuplicatedTransitionException
+            throws DuplicatedTransitionException
     {
         try
         {
@@ -187,14 +187,14 @@ public class TopDownTransitionsTest
 
     @Test(expected = NoSuchTransitionException.class)
     public void testGetAllWhenKeyHasNull()
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         testObject.getAll(v, Pair.make(null, "0"));
     }
 
     @Test(expected = NoSuchTransitionException.class)
     public void testGetAllWhenKeyHasNoEntry()
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         testObject.getAll(v, Pair.make("C", "0"));
     }
@@ -258,14 +258,14 @@ public class TopDownTransitionsTest
 
     @Test(expected = NoSuchTransitionException.class)
     public void testGetMatchedWhenKeyHasNull()
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         testObject.getMatched(v, Pair.make(null, "0"));
     }
 
     @Test(expected = NoSuchTransitionException.class)
     public void testGetMatchedWhenKeyHasNoEntry()
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         testObject.getMatched(v, Pair.make("C", "0"));
     }

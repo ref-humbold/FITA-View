@@ -64,7 +64,7 @@ public class StandardNodeTest
 
         String result = testObject.toString();
 
-        Assert.assertEquals("<$ \'LABEL\', <$ \'left\', #, # $>, <$ \'right\', #, # $> $>", result);
+        Assert.assertEquals("<$ 'LABEL', <$ 'left', #, # $>, <$ 'right', #, # $> $>", result);
     }
 
     @Test

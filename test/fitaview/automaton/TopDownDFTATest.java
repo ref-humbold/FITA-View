@@ -10,22 +10,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fitaview.Pair;
 import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.automaton.traversing.TraversingMode;
 import fitaview.tree.*;
+import fitaview.utils.Pair;
 
 public class TopDownDFTATest
 {
     private TopDownDFTA testObject;
     private List<Variable> variables;
     private List<String> alphabet = Arrays.asList("0", "1", "2", "3", "4");
-    private List<Map<Variable, Pair<String, Boolean>>> accepts = Arrays.asList(new HashMap<>(),
-                                                                               new HashMap<>(),
-                                                                               new HashMap<>());
+    private List<Map<Variable, Pair<String, Boolean>>> accepts =
+            Arrays.asList(new HashMap<>(), new HashMap<>(), new HashMap<>());
 
     public TopDownDFTATest()
-        throws Exception
+            throws Exception
     {
         variables = Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "!", "@", "#", "$"));
         accepts.get(0).put(variables.get(0), Pair.make("A", true));
@@ -38,7 +37,7 @@ public class TopDownDFTATest
 
     @Before
     public void setUp()
-        throws Exception
+            throws Exception
     {
         testObject = new TopDownDFTA(variables, alphabet);
         testObject.addTransition(variables.get(0), "A", "0", "A", "B");
@@ -132,14 +131,14 @@ public class TopDownDFTATest
 
     @Test(expected = TreeFinitenessException.class)
     public void testSetTreeWhenInfiniteTree()
-        throws TreeFinitenessException
+            throws TreeFinitenessException
     {
         try
         {
             RepeatNode node2 = new RepeatNode("0", 2);
             TreeNode node4 = new StandardNode("1", 4);
-            TreeNode node5 = new StandardNode("3", 5, new StandardNode("1", 11),
-                                              new RecNode(node2, 10));
+            TreeNode node5 =
+                    new StandardNode("3", 5, new StandardNode("1", 11), new RecNode(node2, 10));
             TreeNode node1 = new StandardNode("2", 1, new StandardNode("0", 3), node2);
 
             node2.setLeft(node5);
@@ -274,7 +273,7 @@ public class TopDownDFTATest
 
     @Test(expected = NoTraversingStrategyException.class)
     public void testRunWhenNoTraversing()
-        throws NoTraversingStrategyException
+            throws NoTraversingStrategyException
     {
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
@@ -282,7 +281,8 @@ public class TopDownDFTATest
         {
             testObject.run();
         }
-        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
+        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException |
+              UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
@@ -291,7 +291,7 @@ public class TopDownDFTATest
 
     @Test(expected = NoTreeException.class)
     public void testRunWhenNoTree()
-        throws NoTreeException
+            throws NoTreeException
     {
         try
         {
@@ -309,7 +309,9 @@ public class TopDownDFTATest
         {
             testObject.run();
         }
-        catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
+        catch(NoTraversingStrategyException | IllegalVariableValueException |
+              NoSuchTransitionException | UndefinedStateValueException |
+              NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
@@ -502,7 +504,7 @@ public class TopDownDFTATest
 
     @Test(expected = NoTraversingStrategyException.class)
     public void testMakeStepForwardWhenNoTraversing()
-        throws NoTraversingStrategyException
+            throws NoTraversingStrategyException
     {
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
@@ -510,7 +512,8 @@ public class TopDownDFTATest
         {
             testObject.makeStepForward();
         }
-        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
+        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException |
+              UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
@@ -519,7 +522,7 @@ public class TopDownDFTATest
 
     @Test(expected = NoTreeException.class)
     public void testMakeStepForwardWhenNoTree()
-        throws NoTreeException
+            throws NoTreeException
     {
         try
         {
@@ -537,7 +540,9 @@ public class TopDownDFTATest
         {
             testObject.makeStepForward();
         }
-        catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
+        catch(NoTraversingStrategyException | IllegalVariableValueException |
+              NoSuchTransitionException | UndefinedStateValueException |
+              NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
@@ -759,13 +764,15 @@ public class TopDownDFTATest
                                                                                                 null))),
                                              new StandardNode("1", 2, new StandardNode("2", 5,
                                                                                        new StandardNode(
-                                                                                           "0", 11,
-                                                                                           null,
-                                                                                           null),
+                                                                                               "0",
+                                                                                               11,
+                                                                                               null,
+                                                                                               null),
                                                                                        new StandardNode(
-                                                                                           "4", 10,
-                                                                                           null,
-                                                                                           null)),
+                                                                                               "4",
+                                                                                               10,
+                                                                                               null,
+                                                                                               null)),
                                                               new StandardNode("0", 4)));
 
             testObject.setTree(node);
@@ -794,7 +801,7 @@ public class TopDownDFTATest
 
     @Test(expected = UndefinedStateValueException.class)
     public void testIsAcceptedWhenAutomatonHasNotRun()
-        throws UndefinedStateValueException
+            throws UndefinedStateValueException
     {
         try
         {
@@ -816,13 +823,15 @@ public class TopDownDFTATest
                                                                                                 null))),
                                              new StandardNode("1", 2, new StandardNode("2", 5,
                                                                                        new StandardNode(
-                                                                                           "0", 11,
-                                                                                           null,
-                                                                                           null),
+                                                                                               "0",
+                                                                                               11,
+                                                                                               null,
+                                                                                               null),
                                                                                        new StandardNode(
-                                                                                           "4", 10,
-                                                                                           null,
-                                                                                           null)),
+                                                                                               "4",
+                                                                                               10,
+                                                                                               null,
+                                                                                               null)),
                                                               new StandardNode("0", 4)));
 
             testObject.setTree(node);
@@ -846,7 +855,7 @@ public class TopDownDFTATest
 
     @Test(expected = UndefinedAcceptanceException.class)
     public void testIsAcceptedWhenAutomatonHasNoAcceptingStates()
-        throws UndefinedAcceptanceException
+            throws UndefinedAcceptanceException
     {
         try
         {
@@ -865,13 +874,15 @@ public class TopDownDFTATest
                                                                                                 null))),
                                              new StandardNode("1", 2, new StandardNode("2", 5,
                                                                                        new StandardNode(
-                                                                                           "0", 11,
-                                                                                           null,
-                                                                                           null),
+                                                                                               "0",
+                                                                                               11,
+                                                                                               null,
+                                                                                               null),
                                                                                        new StandardNode(
-                                                                                           "4", 10,
-                                                                                           null,
-                                                                                           null)),
+                                                                                               "4",
+                                                                                               10,
+                                                                                               null,
+                                                                                               null)),
                                                               new StandardNode("0", 4)));
 
             testObject.setTree(node);
@@ -896,7 +907,7 @@ public class TopDownDFTATest
 
     @Test(expected = NoTreeException.class)
     public void testIsAcceptedWhenAutomatonHasEmptyTree()
-        throws NoTreeException
+            throws NoTreeException
     {
         try
         {

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import fitaview.Pair;
 import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.automaton.traversing.RecursiveContinuationException;
 import fitaview.automaton.traversing.TopDownDFS;
@@ -13,10 +12,11 @@ import fitaview.automaton.traversing.TopDownTraversing;
 import fitaview.tree.NodeType;
 import fitaview.tree.TreeNode;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Pair;
 
 public class TopDownDITA
-    extends TopDownDeterministicAutomaton
-    implements InfiniteTreeAutomaton
+        extends TopDownDeterministicAutomaton
+        implements InfiniteTreeAutomaton
 {
     private AcceptanceConditions infiniteAcceptanceConditions = new AcceptanceConditions();
     private Map<TreeNode, Map<Map<Variable, String>, Integer>> repeatingStates = new HashMap<>();
@@ -37,17 +37,17 @@ public class TopDownDITA
     @Override
     public AcceptanceConditions getBuchiAcceptanceConditions()
     {
-        return this.infiniteAcceptanceConditions;
+        return infiniteAcceptanceConditions;
     }
 
     @Override
     public Boolean isBuchiAccepted()
-        throws UndefinedStateValueException, UndefinedAcceptanceException
+            throws UndefinedStateValueException, UndefinedAcceptanceException
     {
         for(Map<Map<Variable, String>, Integer> map : repeatingStates.values())
             for(Map.Entry<Map<Variable, String>, Integer> entry : map.entrySet())
                 if(entry.getValue() >= maximumRecursive + 2 && infiniteAcceptanceConditions.check(
-                    entry.getKey()))
+                        entry.getKey()))
                     return true;
 
         boolean allNotAccept = false;
@@ -62,7 +62,7 @@ public class TopDownDITA
 
     @Override
     public Boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
+            throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
         if(tree == null)
             throw new NoTreeException("No tree specified");
@@ -74,7 +74,7 @@ public class TopDownDITA
 
     @Override
     public void continueRecursive()
-        throws RecursiveContinuationException
+            throws RecursiveContinuationException
     {
         traversing.continueRecursive();
     }
@@ -96,11 +96,12 @@ public class TopDownDITA
 
         TopDownDITA other = (TopDownDITA)o;
 
-        return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
-                                                                               other.variables)
-            && Objects.equals(this.acceptanceConditions, other.acceptanceConditions)
-            && Objects.equals(this.infiniteAcceptanceConditions, other.infiniteAcceptanceConditions)
-            && Objects.equals(this.transitions, other.transitions);
+        return Objects.equals(alphabet, other.alphabet) && Objects.equals(variables,
+                                                                          other.variables)
+                && Objects.equals(acceptanceConditions, other.acceptanceConditions)
+                && Objects.equals(infiniteAcceptanceConditions,
+                                  other.infiniteAcceptanceConditions) && Objects.equals(
+                transitions, other.transitions);
     }
 
     @Override
@@ -114,12 +115,12 @@ public class TopDownDITA
     public String toString()
     {
         return "TopDownDITA\n  alphabet = " + alphabet.toString() + "\n  variables = "
-            + variables.toString() + "\n  transitions = " + transitions.toString();
+                + variables.toString() + "\n  transitions = " + transitions.toString();
     }
 
     @Override
     protected void assertFiniteness(TreeNode tree)
-        throws TreeFinitenessException
+            throws TreeFinitenessException
     {
         if(!containsRecursiveNode(tree))
             throw new TreeFinitenessException("Tree is infinite");
@@ -128,16 +129,17 @@ public class TopDownDITA
     @Override
     protected void changeRunningMode()
     {
-        setRunningMode(traversing.hasNext() ? AutomatonRunningMode.RUNNING
-                                            : traversing.canContinue()
-                                              ? AutomatonRunningMode.CONTINUING
-                                              : AutomatonRunningMode.FINISHED);
+        setRunningMode(traversing.hasNext()
+                               ? AutomatonRunningMode.RUNNING
+                               : traversing.canContinue()
+                                       ? AutomatonRunningMode.CONTINUING
+                                       : AutomatonRunningMode.FINISHED);
     }
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
-               NoNonDeterministicStrategyException
+            throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
+                   NoNonDeterministicStrategyException
     {
         super.initialize();
         findRepeating();
@@ -146,8 +148,8 @@ public class TopDownDITA
 
     @Override
     protected void processNode(TreeNode node)
-        throws IllegalVariableValueException, UndefinedStateValueException,
-               NoSuchTransitionException
+            throws IllegalVariableValueException, UndefinedStateValueException,
+                   NoSuchTransitionException
     {
         if(repeatingStates.containsKey(node))
         {

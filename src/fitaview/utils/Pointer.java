@@ -1,9 +1,9 @@
-package fitaview;
+package fitaview.utils;
 
 import fitaview.messaging.DefaultSignalSender;
 
 public class Pointer<T>
-    extends DefaultSignalSender
+        extends DefaultSignalSender
 {
     private T element = null;
 
@@ -25,7 +25,7 @@ public class Pointer<T>
      */
     public T get()
     {
-        return this.element;
+        return element;
     }
 
     /**

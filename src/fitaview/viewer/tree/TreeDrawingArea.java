@@ -15,19 +15,19 @@ import java.util.Stack;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import fitaview.Pair;
-import fitaview.Pointer;
 import fitaview.automaton.AutomatonCurrentNodesSender;
 import fitaview.messaging.Message;
 import fitaview.messaging.MessageReceiver;
 import fitaview.messaging.SignalReceiver;
 import fitaview.tree.NodeType;
 import fitaview.tree.TreeNode;
+import fitaview.utils.Pair;
+import fitaview.utils.Pointer;
 import fitaview.viewer.UserMessageBox;
 
 public class TreeDrawingArea
-    extends JPanel
-    implements SignalReceiver, MessageReceiver<Iterable<TreeNode>>, MouseListener
+        extends JPanel
+        implements SignalReceiver, MessageReceiver<Iterable<TreeNode>>, MouseListener
 {
     static final int MAX_ZOOM = 4;
     private static final int NODE_SIDE = 6;
@@ -186,15 +186,15 @@ public class TreeDrawingArea
     {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("LABEL: \'").append(node.getLabel()).append("\'\n");
+        builder.append("LABEL: '").append(node.getLabel()).append("'\n");
         builder.append("STATE:\n");
 
         node.getStateWithNulls()
             .forEach((key, value) -> builder.append("  ")
                                             .append(key.getVarName())
-                                            .append(" => \'")
+                                            .append(" => '")
                                             .append(value)
-                                            .append("\'\n"));
+                                            .append("'\n"));
 
         return builder.toString();
     }
@@ -323,9 +323,9 @@ public class TreeDrawingArea
     private boolean isInside(Pair<Integer, Integer> position)
     {
         return position.getFirst() < -getStepUnit()
-            || position.getFirst() > getWidth() + getStepUnit()
-            || position.getSecond() < -getStepUnit()
-            || position.getSecond() > getHeight() + getStepUnit();
+                || position.getFirst() > getWidth() + getStepUnit()
+                || position.getSecond() < -getStepUnit()
+                || position.getSecond() > getHeight() + getStepUnit();
     }
 
     private void drawNodeLabel(Graphics graphics, TreeNode node, int cornerX, int cornerY)

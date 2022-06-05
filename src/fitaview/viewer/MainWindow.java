@@ -4,10 +4,10 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 
-import fitaview.Pair;
-import fitaview.Pointer;
 import fitaview.automaton.TreeAutomaton;
 import fitaview.tree.TreeNode;
+import fitaview.utils.Pair;
+import fitaview.utils.Pointer;
 import fitaview.viewer.automaton.AutomatonMainPanel;
 import fitaview.viewer.tree.TreeMainPanel;
 

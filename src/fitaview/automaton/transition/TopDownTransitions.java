@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import fitaview.Pair;
 import fitaview.automaton.Variable;
 import fitaview.automaton.Wildcard;
+import fitaview.utils.Pair;
 
 public class TopDownTransitions<V>
-    extends Transitions<Pair<String, String>, V>
+        extends Transitions<Pair<String, String>, V>
 {
     public TopDownTransitions(Function<Pair<String, String>, String> keyConversion,
                               Function<V, String> valueConversion)
@@ -36,7 +36,7 @@ public class TopDownTransitions<V>
 
     @Override
     public List<V> getAll(Variable var, Pair<String, String> key)
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         if(hasNull(key))
             throw new NoSuchTransitionException("Key contains a null value");
@@ -57,14 +57,14 @@ public class TopDownTransitions<V>
 
         if(results.isEmpty())
             throw new NoSuchTransitionException(
-                "No entry for arguments " + key + " with variable " + var);
+                    "No entry for arguments " + key + " with variable " + var);
 
         return results;
     }
 
     @Override
     public V getMatched(Variable var, Pair<String, String> key)
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         if(hasNull(key))
             throw new NoSuchTransitionException("Key contains a null value");
@@ -82,7 +82,7 @@ public class TopDownTransitions<V>
         }
 
         throw new NoSuchTransitionException(
-            "No entry for arguments " + key + " with variable " + var);
+                "No entry for arguments " + key + " with variable " + var);
     }
 
     @Override

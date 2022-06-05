@@ -3,13 +3,13 @@ package fitaview.automaton;
 import java.util.Collection;
 import java.util.Map;
 
-import fitaview.Pair;
 import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.automaton.traversing.IncorrectTraversingException;
 import fitaview.automaton.traversing.TraversingMode;
 import fitaview.automaton.traversing.TreeTraversing;
 import fitaview.tree.TreeNode;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Pair;
 
 public interface TreeAutomaton
 {
@@ -44,7 +44,7 @@ public interface TreeAutomaton
      * @throws IncorrectTraversingException if traversing mode is not supported
      */
     void setTraversing(TraversingMode mode)
-        throws IncorrectTraversingException, AutomatonIsRunningException;
+            throws IncorrectTraversingException, AutomatonIsRunningException;
 
     /**
      * @return transition relation as string representation
@@ -68,7 +68,7 @@ public interface TreeAutomaton
     default boolean isRunning()
     {
         return getRunningMode() == AutomatonRunningMode.RUNNING
-            || getRunningMode() == AutomatonRunningMode.CONTINUING;
+                || getRunningMode() == AutomatonRunningMode.CONTINUING;
     }
 
     /**
@@ -76,10 +76,11 @@ public interface TreeAutomaton
      * @throws TreeFinitenessException if tree finiteness is not suitable for the automaton
      */
     void setTree(TreeNode tree)
-        throws TreeFinitenessException;
+            throws TreeFinitenessException;
 
     /**
-     * @param isSendingMessages if {@code true} then the automaton sends messages informing about its work
+     * @param isSendingMessages if {@code true} then the automaton sends messages informing about
+     * its work
      */
     void setSendingMessages(boolean isSendingMessages);
 
@@ -91,7 +92,7 @@ public interface TreeAutomaton
      * @throws NoTreeException if the automaton contains no tree
      */
     Boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException;
+            throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException;
 
     /**
      * Adding acceptance conditions for states to the automaton.
@@ -115,9 +116,9 @@ public interface TreeAutomaton
      * @throws NoNonDeterministicStrategyException if strategy was not specified
      */
     void run()
-        throws IllegalVariableValueException, NoSuchTransitionException,
-               NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
-               NoNonDeterministicStrategyException;
+            throws IllegalVariableValueException, NoSuchTransitionException,
+                   NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
+                   NoNonDeterministicStrategyException;
 
     /**
      * Making a single traversing step of the automaton over the tree.
@@ -128,9 +129,9 @@ public interface TreeAutomaton
      * @throws NoNonDeterministicStrategyException if strategy was not specified
      */
     void makeStepForward()
-        throws NoSuchTransitionException, IllegalVariableValueException,
-               NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
-               NoNonDeterministicStrategyException;
+            throws NoSuchTransitionException, IllegalVariableValueException,
+                   NoTraversingStrategyException, UndefinedStateValueException, NoTreeException,
+                   NoNonDeterministicStrategyException;
 
     /**
      * Stopping traversing the tree by the automaton.

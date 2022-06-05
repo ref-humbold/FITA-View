@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import fitaview.Pair;
 import fitaview.automaton.AutomatonDirection;
 import fitaview.automaton.Variable;
+import fitaview.utils.Pair;
 
 public class StateDrawer
 {
@@ -40,7 +40,7 @@ public class StateDrawer
         List<Map.Entry<Variable, String>> entries = new ArrayList<>(state.entrySet());
 
         graphics.drawRoundRect(leftAxis, upperAxis, rectWidth, rectHeight, 5, 5);
-        graphics.drawString("\'" + label + "\'", leftAxis + rectWidth / 4, upperAxis + 15);
+        graphics.drawString("'" + label + "'", leftAxis + rectWidth / 4, upperAxis + 15);
 
         for(int i = 0; i < entries.size(); ++i)
             graphics.drawString(getEntryString(entries.get(i)), leftAxis + 10,
@@ -52,7 +52,7 @@ public class StateDrawer
     {
         int arrowSize = 8;
         int parentX = sonCentral.getFirst() < parentCentral.getFirst() ? parentCentral.getFirst()
-            - rectWidth / 2 : parentCentral.getFirst() + rectWidth / 2;
+                - rectWidth / 2 : parentCentral.getFirst() + rectWidth / 2;
         int parentY = parentCentral.getSecond();
         int sonX = sonCentral.getFirst();
         int sonY = sonCentral.getSecond() - rectHeight / 2;
@@ -65,12 +65,14 @@ public class StateDrawer
             case BOTTOM_UP:
                 if(sonX > parentX)
                     graphics.fillPolygon(
-                        new int[]{parentX, parentX + arrowSize, parentX + arrowSize},
-                        new int[]{parentY, parentY - arrowSize / 2, parentY + arrowSize / 2}, 3);
+                            new int[]{parentX, parentX + arrowSize, parentX + arrowSize},
+                            new int[]{parentY, parentY - arrowSize / 2, parentY + arrowSize / 2},
+                            3);
                 else
                     graphics.fillPolygon(
-                        new int[]{parentX, parentX - arrowSize, parentX - arrowSize},
-                        new int[]{parentY, parentY - arrowSize / 2, parentY + arrowSize / 2}, 3);
+                            new int[]{parentX, parentX - arrowSize, parentX - arrowSize},
+                            new int[]{parentY, parentY - arrowSize / 2, parentY + arrowSize / 2},
+                            3);
                 break;
 
             case TOP_DOWN:

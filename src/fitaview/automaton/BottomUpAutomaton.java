@@ -2,16 +2,16 @@ package fitaview.automaton;
 
 import java.util.*;
 
-import fitaview.Triple;
 import fitaview.automaton.transition.DuplicatedTransitionException;
 import fitaview.automaton.transition.IllegalTransitionException;
 import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.automaton.traversing.*;
 import fitaview.tree.TreeNode;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Triple;
 
 public abstract class BottomUpAutomaton
-    extends AbstractTreeAutomaton
+        extends AbstractTreeAutomaton
 {
     protected BottomUpTraversing traversing;
     private List<TreeNode> leaves = new ArrayList<>();
@@ -35,18 +35,18 @@ public abstract class BottomUpAutomaton
 
     @Override
     public void setTraversing(TraversingMode mode)
-        throws IncorrectTraversingException, AutomatonIsRunningException
+            throws IncorrectTraversingException, AutomatonIsRunningException
     {
         if(isRunning())
             throw new AutomatonIsRunningException(
-                "Cannot change traversing strategy when automaton is running");
+                    "Cannot change traversing strategy when automaton is running");
 
-        this.traversing = TraversingFactory.getBottomUpTraversing(mode);
+        traversing = TraversingFactory.getBottomUpTraversing(mode);
     }
 
     @Override
     public void setTree(TreeNode tree)
-        throws TreeFinitenessException
+            throws TreeFinitenessException
     {
         super.setTree(tree);
 
@@ -56,7 +56,7 @@ public abstract class BottomUpAutomaton
 
     @Override
     public Boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
+            throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
         if(tree == null)
             throw new NoTreeException("No tree specified");
@@ -74,26 +74,27 @@ public abstract class BottomUpAutomaton
      */
     public abstract void addTransition(Variable var, String leftValue, String rightValue,
                                        String label, String result)
-        throws DuplicatedTransitionException, IllegalTransitionException;
+            throws DuplicatedTransitionException, IllegalTransitionException;
 
     /**
      * Testing if the automaton can accept at least one tree.
      * @return {@code true} if the automaton cannot accept any tree, otherwise {@code false}
      */
     public abstract boolean checkEmptiness()
-        throws UndefinedAcceptanceException, UndefinedStateValueException;
+            throws UndefinedAcceptanceException, UndefinedStateValueException;
 
     @Override
     protected void changeRunningMode()
     {
-        setRunningMode(
-            traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
+        setRunningMode(traversing.hasNext()
+                               ? AutomatonRunningMode.RUNNING
+                               : AutomatonRunningMode.FINISHED);
     }
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
-               NoNonDeterministicStrategyException
+            throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
+                   NoNonDeterministicStrategyException
     {
         super.initialize();
 
@@ -106,7 +107,7 @@ public abstract class BottomUpAutomaton
 
     @Override
     protected void assertFiniteness(TreeNode tree)
-        throws TreeFinitenessException
+            throws TreeFinitenessException
     {
         if(containsRecursiveNode(tree))
             throw new TreeFinitenessException("Tree is infinite");
@@ -114,8 +115,8 @@ public abstract class BottomUpAutomaton
 
     @Override
     protected void processNode(TreeNode node)
-        throws IllegalVariableValueException, UndefinedStateValueException,
-               NoSuchTransitionException
+            throws IllegalVariableValueException, UndefinedStateValueException,
+                   NoSuchTransitionException
     {
         node.setState(applyTransition(node.getLeft().getState(), node.getRight().getState(),
                                       node.getLabel()));
@@ -145,7 +146,7 @@ public abstract class BottomUpAutomaton
      */
     protected abstract String applyTransition(Variable var, String leftValue, String rightValue,
                                               String label)
-        throws NoSuchTransitionException;
+            throws NoSuchTransitionException;
 
     /**
      * Applying transition relation on the whole state.
@@ -157,7 +158,7 @@ public abstract class BottomUpAutomaton
      */
     protected Map<Variable, String> applyTransition(Map<Variable, String> leftState,
                                                     Map<Variable, String> rightState, String label)
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         Map<Variable, String> result = new HashMap<>();
 
@@ -192,8 +193,8 @@ public abstract class BottomUpAutomaton
      */
     protected String keyToString(Triple<String, String, String> key)
     {
-        return "LEFT VALUE = \'" + key.getFirst() + "\', RIGHT VALUE = \'" + key.getSecond()
-            + "\', LABEL = \'" + key.getThird() + "\'";
+        return "LEFT VALUE = '" + key.getFirst() + "', RIGHT VALUE = '" + key.getSecond()
+                + "', LABEL = '" + key.getThird() + "'";
     }
 
     /**
@@ -203,7 +204,7 @@ public abstract class BottomUpAutomaton
      */
     protected String valueToString(String value)
     {
-        return "VALUE = \'" + value + "\'";
+        return "VALUE = '" + value + "'";
     }
 
     private void findLeaves()

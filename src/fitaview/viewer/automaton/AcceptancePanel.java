@@ -7,16 +7,16 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import fitaview.FITAViewException;
-import fitaview.Pointer;
 import fitaview.automaton.AutomatonRunningModeSender;
 import fitaview.automaton.TreeAutomaton;
 import fitaview.messaging.Message;
 import fitaview.messaging.SignalReceiver;
+import fitaview.utils.Pointer;
 import fitaview.viewer.UserMessageBox;
 
 public class AcceptancePanel
-    extends JPanel
-    implements SignalReceiver
+        extends JPanel
+        implements SignalReceiver
 {
     static final Color DARK_RED = new Color(192, 0, 0);
     private static final long serialVersionUID = -6432696545183930929L;
@@ -43,7 +43,7 @@ public class AcceptancePanel
         if(signal.getSource() == automatonPointer)
             setTreeUndefined();
         else if(signal.getSource() == AutomatonRunningModeSender.getInstance()
-            && !automatonPointer.isEmpty())
+                && !automatonPointer.isEmpty())
             switch(automatonPointer.get().getRunningMode())
             {
                 case FINISHED:

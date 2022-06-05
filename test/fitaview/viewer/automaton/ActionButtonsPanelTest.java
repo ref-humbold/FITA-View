@@ -17,13 +17,13 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import fitaview.Pointer;
 import fitaview.automaton.AutomatonRunningMode;
 import fitaview.automaton.AutomatonRunningModeSender;
 import fitaview.automaton.BottomUpAutomaton;
 import fitaview.automaton.InfiniteTreeAutomaton;
 import fitaview.automaton.TreeAutomaton;
 import fitaview.messaging.Message;
+import fitaview.utils.Pointer;
 import fitaview.viewer.UserMessageBox;
 
 @RunWith(PowerMockRunner.class)
@@ -31,26 +31,19 @@ import fitaview.viewer.UserMessageBox;
 @PrepareForTest(UserMessageBox.class)
 public class ActionButtonsPanelTest
 {
-    @Mock
-    private Pointer<TreeAutomaton> mockPointer;
+    @Mock private Pointer<TreeAutomaton> mockPointer;
 
-    @Mock
-    private TreeAutomaton mockAutomaton;
+    @Mock private TreeAutomaton mockAutomaton;
 
-    @Mock
-    private BottomUpAutomaton mockBottomUp;
+    @Mock private BottomUpAutomaton mockBottomUp;
 
-    @Mock
-    private InfiniteTreeAutomaton mockInfinite;
+    @Mock private InfiniteTreeAutomaton mockInfinite;
 
-    @Mock
-    private ActionEvent mockActionEvent;
+    @Mock private ActionEvent mockActionEvent;
 
-    @Mock
-    private Message<Void> mockMessage;
+    @Mock private Message<Void> mockMessage;
 
-    @InjectMocks
-    private ActionButtonsPanel testObject;
+    @InjectMocks private ActionButtonsPanel testObject;
 
     @Before
     public void setUp()
@@ -183,10 +176,10 @@ public class ActionButtonsPanelTest
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CHECK EMPTINESS");
             Mockito.when(mockBottomUp.checkEmptiness()).thenReturn(true);
             PowerMockito.doAnswer((Answer<Void>)invocation -> {
-                result[0] = invocation.getArguments()[0];
-                result[1] = invocation.getArguments()[1];
-                return null;
-            })
+                            result[0] = invocation.getArguments()[0];
+                            result[1] = invocation.getArguments()[1];
+                            return null;
+                        })
                         .when(UserMessageBox.class, "showWarning", ArgumentMatchers.anyString(),
                               ArgumentMatchers.anyString());
 
@@ -213,10 +206,10 @@ public class ActionButtonsPanelTest
             Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CHECK EMPTINESS");
             Mockito.when(mockBottomUp.checkEmptiness()).thenReturn(false);
             PowerMockito.doAnswer((Answer<Void>)invocation -> {
-                result[0] = invocation.getArguments()[0];
-                result[1] = invocation.getArguments()[1];
-                return null;
-            })
+                            result[0] = invocation.getArguments()[0];
+                            result[1] = invocation.getArguments()[1];
+                            return null;
+                        })
                         .when(UserMessageBox.class, "showInfo", ArgumentMatchers.anyString(),
                               ArgumentMatchers.anyString());
 

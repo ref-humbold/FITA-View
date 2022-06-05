@@ -6,8 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fitaview.Pair;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Pair;
 
 public class BottomUpNFTATest
 {
@@ -16,14 +16,14 @@ public class BottomUpNFTATest
     private List<String> alphabet = Arrays.asList("0", "1");
 
     public BottomUpNFTATest()
-        throws Exception
+            throws Exception
     {
         variables = Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "X", "Y"));
     }
 
     @Before
     public void setUp()
-        throws Exception
+            throws Exception
     {
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
 

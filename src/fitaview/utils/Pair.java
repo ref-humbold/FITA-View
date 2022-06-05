@@ -1,4 +1,4 @@
-package fitaview;
+package fitaview.utils;
 
 import java.util.Objects;
 
@@ -50,7 +50,7 @@ public final class Pair<F, S>
 
         Pair<?, ?> other = (Pair<?, ?>)obj;
 
-        return Objects.equals(this.first, other.first) && Objects.equals(this.second, other.second);
+        return Objects.equals(first, other.first) && Objects.equals(second, other.second);
     }
 
     @Override

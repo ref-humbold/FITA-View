@@ -9,11 +9,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fitaview.Pair;
-import fitaview.Triple;
 import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.automaton.traversing.TraversingMode;
 import fitaview.tree.*;
+import fitaview.utils.Pair;
+import fitaview.utils.Triple;
 
 public class BottomUpDFTATest
 {
@@ -23,7 +23,7 @@ public class BottomUpDFTATest
     private Map<Variable, Pair<String, Boolean>> accepts = new HashMap<>();
 
     public BottomUpDFTATest()
-        throws Exception
+            throws Exception
     {
         variables = Arrays.asList(new Variable(1, "X", "T", "F"),
                                   new Variable(2, "#", "!", "@", "$", "&"));
@@ -33,7 +33,7 @@ public class BottomUpDFTATest
 
     @Before
     public void setUp()
-        throws Exception
+            throws Exception
     {
         testObject = new BottomUpDFTA(variables, alphabet);
         testObject.addTransition(variables.get(0), "X", "X", "0", "F");
@@ -118,14 +118,14 @@ public class BottomUpDFTATest
 
     @Test(expected = TreeFinitenessException.class)
     public void testSetTreeWhenInfiniteTree()
-        throws TreeFinitenessException
+            throws TreeFinitenessException
     {
         try
         {
             RepeatNode node2 = new RepeatNode("0", 2);
             TreeNode node4 = new StandardNode("1", 4);
-            TreeNode node5 = new StandardNode("3", 5, new StandardNode("1", 11),
-                                              new RecNode(node2, 10));
+            TreeNode node5 =
+                    new StandardNode("3", 5, new StandardNode("1", 11), new RecNode(node2, 10));
             TreeNode node1 = new StandardNode("2", 1, new StandardNode("0", 3), node2);
 
             node2.setLeft(node5);
@@ -219,7 +219,7 @@ public class BottomUpDFTATest
 
     @Test(expected = NoTraversingStrategyException.class)
     public void testRunWhenNoTraversing()
-        throws NoTraversingStrategyException
+            throws NoTraversingStrategyException
     {
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
@@ -227,7 +227,8 @@ public class BottomUpDFTATest
         {
             testObject.run();
         }
-        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
+        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException |
+              UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
@@ -236,7 +237,7 @@ public class BottomUpDFTATest
 
     @Test(expected = NoTreeException.class)
     public void testRunWhenNoTree()
-        throws NoTreeException
+            throws NoTreeException
     {
         try
         {
@@ -255,7 +256,9 @@ public class BottomUpDFTATest
 
             testObject.run();
         }
-        catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
+        catch(NoTraversingStrategyException | IllegalVariableValueException |
+              NoSuchTransitionException | UndefinedStateValueException |
+              NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
@@ -399,7 +402,7 @@ public class BottomUpDFTATest
 
     @Test(expected = NoTraversingStrategyException.class)
     public void testMakeStepForwardWhenNoTraversing()
-        throws NoTraversingStrategyException
+            throws NoTraversingStrategyException
     {
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
 
@@ -407,7 +410,8 @@ public class BottomUpDFTATest
         {
             testObject.makeStepForward();
         }
-        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
+        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException |
+              UndefinedStateValueException | NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
@@ -416,7 +420,7 @@ public class BottomUpDFTATest
 
     @Test(expected = NoTreeException.class)
     public void testMakeStepForwardWhenNoTree()
-        throws NoTreeException
+            throws NoTreeException
     {
         try
         {
@@ -435,7 +439,9 @@ public class BottomUpDFTATest
 
             testObject.makeStepForward();
         }
-        catch(NoTraversingStrategyException | IllegalVariableValueException | NoSuchTransitionException | UndefinedStateValueException | NoNonDeterministicStrategyException e)
+        catch(NoTraversingStrategyException | IllegalVariableValueException |
+              NoSuchTransitionException | UndefinedStateValueException |
+              NoNonDeterministicStrategyException e)
         {
             e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
@@ -567,24 +573,26 @@ public class BottomUpDFTATest
                                                                                           null),
                                                                          new StandardNode("or", 6,
                                                                                           new StandardNode(
-                                                                                              "1",
-                                                                                              13,
-                                                                                              null,
-                                                                                              null),
+                                                                                                  "1",
+                                                                                                  13,
+                                                                                                  null,
+                                                                                                  null),
                                                                                           new StandardNode(
-                                                                                              "1",
-                                                                                              12,
-                                                                                              null,
-                                                                                              null))),
+                                                                                                  "1",
+                                                                                                  12,
+                                                                                                  null,
+                                                                                                  null))),
                                              new StandardNode("or", 2, new StandardNode("and", 5,
                                                                                         new StandardNode(
-                                                                                            "1", 11,
-                                                                                            null,
-                                                                                            null),
+                                                                                                "1",
+                                                                                                11,
+                                                                                                null,
+                                                                                                null),
                                                                                         new StandardNode(
-                                                                                            "1", 10,
-                                                                                            null,
-                                                                                            null)),
+                                                                                                "1",
+                                                                                                10,
+                                                                                                null,
+                                                                                                null)),
                                                               new StandardNode("0", 4)));
 
             testObject.setTree(node);
@@ -625,24 +633,26 @@ public class BottomUpDFTATest
                                                                                           null),
                                                                          new StandardNode("or", 6,
                                                                                           new StandardNode(
-                                                                                              "1",
-                                                                                              13,
-                                                                                              null,
-                                                                                              null),
+                                                                                                  "1",
+                                                                                                  13,
+                                                                                                  null,
+                                                                                                  null),
                                                                                           new StandardNode(
-                                                                                              "1",
-                                                                                              12,
-                                                                                              null,
-                                                                                              null))),
+                                                                                                  "1",
+                                                                                                  12,
+                                                                                                  null,
+                                                                                                  null))),
                                              new StandardNode("or", 2, new StandardNode("and", 5,
                                                                                         new StandardNode(
-                                                                                            "1", 11,
-                                                                                            null,
-                                                                                            null),
+                                                                                                "1",
+                                                                                                11,
+                                                                                                null,
+                                                                                                null),
                                                                                         new StandardNode(
-                                                                                            "0", 10,
-                                                                                            null,
-                                                                                            null)),
+                                                                                                "0",
+                                                                                                10,
+                                                                                                null,
+                                                                                                null)),
                                                               new StandardNode("0", 4)));
 
             testObject.setTree(node);
@@ -671,7 +681,7 @@ public class BottomUpDFTATest
 
     @Test(expected = UndefinedStateValueException.class)
     public void testIsAcceptedWhenAutomatonHasNotRun()
-        throws UndefinedStateValueException
+            throws UndefinedStateValueException
     {
         try
         {
@@ -684,24 +694,26 @@ public class BottomUpDFTATest
                                                                                           null),
                                                                          new StandardNode("or", 6,
                                                                                           new StandardNode(
-                                                                                              "1",
-                                                                                              13,
-                                                                                              null,
-                                                                                              null),
+                                                                                                  "1",
+                                                                                                  13,
+                                                                                                  null,
+                                                                                                  null),
                                                                                           new StandardNode(
-                                                                                              "1",
-                                                                                              12,
-                                                                                              null,
-                                                                                              null))),
+                                                                                                  "1",
+                                                                                                  12,
+                                                                                                  null,
+                                                                                                  null))),
                                              new StandardNode("or", 2, new StandardNode("and", 5,
                                                                                         new StandardNode(
-                                                                                            "1", 11,
-                                                                                            null,
-                                                                                            null),
+                                                                                                "1",
+                                                                                                11,
+                                                                                                null,
+                                                                                                null),
                                                                                         new StandardNode(
-                                                                                            "0", 10,
-                                                                                            null,
-                                                                                            null)),
+                                                                                                "0",
+                                                                                                10,
+                                                                                                null,
+                                                                                                null)),
                                                               new StandardNode("0", 4)));
 
             testObject.setTree(node);
@@ -725,7 +737,7 @@ public class BottomUpDFTATest
 
     @Test(expected = UndefinedAcceptanceException.class)
     public void testIsAcceptedWhenAutomatonHasNoAcceptingStates()
-        throws UndefinedAcceptanceException
+            throws UndefinedAcceptanceException
     {
         try
         {
@@ -737,24 +749,26 @@ public class BottomUpDFTATest
                                                                                           null),
                                                                          new StandardNode("or", 6,
                                                                                           new StandardNode(
-                                                                                              "1",
-                                                                                              13,
-                                                                                              null,
-                                                                                              null),
+                                                                                                  "1",
+                                                                                                  13,
+                                                                                                  null,
+                                                                                                  null),
                                                                                           new StandardNode(
-                                                                                              "1",
-                                                                                              12,
-                                                                                              null,
-                                                                                              null))),
+                                                                                                  "1",
+                                                                                                  12,
+                                                                                                  null,
+                                                                                                  null))),
                                              new StandardNode("or", 2, new StandardNode("and", 5,
                                                                                         new StandardNode(
-                                                                                            "1", 11,
-                                                                                            null,
-                                                                                            null),
+                                                                                                "1",
+                                                                                                11,
+                                                                                                null,
+                                                                                                null),
                                                                                         new StandardNode(
-                                                                                            "1", 10,
-                                                                                            null,
-                                                                                            null)),
+                                                                                                "1",
+                                                                                                10,
+                                                                                                null,
+                                                                                                null)),
                                                               new StandardNode("0", 4)));
 
             testObject.setTree(node);
@@ -779,7 +793,7 @@ public class BottomUpDFTATest
 
     @Test(expected = NoTreeException.class)
     public void testIsAcceptedWhenAutomatonHasEmptyTree()
-        throws NoTreeException
+            throws NoTreeException
     {
         try
         {
@@ -825,49 +839,49 @@ public class BottomUpDFTATest
         Map<Pair<Variable, String>, String> expected = new HashMap<>();
 
         expected.put(
-            Pair.make(variables.get(0), testObject.keyToString(Triple.make("X", "X", "0"))),
-            testObject.valueToString("F"));
+                Pair.make(variables.get(0), testObject.keyToString(Triple.make("X", "X", "0"))),
+                testObject.valueToString("F"));
         expected.put(
-            Pair.make(variables.get(0), testObject.keyToString(Triple.make("X", "X", "1"))),
-            testObject.valueToString("T"));
+                Pair.make(variables.get(0), testObject.keyToString(Triple.make("X", "X", "1"))),
+                testObject.valueToString("T"));
         expected.put(
-            Pair.make(variables.get(0), testObject.keyToString(Triple.make("T", "T", "and"))),
-            testObject.valueToString("T"));
+                Pair.make(variables.get(0), testObject.keyToString(Triple.make("T", "T", "and"))),
+                testObject.valueToString("T"));
         expected.put(Pair.make(variables.get(0), testObject.keyToString(
-            Triple.make("F", Wildcard.EVERY_VALUE, "and"))),
+                             Triple.make("F", Wildcard.EVERY_VALUE, "and"))),
                      testObject.valueToString(Wildcard.LEFT_VALUE));
         expected.put(Pair.make(variables.get(0), testObject.keyToString(
-            Triple.make(Wildcard.EVERY_VALUE, "F", "and"))),
+                             Triple.make(Wildcard.EVERY_VALUE, "F", "and"))),
                      testObject.valueToString(Wildcard.RIGHT_VALUE));
         expected.put(Pair.make(variables.get(0), testObject.keyToString(
-            Triple.make("T", Wildcard.EVERY_VALUE, "or"))),
+                             Triple.make("T", Wildcard.EVERY_VALUE, "or"))),
                      testObject.valueToString(Wildcard.LEFT_VALUE));
         expected.put(Pair.make(variables.get(0), testObject.keyToString(
-            Triple.make(Wildcard.EVERY_VALUE, "T", "or"))),
+                             Triple.make(Wildcard.EVERY_VALUE, "T", "or"))),
                      testObject.valueToString(Wildcard.RIGHT_VALUE));
         expected.put(
-            Pair.make(variables.get(0), testObject.keyToString(Triple.make("F", "F", "or"))),
-            testObject.valueToString("F"));
+                Pair.make(variables.get(0), testObject.keyToString(Triple.make("F", "F", "or"))),
+                testObject.valueToString("F"));
         expected.put(Pair.make(variables.get(0), testObject.keyToString(
-            Triple.make("T", Wildcard.EVERY_VALUE, "impl"))),
+                             Triple.make("T", Wildcard.EVERY_VALUE, "impl"))),
                      testObject.valueToString(Wildcard.RIGHT_VALUE));
         expected.put(Pair.make(variables.get(0), testObject.keyToString(
-            Triple.make("F", Wildcard.EVERY_VALUE, "impl"))), testObject.valueToString("T"));
+                Triple.make("F", Wildcard.EVERY_VALUE, "impl"))), testObject.valueToString("T"));
 
         expected.put(Pair.make(variables.get(1), testObject.keyToString(
-            Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "0"))),
+                             Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "0"))),
                      testObject.valueToString("!"));
         expected.put(Pair.make(variables.get(1), testObject.keyToString(
-            Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "1"))),
+                             Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "1"))),
                      testObject.valueToString("!"));
         expected.put(Pair.make(variables.get(1), testObject.keyToString(
-            Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "and"))),
+                             Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "and"))),
                      testObject.valueToString("&"));
         expected.put(Pair.make(variables.get(1), testObject.keyToString(
-            Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "or"))),
+                             Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "or"))),
                      testObject.valueToString("$"));
         expected.put(Pair.make(variables.get(1), testObject.keyToString(
-            Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "impl"))),
+                             Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "impl"))),
                      testObject.valueToString("@"));
 
         Assert.assertNotNull(result);
@@ -944,7 +958,7 @@ public class BottomUpDFTATest
 
     @Test(expected = UndefinedAcceptanceException.class)
     public void testCheckEmptinessWhenNoAcceptance()
-        throws UndefinedAcceptanceException
+            throws UndefinedAcceptanceException
     {
         try
         {

@@ -2,12 +2,12 @@ package fitaview.automaton;
 
 import java.util.Map;
 
-import fitaview.Pair;
 import fitaview.automaton.traversing.RecursiveContinuationException;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Pair;
 
 public interface InfiniteTreeAutomaton
-    extends TreeAutomaton
+        extends TreeAutomaton
 {
     /**
      * @return Buchi acceptance conditions for states in the automaton
@@ -19,7 +19,7 @@ public interface InfiniteTreeAutomaton
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      */
     Boolean isBuchiAccepted()
-        throws UndefinedStateValueException, UndefinedAcceptanceException;
+            throws UndefinedStateValueException, UndefinedAcceptanceException;
 
     /**
      * Adding acceptance conditions for Buchi acceptance to the automaton.
@@ -31,5 +31,5 @@ public interface InfiniteTreeAutomaton
      * Reloading recursive nodes so as to continue recursive traversing.
      */
     void continueRecursive()
-        throws RecursiveContinuationException;
+            throws RecursiveContinuationException;
 }

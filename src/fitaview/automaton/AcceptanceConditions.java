@@ -5,12 +5,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import fitaview.Pair;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Pair;
 
 public class AcceptanceConditions
 {
-    private Set<Map<Variable, Pair<String, Boolean>>> statesConditions = new HashSet<>();
+    private final Set<Map<Variable, Pair<String, Boolean>>> statesConditions = new HashSet<>();
 
     /**
      * Describing single acceptance entry with condition on value for variable.
@@ -24,18 +24,18 @@ public class AcceptanceConditions
         if(entry.getValue().getSecond())
         {
             conditionString = Objects.equals(entry.getValue().getFirst(), Wildcard.EVERY_VALUE)
-                              ? "any value possible"
-                              : "equal to \'" + entry.getValue().getFirst() + "\'";
+                    ? "any value possible"
+                    : "equal to '" + entry.getValue().getFirst() + "'";
         }
         else
-            conditionString = "other than \'" + entry.getValue().getFirst() + "\'";
+            conditionString = "other than '" + entry.getValue().getFirst() + "'";
 
         return entry.getKey().getVarName() + " :: " + conditionString;
     }
 
     public Set<Map<Variable, Pair<String, Boolean>>> getStatesConditions()
     {
-        return this.statesConditions;
+        return statesConditions;
     }
 
     /**
@@ -63,11 +63,11 @@ public class AcceptanceConditions
      * @throws UndefinedAcceptanceException if set of acceptance conditions is empty
      */
     public boolean check(Map<Variable, String> state)
-        throws UndefinedStateValueException, UndefinedAcceptanceException
+            throws UndefinedStateValueException, UndefinedAcceptanceException
     {
         if(statesConditions.isEmpty())
             throw new UndefinedAcceptanceException(
-                "Automaton has no acceptance conditions defined");
+                    "Automaton has no acceptance conditions defined");
 
         for(Map<Variable, Pair<String, Boolean>> condition : statesConditions)
         {
@@ -77,13 +77,13 @@ public class AcceptanceConditions
             {
                 if(state.get(var) == null)
                     throw new UndefinedStateValueException(
-                        "State contains a variable with undefined value");
+                            "State contains a variable with undefined value");
 
                 Pair<String, Boolean> valueEquality = condition.get(var);
 
                 if(valueEquality.getSecond())
-                    canAccept &= Objects.equals(valueEquality.getFirst(), state.get(var)) || Objects
-                        .equals(valueEquality.getFirst(), Wildcard.EVERY_VALUE);
+                    canAccept &= Objects.equals(valueEquality.getFirst(), state.get(var))
+                            || Objects.equals(valueEquality.getFirst(), Wildcard.EVERY_VALUE);
                 else
                     canAccept &= !Objects.equals(valueEquality.getFirst(), state.get(var));
             }
@@ -106,7 +106,7 @@ public class AcceptanceConditions
 
         AcceptanceConditions other = (AcceptanceConditions)o;
 
-        return Objects.equals(this.statesConditions, other.statesConditions);
+        return Objects.equals(statesConditions, other.statesConditions);
     }
 
     @Override

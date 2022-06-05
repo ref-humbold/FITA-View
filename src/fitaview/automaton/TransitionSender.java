@@ -2,8 +2,8 @@ package fitaview.automaton;
 
 import java.util.Map;
 
-import fitaview.Triple;
 import fitaview.messaging.DefaultMessageSender;
+import fitaview.utils.Triple;
 
 public final class TransitionSender
         extends DefaultMessageSender<Triple<NodeInfoSource, String, Map<Variable, String>>>

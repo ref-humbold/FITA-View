@@ -84,8 +84,8 @@ class TopDownAutomatonHandler
 
                 if(!Objects.equals(label, Wildcard.EVERY_VALUE) && !alphabet.contains(label))
                     throw new IllegalAlphabetWordException(
-                        writePosition() + "Given label \'" + label
-                            + "\' is not a part of result's alphabet");
+                        writePosition() + "Given label '" + label
+                            + "' is not a part of result's alphabet");
                 break;
 
             case "node-value":
@@ -96,8 +96,8 @@ class TopDownAutomatonHandler
                                                                                  .contains(
                                                                                      nodeValue))
                     throw new IllegalVariableValueException(
-                        writePosition() + "Given node-value  \'" + nodeValue
-                            + "\' is not a value of variable with ID " + varID);
+                        writePosition() + "Given node-value  '" + nodeValue
+                            + "' is not a value of variable with ID " + varID);
                 break;
 
             case "left-result":
@@ -108,8 +108,8 @@ class TopDownAutomatonHandler
                                                                                  .contains(
                                                                                      leftResult))
                     throw new IllegalVariableValueException(
-                        writePosition() + "Given left-result \'" + leftResult
-                            + "\' is not a value of variable with ID " + varID);
+                        writePosition() + "Given left-result '" + leftResult
+                            + "' is not a value of variable with ID " + varID);
                 break;
 
             case "right-result":
@@ -120,8 +120,8 @@ class TopDownAutomatonHandler
                                                                                   .contains(
                                                                                       rightResult))
                     throw new IllegalVariableValueException(
-                        writePosition() + "Given right-result \'" + rightResult
-                            + "\'is not a value of variable with ID " + varID);
+                        writePosition() + "Given right-result '" + rightResult
+                            + "'is not a value of variable with ID " + varID);
                 break;
 
             default:

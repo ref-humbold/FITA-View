@@ -106,7 +106,7 @@ public class DefaultSignalSenderTest
         testObject.send();
 
         Message<Void> result = (Message<Void>)arg[0];
-        String expected = "MESSAGE from " + testObject.getClass().getSimpleName() + ": \'null\'";
+        String expected = "MESSAGE from " + testObject.getClass().getSimpleName() + ": 'null'";
 
         Assert.assertSame(testObject, result.getSource());
         Assert.assertNull(result.getParam());
@@ -128,7 +128,7 @@ public class DefaultSignalSenderTest
         testObject.sendSignal(new Message<>(mockSender));
 
         Message<Void> result = (Message<Void>)arg[0];
-        String expected = "MESSAGE from " + mockSender.getClass().getSimpleName() + ": \'null\'";
+        String expected = "MESSAGE from " + mockSender.getClass().getSimpleName() + ": 'null'";
 
         Assert.assertSame(mockSender, result.getSource());
         Assert.assertNull(result.getParam());

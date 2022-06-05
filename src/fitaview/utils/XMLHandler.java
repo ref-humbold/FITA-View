@@ -1,10 +1,10 @@
-package fitaview;
+package fitaview.utils;
 
 import org.xml.sax.Locator;
 import org.xml.sax.helpers.DefaultHandler;
 
 public abstract class XMLHandler<T>
-    extends DefaultHandler
+        extends DefaultHandler
 {
     protected T result = null;
     private Locator locator;

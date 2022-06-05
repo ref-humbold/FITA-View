@@ -4,22 +4,22 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import fitaview.Pair;
-import fitaview.Triple;
 import fitaview.automaton.nondeterminism.StateChoice;
 import fitaview.automaton.transition.BottomUpTransitions;
 import fitaview.automaton.transition.DuplicatedTransitionException;
 import fitaview.automaton.transition.IllegalTransitionException;
 import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Pair;
+import fitaview.utils.Triple;
 
 public class BottomUpNFTA
-    extends BottomUpAutomaton
-    implements NonDeterministicAutomaton<Triple<String, String, String>, String>
+        extends BottomUpAutomaton
+        implements NonDeterministicAutomaton<Triple<String, String, String>, String>
 {
     private StateChoice<Triple<String, String, String>, String> choice;
-    private BottomUpTransitions<Set<String>> transitions = new BottomUpTransitions<>(
-        this::keyToString, this::valueSetToString);
+    private BottomUpTransitions<Set<String>> transitions =
+            new BottomUpTransitions<>(this::keyToString, this::valueSetToString);
 
     public BottomUpNFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -65,7 +65,7 @@ public class BottomUpNFTA
     @Override
     public void addTransition(Variable var, String leftValue, String rightValue, String label,
                               String result)
-        throws DuplicatedTransitionException, IllegalTransitionException
+            throws DuplicatedTransitionException, IllegalTransitionException
     {
         Set<String> entry = getTransitionValuesSet(var, Triple.make(leftValue, rightValue, label));
 
@@ -74,7 +74,7 @@ public class BottomUpNFTA
 
     @Override
     public boolean checkEmptiness()
-        throws UndefinedStateValueException, UndefinedAcceptanceException
+            throws UndefinedStateValueException, UndefinedAcceptanceException
     {
         Set<Map<Variable, String>> reachableStates = new HashSet<>();
         List<Map<Variable, String>> currentStates = Collections.singletonList(getInitialState());
@@ -113,17 +113,17 @@ public class BottomUpNFTA
 
         BottomUpNFTA other = (BottomUpNFTA)o;
 
-        return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
-                                                                               other.variables)
-            && Objects.equals(this.acceptanceConditions, other.acceptanceConditions)
-            && Objects.equals(this.transitions, other.transitions);
+        return Objects.equals(alphabet, other.alphabet) && Objects.equals(variables,
+                                                                          other.variables)
+                && Objects.equals(acceptanceConditions, other.acceptanceConditions)
+                && Objects.equals(transitions, other.transitions);
     }
 
     @Override
     public String toString()
     {
-        return "BottomUpNFTA:\n  alphabet = " + alphabet.toString() + "\n  variables = " + variables
-            .toString() + "\n  transitions = " + transitions.toString();
+        return "BottomUpNFTA:\n  alphabet = " + alphabet.toString() + "\n  variables = "
+                + variables.toString() + "\n  transitions = " + transitions.toString();
     }
 
     @Override
@@ -135,7 +135,7 @@ public class BottomUpNFTA
     @Override
     protected String applyTransition(Variable var, String leftValue, String rightValue,
                                      String label)
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         return choice.chooseState(var, Triple.make(leftValue, rightValue, label),
                                   getAllTransitionResults(var, leftValue, rightValue, label));
@@ -143,12 +143,12 @@ public class BottomUpNFTA
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
-               NoNonDeterministicStrategyException
+            throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
+                   NoNonDeterministicStrategyException
     {
         if(choice == null)
             throw new NoNonDeterministicStrategyException(
-                "Automaton has no non-deterministic strategy");
+                    "Automaton has no non-deterministic strategy");
 
         super.initialize();
     }
@@ -177,7 +177,7 @@ public class BottomUpNFTA
                                   Map<Variable, String> currentState1,
                                   Map<Variable, String> currentState2,
                                   Set<Map<Variable, String>> generatedStates, String word)
-        throws UndefinedStateValueException, UndefinedAcceptanceException
+            throws UndefinedStateValueException, UndefinedAcceptanceException
     {
         Set<Map<Variable, String>> nextStates = getNextStates(currentState1, currentState2, word);
 
@@ -199,7 +199,7 @@ public class BottomUpNFTA
 
     private Set<String> getAllTransitionResults(Variable var, String leftValue, String rightValue,
                                                 String label)
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         return transitions.getAll(var, Triple.make(leftValue, rightValue, label))
                           .stream()
@@ -217,7 +217,7 @@ public class BottomUpNFTA
     }
 
     private Set<String> getTransitionValuesSet(Variable var, Triple<String, String, String> key)
-        throws DuplicatedTransitionException, IllegalTransitionException
+            throws DuplicatedTransitionException, IllegalTransitionException
     {
         try
         {
@@ -234,9 +234,9 @@ public class BottomUpNFTA
     {
         return listSet.stream()
                       .map(pairList -> pairList.stream()
-                                               .collect(
-                                                   Collectors.toMap(Pair::getFirst, Pair::getSecond,
-                                                                    (a, b) -> b)))
+                                               .collect(Collectors.toMap(Pair::getFirst,
+                                                                         Pair::getSecond,
+                                                                         (a, b) -> b)))
                       .collect(Collectors.toSet());
     }
 
@@ -258,7 +258,8 @@ public class BottomUpNFTA
         pair.getSecond()
             .forEach(value -> recursive.stream()
                                        .map(list -> Stream.concat(list.stream(), Stream.of(
-                                           Pair.make(pair.getFirst(), value)))
+                                                                  Pair.make(pair.getFirst(),
+                                                                            value)))
                                                           .collect(Collectors.toList()))
                                        .forEach(result::add));
 

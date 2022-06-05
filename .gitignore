@@ -1,4 +1,3 @@
-# [ Java ]
 # Java / Apache ANT output
 bin/
 dist/
@@ -18,4 +17,5 @@ lib/
 
 # IntelliJ IDEA
 .idea
+*.iml
 out/

@@ -12,31 +12,26 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import fitaview.Pair;
-import fitaview.Pointer;
-import fitaview.Triple;
 import fitaview.automaton.*;
 import fitaview.automaton.transition.DuplicatedTransitionException;
 import fitaview.automaton.transition.IllegalTransitionException;
 import fitaview.messaging.Message;
+import fitaview.utils.Pair;
+import fitaview.utils.Pointer;
+import fitaview.utils.Triple;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class AutomatonTreeViewTest
 {
-    @Mock
-    private Pointer<TreeAutomaton> mockPointer;
+    @Mock private Pointer<TreeAutomaton> mockPointer;
 
-    @Mock
-    private TreeAutomaton mockAutomaton;
+    @Mock private TreeAutomaton mockAutomaton;
 
-    @Mock
-    private Message<Void> mockSignal;
+    @Mock private Message<Void> mockSignal;
 
-    @Mock
-    private Message<Triple<Variable, String, String>> mockMessage;
+    @Mock private Message<Triple<Variable, String, String>> mockMessage;
 
-    @InjectMocks
-    private AutomatonTreeView testObject;
+    @InjectMocks private AutomatonTreeView testObject;
 
     @Before
     public void setUp()
@@ -126,10 +121,10 @@ public class AutomatonTreeViewTest
         DefaultMutableTreeNode variable1Node = (DefaultMutableTreeNode)variableChild.getChildAt(0);
         DefaultMutableTreeNode variable2Node = (DefaultMutableTreeNode)variableChild.getChildAt(1);
         DefaultMutableTreeNode accept1Node = (DefaultMutableTreeNode)acceptChild.getChildAt(0);
-        DefaultMutableTreeNode transition1Node = (DefaultMutableTreeNode)transitionChild.getChildAt(
-            0);
-        DefaultMutableTreeNode transition2Node = (DefaultMutableTreeNode)transitionChild.getChildAt(
-            1);
+        DefaultMutableTreeNode transition1Node =
+                (DefaultMutableTreeNode)transitionChild.getChildAt(0);
+        DefaultMutableTreeNode transition2Node =
+                (DefaultMutableTreeNode)transitionChild.getChildAt(1);
 
         List<String> alphabetValues = new ArrayList<>();
         List<String> variable1Values = new ArrayList<>();
@@ -140,27 +135,27 @@ public class AutomatonTreeViewTest
 
         for(int i = 0; i < alphabetChild.getChildCount(); ++i)
             alphabetValues.add(
-                (String)((DefaultMutableTreeNode)alphabetChild.getChildAt(i)).getUserObject());
+                    (String)((DefaultMutableTreeNode)alphabetChild.getChildAt(i)).getUserObject());
 
         for(int i = 0; i < variable1Node.getChildCount(); ++i)
             variable1Values.add(
-                (String)((DefaultMutableTreeNode)variable1Node.getChildAt(i)).getUserObject());
+                    (String)((DefaultMutableTreeNode)variable1Node.getChildAt(i)).getUserObject());
 
         for(int i = 0; i < variable2Node.getChildCount(); ++i)
             variable2Values.add(
-                (String)((DefaultMutableTreeNode)variable2Node.getChildAt(i)).getUserObject());
+                    (String)((DefaultMutableTreeNode)variable2Node.getChildAt(i)).getUserObject());
 
         for(int i = 0; i < accept1Node.getChildCount(); ++i)
             accept1Values.add(
-                (String)((DefaultMutableTreeNode)accept1Node.getChildAt(i)).getUserObject());
+                    (String)((DefaultMutableTreeNode)accept1Node.getChildAt(i)).getUserObject());
 
         for(int i = 0; i < transition1Node.getChildCount(); ++i)
-            transition1Values.add(
-                (String)((DefaultMutableTreeNode)transition1Node.getChildAt(i)).getUserObject());
+            transition1Values.add((String)((DefaultMutableTreeNode)transition1Node.getChildAt(
+                    i)).getUserObject());
 
         for(int i = 0; i < transition2Node.getChildCount(); ++i)
-            transition2Values.add(
-                (String)((DefaultMutableTreeNode)transition2Node.getChildAt(i)).getUserObject());
+            transition2Values.add((String)((DefaultMutableTreeNode)transition2Node.getChildAt(
+                    i)).getUserObject());
 
         List<Variable> expectedVariables = new ArrayList<>(automaton.getVariables());
         List<String> expectedVariable1Values = expectedVariables.get(0).getValuesList();
@@ -189,16 +184,16 @@ public class AutomatonTreeViewTest
             if(Objects.equals(entry.getKey().getFirst().getVarName(),
                               transition1Node.getUserObject()))
                 expectedTransition1Values.add(
-                    testObject.getTransitionEntryString(entry.getKey().getSecond(),
-                                                        entry.getValue()));
+                        testObject.getTransitionEntryString(entry.getKey().getSecond(),
+                                                            entry.getValue()));
 
         for(Map.Entry<Pair<Variable, String>, String> entry : automaton.getTransitionAsStrings()
                                                                        .entrySet())
             if(Objects.equals(entry.getKey().getFirst().getVarName(),
                               transition2Node.getUserObject()))
                 expectedTransition2Values.add(
-                    testObject.getTransitionEntryString(entry.getKey().getSecond(),
-                                                        entry.getValue()));
+                        testObject.getTransitionEntryString(entry.getKey().getSecond(),
+                                                            entry.getValue()));
 
         Assert.assertEquals(4, rootNode.getChildCount());
         Assert.assertEquals(automaton.getTypeName(), rootNode.getUserObject());
@@ -292,10 +287,10 @@ public class AutomatonTreeViewTest
         DefaultMutableTreeNode variable1Node = (DefaultMutableTreeNode)variableChild.getChildAt(0);
         DefaultMutableTreeNode variable2Node = (DefaultMutableTreeNode)variableChild.getChildAt(1);
         DefaultMutableTreeNode accept1Node = (DefaultMutableTreeNode)acceptChild.getChildAt(0);
-        DefaultMutableTreeNode transition1Node = (DefaultMutableTreeNode)transitionChild.getChildAt(
-            0);
-        DefaultMutableTreeNode transition2Node = (DefaultMutableTreeNode)transitionChild.getChildAt(
-            1);
+        DefaultMutableTreeNode transition1Node =
+                (DefaultMutableTreeNode)transitionChild.getChildAt(0);
+        DefaultMutableTreeNode transition2Node =
+                (DefaultMutableTreeNode)transitionChild.getChildAt(1);
 
         List<String> alphabetValues = new ArrayList<>();
         List<String> variable1Values = new ArrayList<>();
@@ -306,27 +301,27 @@ public class AutomatonTreeViewTest
 
         for(int i = 0; i < alphabetChild.getChildCount(); ++i)
             alphabetValues.add(
-                (String)((DefaultMutableTreeNode)alphabetChild.getChildAt(i)).getUserObject());
+                    (String)((DefaultMutableTreeNode)alphabetChild.getChildAt(i)).getUserObject());
 
         for(int i = 0; i < variable1Node.getChildCount(); ++i)
             variable1Values.add(
-                (String)((DefaultMutableTreeNode)variable1Node.getChildAt(i)).getUserObject());
+                    (String)((DefaultMutableTreeNode)variable1Node.getChildAt(i)).getUserObject());
 
         for(int i = 0; i < variable2Node.getChildCount(); ++i)
             variable2Values.add(
-                (String)((DefaultMutableTreeNode)variable2Node.getChildAt(i)).getUserObject());
+                    (String)((DefaultMutableTreeNode)variable2Node.getChildAt(i)).getUserObject());
 
         for(int i = 0; i < accept1Node.getChildCount(); ++i)
             accept1Values.add(
-                (String)((DefaultMutableTreeNode)accept1Node.getChildAt(i)).getUserObject());
+                    (String)((DefaultMutableTreeNode)accept1Node.getChildAt(i)).getUserObject());
 
         for(int i = 0; i < transition1Node.getChildCount(); ++i)
-            transition1Values.add(
-                (String)((DefaultMutableTreeNode)transition1Node.getChildAt(i)).getUserObject());
+            transition1Values.add((String)((DefaultMutableTreeNode)transition1Node.getChildAt(
+                    i)).getUserObject());
 
         for(int i = 0; i < transition2Node.getChildCount(); ++i)
-            transition2Values.add(
-                (String)((DefaultMutableTreeNode)transition2Node.getChildAt(i)).getUserObject());
+            transition2Values.add((String)((DefaultMutableTreeNode)transition2Node.getChildAt(
+                    i)).getUserObject());
 
         List<Variable> expectedVariables = new ArrayList<>(automaton.getVariables());
         List<String> expectedVariable1Values = expectedVariables.get(0).getValuesList();
@@ -355,16 +350,16 @@ public class AutomatonTreeViewTest
             if(Objects.equals(entry.getKey().getFirst().getVarName(),
                               transition1Node.getUserObject()))
                 expectedTransition1Values.add(
-                    testObject.getTransitionEntryString(entry.getKey().getSecond(),
-                                                        entry.getValue()));
+                        testObject.getTransitionEntryString(entry.getKey().getSecond(),
+                                                            entry.getValue()));
 
         for(Map.Entry<Pair<Variable, String>, String> entry : automaton.getTransitionAsStrings()
                                                                        .entrySet())
             if(Objects.equals(entry.getKey().getFirst().getVarName(),
                               transition2Node.getUserObject()))
                 expectedTransition2Values.add(
-                    testObject.getTransitionEntryString(entry.getKey().getSecond(),
-                                                        entry.getValue()));
+                        testObject.getTransitionEntryString(entry.getKey().getSecond(),
+                                                            entry.getValue()));
 
         Assert.assertEquals(4, rootNode.getChildCount());
         Assert.assertEquals(automaton.getTypeName(), rootNode.getUserObject());
@@ -431,8 +426,8 @@ public class AutomatonTreeViewTest
 
         testObject.receiveMessage(mockMessage);
 
-        String expectedMapValue = testObject.getTransitionEntryString(param.getSecond(),
-                                                                      param.getThird());
+        String expectedMapValue =
+                testObject.getTransitionEntryString(param.getSecond(), param.getThird());
 
         Assert.assertEquals(1, testObject.lastTransitions.size());
         Assert.assertTrue(testObject.lastTransitions.containsKey(param.getFirst()));

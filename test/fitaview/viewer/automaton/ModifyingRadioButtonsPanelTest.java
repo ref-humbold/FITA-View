@@ -17,8 +17,6 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import fitaview.Pair;
-import fitaview.Pointer;
 import fitaview.automaton.BottomUpDFTA;
 import fitaview.automaton.TopDownDFTA;
 import fitaview.automaton.TopDownNFTA;
@@ -30,6 +28,8 @@ import fitaview.automaton.nondeterminism.RandomChoice;
 import fitaview.automaton.nondeterminism.StateChoice;
 import fitaview.automaton.traversing.*;
 import fitaview.messaging.Message;
+import fitaview.utils.Pair;
+import fitaview.utils.Pointer;
 import fitaview.viewer.UserMessageBox;
 
 @RunWith(PowerMockRunner.class)
@@ -37,17 +37,13 @@ import fitaview.viewer.UserMessageBox;
 @PrepareForTest(UserMessageBox.class)
 public class ModifyingRadioButtonsPanelTest
 {
-    @Mock
-    private Pointer<TreeAutomaton> mockPointer;
+    @Mock private Pointer<TreeAutomaton> mockPointer;
 
-    @Mock
-    private ActionEvent mockActionEvent;
+    @Mock private ActionEvent mockActionEvent;
 
-    @Mock
-    private Message<Void> mockMessage;
+    @Mock private Message<Void> mockMessage;
 
-    @InjectMocks
-    private ModifyingRadioButtonsPanel testObject;
+    @InjectMocks private ModifyingRadioButtonsPanel testObject;
 
     @Before
     public void setUp()
@@ -64,7 +60,7 @@ public class ModifyingRadioButtonsPanelTest
 
     @Test(expected = IncorrectTraversingException.class)
     public void testActionPerformedWhenBottomUpDFS()
-        throws Exception
+            throws Exception
     {
         Mockito.when(mockPointer.get())
                .thenReturn(new BottomUpDFTA(Collections.emptySet(), Collections.emptySet()));

@@ -10,8 +10,8 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import org.xml.sax.SAXException;
 
-import fitaview.Pair;
 import fitaview.automaton.FileFormatException;
+import fitaview.utils.Pair;
 
 public class TreeReader
 {
@@ -19,11 +19,11 @@ public class TreeReader
     private SAXParser parser;
 
     public TreeReader(File file)
-        throws SAXException
+            throws SAXException
     {
         if(!file.getName().endsWith(".tree.xml"))
             throw new FileFormatException(
-                "File extension is not recognizable, should be \'.tree.xml\'");
+                    "File extension is not recognizable, should be '.tree.xml'");
 
         this.file = file;
 
@@ -50,7 +50,7 @@ public class TreeReader
      * @throws SAXException if any parsing error occurs
      */
     public Pair<TreeNode, Integer> read()
-        throws IOException, SAXException
+            throws IOException, SAXException
     {
         TreeHandler handler = new TreeHandler();
 

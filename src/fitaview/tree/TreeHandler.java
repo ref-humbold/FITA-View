@@ -6,11 +6,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import fitaview.Pair;
-import fitaview.XMLHandler;
+import fitaview.utils.Pair;
+import fitaview.utils.XMLHandler;
 
 class TreeHandler
-    extends XMLHandler<TreeNode>
+        extends XMLHandler<TreeNode>
 {
     private Stack<Pair<StandardNode, TreeChild>> nodes = new Stack<>();
     private Stack<RepeatNode> repeats = new Stack<>();
@@ -26,12 +26,12 @@ class TreeHandler
 
     public int getMaxDepth()
     {
-        return this.maxDepth;
+        return maxDepth;
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
-        throws SAXException
+            throws SAXException
     {
         String label;
 
@@ -40,8 +40,8 @@ class TreeHandler
 
         if(actualDepth > TreeNode.MAX_HEIGHT)
             throw new TreeDepthException(
-                String.format("%s: Tree depth is greater than allowed %d", writePosition(),
-                              TreeNode.MAX_HEIGHT));
+                    String.format("%s: Tree depth is greater than allowed %d", writePosition(),
+                                  TreeNode.MAX_HEIGHT));
 
         switch(qName)
         {
@@ -53,7 +53,7 @@ class TreeHandler
 
                 if(label == null)
                     throw new TreeParsingException(
-                        String.format("%s: Label is null", writePosition()));
+                            String.format("%s: Label is null", writePosition()));
 
                 StandardNode standardNode = new StandardNode(label, index);
 
@@ -66,7 +66,7 @@ class TreeHandler
 
                 if(label == null)
                     throw new TreeParsingException(
-                        String.format("%s: Label is null", writePosition()));
+                            String.format("%s: Label is null", writePosition()));
 
                 RepeatNode repeatNode = new RepeatNode(label, index);
 
@@ -77,13 +77,13 @@ class TreeHandler
 
             default:
                 throw new TreeParsingException(
-                    String.format("%s: Unexpected tag: \'%s\'", writePosition(), qName));
+                        String.format("%s: Unexpected tag: '%s'", writePosition(), qName));
         }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName)
-        throws SAXException
+            throws SAXException
     {
         switch(qName)
         {
@@ -104,8 +104,8 @@ class TreeHandler
                             index /= 2;
                         else if(nodesPair.getSecond() == TreeChild.RIGHT)
                             throw new OneChildException(String.format(
-                                "%s: Node must have zero or two children, but it has one",
-                                writePosition()));
+                                    "%s: Node must have zero or two children, but it has one",
+                                    writePosition()));
 
                         node = nodesPair.getFirst();
                     }
@@ -146,7 +146,7 @@ class TreeHandler
 
             default:
                 throw new TreeParsingException(
-                    String.format("%s: Unexpected tag: \'%s\'", writePosition(), qName));
+                        String.format("%s: Unexpected tag: '%s'", writePosition(), qName));
         }
     }
 
@@ -158,7 +158,7 @@ class TreeHandler
 
     @Override
     public void error(SAXParseException e)
-        throws SAXException
+            throws SAXException
     {
         throw new TreeParsingException(e.getMessage(), e);
     }

@@ -6,19 +6,19 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fitaview.Pair;
 import fitaview.automaton.nondeterminism.StateChoice;
 import fitaview.automaton.transition.DuplicatedTransitionException;
 import fitaview.automaton.transition.IllegalTransitionException;
 import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.automaton.transition.TopDownTransitions;
+import fitaview.utils.Pair;
 
 public abstract class TopDownNondeterministicAutomaton
-    extends TopDownAutomaton
-    implements NonDeterministicAutomaton<Pair<String, String>, Pair<String, String>>
+        extends TopDownAutomaton
+        implements NonDeterministicAutomaton<Pair<String, String>, Pair<String, String>>
 {
-    protected TopDownTransitions<Set<Pair<String, String>>> transitions = new TopDownTransitions<>(
-        this::keyToString, this::valueSetToString);
+    protected TopDownTransitions<Set<Pair<String, String>>> transitions =
+            new TopDownTransitions<>(this::keyToString, this::valueSetToString);
     private StateChoice<Pair<String, String>, Pair<String, String>> choice;
 
     public TopDownNondeterministicAutomaton(Collection<Variable> variables,
@@ -30,7 +30,7 @@ public abstract class TopDownNondeterministicAutomaton
     @Override
     public StateChoice<Pair<String, String>, Pair<String, String>> getChoice()
     {
-        return this.choice;
+        return choice;
     }
 
     @Override
@@ -42,7 +42,7 @@ public abstract class TopDownNondeterministicAutomaton
     @Override
     public Map<Pair<Variable, String>, String> getTransitionAsStrings()
     {
-        return this.transitions.convertToStringMap();
+        return transitions.convertToStringMap();
     }
 
     @Override
@@ -60,7 +60,7 @@ public abstract class TopDownNondeterministicAutomaton
     @Override
     public void addTransition(Variable var, String value, String label, String leftResult,
                               String rightResult)
-        throws DuplicatedTransitionException, IllegalTransitionException
+            throws DuplicatedTransitionException, IllegalTransitionException
     {
         Set<Pair<String, String>> entry = getTransitionValuesSet(var, Pair.make(value, label));
 
@@ -69,7 +69,7 @@ public abstract class TopDownNondeterministicAutomaton
 
     @Override
     protected Pair<String, String> applyTransition(Variable var, String value, String label)
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         return choice.chooseState(var, Pair.make(value, label),
                                   getAllTransitionResults(var, value, label));
@@ -77,19 +77,19 @@ public abstract class TopDownNondeterministicAutomaton
 
     @Override
     protected void initialize()
-        throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
-               NoNonDeterministicStrategyException
+            throws IllegalVariableValueException, NoTreeException, NoTraversingStrategyException,
+                   NoNonDeterministicStrategyException
     {
         if(choice == null)
             throw new NoNonDeterministicStrategyException(
-                "Automaton has no non-deterministic strategy");
+                    "Automaton has no non-deterministic strategy");
 
         super.initialize();
     }
 
     private Set<Pair<String, String>> getAllTransitionResults(Variable var, String value,
                                                               String label)
-        throws NoSuchTransitionException
+            throws NoSuchTransitionException
     {
         return transitions.getAll(var, Pair.make(value, label))
                           .stream()
@@ -105,7 +105,7 @@ public abstract class TopDownNondeterministicAutomaton
     }
 
     private Set<Pair<String, String>> getTransitionValuesSet(Variable var, Pair<String, String> key)
-        throws DuplicatedTransitionException, IllegalTransitionException
+            throws DuplicatedTransitionException, IllegalTransitionException
     {
         try
         {

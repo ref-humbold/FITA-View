@@ -16,7 +16,6 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import fitaview.Pointer;
 import fitaview.automaton.AutomatonRunningMode;
 import fitaview.automaton.AutomatonRunningModeSender;
 import fitaview.automaton.NoTreeException;
@@ -24,6 +23,7 @@ import fitaview.automaton.TreeAutomaton;
 import fitaview.automaton.UndefinedAcceptanceException;
 import fitaview.messaging.Message;
 import fitaview.tree.UndefinedStateValueException;
+import fitaview.utils.Pointer;
 import fitaview.viewer.UserMessageBox;
 
 @RunWith(PowerMockRunner.class)
@@ -31,21 +31,17 @@ import fitaview.viewer.UserMessageBox;
 @PrepareForTest(UserMessageBox.class)
 public class AcceptancePanelTest
 {
-    @Mock
-    private TreeAutomaton mockAutomaton;
+    @Mock private TreeAutomaton mockAutomaton;
 
-    @Mock
-    private Pointer<TreeAutomaton> mockPointer;
+    @Mock private Pointer<TreeAutomaton> mockPointer;
 
-    @Mock
-    private Message<Void> mockSignal;
+    @Mock private Message<Void> mockSignal;
 
-    @InjectMocks
-    private AcceptancePanel testObject;
+    @InjectMocks private AcceptancePanel testObject;
 
     @Before
     public void setUp()
-        throws Exception
+            throws Exception
     {
         PowerMockito.mockStatic(UserMessageBox.class);
         PowerMockito.doNothing()
@@ -123,7 +119,7 @@ public class AcceptancePanelTest
 
     @Test(expected = UndefinedAcceptanceException.class)
     public void testReceiveSignalWhenFinishedAndException()
-        throws Exception
+            throws Exception
     {
         try
         {

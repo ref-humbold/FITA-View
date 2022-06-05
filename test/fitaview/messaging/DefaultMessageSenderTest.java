@@ -107,7 +107,7 @@ public class DefaultMessageSenderTest
 
         Message<String> result = (Message<String>)arg[0];
         String expected = "MESSAGE from " + testObject.getClass().getSimpleName()
-            + ": \'PARAMETER\'";
+            + ": 'PARAMETER'";
 
         Assert.assertSame(testObject, result.getSource());
         Assert.assertEquals("PARAMETER", result.getParam());
@@ -129,7 +129,7 @@ public class DefaultMessageSenderTest
         testObject.send(null);
 
         Message<String> result = (Message<String>)arg[0];
-        String expected = "MESSAGE from " + testObject.getClass().getSimpleName() + ": \'null\'";
+        String expected = "MESSAGE from " + testObject.getClass().getSimpleName() + ": 'null'";
 
         Assert.assertSame(testObject, result.getSource());
         Assert.assertNull(result.getParam());
@@ -152,7 +152,7 @@ public class DefaultMessageSenderTest
 
         Message<String> result = (Message<String>)arg[0];
         String expected = "MESSAGE from " + mockSender.getClass().getSimpleName()
-            + ": \'PARAMETER\'";
+            + ": 'PARAMETER'";
 
         Assert.assertSame(mockSender, result.getSource());
         Assert.assertEquals("PARAMETER", result.getParam());

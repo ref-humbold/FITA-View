@@ -11,8 +11,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import org.xml.sax.SAXException;
 
-import fitaview.Pair;
-import fitaview.Pointer;
 import fitaview.automaton.AutomatonIsRunningException;
 import fitaview.automaton.AutomatonReader;
 import fitaview.automaton.TreeAutomaton;
@@ -20,14 +18,16 @@ import fitaview.automaton.TreeFinitenessException;
 import fitaview.messaging.Message;
 import fitaview.messaging.MessageReceiver;
 import fitaview.tree.TreeNode;
+import fitaview.utils.Pair;
+import fitaview.utils.Pointer;
 import fitaview.viewer.EmptyPanel;
 import fitaview.viewer.TitlePanel;
 import fitaview.viewer.UserMessageBox;
 import fitaview.viewer.XMLFileChooser;
 
 public class AutomatonMainPanel
-    extends JPanel
-    implements MessageReceiver<String>
+        extends JPanel
+        implements MessageReceiver<String>
 {
     private static final long serialVersionUID = -7678389910832412322L;
 
@@ -60,7 +60,7 @@ public class AutomatonMainPanel
         if(!automatonPointer.isEmpty() && automatonPointer.get().isRunning())
         {
             UserMessageBox.showException(
-                new AutomatonIsRunningException("Automaton is currently running on tree!"));
+                    new AutomatonIsRunningException("Automaton is currently running on tree!"));
             return;
         }
 
@@ -101,8 +101,8 @@ public class AutomatonMainPanel
         JPanel centralPanel = new JPanel(new BorderLayout(5, 5));
         JPanel infoPanel = new JPanel(new GridLayout(2, 1));
 
-        infoPanel.add(this.scrollTreeView);
-        infoPanel.add(this.transitionDrawingArea);
+        infoPanel.add(scrollTreeView);
+        infoPanel.add(transitionDrawingArea);
         centralPanel.add(infoPanel, BorderLayout.CENTER);
         centralPanel.add(acceptancePanel, BorderLayout.PAGE_END);
         centralPanel.setOpaque(false);
@@ -125,7 +125,7 @@ public class AutomatonMainPanel
     }
 
     private TreeAutomaton loadAutomaton(File file)
-        throws IOException, SAXException
+            throws IOException, SAXException
     {
         AutomatonReader reader = new AutomatonReader(file);
 

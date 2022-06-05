@@ -1,7 +1,7 @@
 package fitaview.viewer.tree;
 
-import fitaview.Pair;
 import fitaview.tree.TreeNode;
+import fitaview.utils.Pair;
 
 class NodeParameters
 {
@@ -32,7 +32,7 @@ class NodeParameters
 
     public TreeNode getNode()
     {
-        return this.node;
+        return node;
     }
 
     public NodeParameters getLeftParams()

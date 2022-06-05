@@ -23,18 +23,18 @@ public class Message<T>
 
     public Object getSource()
     {
-        return this.source;
+        return source;
     }
 
     public T getParam()
     {
-        return this.param;
+        return param;
     }
 
     @Override
     public String toString()
     {
-        return "MESSAGE from " + source.getClass().getSimpleName() + ": \'" + Objects.toString(
-            param) + "\'";
+        return "MESSAGE from " + source.getClass().getSimpleName() + ": '" + Objects.toString(param)
+                + "'";
     }
 }

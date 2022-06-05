@@ -1,4 +1,4 @@
-package fitaview;
+package fitaview.utils;
 
 import java.util.Objects;
 
@@ -57,8 +57,8 @@ public final class Triple<F, S, T>
 
         Triple<?, ?, ?> other = (Triple<?, ?, ?>)o;
 
-        return Objects.equals(this.first, other.first) && Objects.equals(this.second, other.second)
-            && Objects.equals(this.third, other.third);
+        return Objects.equals(first, other.first) && Objects.equals(second, other.second)
+                && Objects.equals(third, other.third);
     }
 
     @Override

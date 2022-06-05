@@ -5,11 +5,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import fitaview.Pair;
-import fitaview.XMLHandler;
+import fitaview.utils.Pair;
+import fitaview.utils.XMLHandler;
 
 abstract class AutomatonHandler<T extends TreeAutomaton>
-    extends XMLHandler<T>
+        extends XMLHandler<T>
 {
     protected Collection<String> alphabet = new ArrayList<>();
     protected Map<Integer, Variable> variables = new HashMap<>();
@@ -22,7 +22,7 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
-        throws SAXException
+            throws SAXException
     {
         content = new StringBuilder();
 
@@ -54,7 +54,8 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
 
                 if(!variables.containsKey(varID))
                     throw new NoVariableWithIDException(
-                        String.format("%s: No variable with with ID %d", writePosition(), varID));
+                            String.format("%s: No variable with with ID %d", writePosition(),
+                                          varID));
                 break;
 
             case "accept":
@@ -62,24 +63,25 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
 
                 if(!variables.containsKey(varID))
                     throw new NoVariableWithIDException(
-                        String.format("%s: No variable with with ID %d", writePosition(), varID));
+                            String.format("%s: No variable with with ID %d", writePosition(),
+                                          varID));
 
                 Variable v = variables.get(id);
 
                 if(conditions.containsKey(v))
                     throw new DuplicatedAcceptanceValueException(
-                        writePosition() + "Acceptance condition for variable with ID " + id
-                            + " has been already defined");
+                            writePosition() + "Acceptance condition for variable with ID " + id
+                                    + " has been already defined");
 
                 if(attributes.getIndex("include") >= 0 && attributes.getIndex("exclude") >= 0)
                     throw new IncorrectAcceptanceConditionException(
-                        writePosition() + "Acceptance condition for variable with ID " + id
-                            + "contains both \'include\' and \'exclude\'");
+                            writePosition() + "Acceptance condition for variable with ID " + id
+                                    + "contains both 'include' and 'exclude'");
 
                 if(attributes.getIndex("include") < 0 && attributes.getIndex("exclude") < 0)
                     throw new IncorrectAcceptanceConditionException(
-                        writePosition() + "Acceptance condition for variable with ID " + id
-                            + "contains neither \'include\' nor \'exclude\'");
+                            writePosition() + "Acceptance condition for variable with ID " + id
+                                    + "contains neither 'include' nor 'exclude'");
 
                 if(attributes.getIndex("include") >= 0)
                 {
@@ -87,8 +89,8 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
 
                     if(!Objects.equals(value, Wildcard.EVERY_VALUE) && !v.contains(value))
                         throw new IllegalVariableValueException(
-                            writePosition() + "Given value \'" + value
-                                + "\'is not a value of variable with ID " + id);
+                                writePosition() + "Given value '" + value
+                                        + "'is not a value of variable with ID " + id);
 
                     conditions.put(v, Pair.make(value, true));
                 }
@@ -98,8 +100,8 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
 
                     if(!v.contains(value))
                         throw new IllegalVariableValueException(
-                            writePosition() + "Given value \'" + value
-                                + "\'is not a value of variable with ID " + id);
+                                writePosition() + "Given value '" + value
+                                        + "'is not a value of variable with ID " + id);
 
                     conditions.put(v, Pair.make(value, false));
                 }
@@ -107,13 +109,13 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
 
             default:
                 throw new AutomatonParsingException(
-                    String.format("%s: Unexpected tag \'%s\'", writePosition(), qName));
+                        String.format("%s: Unexpected tag '%s'", writePosition(), qName));
         }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName)
-        throws SAXException
+            throws SAXException
     {
         switch(qName)
         {
@@ -141,14 +143,14 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
                 catch(IllegalVariableValueException e)
                 {
                     throw new IllegalVariableValueException(
-                        String.format("%s: Illegal value of variable with ID %d; %s",
-                                      writePosition(), varID, e.getMessage()));
+                            String.format("%s: Illegal value of variable with ID %d; %s",
+                                          writePosition(), varID, e.getMessage()));
                 }
                 break;
 
             default:
                 throw new AutomatonParsingException(
-                    String.format("%s: Unexpected tag \'%s\'", writePosition(), qName));
+                        String.format("%s: Unexpected tag '%s'", writePosition(), qName));
         }
     }
 
@@ -160,7 +162,7 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
 
     @Override
     public void error(SAXParseException e)
-        throws SAXException
+            throws SAXException
     {
         throw new AutomatonParsingException(e.getMessage(), e);
     }

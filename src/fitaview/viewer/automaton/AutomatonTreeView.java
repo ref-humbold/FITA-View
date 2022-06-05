@@ -15,26 +15,25 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
-import fitaview.Pair;
-import fitaview.Pointer;
-import fitaview.Triple;
 import fitaview.automaton.*;
 import fitaview.automaton.transition.TransitionsSender;
 import fitaview.messaging.Message;
 import fitaview.messaging.MessageReceiver;
 import fitaview.messaging.SignalReceiver;
+import fitaview.utils.Pair;
+import fitaview.utils.Pointer;
+import fitaview.utils.Triple;
 
 public class AutomatonTreeView
-    extends JTree
-    implements MessageReceiver<Triple<Variable, String, String>>, SignalReceiver
+        extends JTree
+        implements MessageReceiver<Triple<Variable, String, String>>, SignalReceiver
 {
     static final String EMPTY_ROOT_TEXT = "No automaton specified...";
     private static final long serialVersionUID = 5636100205267426054L;
-
+    private final Pointer<TreeAutomaton> automatonPointer;
     DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(EMPTY_ROOT_TEXT);
+    private final DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
     Map<Variable, String> lastTransitions = new HashMap<>();
-    private Pointer<TreeAutomaton> automatonPointer;
-    private DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
 
     public AutomatonTreeView(Pointer<TreeAutomaton> automatonPointer)
     {
@@ -59,8 +58,8 @@ public class AutomatonTreeView
         if(signal.getSource() == automatonPointer)
             initializeTree();
         else if(signal.getSource() == AutomatonRunningModeSender.getInstance()
-            && !automatonPointer.isEmpty()
-            && automatonPointer.get().getRunningMode() == AutomatonRunningMode.STOPPED)
+                && !automatonPointer.isEmpty()
+                && automatonPointer.get().getRunningMode() == AutomatonRunningMode.STOPPED)
             lastTransitions.clear();
 
         treeModel.reload();
@@ -148,7 +147,7 @@ public class AutomatonTreeView
             mapping.entrySet()
                    .stream()
                    .map(entry -> new DefaultMutableTreeNode(
-                       AcceptanceConditions.getEntryString(entry)))
+                           AcceptanceConditions.getEntryString(entry)))
                    .forEach(conditionNode::add);
             acceptNode.add(conditionNode);
         });
@@ -163,22 +162,72 @@ public class AutomatonTreeView
         Map<Variable, DefaultMutableTreeNode> varNodes = automaton.getVariables()
                                                                   .stream()
                                                                   .collect(Collectors.toMap(
-                                                                      Function.identity(),
-                                                                      var -> new DefaultMutableTreeNode(
-                                                                          var.getVarName()),
-                                                                      (a, b) -> b));
+                                                                          Function.identity(),
+                                                                          var -> new DefaultMutableTreeNode(
+                                                                                  var.getVarName()),
+                                                                          (a, b) -> b));
 
         stringTransitions.forEach((key, value) -> varNodes.get(key.getFirst())
                                                           .add(new TransitionTreeViewNode(
-                                                              key.getFirst(),
-                                                              getTransitionEntryString(
-                                                                  key.getSecond(), value))));
+                                                                  key.getFirst(),
+                                                                  getTransitionEntryString(
+                                                                          key.getSecond(),
+                                                                          value))));
         varNodes.values().forEach(transitionNode::add);
         rootNode.add(transitionNode);
     }
 
+    private static final class VariableTreeViewNode
+            extends DefaultMutableTreeNode
+    {
+        private static final long serialVersionUID = -2455947033876221381L;
+
+        private Variable variable;
+        private String value;
+
+        private VariableTreeViewNode(Variable variable, String value)
+        {
+            super(Objects.equals(variable.getInitValue(), value) ? value + " [init value]" : value);
+            this.variable = variable;
+            this.value = value;
+        }
+
+        public boolean hasInitValue()
+        {
+            return Objects.equals(variable.getInitValue(), value);
+        }
+
+        @Override
+        public VariableTreeViewNode clone()
+        {
+            return (VariableTreeViewNode)super.clone();
+        }
+    }
+
+    private static class TransitionTreeViewNode
+            extends DefaultMutableTreeNode
+    {
+        private static final long serialVersionUID = -5087307349812311759L;
+
+        private Variable variable;
+        private String value;
+
+        public TransitionTreeViewNode(Variable variable, String value)
+        {
+            super(value);
+            this.variable = variable;
+            this.value = value;
+        }
+
+        @Override
+        public TransitionTreeViewNode clone()
+        {
+            return (TransitionTreeViewNode)super.clone();
+        }
+    }
+
     private class AutomatonTreeViewRenderer
-        extends DefaultTreeCellRenderer
+            extends DefaultTreeCellRenderer
     {
         private static final long serialVersionUID = 7327449947415447547L;
 
@@ -218,55 +267,6 @@ public class AutomatonTreeView
             }
 
             return this;
-        }
-    }
-
-    private final class VariableTreeViewNode
-        extends DefaultMutableTreeNode
-    {
-        private static final long serialVersionUID = -2455947033876221381L;
-
-        private Variable variable;
-        private String value;
-
-        private VariableTreeViewNode(Variable variable, String value)
-        {
-            super(Objects.equals(variable.getInitValue(), value) ? value + " [init value]" : value);
-            this.variable = variable;
-            this.value = value;
-        }
-
-        public boolean hasInitValue()
-        {
-            return Objects.equals(variable.getInitValue(), value);
-        }
-
-        @Override
-        public VariableTreeViewNode clone()
-        {
-            return (VariableTreeViewNode)super.clone();
-        }
-    }
-
-    private class TransitionTreeViewNode
-        extends DefaultMutableTreeNode
-    {
-        private static final long serialVersionUID = -5087307349812311759L;
-
-        private Variable variable;
-        private String value;
-
-        public TransitionTreeViewNode(Variable variable, String value)
-        {
-            super(value);
-            this.variable = variable;
-            this.value = value;
-        }
-
-        @Override
-        public TransitionTreeViewNode clone()
-        {
-            return (TransitionTreeViewNode)super.clone();
         }
     }
 }
