@@ -35,11 +35,6 @@ public final class Triple<F, S, T>
         return third;
     }
 
-    public int size()
-    {
-        return 3;
-    }
-
     @Override
     public int hashCode()
     {

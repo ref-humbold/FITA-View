@@ -17,11 +17,9 @@ public class DefaultMessageSenderTest
 {
     private DefaultMessageSender<String> testObject;
 
-    @Mock
-    private MessageSender<String> mockSender;
+    @Mock private MessageSender<String> mockSender;
 
-    @Mock
-    private MessageReceiver<String> mockReceiver;
+    @Mock private MessageReceiver<String> mockReceiver;
 
     @Before
     public void setUp()
@@ -106,8 +104,8 @@ public class DefaultMessageSenderTest
         testObject.send("PARAMETER");
 
         Message<String> result = (Message<String>)arg[0];
-        String expected = "MESSAGE from " + testObject.getClass().getSimpleName()
-            + ": 'PARAMETER'";
+        String expected = String.format("MESSAGE from %s: 'PARAMETER'",
+                                        testObject.getClass().getSimpleName());
 
         Assert.assertSame(testObject, result.getSource());
         Assert.assertEquals("PARAMETER", result.getParam());
@@ -129,7 +127,8 @@ public class DefaultMessageSenderTest
         testObject.send(null);
 
         Message<String> result = (Message<String>)arg[0];
-        String expected = "MESSAGE from " + testObject.getClass().getSimpleName() + ": 'null'";
+        String expected =
+                String.format("MESSAGE from %s: 'null'", testObject.getClass().getSimpleName());
 
         Assert.assertSame(testObject, result.getSource());
         Assert.assertNull(result.getParam());
@@ -151,8 +150,8 @@ public class DefaultMessageSenderTest
         testObject.sendMessage(new Message<>(mockSender, "PARAMETER"));
 
         Message<String> result = (Message<String>)arg[0];
-        String expected = "MESSAGE from " + mockSender.getClass().getSimpleName()
-            + ": 'PARAMETER'";
+        String expected = String.format("MESSAGE from %s: 'PARAMETER'",
+                                        mockSender.getClass().getSimpleName());
 
         Assert.assertSame(mockSender, result.getSource());
         Assert.assertEquals("PARAMETER", result.getParam());

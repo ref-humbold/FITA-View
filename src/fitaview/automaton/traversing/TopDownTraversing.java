@@ -15,9 +15,11 @@ import fitaview.utils.Pair;
 public abstract class TopDownTraversing
         implements TreeTraversing
 {
-    protected Deque<TreeNode> nodeDeque = new ArrayDeque<>();
-    private Queue<Pair<TreeNode, Map<Variable, String>>> pendingRecursiveNodes = new ArrayDeque<>();
-    private Queue<Pair<TreeNode, Map<Variable, String>>> newRecursiveNodes = new ArrayDeque<>();
+    protected final Deque<TreeNode> nodeDeque = new ArrayDeque<>();
+    private final Queue<Pair<TreeNode, Map<Variable, String>>> pendingRecursiveNodes =
+            new ArrayDeque<>();
+    private final Queue<Pair<TreeNode, Map<Variable, String>>> newRecursiveNodes =
+            new ArrayDeque<>();
 
     @Override
     public void initialize(TreeNode... nodes)
@@ -82,7 +84,7 @@ public abstract class TopDownTraversing
             }
             catch(IllegalVariableValueException e)
             {
-                throw new IllegalStateException("Unexpected TreeNode#setState error");
+                throw new IllegalStateException("Unexpected TreeNode#setState error", e);
             }
 
             addNextNode(pair.getFirst());

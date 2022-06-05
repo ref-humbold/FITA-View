@@ -12,7 +12,7 @@ import fitaview.utils.Pair;
 public abstract class TopDownDeterministicAutomaton
         extends TopDownAutomaton
 {
-    protected TopDownTransitions<Pair<String, String>> transitions =
+    protected final TopDownTransitions<Pair<String, String>> transitions =
             new TopDownTransitions<>(this::keyToString, this::valueToString);
 
     public TopDownDeterministicAutomaton(Collection<Variable> variables,

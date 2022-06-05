@@ -32,9 +32,9 @@ public class ActionButtonsPanel
     private static final long serialVersionUID = 5921531603338297434L;
 
     ButtonsType buttonsType = ButtonsType.NONE;
-    private Pointer<TreeAutomaton> automatonPointer;
-    private List<JButton> runningButtons = new ArrayList<>();
-    private List<JButton> continuingButtons = new ArrayList<>();
+    private final Pointer<TreeAutomaton> automatonPointer;
+    private final List<JButton> runningButtons = new ArrayList<>();
+    private final List<JButton> continuingButtons = new ArrayList<>();
     private JButton stopRunningButton;
     private JButton emptinessButton;
 

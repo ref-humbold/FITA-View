@@ -12,9 +12,9 @@ import fitaview.utils.Triple;
 
 public abstract class Transitions<K, V>
 {
-    protected Map<Pair<Variable, K>, V> map = new HashMap<>();
-    private Function<K, String> keyConversion;
-    private Function<V, String> valueConversion;
+    protected final Map<Pair<Variable, K>, V> map = new HashMap<>();
+    private final Function<K, String> keyConversion;
+    private final Function<V, String> valueConversion;
 
     public Transitions(Function<K, String> keyConversion, Function<V, String> valueConversion)
     {
@@ -26,7 +26,7 @@ public abstract class Transitions<K, V>
     }
 
     /**
-     * Testing if specified variable and arguments are present in transition relation.
+     * Checking if specified variable and arguments are present in transition relation.
      * @param var variable
      * @param key arguments of transition
      * @return {@code true} if there is transition entry with the exact arguments
@@ -37,7 +37,7 @@ public abstract class Transitions<K, V>
     }
 
     /**
-     * Testing if specified variable and arguments fit for any entry in transition relation.
+     * Checking if specified variable and arguments fit for any entry in transition relation.
      * @param var variable
      * @param key arguments of transition
      * @return {@code true} if there is any transition entry fitting the arguments
@@ -121,7 +121,7 @@ public abstract class Transitions<K, V>
     @Override
     public String toString()
     {
-        return String.format("Transitions::%s", map.toString());
+        return String.format("Transitions::%s", map);
     }
 
     /**

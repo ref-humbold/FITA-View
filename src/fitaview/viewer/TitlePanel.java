@@ -12,15 +12,15 @@ import fitaview.messaging.MessageReceiver;
 import fitaview.messaging.MessageSender;
 
 public class TitlePanel
-    extends ButtonsPanel
-    implements MessageSender<String>
+        extends ButtonsPanel
+        implements MessageSender<String>
 {
     private static final long serialVersionUID = -7262175220400657532L;
 
-    private JLabel titleLabel = new JLabel();
-    private JButton openFileButton = new JButton();
-    private JButton removeButton = new JButton();
-    private Set<MessageReceiver<String>> receivers = new HashSet<>();
+    private final JLabel titleLabel = new JLabel();
+    private final JButton openFileButton = new JButton();
+    private final JButton removeButton = new JButton();
+    private final Set<MessageReceiver<String>> receivers = new HashSet<>();
 
     public TitlePanel(String name, int loadShortcut, int removeShortcut)
     {

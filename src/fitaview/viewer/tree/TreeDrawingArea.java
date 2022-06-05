@@ -33,10 +33,10 @@ public class TreeDrawingArea
     private static final int NODE_SIDE = 6;
     private static final long serialVersionUID = -6588296156972565117L;
 
-    private Pointer<Pair<TreeNode, Integer>> treePointer;
-    private Stack<NodeParameters> repeatNodes = new Stack<>();
-    private Map<Pair<Integer, Integer>, TreeNode> nodesPoints = new HashMap<>();
-    private Set<TreeNode> currentNodes = new HashSet<>();
+    private final Pointer<Pair<TreeNode, Integer>> treePointer;
+    private final Stack<NodeParameters> repeatNodes = new Stack<>();
+    private final Map<Pair<Integer, Integer>, TreeNode> nodesPoints = new HashMap<>();
+    private final Set<TreeNode> currentNodes = new HashSet<>();
     private int horizontalAxis = 0;
     private int verticalAxis = 0;
     private int zoomLevel = 0;

@@ -1,12 +1,11 @@
 package fitaview.tree;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class TreeWriter
 {
-    private TreeNode tree;
+    private final TreeNode tree;
 
     public TreeWriter(TreeNode tree)
     {
@@ -19,9 +18,9 @@ public class TreeWriter
      * @throws IOException if any IO error occurs
      */
     public void toFile(String filename)
-        throws IOException
+            throws IOException
     {
-        FileWriter fileWriter = new FileWriter(new File(filename + ".tree"));
+        FileWriter fileWriter = new FileWriter(filename + ".tree");
 
         fileWriter.write(toString());
         fileWriter.close();

@@ -8,9 +8,9 @@ import fitaview.automaton.IllegalVariableValueException;
 import fitaview.automaton.Variable;
 
 public class RecNode
-    extends TreeNode
+        extends TreeNode
 {
-    private RepeatNode recursive;
+    private final RepeatNode recursive;
     private TreeNode parent;
     private Map<Variable, String> stateCopy;
 
@@ -69,7 +69,7 @@ public class RecNode
 
     @Override
     public void setState(Map<Variable, String> state)
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         recursive.setState(state);
         stateCopy = state;
@@ -90,7 +90,7 @@ public class RecNode
 
     @Override
     public void setStateValue(Variable var, String value)
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         recursive.setStateValue(var, value);
         stateCopy = recursive.getStateWithNulls();
@@ -120,12 +120,12 @@ public class RecNode
 
         RecNode other = (RecNode)o;
 
-        return this.recursive.index == other.recursive.index && this.index == other.index;
+        return recursive.index == other.recursive.index && index == other.index;
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(this.index, recursive.index, getLabel());
+        return Objects.hash(index, recursive.index, getLabel());
     }
 }

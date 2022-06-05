@@ -17,9 +17,9 @@ public abstract class AbstractTreeAutomaton
         implements TreeAutomaton
 {
     protected TreeNode tree;
-    protected Set<String> alphabet;
-    protected List<Variable> variables;
-    protected AcceptanceConditions acceptanceConditions = new AcceptanceConditions();
+    protected final Set<String> alphabet;
+    protected final List<Variable> variables;
+    protected final AcceptanceConditions acceptanceConditions = new AcceptanceConditions();
     protected AutomatonRunningMode runningMode = AutomatonRunningMode.STOPPED;
     protected boolean isSendingMessages = false;
 
@@ -193,7 +193,7 @@ public abstract class AbstractTreeAutomaton
     }
 
     /**
-     * Testing if specified tree contains a recursive node
+     * Checking if specified tree contains a recursive node
      * @param node tree node
      * @return {@code true} if tree has a recursive node, otherwise {@code false}
      */

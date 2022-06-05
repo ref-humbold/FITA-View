@@ -18,7 +18,7 @@ public class BottomUpNFTA
         implements NonDeterministicAutomaton<Triple<String, String, String>, String>
 {
     private StateChoice<Triple<String, String, String>, String> choice;
-    private BottomUpTransitions<Set<String>> transitions =
+    private final BottomUpTransitions<Set<String>> transitions =
             new BottomUpTransitions<>(this::keyToString, this::valueSetToString);
 
     public BottomUpNFTA(Collection<Variable> variables, Collection<String> alphabet)
@@ -122,8 +122,8 @@ public class BottomUpNFTA
     @Override
     public String toString()
     {
-        return "BottomUpNFTA:\n  alphabet = " + alphabet.toString() + "\n  variables = "
-                + variables.toString() + "\n  transitions = " + transitions.toString();
+        return String.format("BottomUpNFTA:\n  alphabet = %s\n  variables = %s\n  transitions = %s",
+                             alphabet, variables, transitions);
     }
 
     @Override

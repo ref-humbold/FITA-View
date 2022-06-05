@@ -6,7 +6,7 @@ class TreeXMLBuilder
 {
     private TreeNode currentTree;
     private TreeXMLBuilder parent;
-    private StringBuilder body = new StringBuilder();
+    private final StringBuilder body = new StringBuilder();
 
     TreeXMLBuilder()
     {
@@ -44,7 +44,7 @@ class TreeXMLBuilder
         if(isNode(currentTree) && !currentTree.isLeaf())
         {
             output.append(">");
-            output.append(indentBody().toString());
+            output.append(indentBody());
             output.append("</");
             output.append(getNodeName(currentTree));
             output.append(">\n");
@@ -71,7 +71,7 @@ class TreeXMLBuilder
     private StringBuilder indentBody()
     {
         String indentString = String.join("", Collections.nCopies(2, " "));
-        StringBuilder indented = new StringBuilder("\n" + body.toString().trim());
+        StringBuilder indented = new StringBuilder(String.format("\n%s", body.toString().trim()));
         int indexStart = 0;
 
         while(indexStart >= 0)

@@ -12,9 +12,9 @@ import org.xml.sax.SAXException;
 
 public class AutomatonReader
 {
-    private File file;
-    private SAXParser parser;
-    private AutomatonType type;
+    private final File file;
+    private final SAXParser parser;
+    private final AutomatonType type;
 
     public AutomatonReader(File file)
             throws SAXException

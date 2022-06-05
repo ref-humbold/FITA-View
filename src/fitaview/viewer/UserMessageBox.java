@@ -2,7 +2,7 @@ package fitaview.viewer;
 
 import javax.swing.JOptionPane;
 
-public class UserMessageBox
+public final class UserMessageBox
 {
     public static void showInfo(String title, String info)
     {
@@ -16,7 +16,7 @@ public class UserMessageBox
 
     public static void showException(Exception exception)
     {
-        JOptionPane.showMessageDialog(null, "Error: " + exception.getMessage(),
+        JOptionPane.showMessageDialog(null, String.format("Error: %s", exception.getMessage()),
                                       exception.getClass().getSimpleName(),
                                       JOptionPane.ERROR_MESSAGE);
     }

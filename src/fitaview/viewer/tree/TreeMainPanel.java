@@ -30,9 +30,9 @@ public class TreeMainPanel
 {
     private static final long serialVersionUID = 5944023926285119879L;
 
-    private Pointer<TreeAutomaton> automatonPointer;
-    private Pointer<Pair<TreeNode, Integer>> treePointer;
-    private TitlePanel titlePanel = new TitlePanel("tree", KeyEvent.VK_T, KeyEvent.VK_M);
+    private final Pointer<TreeAutomaton> automatonPointer;
+    private final Pointer<Pair<TreeNode, Integer>> treePointer;
+    private final TitlePanel titlePanel = new TitlePanel("tree", KeyEvent.VK_T, KeyEvent.VK_M);
     private TreeDrawingArea drawingArea;
     private MovingButtonsPanel movingPanel;
     private ZoomButtonsPanel zoomPanel;
@@ -81,8 +81,8 @@ public class TreeMainPanel
                     if(!automatonPointer.isEmpty())
                         automatonPointer.get().setTree(treePointer.get().getFirst());
 
-                    UserMessageBox.showInfo("SUCCESS",
-                                            "Successfully loaded file " + file.getName());
+                    UserMessageBox.showInfo("SUCCESS", String.format("Successfully loaded file %s",
+                                                                     file.getName()));
                 }
                 catch(Exception e)
                 {

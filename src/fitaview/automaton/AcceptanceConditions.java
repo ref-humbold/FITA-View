@@ -25,12 +25,12 @@ public class AcceptanceConditions
         {
             conditionString = Objects.equals(entry.getValue().getFirst(), Wildcard.EVERY_VALUE)
                     ? "any value possible"
-                    : "equal to '" + entry.getValue().getFirst() + "'";
+                    : String.format("equal to '%s'", entry.getValue().getFirst());
         }
         else
-            conditionString = "other than '" + entry.getValue().getFirst() + "'";
+            conditionString = String.format("other than '%s'", entry.getValue().getFirst());
 
-        return entry.getKey().getVarName() + " :: " + conditionString;
+        return String.format("%s :: %s", entry.getKey().getVarName(), conditionString);
     }
 
     public Set<Map<Variable, Pair<String, Boolean>>> getStatesConditions()
@@ -56,7 +56,7 @@ public class AcceptanceConditions
     }
 
     /**
-     * Testing if specified state can be accepted by the automaton.
+     * Checking if specified state can be accepted by the automaton.
      * @param state state from a tree node
      * @return {@code true} if state is accepted, otherwise {@code false}
      * @throws UndefinedStateValueException if state contains a variable with undefined value

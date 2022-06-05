@@ -4,20 +4,22 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.*;
 
 import fitaview.viewer.ButtonsPanel;
 
 public class ZoomButtonsPanel
-    extends ButtonsPanel
+        extends ButtonsPanel
 {
     private static final long serialVersionUID = 4405922702318394293L;
 
-    private List<JButton> buttons = new ArrayList<>();
-    private JLabel zoomLabel = new JLabel();
-    private TreeDrawingArea drawingArea;
+    private final List<JButton> buttons = new ArrayList<>();
+    private final JLabel zoomLabel = new JLabel();
+    private final TreeDrawingArea drawingArea;
 
     public ZoomButtonsPanel(TreeDrawingArea drawingArea)
     {
@@ -78,7 +80,8 @@ public class ZoomButtonsPanel
 
     private JButton createButton(Zooming zooming, String iconFilename, int key)
     {
-        ImageIcon icon = new ImageIcon(getClass().getResource(iconFilename));
+        URL resource = Objects.requireNonNull(getClass().getResource(iconFilename));
+        ImageIcon icon = new ImageIcon(resource);
         JButton button = new JButton(icon);
 
         initButton(button, zooming.toString(), key);

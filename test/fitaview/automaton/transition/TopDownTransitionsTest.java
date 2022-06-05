@@ -294,6 +294,6 @@ public class TopDownTransitionsTest
 
     private String pairFunction(Pair<String, String> pair)
     {
-        return "[ " + pair.getFirst() + " # " + pair.getSecond() + " ]";
+        return String.format("[ %s # %s ]", pair.getFirst(), pair.getSecond());
     }
 }

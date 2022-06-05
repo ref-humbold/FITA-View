@@ -13,7 +13,7 @@ import fitaview.viewer.tree.TreeMainPanel;
 
 public class MainWindow
 {
-    private JFrame frame = new JFrame("FITA-View: Finite and Infinite Tree Automata Viewer");
+    private final JFrame frame = new JFrame("FITA-View: Finite and Infinite Tree Automata Viewer");
 
     public MainWindow()
     {

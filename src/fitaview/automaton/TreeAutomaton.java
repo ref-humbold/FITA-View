@@ -62,7 +62,7 @@ public interface TreeAutomaton
     AutomatonRunningMode getRunningMode();
 
     /**
-     * Testing if the automaton is traversing an associated tree.
+     * Checking if the automaton is traversing an associated tree.
      * @return {@code true} if the automaton is running, otherwise {@code false}
      */
     default boolean isRunning()
@@ -85,7 +85,7 @@ public interface TreeAutomaton
     void setSendingMessages(boolean isSendingMessages);
 
     /**
-     * Testing if associated tree is accepted by the automaton.
+     * Checking if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      * @throws UndefinedAcceptanceException if no acceptance conditions were defined
      * @throws UndefinedStateValueException if state of the tree is undefined
@@ -101,7 +101,7 @@ public interface TreeAutomaton
     void addAcceptanceConditions(Map<Variable, Pair<String, Boolean>> accept);
 
     /**
-     * Testing if label is present in alphabet recognised by the automaton.
+     * Checking if label is present in alphabet recognised by the automaton.
      * @param label label to test
      * @return {@code true} if label is present in alphabet, otherwise {@code false}
      */

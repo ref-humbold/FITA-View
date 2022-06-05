@@ -2,10 +2,10 @@ package fitaview.automaton.nondeterminism;
 
 import java.util.function.Function;
 
-public class StateChoiceFactory
+public final class StateChoiceFactory
 {
     public static <K, R> StateChoice<K, R> createAutomatedChoice(StateChoiceMode mode)
-        throws IncorrectStateChoiceModeException
+            throws IncorrectStateChoiceModeException
     {
         switch(mode)
         {
@@ -23,7 +23,7 @@ public class StateChoiceFactory
 
             case USER:
                 throw new IncorrectStateChoiceModeException(
-                    "UserChoice cannot be chosen as an automated choice");
+                        "UserChoice cannot be chosen as an automated choice");
         }
 
         return null;

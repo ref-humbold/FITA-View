@@ -12,8 +12,9 @@ import fitaview.utils.XMLHandler;
 class TreeHandler
         extends XMLHandler<TreeNode>
 {
-    private Stack<Pair<StandardNode, TreeChild>> nodes = new Stack<>();
-    private Stack<RepeatNode> repeats = new Stack<>();
+    private static final int MAX_HEIGHT = 15;
+    private final Stack<Pair<StandardNode, TreeChild>> nodes = new Stack<>();
+    private final Stack<RepeatNode> repeats = new Stack<>();
     private int index = 1;
     private int actualDepth = 0;
     private int maxDepth = 0;
@@ -38,10 +39,10 @@ class TreeHandler
         ++actualDepth;
         maxDepth = Math.max(maxDepth, actualDepth);
 
-        if(actualDepth > TreeNode.MAX_HEIGHT)
+        if(actualDepth > MAX_HEIGHT)
             throw new TreeDepthException(
                     String.format("%s: Tree depth is greater than allowed %d", writePosition(),
-                                  TreeNode.MAX_HEIGHT));
+                                  MAX_HEIGHT));
 
         switch(qName)
         {

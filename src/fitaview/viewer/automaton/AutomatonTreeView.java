@@ -30,10 +30,10 @@ public class AutomatonTreeView
 {
     static final String EMPTY_ROOT_TEXT = "No automaton specified...";
     private static final long serialVersionUID = 5636100205267426054L;
+    final DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(EMPTY_ROOT_TEXT);
+    final Map<Variable, String> lastTransitions = new HashMap<>();
     private final Pointer<TreeAutomaton> automatonPointer;
-    DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(EMPTY_ROOT_TEXT);
     private final DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
-    Map<Variable, String> lastTransitions = new HashMap<>();
 
     public AutomatonTreeView(Pointer<TreeAutomaton> automatonPointer)
     {
@@ -182,8 +182,8 @@ public class AutomatonTreeView
     {
         private static final long serialVersionUID = -2455947033876221381L;
 
-        private Variable variable;
-        private String value;
+        private final Variable variable;
+        private final String value;
 
         private VariableTreeViewNode(Variable variable, String value)
         {
@@ -209,8 +209,8 @@ public class AutomatonTreeView
     {
         private static final long serialVersionUID = -5087307349812311759L;
 
-        private Variable variable;
-        private String value;
+        private final Variable variable;
+        private final String value;
 
         public TransitionTreeViewNode(Variable variable, String value)
         {

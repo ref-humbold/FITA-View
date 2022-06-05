@@ -29,13 +29,13 @@ public class ModifyingRadioButtonsPanel
 {
     private static final long serialVersionUID = -5817636533870146512L;
 
-    private Pointer<TreeAutomaton> automatonPointer;
-    private ButtonGroup traversingGroup = new ButtonGroup();
-    private ButtonGroup nonDeterminismGroup = new ButtonGroup();
-    private Map<StateChoiceMode, JRadioButton> nonDeterminismButtons = new HashMap<>();
-    private Map<TraversingMode, JRadioButton> traversingButtons = new HashMap<>();
-    private JPanel traversingPanel = new JPanel();
-    private JPanel nonDeterminismPanel = new JPanel();
+    private final Pointer<TreeAutomaton> automatonPointer;
+    private final ButtonGroup traversingGroup = new ButtonGroup();
+    private final ButtonGroup nonDeterminismGroup = new ButtonGroup();
+    private final Map<StateChoiceMode, JRadioButton> nonDeterminismButtons = new HashMap<>();
+    private final Map<TraversingMode, JRadioButton> traversingButtons = new HashMap<>();
+    private final JPanel traversingPanel = new JPanel();
+    private final JPanel nonDeterminismPanel = new JPanel();
 
     public ModifyingRadioButtonsPanel(Pointer<TreeAutomaton> automatonPointer)
     {
@@ -116,9 +116,9 @@ public class ModifyingRadioButtonsPanel
         }
 
         traversingPanel.setLayout(new GridLayout(TraversingMode.values().length, 1));
-        traversingButtons.values().forEach(button -> traversingPanel.add(button));
+        traversingButtons.values().forEach(traversingPanel::add);
         nonDeterminismPanel.setLayout(new GridLayout(StateChoiceMode.values().length, 1));
-        nonDeterminismButtons.values().forEach(button -> nonDeterminismPanel.add(button));
+        nonDeterminismButtons.values().forEach(nonDeterminismPanel::add);
     }
 
     private void addComponents()

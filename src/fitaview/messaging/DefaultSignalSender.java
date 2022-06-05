@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DefaultSignalSender
-    implements SignalSender
+        implements SignalSender
 {
-    Set<SignalReceiver> receivers = new HashSet<>();
+    final Set<SignalReceiver> receivers = new HashSet<>();
 
     @Override
     public void addReceiver(SignalReceiver receiver)

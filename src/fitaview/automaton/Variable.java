@@ -3,31 +3,31 @@ package fitaview.automaton;
 import java.util.*;
 
 public class Variable
-    implements Iterable<String>
+        implements Iterable<String>
 {
-    private int index;
-    private String initValue;
-    private Set<String> values = new HashSet<>();
+    private final int index;
+    private final String initValue;
+    private final Set<String> values = new HashSet<>();
 
     public Variable(int index, String init)
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         if(init == null || init.isEmpty())
             throw new IllegalVariableValueException("Initial value is null or empty");
 
         this.index = index;
-        this.initValue = init;
-        this.values.add(this.initValue);
+        initValue = init;
+        values.add(initValue);
     }
 
     public Variable(int index, String init, String... values)
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         this(index, init, Arrays.asList(values));
     }
 
     public Variable(int index, String init, Collection<String> values)
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         this(index, init);
 
@@ -65,7 +65,7 @@ public class Variable
     }
 
     /**
-     * Testing if specified string is value of the variable.
+     * Checking if specified string is value of the variable.
      * @param value string to test
      * @return {@code true} if this string is value, otherwise {@code false}
      */
@@ -97,13 +97,12 @@ public class Variable
 
         Variable other = (Variable)obj;
 
-        return Objects.equals(this.initValue, other.initValue) && Objects.equals(this.values,
-                                                                                 other.values);
+        return Objects.equals(initValue, other.initValue) && Objects.equals(values, other.values);
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s::%s", getVarName(), values.toString());
+        return String.format("%s::%s", getVarName(), values);
     }
 }

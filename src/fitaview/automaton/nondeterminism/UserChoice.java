@@ -20,7 +20,7 @@ import fitaview.automaton.Variable;
 import fitaview.viewer.UserMessageBox;
 
 public class UserChoice<K, R>
-    implements StateChoice<K, R>, ActionListener, PropertyChangeListener
+        implements StateChoice<K, R>, ActionListener, PropertyChangeListener
 {
     private final WindowAdapter windowAdapter = new UserWindowAdapter();
     private final JFrame frame = new JFrame();
@@ -28,8 +28,8 @@ public class UserChoice<K, R>
     private JOptionPane optionPane;
     private R current;
     private List<R> resultStates;
-    private Function<K, String> convertKey;
-    private Function<R, String> convertResult;
+    private final Function<K, String> convertKey;
+    private final Function<R, String> convertResult;
 
     public UserChoice(Function<K, String> convertKey, Function<R, String> convertResult)
     {
@@ -69,14 +69,15 @@ public class UserChoice<K, R>
     public void propertyChange(PropertyChangeEvent event)
     {
         if(dialog.isVisible() && event.getSource() == optionPane && Objects.equals(
-            event.getPropertyName(), JOptionPane.VALUE_PROPERTY))
+                event.getPropertyName(), JOptionPane.VALUE_PROPERTY))
             dialog.dispose();
     }
 
     private void createDialog(Variable var, K key)
     {
         Object[] options = new Object[]{"CHOOSE"};
-        JLabel label = new JLabel(var.getVarName() + " -- " + convertKey.apply(key));
+        JLabel label =
+                new JLabel(String.format("%s -- %s", var.getVarName(), convertKey.apply(key)));
         JPanel panel = new JPanel();
 
         label.setFont(new Font(null, Font.BOLD, 16));
@@ -89,8 +90,9 @@ public class UserChoice<K, R>
         panel.add(generateButtons());
 
         dialog = new JDialog(frame, "USER non-deterministic choice", true);
-        optionPane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE,
-                                     JOptionPane.DEFAULT_OPTION, null, options, options[0]);
+        optionPane =
+                new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION,
+                                null, options, options[0]);
 
         optionPane.addPropertyChangeListener(this);
         dialog.addWindowListener(windowAdapter);
@@ -121,14 +123,14 @@ public class UserChoice<K, R>
         return buttonsPanel;
     }
 
-    private class UserWindowAdapter
-        extends WindowAdapter
+    private static class UserWindowAdapter
+            extends WindowAdapter
     {
         @Override
         public void windowClosing(WindowEvent windowEvent)
         {
             UserMessageBox.showException(
-                new StateNotChosenException("New states haven't been chosen! Choose states!"));
+                    new StateNotChosenException("New states haven't been chosen! Choose states!"));
         }
     }
 }

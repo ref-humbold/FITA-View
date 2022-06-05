@@ -13,7 +13,7 @@ import fitaview.utils.Triple;
 public class BottomUpDFTA
         extends BottomUpAutomaton
 {
-    private BottomUpTransitions<String> transitions =
+    private final BottomUpTransitions<String> transitions =
             new BottomUpTransitions<>(this::keyToString, this::valueToString);
 
     public BottomUpDFTA(Collection<Variable> variables, Collection<String> alphabet)
@@ -100,7 +100,7 @@ public class BottomUpDFTA
     public String toString()
     {
         return String.format("BottomUpDFTA:\n  alphabet = %s\n  variables = %s\n  transitions = %s",
-                             alphabet.toString(), variables.toString(), transitions.toString());
+                             alphabet, variables, transitions);
     }
 
     @Override

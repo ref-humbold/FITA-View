@@ -34,6 +34,6 @@ public class RepeatNode
         String leftString = getLeft() == null ? "#" : getLeft().toString();
         String rightString = getRight() == null ? "#" : getRight().toString();
 
-        return "<@ '" + getLabel() + "'," + leftString + ", " + rightString + " @>";
+        return String.format("<@ '%s',%s, %s @>", getLabel(), leftString, rightString);
     }
 }

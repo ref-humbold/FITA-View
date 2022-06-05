@@ -22,10 +22,9 @@ public abstract class XMLHandler<T>
 
     protected String writePosition()
     {
-        if(locator == null)
-            return "";
-
-        return String.format("LINE %d, COLUMN %d", locator.getLineNumber(),
-                             locator.getColumnNumber());
+        return locator == null
+                ? ""
+                : String.format("LINE %d, COLUMN %d", locator.getLineNumber(),
+                                locator.getColumnNumber());
     }
 }

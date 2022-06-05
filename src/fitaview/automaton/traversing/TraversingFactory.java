@@ -1,9 +1,9 @@
 package fitaview.automaton.traversing;
 
-public class TraversingFactory
+public final class TraversingFactory
 {
     public static BottomUpTraversing getBottomUpTraversing(TraversingMode mode)
-        throws IncorrectTraversingException
+            throws IncorrectTraversingException
     {
         switch(mode)
         {
@@ -15,7 +15,7 @@ public class TraversingFactory
 
             case DFS:
                 throw new IncorrectTraversingException(
-                    "Cannot perform DFS traversing on bottom-up automaton");
+                        "Cannot perform DFS traversing on bottom-up automaton");
         }
 
         return null;

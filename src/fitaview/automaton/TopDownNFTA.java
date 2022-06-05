@@ -7,7 +7,7 @@ import fitaview.tree.TreeNode;
 import fitaview.tree.UndefinedStateValueException;
 
 public class TopDownNFTA
-    extends TopDownNondeterministicAutomaton
+        extends TopDownNondeterministicAutomaton
 {
     public TopDownNFTA(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -22,7 +22,7 @@ public class TopDownNFTA
 
     @Override
     public Boolean isAccepted()
-        throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
+            throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException
     {
         if(tree == null)
             throw new NoTreeException("No tree specified");
@@ -44,10 +44,10 @@ public class TopDownNFTA
 
         TopDownNFTA other = (TopDownNFTA)o;
 
-        return Objects.equals(this.alphabet, other.alphabet) && Objects.equals(this.variables,
-                                                                               other.variables)
-            && Objects.equals(this.acceptanceConditions, other.acceptanceConditions)
-            && Objects.equals(this.transitions, other.transitions);
+        return Objects.equals(alphabet, other.alphabet) && Objects.equals(variables,
+                                                                          other.variables)
+                && Objects.equals(acceptanceConditions, other.acceptanceConditions)
+                && Objects.equals(transitions, other.transitions);
     }
 
     @Override
@@ -59,13 +59,13 @@ public class TopDownNFTA
     @Override
     public String toString()
     {
-        return "TopDownNFTA\n  alphabet = " + alphabet.toString() + "\n  variables = "
-            + variables.toString() + "\n  transitions = " + transitions.toString();
+        return String.format("TopDownNFTA\n  alphabet = %s\n  variables = %s\n  transitions = %s",
+                             alphabet, variables, transitions);
     }
 
     @Override
     protected void assertFiniteness(TreeNode tree)
-        throws TreeFinitenessException
+            throws TreeFinitenessException
     {
         if(containsRecursiveNode(tree))
             throw new TreeFinitenessException("Tree is infinite");
@@ -74,7 +74,8 @@ public class TopDownNFTA
     @Override
     protected void changeRunningMode()
     {
-        setRunningMode(
-            traversing.hasNext() ? AutomatonRunningMode.RUNNING : AutomatonRunningMode.FINISHED);
+        setRunningMode(traversing.hasNext()
+                               ? AutomatonRunningMode.RUNNING
+                               : AutomatonRunningMode.FINISHED);
     }
 }

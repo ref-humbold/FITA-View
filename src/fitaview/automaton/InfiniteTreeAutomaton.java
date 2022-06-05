@@ -15,7 +15,7 @@ public interface InfiniteTreeAutomaton
     AcceptanceConditions getBuchiAcceptanceConditions();
 
     /**
-     * Testing if associated tree is accepted by the automaton in terms of Buchi acceptance.
+     * Checking if associated tree is accepted by the automaton in terms of Buchi acceptance.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      */
     Boolean isBuchiAccepted()

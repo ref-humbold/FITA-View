@@ -17,11 +17,9 @@ public class DefaultSignalSenderTest
 {
     private DefaultSignalSender testObject;
 
-    @Mock
-    private SignalSender mockSender;
+    @Mock private SignalSender mockSender;
 
-    @Mock
-    private SignalReceiver mockReceiver;
+    @Mock private SignalReceiver mockReceiver;
 
     @Before
     public void setUp()
@@ -106,7 +104,8 @@ public class DefaultSignalSenderTest
         testObject.send();
 
         Message<Void> result = (Message<Void>)arg[0];
-        String expected = "MESSAGE from " + testObject.getClass().getSimpleName() + ": 'null'";
+        String expected =
+                String.format("MESSAGE from %s: 'null'", testObject.getClass().getSimpleName());
 
         Assert.assertSame(testObject, result.getSource());
         Assert.assertNull(result.getParam());
@@ -128,7 +127,8 @@ public class DefaultSignalSenderTest
         testObject.sendSignal(new Message<>(mockSender));
 
         Message<Void> result = (Message<Void>)arg[0];
-        String expected = "MESSAGE from " + mockSender.getClass().getSimpleName() + ": 'null'";
+        String expected =
+                String.format("MESSAGE from %s: 'null'", mockSender.getClass().getSimpleName());
 
         Assert.assertSame(mockSender, result.getSource());
         Assert.assertNull(result.getParam());

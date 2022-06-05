@@ -24,8 +24,8 @@ public class TransitionDrawingArea
     Pair<String, Map<Variable, String>> parentInfo;
     Pair<String, Map<Variable, String>> leftSonInfo;
     Pair<String, Map<Variable, String>> rightSonInfo;
-    private StateDrawer stateDrawer = new StateDrawer();
-    private Pointer<TreeAutomaton> automatonPointer;
+    private final StateDrawer stateDrawer = new StateDrawer();
+    private final Pointer<TreeAutomaton> automatonPointer;
 
     public TransitionDrawingArea(Pointer<TreeAutomaton> automatonPointer)
     {

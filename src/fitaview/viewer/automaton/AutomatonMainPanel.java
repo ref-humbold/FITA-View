@@ -31,9 +31,9 @@ public class AutomatonMainPanel
 {
     private static final long serialVersionUID = -7678389910832412322L;
 
-    private Pointer<TreeAutomaton> automatonPointer;
-    private Pointer<Pair<TreeNode, Integer>> treePointer;
-    private TitlePanel titlePanel = new TitlePanel("automaton", KeyEvent.VK_A, KeyEvent.VK_N);
+    private final Pointer<TreeAutomaton> automatonPointer;
+    private final Pointer<Pair<TreeNode, Integer>> treePointer;
+    private final TitlePanel titlePanel = new TitlePanel("automaton", KeyEvent.VK_A, KeyEvent.VK_N);
     private AcceptancePanel acceptancePanel;
     private AutomatonScrollTreeView scrollTreeView;
     private TransitionDrawingArea transitionDrawingArea;
@@ -81,8 +81,8 @@ public class AutomatonMainPanel
                     else
                         automatonPointer.get().setTree(treePointer.get().getFirst());
 
-                    UserMessageBox.showInfo("SUCCESS",
-                                            "Successfully loaded file " + file.getName());
+                    UserMessageBox.showInfo("SUCCESS", String.format("Successfully loaded file %s",
+                                                                     file.getName()));
                 }
                 catch(IOException | TreeFinitenessException | SAXException e)
                 {

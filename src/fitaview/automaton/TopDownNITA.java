@@ -18,9 +18,10 @@ public class TopDownNITA
         extends TopDownNondeterministicAutomaton
         implements InfiniteTreeAutomaton
 {
-    private AcceptanceConditions infiniteAcceptanceConditions = new AcceptanceConditions();
-    private Map<TreeNode, Map<Map<Variable, String>, Integer>> repeatingStates = new HashMap<>();
-    private Map<TreeNode, Integer> numberRecursive = new HashMap<>();
+    private final AcceptanceConditions infiniteAcceptanceConditions = new AcceptanceConditions();
+    private final Map<TreeNode, Map<Map<Variable, String>, Integer>> repeatingStates =
+            new HashMap<>();
+    private final Map<TreeNode, Integer> numberRecursive = new HashMap<>();
     private int maximumRecursive;
 
     public TopDownNITA(Collection<Variable> variables, Collection<String> alphabet)
@@ -99,16 +100,15 @@ public class TopDownNITA
         return Objects.equals(alphabet, other.alphabet) && Objects.equals(variables,
                                                                           other.variables)
                 && Objects.equals(acceptanceConditions, other.acceptanceConditions)
-                && Objects.equals(infiniteAcceptanceConditions,
-                                  other.infiniteAcceptanceConditions) && Objects.equals(
-                transitions, other.transitions);
+                && Objects.equals(infiniteAcceptanceConditions, other.infiniteAcceptanceConditions)
+                && Objects.equals(transitions, other.transitions);
     }
 
     @Override
     public String toString()
     {
-        return "TopDownNITA\n  alphabet = " + alphabet.toString() + "\n  variables = "
-                + variables.toString() + "\n  transitions = " + transitions.toString();
+        return String.format("TopDownNITA\n  alphabet = %s\n  variables = %s\n  transitions = %s",
+                             alphabet, variables, transitions);
     }
 
     @Override

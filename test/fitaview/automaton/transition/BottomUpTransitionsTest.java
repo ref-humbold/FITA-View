@@ -337,11 +337,11 @@ public class BottomUpTransitionsTest
 
     private String keyFunction(Triple<String, String, String> key)
     {
-        return "[ " + key.getFirst() + " # " + key.getSecond() + " # " + key.getThird() + " ]";
+        return String.format("[ %s # %s # %s ]", key.getFirst(), key.getSecond(), key.getThird());
     }
 
     private String valueFunction(String value)
     {
-        return "[ " + value + " ]";
+        return String.format("[ %s ]", value);
     }
 }

@@ -17,7 +17,7 @@ public abstract class TopDownNondeterministicAutomaton
         extends TopDownAutomaton
         implements NonDeterministicAutomaton<Pair<String, String>, Pair<String, String>>
 {
-    protected TopDownTransitions<Set<Pair<String, String>>> transitions =
+    protected final TopDownTransitions<Set<Pair<String, String>>> transitions =
             new TopDownTransitions<>(this::keyToString, this::valueSetToString);
     private StateChoice<Pair<String, String>, Pair<String, String>> choice;
 

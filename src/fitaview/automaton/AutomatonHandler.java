@@ -11,8 +11,8 @@ import fitaview.utils.XMLHandler;
 abstract class AutomatonHandler<T extends TreeAutomaton>
         extends XMLHandler<T>
 {
-    protected Collection<String> alphabet = new ArrayList<>();
-    protected Map<Integer, Variable> variables = new HashMap<>();
+    protected final Collection<String> alphabet = new ArrayList<>();
+    protected final Map<Integer, Variable> variables = new HashMap<>();
     protected Map<Variable, Pair<String, Boolean>> conditions;
     protected StringBuilder content;
     protected String tagName;
@@ -69,28 +69,28 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
                 Variable v = variables.get(id);
 
                 if(conditions.containsKey(v))
-                    throw new DuplicatedAcceptanceValueException(
-                            writePosition() + "Acceptance condition for variable with ID " + id
-                                    + " has been already defined");
+                    throw new DuplicatedAcceptanceValueException(String.format(
+                            "%s Acceptance condition for variable with ID %d has been already "
+                                    + "defined", writePosition(), id));
 
                 if(attributes.getIndex("include") >= 0 && attributes.getIndex("exclude") >= 0)
-                    throw new IncorrectAcceptanceConditionException(
-                            writePosition() + "Acceptance condition for variable with ID " + id
-                                    + "contains both 'include' and 'exclude'");
+                    throw new IncorrectAcceptanceConditionException(String.format(
+                            "%s Acceptance condition for variable with ID %d contains both "
+                                    + "'include' and 'exclude'", writePosition(), id));
 
                 if(attributes.getIndex("include") < 0 && attributes.getIndex("exclude") < 0)
-                    throw new IncorrectAcceptanceConditionException(
-                            writePosition() + "Acceptance condition for variable with ID " + id
-                                    + "contains neither 'include' nor 'exclude'");
+                    throw new IncorrectAcceptanceConditionException(String.format(
+                            "%s Acceptance condition for variable with ID %d contains neither "
+                                    + "'include' nor 'exclude'", writePosition(), id));
 
                 if(attributes.getIndex("include") >= 0)
                 {
                     String value = attributes.getValue("include");
 
                     if(!Objects.equals(value, Wildcard.EVERY_VALUE) && !v.contains(value))
-                        throw new IllegalVariableValueException(
-                                writePosition() + "Given value '" + value
-                                        + "'is not a value of variable with ID " + id);
+                        throw new IllegalVariableValueException(String.format(
+                                "%s Given value '%s' is not a value of variable with ID %d",
+                                writePosition(), value, id));
 
                     conditions.put(v, Pair.make(value, true));
                 }
@@ -99,9 +99,9 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
                     String value = attributes.getValue("exclude");
 
                     if(!v.contains(value))
-                        throw new IllegalVariableValueException(
-                                writePosition() + "Given value '" + value
-                                        + "'is not a value of variable with ID " + id);
+                        throw new IllegalVariableValueException(String.format(
+                                "%s Given value '%s' is not a value of variable with ID %d",
+                                writePosition(), value, id));
 
                     conditions.put(v, Pair.make(value, false));
                 }

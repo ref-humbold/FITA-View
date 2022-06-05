@@ -17,7 +17,7 @@ public abstract class TopDownAutomaton
         extends AbstractTreeAutomaton
 {
     protected TopDownTraversing traversing;
-    List<Map<Variable, String>> leafStates = new ArrayList<>();
+    final List<Map<Variable, String>> leafStates = new ArrayList<>();
 
     public TopDownAutomaton(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -160,7 +160,7 @@ public abstract class TopDownAutomaton
      */
     protected String keyToString(Pair<String, String> key)
     {
-        return "VALUE = '" + key.getFirst() + "', LABEL = '" + key.getSecond() + "'";
+        return String.format("VALUE = '%s', LABEL = '%s'", key.getFirst(), key.getSecond());
     }
 
     /**
@@ -170,8 +170,8 @@ public abstract class TopDownAutomaton
      */
     protected String valueToString(Pair<String, String> value)
     {
-        return "( LEFT VALUE = '" + value.getFirst() + "', RIGHT VALUE = " + value.getSecond()
-                + "' )";
+        return String.format("( LEFT VALUE = '%s', RIGHT VALUE = %s' )", value.getFirst(),
+                             value.getSecond());
     }
 
     /**

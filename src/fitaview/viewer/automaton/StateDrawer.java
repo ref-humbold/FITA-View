@@ -40,7 +40,7 @@ public class StateDrawer
         List<Map.Entry<Variable, String>> entries = new ArrayList<>(state.entrySet());
 
         graphics.drawRoundRect(leftAxis, upperAxis, rectWidth, rectHeight, 5, 5);
-        graphics.drawString("'" + label + "'", leftAxis + rectWidth / 4, upperAxis + 15);
+        graphics.drawString(String.format("'%s'", label), leftAxis + rectWidth / 4, upperAxis + 15);
 
         for(int i = 0; i < entries.size(); ++i)
             graphics.drawString(getEntryString(entries.get(i)), leftAxis + 10,
@@ -84,6 +84,6 @@ public class StateDrawer
 
     private String getEntryString(Map.Entry<Variable, String> entry)
     {
-        return entry.getKey().getVarName() + " :: " + entry.getValue();
+        return String.format("%s :: %s", entry.getKey().getVarName(), entry.getValue());
     }
 }

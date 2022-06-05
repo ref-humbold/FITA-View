@@ -14,7 +14,7 @@ public abstract class BottomUpAutomaton
         extends AbstractTreeAutomaton
 {
     protected BottomUpTraversing traversing;
-    private List<TreeNode> leaves = new ArrayList<>();
+    private final List<TreeNode> leaves = new ArrayList<>();
 
     public BottomUpAutomaton(Collection<Variable> variables, Collection<String> alphabet)
     {
@@ -77,7 +77,7 @@ public abstract class BottomUpAutomaton
             throws DuplicatedTransitionException, IllegalTransitionException;
 
     /**
-     * Testing if the automaton can accept at least one tree.
+     * Checking if the automaton can accept at least one tree.
      * @return {@code true} if the automaton cannot accept any tree, otherwise {@code false}
      */
     public abstract boolean checkEmptiness()
@@ -193,8 +193,8 @@ public abstract class BottomUpAutomaton
      */
     protected String keyToString(Triple<String, String, String> key)
     {
-        return "LEFT VALUE = '" + key.getFirst() + "', RIGHT VALUE = '" + key.getSecond()
-                + "', LABEL = '" + key.getThird() + "'";
+        return String.format("LEFT VALUE = '%s', RIGHT VALUE = '%s', LABEL = '%s'", key.getFirst(),
+                             key.getSecond(), key.getThird());
     }
 
     /**
@@ -204,7 +204,7 @@ public abstract class BottomUpAutomaton
      */
     protected String valueToString(String value)
     {
-        return "VALUE = '" + value + "'";
+        return String.format("VALUE = '%s'", value);
     }
 
     private void findLeaves()

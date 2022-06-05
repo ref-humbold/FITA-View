@@ -41,7 +41,7 @@ public class BottomUpTransitions<V>
             }
         }
 
-        for(int i = 1; i < 1 << key.size(); ++i)
+        for(int i = 1; i < 8; ++i)
         {
             Triple<String, String, String> wildcardKey = setWildcardEvery(i, key);
 
@@ -60,9 +60,9 @@ public class BottomUpTransitions<V>
                                                                                    Wildcard.EVERY_VALUE))
                 || (Objects.equals(key.getSecond(), Wildcard.SAME_VALUE) && !Objects.equals(
                 key.getFirst(), Wildcard.EVERY_VALUE)))
-            throw new IllegalTransitionException(
-                    "Transition cannot contain wildcard " + Wildcard.SAME_VALUE
-                            + " as both left and right value");
+            throw new IllegalTransitionException(String.format(
+                    "Transition cannot contain wildcard %s as both left and right value",
+                    Wildcard.SAME_VALUE));
 
         super.add(var, key, value);
     }
@@ -91,7 +91,7 @@ public class BottomUpTransitions<V>
             }
         }
 
-        for(int i = 0; i < 1 << key.size(); ++i)
+        for(int i = 0; i < 8; ++i)
         {
             Triple<String, String, String> wildcardKey = setWildcardEvery(i, key);
             V value = map.get(Pair.make(var, wildcardKey));
@@ -105,7 +105,7 @@ public class BottomUpTransitions<V>
 
         if(results.isEmpty())
             throw new NoSuchTransitionException(
-                    "No entry for arguments " + key + " with variable " + var);
+                    String.format("No entry for arguments %s with variable %s", key, var));
 
         return results;
     }
@@ -132,7 +132,7 @@ public class BottomUpTransitions<V>
             }
         }
 
-        for(int i = 0; i < 1 << key.size(); ++i)
+        for(int i = 0; i < 8; ++i)
         {
             Triple<String, String, String> wildcardKey = setWildcardEvery(i, key);
             V value = map.get(Pair.make(var, wildcardKey));
@@ -145,7 +145,7 @@ public class BottomUpTransitions<V>
         }
 
         throw new NoSuchTransitionException(
-                "No entry for arguments " + key + " with variable " + var);
+                String.format("No entry for arguments %s with variable %s", key, var));
     }
 
     @Override

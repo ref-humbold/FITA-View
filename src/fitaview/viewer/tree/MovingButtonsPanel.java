@@ -2,8 +2,10 @@ package fitaview.viewer.tree;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -13,12 +15,12 @@ import javax.swing.JButton;
 import fitaview.viewer.ButtonsPanel;
 
 public class MovingButtonsPanel
-    extends ButtonsPanel
+        extends ButtonsPanel
 {
     private static final long serialVersionUID = -1998309322600823517L;
 
-    private List<JButton> buttons = new ArrayList<>();
-    private TreeDrawingArea drawingArea;
+    private final List<JButton> buttons = new ArrayList<>();
+    private final TreeDrawingArea drawingArea;
 
     public MovingButtonsPanel(TreeDrawingArea drawingArea)
     {
@@ -69,8 +71,8 @@ public class MovingButtonsPanel
         JButton leftButton = createButton(Direction.LEFT, "triangle-left.png", KeyEvent.VK_LEFT);
         JButton upButton = createButton(Direction.UP, "triangle-up.png", KeyEvent.VK_UP);
         JButton downButton = createButton(Direction.DOWN, "triangle-down.png", KeyEvent.VK_DOWN);
-        JButton rightButton = createButton(Direction.RIGHT, "triangle-right.png",
-                                           KeyEvent.VK_RIGHT);
+        JButton rightButton =
+                createButton(Direction.RIGHT, "triangle-right.png", KeyEvent.VK_RIGHT);
         JButton centreButton = createButton(Direction.CENTRE, "circle-dot.png", KeyEvent.VK_HOME);
 
         buttons.add(leftButton);
@@ -82,7 +84,8 @@ public class MovingButtonsPanel
 
     private JButton createButton(Direction direction, String iconFilename, int key)
     {
-        ImageIcon icon = new ImageIcon(getClass().getResource(iconFilename));
+        URL resource = Objects.requireNonNull(getClass().getResource(iconFilename));
+        ImageIcon icon = new ImageIcon(resource);
         JButton button = new JButton(icon);
 
         initButton(button, direction.toString(), key);

@@ -8,9 +8,9 @@ import java.util.Queue;
 import fitaview.tree.TreeNode;
 
 public abstract class BottomUpTraversing
-    implements TreeTraversing
+        implements TreeTraversing
 {
-    protected Queue<TreeNode> nodeQueue = new PriorityQueue<>(16, new NodeIndexComparator());
+    protected final Queue<TreeNode> nodeQueue = new PriorityQueue<>(16, new NodeIndexComparator());
 
     @Override
     public void initialize(TreeNode... nodes)
@@ -31,8 +31,8 @@ public abstract class BottomUpTraversing
         return !nodeQueue.isEmpty();
     }
 
-    private class NodeIndexComparator
-        implements Comparator<TreeNode>
+    private static class NodeIndexComparator
+            implements Comparator<TreeNode>
     {
         @Override
         public int compare(TreeNode node1, TreeNode node2)

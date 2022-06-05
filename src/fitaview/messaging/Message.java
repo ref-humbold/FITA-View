@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Message<T>
 {
-    private Object source;
-    private T param;
+    private final Object source;
+    private final T param;
 
     public Message(Object source)
     {
@@ -34,7 +34,7 @@ public class Message<T>
     @Override
     public String toString()
     {
-        return "MESSAGE from " + source.getClass().getSimpleName() + ": '" + Objects.toString(param)
-                + "'";
+        return String.format("MESSAGE from %s: '%s'", source.getClass().getSimpleName(),
+                             Objects.toString(param));
     }
 }

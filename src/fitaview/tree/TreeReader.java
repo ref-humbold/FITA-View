@@ -15,8 +15,8 @@ import fitaview.utils.Pair;
 
 public class TreeReader
 {
-    private File file;
-    private SAXParser parser;
+    private final File file;
+    private final SAXParser parser;
 
     public TreeReader(File file)
             throws SAXException

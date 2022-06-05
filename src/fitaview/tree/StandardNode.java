@@ -14,8 +14,8 @@ public class StandardNode
     private TreeNode left = new NullNode();
     private TreeNode right = new NullNode();
     private TreeNode parent = null;
-    private String label;
-    private Map<Variable, String> state = new HashMap<>();
+    private final String label;
+    private final Map<Variable, String> state = new HashMap<>();
 
     public StandardNode(String label, int index)
     {
@@ -147,7 +147,7 @@ public class StandardNode
     @Override
     public String toString()
     {
-        return "<$ '" + label + "', " + left.toString() + ", " + right.toString() + " $>";
+        return String.format("<$ '%s', %s, %s $>", label, left.toString(), right.toString());
     }
 
     @Override

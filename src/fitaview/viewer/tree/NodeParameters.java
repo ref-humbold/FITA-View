@@ -6,10 +6,10 @@ import fitaview.utils.Pair;
 class NodeParameters
 {
     private final int treeDepth;
-    private TreeNode node;
-    private int depth;
-    private int xDist;
-    private int yDist;
+    private final TreeNode node;
+    private final int depth;
+    private final int xDist;
+    private final int yDist;
 
     NodeParameters(TreeNode node, int treeDepth)
     {

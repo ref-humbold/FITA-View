@@ -20,9 +20,8 @@ public class AcceptancePanel
 {
     static final Color DARK_RED = new Color(192, 0, 0);
     private static final long serialVersionUID = -6432696545183930929L;
-
-    JLabel acceptanceLabel = new JLabel();
-    private Pointer<TreeAutomaton> automatonPointer;
+    final JLabel acceptanceLabel = new JLabel();
+    private final Pointer<TreeAutomaton> automatonPointer;
 
     public AcceptancePanel(Pointer<TreeAutomaton> automatonPointer)
     {

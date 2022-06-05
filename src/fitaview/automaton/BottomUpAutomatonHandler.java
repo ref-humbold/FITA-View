@@ -5,7 +5,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 class BottomUpAutomatonHandler
-    extends AutomatonHandler<BottomUpAutomaton>
+        extends AutomatonHandler<BottomUpAutomaton>
 {
     private String label;
     private String leftValue;
@@ -14,7 +14,7 @@ class BottomUpAutomatonHandler
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
-        throws SAXException
+            throws SAXException
     {
         tagName = qName;
         content = new StringBuilder();
@@ -35,7 +35,7 @@ class BottomUpAutomatonHandler
 
     @Override
     public void endElement(String uri, String localName, String qName)
-        throws SAXException
+            throws SAXException
     {
         switch(qName)
         {
@@ -43,8 +43,9 @@ class BottomUpAutomatonHandler
                 break;
 
             case "variables":
-                result = isDeterministic ? new BottomUpDFTA(variables.values(), alphabet)
-                                         : new BottomUpNFTA(variables.values(), alphabet);
+                result = isDeterministic
+                        ? new BottomUpDFTA(variables.values(), alphabet)
+                        : new BottomUpNFTA(variables.values(), alphabet);
                 break;
 
             case "conditions":
@@ -52,8 +53,8 @@ class BottomUpAutomatonHandler
                 {
                     if(conditions.get(variables.get(id)) == null)
                         throw new NoAcceptanceForVariableException(
-                            String.format("%s: Variable with ID %d has no acceptance condition",
-                                          writePosition(), id));
+                                String.format("%s: Variable with ID %d has no acceptance condition",
+                                              writePosition(), id));
                 }
 
                 result.addAcceptanceConditions(conditions);
@@ -70,8 +71,8 @@ class BottomUpAutomatonHandler
 
                 if(!Objects.equals(label, Wildcard.EVERY_VALUE) && !alphabet.contains(label))
                     throw new IllegalAlphabetWordException(
-                        writePosition() + "Given label '" + label
-                            + "' is not a part of result's alphabet");
+                            String.format("%sGiven label '%s' is not a part of result's alphabet",
+                                          writePosition(), label));
                 break;
 
             case "left-value":
@@ -80,10 +81,10 @@ class BottomUpAutomatonHandler
 
                 if(!Objects.equals(leftValue, Wildcard.EVERY_VALUE) && !Objects.equals(leftValue,
                                                                                        Wildcard.SAME_VALUE)
-                    && !variables.get(varID).contains(leftValue))
-                    throw new IllegalVariableValueException(
-                        writePosition() + "Given left-value '" + leftValue
-                            + "' is not a value of variable with ID " + varID);
+                        && !variables.get(varID).contains(leftValue))
+                    throw new IllegalVariableValueException(String.format(
+                            "%s Given left-value '%s' is not a value of variable with ID %d",
+                            writePosition(), leftValue, varID));
                 break;
 
             case "right-value":
@@ -92,10 +93,10 @@ class BottomUpAutomatonHandler
 
                 if(!Objects.equals(rightValue, Wildcard.EVERY_VALUE) && !Objects.equals(rightValue,
                                                                                         Wildcard.SAME_VALUE)
-                    && !variables.get(varID).contains(rightValue))
-                    throw new IllegalVariableValueException(
-                        writePosition() + "Given right-value '" + rightValue
-                            + "' is not a value of variable with ID " + varID);
+                        && !variables.get(varID).contains(rightValue))
+                    throw new IllegalVariableValueException(String.format(
+                            "%s Given right-value '%s' is not a value of variable with ID %d",
+                            writePosition(), rightValue, varID));
                 break;
 
             case "node-result":
@@ -104,10 +105,10 @@ class BottomUpAutomatonHandler
 
                 if(!Objects.equals(nodeResult, Wildcard.LEFT_VALUE) && !Objects.equals(nodeResult,
                                                                                        Wildcard.RIGHT_VALUE)
-                    && !variables.get(varID).contains(nodeResult))
-                    throw new IllegalVariableValueException(
-                        writePosition() + "Given node-result '" + nodeResult
-                            + "' is not a value of variable with ID " + varID);
+                        && !variables.get(varID).contains(nodeResult))
+                    throw new IllegalVariableValueException(String.format(
+                            "%s Given node-result '%s' is not a value of variable with ID %d",
+                            writePosition(), nodeResult, varID));
                 break;
 
             default:

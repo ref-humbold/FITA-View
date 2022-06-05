@@ -28,11 +28,6 @@ public final class Pair<F, S>
         return second;
     }
 
-    public int size()
-    {
-        return 2;
-    }
-
     @Override
     public int hashCode()
     {

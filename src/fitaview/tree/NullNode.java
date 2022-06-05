@@ -9,10 +9,10 @@ import fitaview.automaton.IllegalVariableValueException;
 import fitaview.automaton.Variable;
 
 public class NullNode
-    extends TreeNode
+        extends TreeNode
 {
     private TreeNode parent;
-    private Map<Variable, String> state = new HashMap<>();
+    private final Map<Variable, String> state = new HashMap<>();
 
     public NullNode()
     {
@@ -63,7 +63,7 @@ public class NullNode
 
     @Override
     public void setState(Map<Variable, String> state)
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         for(Map.Entry<Variable, String> entry : state.entrySet())
             setStateValue(entry.getKey(), entry.getValue());
@@ -84,7 +84,7 @@ public class NullNode
 
     @Override
     public void setStateValue(Variable var, String value)
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         if(!var.contains(value))
             throw new IllegalVariableValueException(value);
@@ -107,7 +107,7 @@ public class NullNode
     @Override
     public boolean equals(Object o)
     {
-        return this == o || o instanceof NullNode;
+        return o instanceof NullNode;
     }
 
     @Override

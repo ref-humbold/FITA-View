@@ -8,8 +8,6 @@ import fitaview.automaton.Variable;
 
 public abstract class TreeNode
 {
-    public static final int MAX_HEIGHT = 15;
-
     protected final int index;
 
     public TreeNode(int index)
@@ -45,7 +43,7 @@ public abstract class TreeNode
      * @throws UndefinedStateValueException if variable value is undefined
      */
     public Map<Variable, String> getState()
-        throws UndefinedStateValueException
+            throws UndefinedStateValueException
     {
         Map<Variable, String> state = getStateWithNulls();
 
@@ -53,7 +51,7 @@ public abstract class TreeNode
         {
             if(entry.getValue() == null)
                 throw new UndefinedStateValueException(
-                    "Node has undefined state for variable " + entry.getKey());
+                        String.format("Node has undefined state for variable %s", entry.getKey()));
         }
 
         return state;
@@ -64,7 +62,7 @@ public abstract class TreeNode
      * @throws IllegalVariableValueException if any of variable values is incorrect
      */
     public abstract void setState(Map<Variable, String> state)
-        throws IllegalVariableValueException;
+            throws IllegalVariableValueException;
 
     /** @return values of all variables in the node */
     public abstract Map<Variable, String> getStateWithNulls();
@@ -90,12 +88,13 @@ public abstract class TreeNode
      * @throws UndefinedStateValueException if variable value is undefined
      */
     public String getStateValue(Variable var)
-        throws UndefinedStateValueException
+            throws UndefinedStateValueException
     {
         String value = getStateValueOrNull(var);
 
         if(value == null)
-            throw new UndefinedStateValueException("Node has undefined state for variable " + var);
+            throw new UndefinedStateValueException(
+                    String.format("Node has undefined state for variable %s", var));
 
         return value;
     }
@@ -112,7 +111,7 @@ public abstract class TreeNode
      * @throws IllegalVariableValueException if variable value is incorrect
      */
     public abstract void setStateValue(Variable var, String value)
-        throws IllegalVariableValueException;
+            throws IllegalVariableValueException;
 
     /** Removing values of all state variables in the node */
     public abstract void deleteState();

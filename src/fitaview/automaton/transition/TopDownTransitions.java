@@ -23,7 +23,7 @@ public class TopDownTransitions<V>
         if(hasNull(key))
             return false;
 
-        for(int i = 0; i < 1 << key.size(); ++i)
+        for(int i = 0; i < 4; ++i)
         {
             Pair<String, String> wildcardKey = setWildcard(i, key);
 
@@ -43,7 +43,7 @@ public class TopDownTransitions<V>
 
         List<V> results = new ArrayList<>();
 
-        for(int i = 0; i < 1 << key.size(); ++i)
+        for(int i = 0; i < 4; ++i)
         {
             Pair<String, String> wildcardKey = setWildcard(i, key);
             V value = map.get(Pair.make(var, wildcardKey));
@@ -57,7 +57,7 @@ public class TopDownTransitions<V>
 
         if(results.isEmpty())
             throw new NoSuchTransitionException(
-                    "No entry for arguments " + key + " with variable " + var);
+                    String.format("No entry for arguments %s with variable %s", key, var));
 
         return results;
     }
@@ -69,7 +69,7 @@ public class TopDownTransitions<V>
         if(hasNull(key))
             throw new NoSuchTransitionException("Key contains a null value");
 
-        for(int i = 0; i < 1 << key.size(); ++i)
+        for(int i = 0; i < 4; ++i)
         {
             Pair<String, String> wildcardKey = setWildcard(i, key);
             V value = map.get(Pair.make(var, wildcardKey));
@@ -82,7 +82,7 @@ public class TopDownTransitions<V>
         }
 
         throw new NoSuchTransitionException(
-                "No entry for arguments " + key + " with variable " + var);
+                String.format("No entry for arguments %s with variable %s", key, var));
     }
 
     @Override
