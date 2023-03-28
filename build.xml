@@ -59,8 +59,8 @@
   <target name="init">
     <mkdir dir="${build.dir}" />
     <copy includeemptydirs="false" todir="${build.dir}">
-      <fileset dir="${resources.dir}" />
-      <fileset dir="${test.resources.dir}" />
+      <fileset dir="${resources.dir}" erroronmissingdir="false" />
+      <fileset dir="${test.resources.dir}" erroronmissingdir="false" />
     </copy>
   </target>
 
