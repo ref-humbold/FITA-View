@@ -68,12 +68,12 @@ public class MovingButtonsPanel
 
     private void initializeButtons()
     {
-        JButton leftButton = createButton(Direction.LEFT, "triangle-left.png", KeyEvent.VK_LEFT);
-        JButton upButton = createButton(Direction.UP, "triangle-up.png", KeyEvent.VK_UP);
-        JButton downButton = createButton(Direction.DOWN, "triangle-down.png", KeyEvent.VK_DOWN);
+        JButton leftButton = createButton(Direction.LEFT, "/triangle-left.png", KeyEvent.VK_LEFT);
+        JButton upButton = createButton(Direction.UP, "/triangle-up.png", KeyEvent.VK_UP);
+        JButton downButton = createButton(Direction.DOWN, "/triangle-down.png", KeyEvent.VK_DOWN);
         JButton rightButton =
-                createButton(Direction.RIGHT, "triangle-right.png", KeyEvent.VK_RIGHT);
-        JButton centreButton = createButton(Direction.CENTRE, "circle-dot.png", KeyEvent.VK_HOME);
+                createButton(Direction.RIGHT, "/triangle-right.png", KeyEvent.VK_RIGHT);
+        JButton centreButton = createButton(Direction.CENTRE, "/circle-dot.png", KeyEvent.VK_HOME);
 
         buttons.add(leftButton);
         buttons.add(upButton);

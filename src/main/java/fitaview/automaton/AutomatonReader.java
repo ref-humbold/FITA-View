@@ -80,10 +80,10 @@ public class AutomatonReader
         switch(type)
         {
             case BOTTOM_UP:
-                return schemaFactory.newSchema(getClass().getResource("BottomUpAutomaton.xsd"));
+                return schemaFactory.newSchema(getClass().getResource("/BottomUpAutomaton.xsd"));
 
             case TOP_DOWN:
-                return schemaFactory.newSchema(getClass().getResource("TopDownAutomaton.xsd"));
+                return schemaFactory.newSchema(getClass().getResource("/TopDownAutomaton.xsd"));
         }
 
         throw new SAXException("Incorrect automaton type");

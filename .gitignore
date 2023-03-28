@@ -1,21 +1,12 @@
-# Java / Apache ANT output
 bin/
 dist/
-
-# Javadoc output
 docs/
-
-# JUnit output
 junit/
-
-# Apache Ivy dependencies
 lib/
 
-# Visual Studio Code
 .vscode
 *.code-workspace
 
-# IntelliJ IDEA
 .idea
 *.iml
 out/

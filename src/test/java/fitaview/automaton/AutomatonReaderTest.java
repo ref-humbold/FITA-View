@@ -16,7 +16,7 @@ import fitaview.utils.Pair;
 
 public class AutomatonReaderTest
 {
-    private static final String DIRECTORY = "test_files/AutomatonReaderTest/";
+    private static final String DIRECTORY = "src/test/resources/AutomatonReaderTest/";
     private AutomatonReader testObject;
 
     @Before
