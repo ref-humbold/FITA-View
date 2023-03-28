@@ -26,12 +26,12 @@ Trees and automata can be loaded from XML files with extensions *filename.tree.x
 
 Build process:
 
-+ operating system \
++ Operating system \
   *((Debian testing))*
 + [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) \
-  *((Standard Edition 11))*
+  *((APT package `openjdk-11-jdk`, version 11 SE))*
 + [Apache ANT](http://ant.apache.org/) \
-  *((1.10.+))*
+  *((APT package `ant`, version 1.10.+))*
 
 ### Unit testing
 
