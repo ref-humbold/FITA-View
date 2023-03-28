@@ -12,7 +12,7 @@ import fitaview.utils.Pair;
 
 public class TreeReaderTest
 {
-    public static final String DIRECTORY = "test_files/TreeReaderTest/";
+    public static final String DIRECTORY = "src/test/resources/TreeReaderTest/";
     private TreeReader testObject;
 
     @Before

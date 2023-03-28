@@ -64,9 +64,9 @@ public class ZoomButtonsPanel
 
     private void initializeComponents()
     {
-        JButton inButton = createButton(Zooming.ZOOM_IN, "zoom-in.png", KeyEvent.VK_Z);
-        JButton outButton = createButton(Zooming.ZOOM_OUT, "zoom-out.png", KeyEvent.VK_X);
-        JButton zeroButton = createButton(Zooming.ZOOM_ZERO, "circle-zero.png", KeyEvent.VK_0);
+        JButton inButton = createButton(Zooming.ZOOM_IN, "/zoom-in.png", KeyEvent.VK_Z);
+        JButton outButton = createButton(Zooming.ZOOM_OUT, "/zoom-out.png", KeyEvent.VK_X);
+        JButton zeroButton = createButton(Zooming.ZOOM_ZERO, "/circle-zero.png", KeyEvent.VK_0);
 
         buttons.add(inButton);
         buttons.add(zeroButton);

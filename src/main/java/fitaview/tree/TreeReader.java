@@ -31,7 +31,7 @@ public class TreeReader
         {
             String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
             SchemaFactory schemaFactory = SchemaFactory.newInstance(language);
-            Schema schema = schemaFactory.newSchema(getClass().getResource("Tree.xsd"));
+            Schema schema = schemaFactory.newSchema(getClass().getResource("/Tree.xsd"));
             SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 
             parserFactory.setSchema(schema);
