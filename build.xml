@@ -15,16 +15,17 @@
   <property name="resources.dir" value="src/main/resources" />
   <property name="test.dir" value="src/test/java" />
   <property name="test.resources.dir" value="src/test/resources" />
-  <property name="build.dir" value="bin" />
-  <property name="dist.dir" value="dist" />
-  <property name="junit.output.dir" value="junit" />
+  <property name="ant.output.dir" value="antBuild" />
+  <property name="build.dir" value="${ant.output.dir}/bin" />
+  <property name="dist.dir" value="${ant.output.dir}/dist" />
+  <property name="junit.output.dir" value="${ant.output.dir}/junit" />
   <property name="junit.result.dir" value="${junit.output.dir}/result" />
   <property name="junit.report.dir" value="${junit.output.dir}/report" />
-  <property name="javadoc.output.dir" value="docs" />
+  <property name="javadoc.output.dir" value="${ant.output.dir}/docs" />
   <property name="jar.file" value="${main.package}-${jar.version}.jar" />
   <property name="exec.file" value="fita-view" />
 
-  <property name="ivy.lib.dir" value="lib" />
+  <property name="ivy.lib.dir" value="ivyLib" />
   <property name="ivy.install.version" value="2.5.0" />
 
   <path id="FITA-View.classpath">
@@ -50,10 +51,7 @@
   </target>
 
   <target name="clean">
-    <delete dir="${build.dir}" />
-    <delete dir="${dist.dir}" />
-    <delete dir="${junit.output.dir}" />
-    <delete dir="${javadoc.output.dir}" />
+    <delete dir="${ant.output.dir}" />
   </target>
 
   <target name="init">

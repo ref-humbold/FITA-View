@@ -1,8 +1,5 @@
-bin/
-dist/
-docs/
-junit/
-lib/
+antBuild/
+ivyLib/
 
 .vscode
 *.code-workspace
