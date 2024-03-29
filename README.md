@@ -46,7 +46,8 @@ Build process:
 ## How to build?
 
 FITA-View can be built with **Apache ANT** using **Apache Ivy** to resolve all dependencies.
-Ivy and all libraries are downloaded during build, so make sure your Internet connection is working!
+Ivy itself and all dependencies are downloaded during build, so make sure your Internet
+connection is working!
 
 Possible ANT targets are:
 
@@ -58,7 +59,7 @@ Possible ANT targets are:
 + `ant docs` - generate Javadoc
 + `ant clean` - remove additional build files
 + `ant rebuild` - remove additional build files & resolve dependencies & compile source files &
-  create jar & run all tests
+  create executable jar & run all tests
 
 ## How to run?
 

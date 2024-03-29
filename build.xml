@@ -126,5 +126,5 @@
     description="Resolve dependencies &amp; Compile source files &amp; Create executable jar &amp; Run all tests" />
 
   <target name="rebuild" depends="clean, build"
-    description="Remove additional build files &amp; Resolve dependencies &amp; Compile source files &amp; Create jar &amp; Run all tests" />
+    description="Remove additional build files &amp; Resolve dependencies &amp; Compile source files &amp; Create executable jar &amp; Run all tests" />
 </project>
