@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:ivy="antlib:org.apache.ivy.ant" name="FITA-View" basedir="." default="all">
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="FITA-View" basedir="." default="build">
   <tstamp>
     <format property="date.version" pattern="yyMMdd" locale="en,GB" />
   </tstamp>
@@ -24,11 +24,12 @@
   <property name="javadoc.output.dir" value="${ant.output.dir}/docs" />
   <property name="jar.file" value="${main.package}-${jar.version}.jar" />
   <property name="exec.file" value="fita-view" />
+  <property name="exec.path" value="${ant.output.dir}/${exec.file}" />
 
   <property name="ivy.lib.dir" value="ivyLib" />
-  <property name="ivy.install.version" value="2.5.0" />
+  <property name="ivy.install.version" value="2.5.2" />
 
-  <path id="FITA-View.classpath">
+  <path id="project.classpath">
     <fileset dir="${ivy.lib.dir}" includes="*.jar" />
     <pathelement location="${build.dir}" />
   </path>
@@ -41,16 +42,16 @@
       dest="${ivy.lib.dir}/ivy-${ivy.install.version}.jar" usetimestamp="true" />
   </target>
 
-  <target name="resolve" depends="download-ivy">
+  <target name="resolve" depends="download-ivy" description="Resolve dependencies">
     <path id="ivy.lib.path">
       <fileset dir="${ivy.lib.dir}" includes="*.jar" />
     </path>
     <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant"
-             classpathref="ivy.lib.path" />
+      classpathref="ivy.lib.path" />
     <ivy:retrieve />
   </target>
 
-  <target name="clean">
+  <target name="clean" description="Remove additional build files">
     <delete dir="${ant.output.dir}" />
   </target>
 
@@ -63,15 +64,17 @@
   </target>
 
   <target name="compile" depends="init">
+    <echo level="info" message="Java version is ${ant.java.version}" />
     <javac destdir="${build.dir}" includeantruntime="false">
       <src path="${src.dir}" />
       <src path="${test.dir}" />
       <compilerarg line="-Xlint" />
-      <classpath refid="FITA-View.classpath" />
+      <classpath refid="project.classpath" />
     </javac>
   </target>
 
-  <target name="jar" depends="compile">
+  <target name="jar" depends="compile"
+    description="Compile source files &amp; Create executable jar">
     <jar destfile="${dist.dir}/${jar.file}" basedir="${build.dir}" excludes="**/*Test.class">
       <manifest>
         <attribute name="Built-By" value="${vendor}" />
@@ -87,21 +90,21 @@
   </target>
 
   <target name="execfile" depends="jar">
-    <echo level="info" message="Building file: ${dist.dir}/${exec.file}" />
-    <echo file="${dist.dir}/${exec.file}"
-          message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname &quot;$0&quot;)/${jar.file} $@" />
-    <chmod file="${dist.dir}/${exec.file}" perm="+x" />
+    <echo level="info" message="Building file: ${basedir}/${exec.path}" />
+    <echo file="${exec.path}"
+      message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname &quot;$0&quot;)/../${dist.dir}/${jar.file} $@" />
+    <chmod file="${exec.path}" perm="+x" />
   </target>
 
-  <target name="test">
+  <target name="test" description="Run all tests">
     <mkdir dir="${junit.result.dir}" />
     <junit fork="yes" printsummary="withOutAndErr" failureproperty="junit.failure"
-           errorproperty="junit.error">
+      errorproperty="junit.error">
       <formatter type="xml" />
       <batchtest todir="${junit.result.dir}">
         <fileset dir="${test.dir}" includes="**/*Test.java" />
       </batchtest>
-      <classpath refid="FITA-View.classpath" />
+      <classpath refid="project.classpath" />
     </junit>
     <mkdir dir="${junit.report.dir}" />
     <junitreport todir="${junit.report.dir}">
@@ -112,22 +115,16 @@
     <fail if="junit.error" message="JUnit test(s) threw an error" />
   </target>
 
-  <target name="docs">
+  <target name="docs" description="Generate Javadoc">
     <mkdir dir="${javadoc.output.dir}" />
     <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
       <package name="${main.package}.*" />
     </javadoc>
   </target>
 
-  <target name="build" depends="execfile" />
+  <target name="build" depends="resolve, execfile, test"
+    description="Resolve dependencies &amp; Compile source files &amp; Create executable jar &amp; Run all tests" />
 
-  <target name="main" depends="build, test" />
-
-  <target name="all" depends="resolve, main" />
-
-  <target name="rebuild" depends="clean, build" />
-
-  <target name="rebuild-main" depends="clean, main" />
-
-  <target name="rebuild-all" depends="clean, all" />
+  <target name="rebuild" depends="clean, build"
+    description="Remove additional build files &amp; Resolve dependencies &amp; Compile source files &amp; Create jar &amp; Run all tests" />
 </project>

@@ -48,30 +48,28 @@ Build process:
 FITA-View can be built with **Apache ANT** using **Apache Ivy** to resolve all dependencies.
 Ivy and all libraries are downloaded during build, so make sure your Internet connection is working!
 
-> Possible ANT targets are:
-> + `ant` - same as `ant all`
-> + `ant build` - compile source files & create executable jar
-> + `ant test` - run all tests
-> + `ant docs` - generate Javadoc
-> + `ant main` - compile source and test files & create executable jar & run all tests
-> + `ant all` - resolve dependencies & compile source and test files & create executable jar & run
-    all tests
-> + `ant rebuild` - remove additional build files & compile source files & create executable jar
-> + `ant rebuild-main` - remove additional build files & compile source and test files & create
-    executable jar & run all tests
-> + `ant rebuild-all` - remove additional build files & resolve dependencies & compile source and
-    test files & create executable jar & run all tests
+Possible ANT targets are:
+
++ `ant`, `ant build` - resolve dependencies & compile source files & create executable jar & run
+  all tests
++ `ant resolve` - resolve dependencies
++ `ant jar` - compile source files & create executable jar
++ `ant test` - run all tests
++ `ant docs` - generate Javadoc
++ `ant clean` - remove additional build files
++ `ant rebuild` - remove additional build files & resolve dependencies & compile source files &
+  create jar & run all tests
 
 ## How to run?
 
-FITA-View can be run by the executable *sh* script in the `dist` directory:
+FITA-View can be run by the executable *sh* script in the `antBuild` directory:
 
 ```sh
-$ sh /path-to-project-directory/dist/fita-view
+$ sh /path/to/project/directory/antBuild/fita-view
 ```
 
-Alternatively one may directly execute the *jar* file in the `dist` directory:
+Alternatively one may directly execute the *jar* file in the `antBuild/dist` directory:
 
 ```sh
-$ java -jar /path-to-project-directory/dist/fitaview-{version}.jar
+$ java -jar /path/to/project/directory/antBuild/dist/fitaview-{version}.jar
 ```
