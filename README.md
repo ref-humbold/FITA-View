@@ -7,7 +7,8 @@ Finite and Infinite Tree Automata Viewer
 
 ## About
 
-FITA-View is a system desired for visualizing workings of tree automata. Supported automata:
+FITA-View is a system desired for visualizing workings of tree automata. It supports the
+following types of automata:
 
 + Bottom-up deterministic finite tree automata
 + Top-down deterministic finite tree automata
@@ -18,11 +19,9 @@ Trees and automata can be loaded from XML files with extensions *filename.tree.x
 
 -----
 
-### System requirements
+## System requirements
 
 > versions used by the author are in and italics
-
-Build process:
 
 + Operating system \
   *Debian testing*
