@@ -18,24 +18,22 @@ Trees and automata can be loaded from XML files with extensions *filename.tree.x
 
 -----
 
-## Dependencies
+### System requirements
 
-### Standard build & run
-
-> *versions used by the author are in double parentheses and italic*
+> versions used by the author are in and italics
 
 Build process:
 
 + Operating system \
-  *((Debian testing))*
+  *Debian testing*
 + [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) \
-  *((APT package `openjdk-11-jdk`, version 11 SE))*
+  *APT package `openjdk-11-jdk`, version 11 SE*
 + [Apache ANT](http://ant.apache.org/) \
-  *((APT package `ant`, version 1.10.+))*
+  *APT package `ant`, version 1.10.+*
 
-### Unit testing
+## Dependencies
 
-> libraries are automatically downloaded during build process
+> dependencies are automatically downloaded during build process
 
 + JUnit 4.+
 + Mockito 2.+
