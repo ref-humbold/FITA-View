@@ -76,6 +76,7 @@
   <target name="jar" depends="compile"
     description="Compile source files &amp; Create executable jar">
     <jar destfile="${dist.dir}/${jar.file}" basedir="${build.dir}" excludes="**/*Test.class">
+      <zipgroupfileset dir="${ivy.lib.dir}" includes="*.jar" />
       <manifest>
         <attribute name="Built-By" value="${vendor}" />
         <attribute name="Main-Class" value="${main.package}.FITAView" />
@@ -117,8 +118,10 @@
 
   <target name="docs" description="Generate Javadoc">
     <mkdir dir="${javadoc.output.dir}" />
-    <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
+    <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public"
+      classpathref="project.classpath">
       <package name="${main.package}.*" />
+      <arg value="-Xdoclint:none" />
     </javadoc>
   </target>
 
