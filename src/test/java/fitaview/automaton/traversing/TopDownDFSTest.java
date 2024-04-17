@@ -148,7 +148,6 @@ public class TopDownDFSTest
         }
         catch(RecursiveContinuationException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -278,7 +277,6 @@ public class TopDownDFSTest
         }
         catch(RecursiveContinuationException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 

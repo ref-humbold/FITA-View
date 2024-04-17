@@ -114,7 +114,6 @@ public class TopDownTransitionsTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -132,7 +131,6 @@ public class TopDownTransitionsTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -159,7 +157,6 @@ public class TopDownTransitionsTest
         }
         catch(IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -175,7 +172,6 @@ public class TopDownTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -210,7 +206,6 @@ public class TopDownTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -229,7 +224,6 @@ public class TopDownTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -248,7 +242,6 @@ public class TopDownTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 

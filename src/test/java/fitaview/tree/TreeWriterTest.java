@@ -43,7 +43,6 @@ public class TreeWriterTest
         }
         catch(NodeHasParentException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -75,7 +74,6 @@ public class TreeWriterTest
         }
         catch(NodeHasParentException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 

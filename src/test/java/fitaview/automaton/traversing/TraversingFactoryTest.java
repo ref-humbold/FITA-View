@@ -62,7 +62,6 @@ public class TraversingFactoryTest
         }
         catch(IncorrectTraversingException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -81,7 +80,6 @@ public class TraversingFactoryTest
         }
         catch(IncorrectTraversingException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 

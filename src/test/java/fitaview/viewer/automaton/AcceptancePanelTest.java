@@ -82,7 +82,6 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -106,7 +105,6 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -132,7 +130,6 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -181,7 +178,6 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -206,7 +202,6 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -231,7 +226,6 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 

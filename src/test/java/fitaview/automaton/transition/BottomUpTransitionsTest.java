@@ -124,7 +124,6 @@ public class BottomUpTransitionsTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -142,7 +141,6 @@ public class BottomUpTransitionsTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -169,7 +167,6 @@ public class BottomUpTransitionsTest
         }
         catch(IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -184,7 +181,6 @@ public class BottomUpTransitionsTest
         }
         catch(DuplicatedTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -200,7 +196,6 @@ public class BottomUpTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -234,7 +229,6 @@ public class BottomUpTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -253,7 +247,6 @@ public class BottomUpTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -272,7 +265,6 @@ public class BottomUpTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -291,7 +283,6 @@ public class BottomUpTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 

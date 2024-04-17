@@ -70,7 +70,6 @@ public class AutomatonTreeViewTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -103,7 +102,6 @@ public class AutomatonTreeViewTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -241,7 +239,6 @@ public class AutomatonTreeViewTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -269,7 +266,6 @@ public class AutomatonTreeViewTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -418,7 +414,6 @@ public class AutomatonTreeViewTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 

@@ -42,7 +42,6 @@ public class TreeReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -63,7 +62,6 @@ public class TreeReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -81,7 +79,6 @@ public class TreeReaderTest
         }
         catch(NodeHasParentException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -102,7 +99,6 @@ public class TreeReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -127,7 +123,6 @@ public class TreeReaderTest
         }
         catch(NodeHasParentException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -146,7 +141,6 @@ public class TreeReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -156,7 +150,6 @@ public class TreeReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -171,7 +164,6 @@ public class TreeReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -181,7 +173,6 @@ public class TreeReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -197,7 +188,6 @@ public class TreeReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -207,7 +197,6 @@ public class TreeReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -222,7 +211,6 @@ public class TreeReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -232,7 +220,6 @@ public class TreeReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }

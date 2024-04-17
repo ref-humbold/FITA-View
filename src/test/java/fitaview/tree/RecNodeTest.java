@@ -18,13 +18,13 @@ public class RecNodeTest
     private Variable variable2 = new Variable(2, "X", "Y", "Z");
 
     public RecNodeTest()
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
     }
 
     @Before
     public void setUp()
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         testObject = new RecNode(new RepeatNode("LABEL", 0), 10);
         testObject.setStateValue(variable1, "3");
@@ -70,7 +70,6 @@ public class RecNodeTest
         }
         catch(UndefinedStateValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -80,9 +79,9 @@ public class RecNodeTest
 
     @Test(expected = UndefinedStateValueException.class)
     public void testGetStateValueWhenNoValue()
-        throws UndefinedStateValueException
+            throws UndefinedStateValueException
     {
-        String result = testObject.getStateValue(variable2);
+        testObject.getStateValue(variable2);
     }
 
     @Test
@@ -95,7 +94,6 @@ public class RecNodeTest
         }
         catch(UndefinedStateValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -129,7 +127,6 @@ public class RecNodeTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -141,21 +138,21 @@ public class RecNodeTest
 
     @Test(expected = IllegalVariableValueException.class)
     public void testSetStateValueWhenIncorrectValue()
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         testObject.setStateValue(variable2, "N");
     }
 
     @Test(expected = IllegalVariableValueException.class)
     public void testSetStateValueWhenEmptyValue()
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         testObject.setStateValue(variable2, "");
     }
 
     @Test(expected = IllegalVariableValueException.class)
     public void testSetStateValueWhenNull()
-        throws IllegalVariableValueException
+            throws IllegalVariableValueException
     {
         testObject.setStateValue(variable2, null);
     }

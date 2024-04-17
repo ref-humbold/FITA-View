@@ -51,7 +51,6 @@ public class AutomatonReaderTest
         }
         catch(SAXException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -67,7 +66,6 @@ public class AutomatonReaderTest
         }
         catch(SAXException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -87,7 +85,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -99,7 +96,6 @@ public class AutomatonReaderTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -119,7 +115,6 @@ public class AutomatonReaderTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -141,7 +136,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -153,7 +147,6 @@ public class AutomatonReaderTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -173,7 +166,6 @@ public class AutomatonReaderTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -193,7 +185,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -203,7 +194,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -219,7 +209,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -229,7 +218,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -245,7 +233,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -255,7 +242,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -271,7 +257,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -281,7 +266,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -297,7 +281,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -307,7 +290,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -323,7 +305,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -333,7 +314,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -349,7 +329,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -359,7 +338,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -376,7 +354,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -386,7 +363,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -402,7 +378,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -412,7 +387,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -428,7 +402,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -438,7 +411,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -458,7 +430,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -470,7 +441,6 @@ public class AutomatonReaderTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -494,7 +464,6 @@ public class AutomatonReaderTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -518,7 +487,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -530,7 +498,6 @@ public class AutomatonReaderTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -551,7 +518,6 @@ public class AutomatonReaderTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -575,7 +541,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -587,7 +552,6 @@ public class AutomatonReaderTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -612,7 +576,6 @@ public class AutomatonReaderTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -636,7 +599,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -648,7 +610,6 @@ public class AutomatonReaderTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -680,7 +641,6 @@ public class AutomatonReaderTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -702,7 +662,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -714,7 +673,6 @@ public class AutomatonReaderTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -737,7 +695,6 @@ public class AutomatonReaderTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -757,7 +714,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -767,7 +723,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -784,7 +739,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -794,7 +748,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -810,7 +763,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -820,7 +772,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -836,7 +787,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -846,7 +796,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -862,7 +811,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -872,7 +820,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -888,7 +835,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -898,7 +844,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -914,7 +859,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -924,7 +868,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -940,7 +883,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -950,7 +892,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -966,7 +907,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -976,7 +916,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -993,7 +932,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -1003,7 +941,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -1019,7 +956,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -1029,7 +965,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -1045,7 +980,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -1055,7 +989,6 @@ public class AutomatonReaderTest
         }
         catch(IOException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
     }
@@ -1075,7 +1008,6 @@ public class AutomatonReaderTest
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -1087,7 +1019,6 @@ public class AutomatonReaderTest
         }
         catch(IllegalVariableValueException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
@@ -1122,7 +1053,6 @@ public class AutomatonReaderTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
             Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
 
