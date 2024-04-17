@@ -21,12 +21,12 @@ Trees and automata can be loaded from XML files with extensions *filename.tree.x
 
 ## System requirements
 
-> versions used by the author are in and italics
+> versions used by the author are in italics
 
 + Operating system \
   *Debian testing*
 + [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) \
-  *APT package `openjdk-11-jdk`, version 11 SE*
+  *APT package `openjdk-17-jdk`, version 17 SE*
 + [Apache ANT](http://ant.apache.org/) \
   *APT package `ant`, version 1.10.+*
 
