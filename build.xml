@@ -106,6 +106,10 @@
         <fileset dir="${test.dir}" includes="**/*Test.java" />
       </batchtest>
       <classpath refid="project.classpath" />
+      <jvmarg line="--add-opens java.base/java.lang=ALL-UNNAMED" />
+      <jvmarg line="--add-opens java.base/java.util=ALL-UNNAMED" />
+      <jvmarg line="--add-opens java.desktop/java.awt=ALL-UNNAMED" />
+      <jvmarg line="--add-opens java.desktop/javax.swing=ALL-UNNAMED" />
     </junit>
     <mkdir dir="${junit.report.dir}" />
     <junitreport todir="${junit.report.dir}">
