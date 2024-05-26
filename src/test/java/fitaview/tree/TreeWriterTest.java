@@ -43,7 +43,7 @@ public class TreeWriterTest
         }
         catch(NodeHasParentException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         testObject = new TreeWriter(tree);
@@ -74,7 +74,7 @@ public class TreeWriterTest
         }
         catch(NodeHasParentException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         testObject = new TreeWriter(tree);

@@ -72,7 +72,7 @@ public class ActionButtonsPanelTest
         }
         catch(Exception e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 
@@ -91,7 +91,7 @@ public class ActionButtonsPanelTest
         }
         catch(Exception e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 
@@ -110,7 +110,7 @@ public class ActionButtonsPanelTest
         }
         catch(Exception e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 
@@ -133,7 +133,7 @@ public class ActionButtonsPanelTest
         }
         catch(Exception e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 
@@ -156,7 +156,7 @@ public class ActionButtonsPanelTest
         }
         catch(Exception e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 
@@ -185,7 +185,7 @@ public class ActionButtonsPanelTest
         }
         catch(Exception e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 
@@ -214,7 +214,7 @@ public class ActionButtonsPanelTest
         }
         catch(Exception e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 

@@ -108,7 +108,7 @@ public class TopDownDITATest
         }
         catch(Exception e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         testObject.setTree(node);
@@ -123,7 +123,7 @@ public class TopDownDITATest
         }
         catch(TreeFinitenessException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNull(testObject.tree);
@@ -149,7 +149,7 @@ public class TopDownDITATest
         }
         catch(TreeFinitenessException | NodeHasParentException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(testObject.tree);

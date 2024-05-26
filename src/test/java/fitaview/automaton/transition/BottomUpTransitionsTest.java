@@ -124,7 +124,7 @@ public class BottomUpTransitionsTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         boolean result = testObject.containsKey(v, Triple.make("D", "B", "10"));
@@ -141,7 +141,7 @@ public class BottomUpTransitionsTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         boolean result = testObject.containsKey(v, Triple.make("D", Wildcard.EVERY_VALUE, "11"));
@@ -167,7 +167,7 @@ public class BottomUpTransitionsTest
         }
         catch(IllegalTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 
@@ -181,7 +181,7 @@ public class BottomUpTransitionsTest
         }
         catch(DuplicatedTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 
@@ -196,7 +196,7 @@ public class BottomUpTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -229,7 +229,7 @@ public class BottomUpTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -247,7 +247,7 @@ public class BottomUpTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -265,7 +265,7 @@ public class BottomUpTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -283,7 +283,7 @@ public class BottomUpTransitionsTest
         }
         catch(NoSuchTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -328,11 +328,11 @@ public class BottomUpTransitionsTest
 
     private String keyFunction(Triple<String, String, String> key)
     {
-        return String.format("[ %s # %s # %s ]", key.getFirst(), key.getSecond(), key.getThird());
+        return "[ %s # %s # %s ]".formatted(key.getFirst(), key.getSecond(), key.getThird());
     }
 
     private String valueFunction(String value)
     {
-        return String.format("[ %s ]", value);
+        return "[ %s ]".formatted(value);
     }
 }

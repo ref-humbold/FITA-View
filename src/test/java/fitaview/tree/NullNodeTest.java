@@ -3,8 +3,8 @@ package fitaview.tree;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,8 +14,8 @@ import fitaview.automaton.Variable;
 public class NullNodeTest
 {
     private NullNode testObject;
-    private Variable variable1 = new Variable(1, "0", "1", "2", "3");
-    private Variable variable2 = new Variable(2, "X", "Y", "Z");
+    private final Variable variable1 = new Variable(1, "0", "1", "2", "3");
+    private final Variable variable2 = new Variable(2, "X", "Y", "Z");
 
     public NullNodeTest()
             throws IllegalVariableValueException
@@ -39,38 +39,43 @@ public class NullNodeTest
     @Test
     public void testGetType()
     {
+        // when
         NodeType result = testObject.getType();
-
-        Assert.assertEquals(NodeType.NULL, result);
+        // then
+        Assertions.assertThat(result).isEqualTo(NodeType.NULL);
     }
 
     @Test
     public void testGetLeft()
     {
+        // when
         TreeNode result = testObject.getLeft();
-
-        Assert.assertNull(result);
+        // then
+        Assertions.assertThat(result).isNull();
     }
 
     @Test
     public void testGetRight()
     {
+        // when
         TreeNode result = testObject.getRight();
-
-        Assert.assertNull(result);
+        // then
+        Assertions.assertThat(result).isNull();
     }
 
     @Test
     public void testGetLabel()
     {
+        // when
         String result = testObject.getLabel();
-
-        Assert.assertEquals("", result);
+        // then
+        Assertions.assertThat(result).isEqualTo("");
     }
 
     @Test
     public void testGetState()
     {
+        // when
         Map<Variable, String> result = null;
 
         try
@@ -79,23 +84,24 @@ public class NullNodeTest
         }
         catch(UndefinedStateValueException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
-        Assert.assertNotNull(result);
-        Assert.assertEquals(Collections.singletonMap(variable1, "3"), result);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEqualTo(Collections.singletonMap(variable1, "3"));
     }
 
-    @Test(expected = UndefinedStateValueException.class)
+    @Test
     public void testGetStateValueWhenNoValue()
-            throws UndefinedStateValueException
     {
-        testObject.getStateValue(variable2);
+        Assertions.assertThatThrownBy(() -> testObject.getStateValue(variable2))
+                  .isInstanceOf(UndefinedStateValueException.class);
     }
 
     @Test
     public void testGetStateValueWhenIsValue()
     {
+        // when
         String result = null;
 
         try
@@ -104,90 +110,93 @@ public class NullNodeTest
         }
         catch(UndefinedStateValueException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
-        Assert.assertNotNull(result);
-        Assert.assertEquals("3", result);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEqualTo("3");
     }
 
     @Test
     public void testGetStateValueOrNullWhenNoValue()
     {
+        // when
         String result = testObject.getStateValueOrNull(variable2);
-
-        Assert.assertNull(result);
+        // then
+        Assertions.assertThat(result).isNull();
     }
 
     @Test
     public void testGetStateValueOrNullWhenIsValue()
     {
+        // when
         String result = testObject.getStateValueOrNull(variable1);
-
-        Assert.assertNotNull(result);
-        Assert.assertEquals("3", result);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEqualTo("3");
     }
 
     @Test
     public void testSetStateValueWhenIsValue()
     {
+        // given
         try
         {
             testObject.setStateValue(variable2, "Y");
         }
         catch(IllegalVariableValueException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
+        // when
         String result = testObject.getStateValueOrNull(variable2);
-
-        Assert.assertNotNull(result);
-        Assert.assertEquals("Y", result);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEqualTo("Y");
     }
 
-    @Test(expected = IllegalVariableValueException.class)
+    @Test
     public void testSetStateValueWhenIncorrectValue()
-            throws IllegalVariableValueException
     {
-        testObject.setStateValue(variable2, "N");
+        Assertions.assertThatThrownBy(() -> testObject.setStateValue(variable2, "N"))
+                  .isInstanceOf(IllegalVariableValueException.class);
     }
 
-    @Test(expected = IllegalVariableValueException.class)
+    @Test
     public void testSetStateValueWhenEmptyValue()
-            throws IllegalVariableValueException
     {
-        testObject.setStateValue(variable2, "");
+        Assertions.assertThatThrownBy(() -> testObject.setStateValue(variable2, ""))
+                  .isInstanceOf(IllegalVariableValueException.class);
     }
 
-    @Test(expected = IllegalVariableValueException.class)
+    @Test
     public void testSetStateValueWhenNull()
-            throws IllegalVariableValueException
     {
-        testObject.setStateValue(variable2, null);
+        Assertions.assertThatThrownBy(() -> testObject.setStateValue(variable2, null))
+                  .isInstanceOf(IllegalVariableValueException.class);
     }
 
     @Test
     public void testSetInitialState()
     {
+        // given
         testObject.setInitialState(Arrays.asList(variable1, variable2));
-
+        // when
         String result1 = testObject.getStateValueOrNull(variable1);
         String result2 = testObject.getStateValueOrNull(variable2);
-
-        Assert.assertNotNull(result1);
-        Assert.assertNotNull(result2);
-        Assert.assertEquals(variable1.getInitValue(), result1);
-        Assert.assertEquals(variable2.getInitValue(), result2);
+        // then
+        Assertions.assertThat(result1).isNotNull();
+        Assertions.assertThat(result2).isNotNull();
+        Assertions.assertThat(result1).isEqualTo(variable1.getInitValue());
+        Assertions.assertThat(result2).isEqualTo(variable2.getInitValue());
     }
 
     @Test
     public void testDeleteState()
     {
+        // when
         testObject.deleteState();
-
-        Map<Variable, String> result = testObject.getStateWithNulls();
-
-        Assert.assertTrue(result.isEmpty());
+        // then
+        Assertions.assertThat(testObject.getStateWithNulls()).isEmpty();
     }
 }

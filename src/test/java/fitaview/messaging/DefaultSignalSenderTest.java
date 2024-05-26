@@ -1,6 +1,7 @@
 package fitaview.messaging;
 
 import java.util.Set;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -36,63 +37,69 @@ public class DefaultSignalSenderTest
     @Test
     public void testAddReceiver()
     {
+        // given
         testObject.addReceiver(mockReceiver);
-
+        // when
         Set<SignalReceiver> result = testObject.receivers;
-
-        Assert.assertEquals(1, result.size());
-        Assert.assertTrue(result.contains(mockReceiver));
+        // then
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result).containsExactly(mockReceiver);
     }
 
     @Test
     public void testAddReceiverWhenDoubleAdd()
     {
+        // given
         testObject.addReceiver(mockReceiver);
         testObject.addReceiver(mockReceiver);
-
+        // when
         Set<SignalReceiver> result = testObject.receivers;
-
-        Assert.assertEquals(1, result.size());
-        Assert.assertTrue(result.contains(mockReceiver));
+        // then
+        Assertions.assertThat(result).hasSize(1);
+        Assertions.assertThat(result).containsExactly(mockReceiver);
     }
 
     @Test
     public void testRemoveReceiver()
     {
+        // given
         testObject.addReceiver(mockReceiver);
         testObject.removeReceiver(mockReceiver);
-
+        // when
         Set<SignalReceiver> result = testObject.receivers;
-
-        Assert.assertTrue(result.isEmpty());
+        // then
+        Assertions.assertThat(result).isEmpty();
     }
 
     @Test
     public void testRemoveReceiverWhenDoubleRemove()
     {
+        // given
         testObject.addReceiver(mockReceiver);
         testObject.removeReceiver(mockReceiver);
         testObject.removeReceiver(mockReceiver);
-
+        // when
         Set<SignalReceiver> result = testObject.receivers;
-
-        Assert.assertTrue(result.isEmpty());
+        // then
+        Assertions.assertThat(result).isEmpty();
     }
 
     @Test
     public void testRemoveReceiverWhenNotAdded()
     {
+        // given
         testObject.removeReceiver(mockReceiver);
-
+        // when
         Set<SignalReceiver> result = testObject.receivers;
-
-        Assert.assertTrue(result.isEmpty());
+        // then
+        Assertions.assertThat(result).isEmpty();
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void testSend()
     {
+        // given
         Object[] arg = new Object[1];
 
         Mockito.doAnswer((Answer<Void>)invocation -> {
@@ -102,20 +109,21 @@ public class DefaultSignalSenderTest
 
         testObject.addReceiver(mockReceiver);
         testObject.send();
-
+        // when
         Message<Void> result = (Message<Void>)arg[0];
-        String expected =
-                String.format("MESSAGE from %s: 'null'", testObject.getClass().getSimpleName());
-
-        Assert.assertSame(testObject, result.getSource());
+        // then
+        Assertions.assertThat(result.getSource()).isSameAs(testObject);
         Assert.assertNull(result.getParam());
-        Assert.assertEquals(expected, result.toString());
+        Assertions.assertThat(result.toString())
+                  .isEqualTo("MESSAGE from %s: 'null'".formatted(
+                          testObject.getClass().getSimpleName()));
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void testSendSignal()
     {
+        // given
         Object[] arg = new Object[1];
 
         Mockito.doAnswer((Answer<Void>)invocation -> {
@@ -125,19 +133,23 @@ public class DefaultSignalSenderTest
 
         testObject.addReceiver(mockReceiver);
         testObject.sendSignal(new Message<>(mockSender));
-
+        // when
         Message<Void> result = (Message<Void>)arg[0];
-        String expected =
-                String.format("MESSAGE from %s: 'null'", mockSender.getClass().getSimpleName());
-
-        Assert.assertSame(mockSender, result.getSource());
-        Assert.assertNull(result.getParam());
-        Assert.assertEquals(expected, result.toString());
+        // then
+        Assertions.assertThat(result.getSource()).isSameAs(mockSender);
+        Assertions.assertThat(result.getParam()).isNull();
+        Assertions.assertThat(result.toString())
+                  .isEqualTo("MESSAGE from %s: 'null'".formatted(
+                          mockSender.getClass().getSimpleName()));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSendSignalWhenNullSource()
     {
-        testObject.sendSignal(new Message<>(null));
+        // when
+        Exception exception =
+                Assertions.catchException(() -> testObject.sendSignal(new Message<>(null)));
+        // then
+        Assertions.assertThat(exception).isInstanceOf(NullPointerException.class);
     }
 }

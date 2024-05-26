@@ -70,7 +70,7 @@ public class AutomatonTreeViewTest
         }
         catch(IllegalVariableValueException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
@@ -102,7 +102,7 @@ public class AutomatonTreeViewTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
@@ -239,7 +239,7 @@ public class AutomatonTreeViewTest
         }
         catch(IllegalVariableValueException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
@@ -266,7 +266,7 @@ public class AutomatonTreeViewTest
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
@@ -414,7 +414,7 @@ public class AutomatonTreeViewTest
         }
         catch(IllegalVariableValueException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Mockito.when(mockMessage.getParam()).thenReturn(param);

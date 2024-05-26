@@ -82,7 +82,7 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         testObject.receiveSignal(mockSignal);
@@ -105,7 +105,7 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         testObject.receiveSignal(mockSignal);
@@ -130,7 +130,7 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         PowerMockito.doAnswer((Answer<Void>)invocation -> {
@@ -178,7 +178,7 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         testObject.receiveSignal(mockSignal);
@@ -202,7 +202,7 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         testObject.receiveSignal(mockSignal);
@@ -226,7 +226,7 @@ public class AcceptancePanelTest
         }
         catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         testObject.receiveSignal(mockSignal);

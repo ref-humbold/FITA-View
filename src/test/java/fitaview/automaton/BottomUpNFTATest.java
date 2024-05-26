@@ -134,7 +134,7 @@ public class BottomUpNFTATest
         }
         catch(UndefinedStateValueException | UndefinedAcceptanceException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertFalse(result);

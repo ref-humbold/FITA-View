@@ -3,8 +3,8 @@ package fitaview.tree;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,8 +14,8 @@ import fitaview.automaton.Variable;
 public class StandardNodeTest
 {
     private StandardNode testObject;
-    private Variable variable1 = new Variable(1, "0", "1", "2", "3");
-    private Variable variable2 = new Variable(2, "X", "Y", "Z");
+    private final Variable variable1 = new Variable(1, "0", "1", "2", "3");
+    private final Variable variable2 = new Variable(2, "X", "Y", "Z");
 
     public StandardNodeTest()
             throws IllegalVariableValueException
@@ -36,21 +36,24 @@ public class StandardNodeTest
         testObject = null;
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorWhenNullLabel()
     {
-        testObject = new StandardNode(null, 0);
+        Assertions.assertThatThrownBy(() -> new StandardNode(null, 0))
+                  .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testConstructorWhenEmptyLabel()
     {
-        testObject = new StandardNode("", 0);
+        Assertions.assertThatThrownBy(() -> new StandardNode("", 0))
+                  .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     public void testToString()
     {
+        // given
         try
         {
             testObject.setLeft(new StandardNode("left", 3));
@@ -58,38 +61,41 @@ public class StandardNodeTest
         }
         catch(NodeHasParentException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
+        // when
         String result = testObject.toString();
-
-        Assert.assertEquals("<$ 'LABEL', <$ 'left', #, # $>, <$ 'right', #, # $> $>", result);
+        // then
+        Assertions.assertThat(result)
+                  .isEqualTo("<$ 'LABEL', <$ 'left', #, # $>, <$ 'right', #, # $> $>");
     }
 
     @Test
     public void testSetLeftWhenRoot()
     {
+        // given
         StandardNode node = new StandardNode("A", 1);
-
+        // when
         try
         {
             testObject.setLeft(node);
         }
         catch(NodeHasParentException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
-        Assert.assertSame(node, testObject.getLeft());
-        Assert.assertSame(testObject, node.getParent());
+        // then
+        Assertions.assertThat(testObject.getLeft()).isSameAs(node);
+        Assertions.assertThat(node.getParent()).isSameAs(testObject);
     }
 
     @Test
     public void testSetLeftWhenChange()
     {
+        // given
         StandardNode node1 = new StandardNode("A", 1);
         StandardNode node2 = new StandardNode("B", 2);
-
+        // when
         try
         {
             testObject.setLeft(node1);
@@ -97,18 +103,18 @@ public class StandardNodeTest
         }
         catch(NodeHasParentException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
-        Assert.assertNull(node1.getParent());
-        Assert.assertSame(node2, testObject.getLeft());
-        Assert.assertSame(testObject, node2.getParent());
+        // then
+        Assertions.assertThat(node1.getParent()).isNull();
+        Assertions.assertThat(testObject.getLeft()).isSameAs(node2);
+        Assertions.assertThat(node2.getParent()).isSameAs(testObject);
     }
 
-    @Test(expected = NodeHasParentException.class)
+    @Test
     public void testSetLeftWhenHasParent()
-            throws NodeHasParentException
     {
+        // given
         StandardNode node = null;
 
         try
@@ -117,36 +123,41 @@ public class StandardNodeTest
         }
         catch(NodeHasParentException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        testObject.setLeft(node.getLeft());
+        TreeNode leftNode = node.getLeft();
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.setLeft(leftNode))
+                  .isInstanceOf(NodeHasParentException.class);
     }
 
     @Test
     public void testSetRightWhenRoot()
     {
+        // given
         StandardNode node = new StandardNode("A", 1);
-
+        // when
         try
         {
             testObject.setRight(node);
         }
         catch(NodeHasParentException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
-        Assert.assertSame(node, testObject.getRight());
-        Assert.assertSame(testObject, node.getParent());
+        // then
+        Assertions.assertThat(testObject.getRight()).isSameAs(node);
+        Assertions.assertThat(node.getParent()).isSameAs(testObject);
     }
 
     @Test
     public void testSetRightWhenChange()
     {
+        // given
         StandardNode node1 = new StandardNode("A", 1);
         StandardNode node2 = new StandardNode("B", 2);
-
+        // when
         try
         {
             testObject.setRight(node1);
@@ -154,18 +165,18 @@ public class StandardNodeTest
         }
         catch(NodeHasParentException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
-        Assert.assertNull(node1.getParent());
-        Assert.assertSame(node2, testObject.getRight());
-        Assert.assertSame(testObject, node2.getParent());
+        // then
+        Assertions.assertThat(node1.getParent()).isNull();
+        Assertions.assertThat(testObject.getRight()).isSameAs(node2);
+        Assertions.assertThat(node2.getParent()).isSameAs(testObject);
     }
 
-    @Test(expected = NodeHasParentException.class)
+    @Test
     public void testSetRightWhenHasParent()
-            throws NodeHasParentException
     {
+        // given
         StandardNode node = null;
 
         try
@@ -174,15 +185,19 @@ public class StandardNodeTest
         }
         catch(NodeHasParentException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        testObject.setRight(node.getLeft());
+        TreeNode leftNode = node.getLeft();
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.setRight(leftNode))
+                  .isInstanceOf(NodeHasParentException.class);
     }
 
     @Test
     public void testGetState()
     {
+        // when
         Map<Variable, String> result = null;
 
         try
@@ -191,23 +206,24 @@ public class StandardNodeTest
         }
         catch(UndefinedStateValueException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
-        Assert.assertNotNull(result);
-        Assert.assertEquals(Collections.singletonMap(variable1, "3"), result);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEqualTo(Collections.singletonMap(variable1, "3"));
     }
 
-    @Test(expected = UndefinedStateValueException.class)
+    @Test
     public void testGetStateValueWhenNoValue()
-            throws UndefinedStateValueException
     {
-        testObject.getStateValue(variable2);
+        Assertions.assertThatThrownBy(() -> testObject.getStateValue(variable2))
+                  .isInstanceOf(UndefinedStateValueException.class);
     }
 
     @Test
     public void testGetStateValueWhenIsValue()
     {
+        // when
         String result = null;
 
         try
@@ -216,90 +232,93 @@ public class StandardNodeTest
         }
         catch(UndefinedStateValueException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
-        Assert.assertNotNull(result);
-        Assert.assertEquals("3", result);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEqualTo("3");
     }
 
     @Test
     public void testGetStateValueOrNullWhenNoValue()
     {
+        // when
         String result = testObject.getStateValueOrNull(variable2);
-
-        Assert.assertNull(result);
+        // then
+        Assertions.assertThat(result).isNull();
     }
 
     @Test
     public void testGetStateValueOrNullWhenIsValue()
     {
+        // when
         String result = testObject.getStateValueOrNull(variable1);
-
-        Assert.assertNotNull(result);
-        Assert.assertEquals("3", result);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEqualTo("3");
     }
 
     @Test
     public void testSetStateValueWhenIsValue()
     {
+        // when
         try
         {
             testObject.setStateValue(variable2, "Y");
         }
         catch(IllegalVariableValueException e)
         {
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
-
+        // then
         String result = testObject.getStateValueOrNull(variable2);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals("Y", result);
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEqualTo("Y");
     }
 
-    @Test(expected = IllegalVariableValueException.class)
+    @Test
     public void testSetStateValueWhenIncorrectValue()
-            throws IllegalVariableValueException
     {
-        testObject.setStateValue(variable2, "N");
+        Assertions.assertThatThrownBy(() -> testObject.setStateValue(variable2, "N"))
+                  .isInstanceOf(IllegalVariableValueException.class);
     }
 
-    @Test(expected = IllegalVariableValueException.class)
+    @Test
     public void testSetStateValueWhenEmptyValue()
-            throws IllegalVariableValueException
     {
-        testObject.setStateValue(variable2, "");
+        Assertions.assertThatThrownBy(() -> testObject.setStateValue(variable2, ""))
+                  .isInstanceOf(IllegalVariableValueException.class);
     }
 
-    @Test(expected = IllegalVariableValueException.class)
+    @Test
     public void testSetStateValueWhenNull()
-            throws IllegalVariableValueException
     {
-        testObject.setStateValue(variable2, null);
+        Assertions.assertThatThrownBy(() -> testObject.setStateValue(variable2, null))
+                  .isInstanceOf(IllegalVariableValueException.class);
     }
 
     @Test
     public void testSetInitialState()
     {
+        // when
         testObject.setInitialState(Arrays.asList(variable1, variable2));
-
+        // then
         String result1 = testObject.getStateValueOrNull(variable1);
         String result2 = testObject.getStateValueOrNull(variable2);
 
-        Assert.assertNotNull(result1);
-        Assert.assertNotNull(result2);
-        Assert.assertEquals(variable1.getInitValue(), result1);
-        Assert.assertEquals(variable2.getInitValue(), result2);
+        Assertions.assertThat(result1).isNotNull();
+        Assertions.assertThat(result2).isNotNull();
+        Assertions.assertThat(result1).isEqualTo(variable1.getInitValue());
+        Assertions.assertThat(result2).isEqualTo(variable2.getInitValue());
     }
 
     @Test
     public void testDeleteState()
     {
+        // when
         testObject.deleteState();
-
-        Map<Variable, String> result = testObject.getStateWithNulls();
-
-        Assert.assertTrue(result.isEmpty());
+        // then
+        Assertions.assertThat(testObject.getStateWithNulls()).isEmpty();
     }
 }
