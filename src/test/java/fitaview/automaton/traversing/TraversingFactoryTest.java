@@ -1,24 +1,12 @@
 package fitaview.automaton.traversing;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class TraversingFactoryTest
 {
-    @Before
-    public void setUp()
-    {
-    }
-
-    @After
-    public void tearDown()
-    {
-    }
-
     @Test
-    public void testGetTraversingWhenTopDownDFS()
+    public void getTraversing_WhenTopDownDFS()
     {
         TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.DFS);
 
@@ -27,7 +15,7 @@ public class TraversingFactoryTest
     }
 
     @Test
-    public void testGetTraversingWhenTopDownBFS()
+    public void getTraversing_WhenTopDownBFS()
     {
         TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.BFS);
 
@@ -36,7 +24,7 @@ public class TraversingFactoryTest
     }
 
     @Test
-    public void testGetTraversingWhenTopDownLevel()
+    public void getTraversing_WhenTopDownLevel()
     {
         TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.LEVEL);
 
@@ -45,14 +33,14 @@ public class TraversingFactoryTest
     }
 
     @Test(expected = IncorrectTraversingException.class)
-    public void testGetTraversingWhenBottomUpDFS()
-        throws IncorrectTraversingException
+    public void getTraversing_WhenBottomUpDFS()
+            throws IncorrectTraversingException
     {
         TraversingFactory.getBottomUpTraversing(TraversingMode.DFS);
     }
 
     @Test
-    public void testGetTraversingWhenBottomUpBFS()
+    public void getTraversing_WhenBottomUpBFS()
     {
         BottomUpTraversing result = null;
 
@@ -70,7 +58,7 @@ public class TraversingFactoryTest
     }
 
     @Test
-    public void testGetTraversingWhenBottomUpLevel()
+    public void getTraversing_WhenBottomUpLevel()
     {
         BottomUpTraversing result = null;
 

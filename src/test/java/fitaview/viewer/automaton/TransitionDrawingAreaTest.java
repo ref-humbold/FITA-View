@@ -49,7 +49,7 @@ public class TransitionDrawingAreaTest
     }
 
     @Test
-    public void testReceiveSignalWhenSourcePointer()
+    public void receiveSignal_WhenSourcePointer()
     {
         Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
 
@@ -61,7 +61,7 @@ public class TransitionDrawingAreaTest
     }
 
     @Test
-    public void testReceiveSignalWhenSourceMode()
+    public void receiveSignal_WhenSourceMode()
     {
         Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.STOPPED);
@@ -74,7 +74,7 @@ public class TransitionDrawingAreaTest
     }
 
     @Test
-    public void testReceiveMessageWhenLeftSon()
+    public void receiveMessage_WhenLeftSon()
     {
         Triple<NodeInfoSource, String, Map<Variable, String>> param =
                 Triple.make(NodeInfoSource.LEFT_SON, "LABEL", Collections.emptyMap());
@@ -90,7 +90,7 @@ public class TransitionDrawingAreaTest
     }
 
     @Test
-    public void testReceiveMessageWhenParent()
+    public void receiveMessage_WhenParent()
     {
         Triple<NodeInfoSource, String, Map<Variable, String>> param =
                 Triple.make(NodeInfoSource.PARENT, "LABEL", Collections.emptyMap());
@@ -106,7 +106,7 @@ public class TransitionDrawingAreaTest
     }
 
     @Test
-    public void testReceiveMessageWhenRightSon()
+    public void receiveMessage_WhenRightSon()
     {
         Triple<NodeInfoSource, String, Map<Variable, String>> param =
                 Triple.make(NodeInfoSource.RIGHT_SON, "LABEL", Collections.emptyMap());

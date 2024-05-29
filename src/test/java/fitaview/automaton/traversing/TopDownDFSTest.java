@@ -17,32 +17,32 @@ import fitaview.tree.TreeNode;
 public class TopDownDFSTest
 {
     private TopDownDFS testObject;
-    private TreeNode finiteNode13 = new StandardNode("13", 13);
-    private TreeNode finiteNode12 = new StandardNode("12", 12);
-    private TreeNode finiteNode11 = new StandardNode("11", 11);
-    private TreeNode finiteNode10 = new StandardNode("10", 10);
-    private TreeNode finiteNode7 = new StandardNode("7", 7);
-    private TreeNode finiteNode6 = new StandardNode("6", 6, finiteNode13, finiteNode12);
-    private TreeNode finiteNode5 = new StandardNode("5", 5, finiteNode11, finiteNode10);
-    private TreeNode finiteNode4 = new StandardNode("4", 4);
-    private TreeNode finiteNode3 = new StandardNode("3", 3, finiteNode7, finiteNode6);
-    private TreeNode finiteNode2 = new StandardNode("2", 2, finiteNode5, finiteNode4);
-    private TreeNode finiteNode1 = new StandardNode("1", 1, finiteNode3, finiteNode2);
+    private final TreeNode finiteNode13 = new StandardNode("13", 13);
+    private final TreeNode finiteNode12 = new StandardNode("12", 12);
+    private final TreeNode finiteNode11 = new StandardNode("11", 11);
+    private final TreeNode finiteNode10 = new StandardNode("10", 10);
+    private final TreeNode finiteNode7 = new StandardNode("7", 7);
+    private final TreeNode finiteNode4 = new StandardNode("4", 4);
+    private final TreeNode finiteNode6 = new StandardNode("6", 6, finiteNode13, finiteNode12);
+    private final TreeNode finiteNode3 = new StandardNode("3", 3, finiteNode7, finiteNode6);
+    private final TreeNode finiteNode5 = new StandardNode("5", 5, finiteNode11, finiteNode10);
+    private final TreeNode finiteNode2 = new StandardNode("2", 2, finiteNode5, finiteNode4);
+    private final TreeNode finiteNode1 = new StandardNode("1", 1, finiteNode3, finiteNode2);
 
-    private TreeNode infiniteNode13 = new StandardNode("13", 13);
-    private TreeNode infiniteNode12 = new StandardNode("12", 12);
-    private TreeNode infiniteNode11 = new StandardNode("11", 11);
-    private TreeNode infiniteNode7 = new StandardNode("7", 7);
-    private TreeNode infiniteNode6 = new StandardNode("6", 6, infiniteNode13, infiniteNode12);
-    private TreeNode infiniteNode3 = new StandardNode("3", 3, infiniteNode7, infiniteNode6);
-    private RepeatNode infiniteNode2 = new RepeatNode("2", 2);
-    private RecNode infiniteNode4 = new RecNode(infiniteNode2, 4);
-    private RecNode infiniteNode10 = new RecNode(infiniteNode2, 10);
-    private TreeNode infiniteNode5 = new StandardNode("5", 5, infiniteNode11, infiniteNode10);
-    private TreeNode infiniteNode1 = new StandardNode("1", 1, infiniteNode3, infiniteNode2);
+    private final TreeNode infiniteNode13 = new StandardNode("13", 13);
+    private final TreeNode infiniteNode12 = new StandardNode("12", 12);
+    private final TreeNode infiniteNode11 = new StandardNode("11", 11);
+    private final TreeNode infiniteNode7 = new StandardNode("7", 7);
+    private final RepeatNode infiniteNode2 = new RepeatNode("2", 2);
+    private final TreeNode infiniteNode6 = new StandardNode("6", 6, infiniteNode13, infiniteNode12);
+    private final TreeNode infiniteNode3 = new StandardNode("3", 3, infiniteNode7, infiniteNode6);
+    private final TreeNode infiniteNode1 = new StandardNode("1", 1, infiniteNode3, infiniteNode2);
+    private final RecNode infiniteNode4 = new RecNode(infiniteNode2, 4);
+    private final RecNode infiniteNode10 = new RecNode(infiniteNode2, 10);
+    private final TreeNode infiniteNode5 = new StandardNode("5", 5, infiniteNode11, infiniteNode10);
 
     public TopDownDFSTest()
-        throws NodeHasParentException
+            throws NodeHasParentException
     {
         infiniteNode2.setRight(infiniteNode4);
         infiniteNode2.setLeft(infiniteNode5);
@@ -79,15 +79,16 @@ public class TopDownDFSTest
             result.add(nodes.get(0));
         }
 
-        TreeNode[] expected = new TreeNode[]{finiteNode1, finiteNode3, finiteNode7, finiteNode6,
-                                             finiteNode13, finiteNode12, finiteNode2, finiteNode5,
-                                             finiteNode11, finiteNode10, finiteNode4};
+        TreeNode[] expected =
+                new TreeNode[]{finiteNode1, finiteNode3, finiteNode7, finiteNode6, finiteNode13,
+                               finiteNode12, finiteNode2, finiteNode5, finiteNode11, finiteNode10,
+                               finiteNode4};
 
         Assert.assertArrayEquals(expected, result.toArray());
     }
 
     @Test
-    public void testNextWhenInfiniteTree()
+    public void next_WhenInfiniteTree()
     {
         ArrayList<TreeNode> result = new ArrayList<>();
 
@@ -109,9 +110,10 @@ public class TopDownDFSTest
             result.add(nodes.get(0));
         }
 
-        TreeNode[] expected = new TreeNode[]{infiniteNode1, infiniteNode3, infiniteNode7,
-                                             infiniteNode6, infiniteNode13, infiniteNode12,
-                                             infiniteNode2, infiniteNode5, infiniteNode11};
+        TreeNode[] expected =
+                new TreeNode[]{infiniteNode1, infiniteNode3, infiniteNode7, infiniteNode6,
+                               infiniteNode13, infiniteNode12, infiniteNode2, infiniteNode5,
+                               infiniteNode11};
 
         Assert.assertArrayEquals(expected, result.toArray());
         Assert.assertFalse(testObject.hasNext());
@@ -119,7 +121,7 @@ public class TopDownDFSTest
     }
 
     @Test
-    public void testNextWhenRecursiveContinuation()
+    public void next_WhenRecursiveContinuation()
     {
         ArrayList<TreeNode> resultFirst = new ArrayList<>();
         ArrayList<TreeNode> resultSecond = new ArrayList<>();
@@ -163,19 +165,21 @@ public class TopDownDFSTest
             resultSecond.add(nodes.get(0));
         }
 
-        TreeNode[] expectedFirst = new TreeNode[]{infiniteNode1, infiniteNode3, infiniteNode7,
-                                                  infiniteNode6, infiniteNode13, infiniteNode12,
-                                                  infiniteNode2, infiniteNode5, infiniteNode11};
+        TreeNode[] expectedFirst =
+                new TreeNode[]{infiniteNode1, infiniteNode3, infiniteNode7, infiniteNode6,
+                               infiniteNode13, infiniteNode12, infiniteNode2, infiniteNode5,
+                               infiniteNode11};
 
-        TreeNode[] expectedSecond = new TreeNode[]{infiniteNode4, infiniteNode5, infiniteNode11,
-                                                   infiniteNode10, infiniteNode5, infiniteNode11};
+        TreeNode[] expectedSecond =
+                new TreeNode[]{infiniteNode4, infiniteNode5, infiniteNode11, infiniteNode10,
+                               infiniteNode5, infiniteNode11};
 
         Assert.assertArrayEquals(expectedFirst, resultFirst.toArray());
         Assert.assertArrayEquals(expectedSecond, resultSecond.toArray());
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void testNextWhenOutOfBounds()
+    public void next_WhenOutOfBounds()
     {
         testObject.initialize(finiteNode1);
 
@@ -199,7 +203,7 @@ public class TopDownDFSTest
     }
 
     @Test
-    public void testInitializeWhenDoubleInvoke()
+    public void initialize_WhenDoubleInvoke()
     {
         testObject.initialize(finiteNode1);
         testObject.initialize(finiteNode2);
@@ -212,7 +216,7 @@ public class TopDownDFSTest
     }
 
     @Test
-    public void testHasNextWhenEmpty()
+    public void hasNext_WhenEmpty()
     {
         boolean result = testObject.hasNext();
 
@@ -220,7 +224,7 @@ public class TopDownDFSTest
     }
 
     @Test
-    public void testHasNextWhenNotEmpty()
+    public void hasNext_WhenNotEmpty()
     {
         testObject.initialize(finiteNode11);
 
@@ -230,7 +234,7 @@ public class TopDownDFSTest
     }
 
     @Test
-    public void testCanContinueWhenTraversingEnded()
+    public void canContinue_WhenTraversingEnded()
     {
         testObject.initialize(infiniteNode1);
 
@@ -248,7 +252,7 @@ public class TopDownDFSTest
     }
 
     @Test
-    public void testCanContinueWhenTraversingInProgress()
+    public void canContinue_WhenTraversingInProgress()
     {
         testObject.initialize(infiniteNode1);
         testObject.next();
@@ -258,7 +262,7 @@ public class TopDownDFSTest
     }
 
     @Test
-    public void testContinueRecursiveWhenTraversingEnded()
+    public void continueRecursive_WhenTraversingEnded()
     {
         testObject.initialize(infiniteNode1);
 
@@ -285,8 +289,8 @@ public class TopDownDFSTest
     }
 
     @Test(expected = RecursiveContinuationException.class)
-    public void testContinueRecursiveWhenTraversingInProgress()
-        throws RecursiveContinuationException
+    public void continueRecursive_WhenTraversingInProgress()
+            throws RecursiveContinuationException
     {
         testObject.initialize(infiniteNode1);
         testObject.next();

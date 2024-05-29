@@ -58,7 +58,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenRun()
+    public void actionPerformed_WhenRun()
     {
         try
         {
@@ -77,7 +77,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenStepForward()
+    public void actionPerformed_WhenStepForward()
     {
         try
         {
@@ -96,7 +96,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenStopTraversing()
+    public void actionPerformed_WhenStopTraversing()
     {
         try
         {
@@ -115,7 +115,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenContinueRun()
+    public void actionPerformed_WhenContinueRun()
     {
         try
         {
@@ -138,7 +138,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenContinueStepForward()
+    public void actionPerformed_WhenContinueStepForward()
     {
         try
         {
@@ -161,7 +161,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenCheckEmptinessIsTrue()
+    public void actionPerformed_WhenCheckEmptinessIsTrue()
     {
         try
         {
@@ -190,7 +190,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenCheckEmptinessIsFalse()
+    public void actionPerformed_WhenCheckEmptinessIsFalse()
     {
         try
         {
@@ -219,7 +219,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenSourcePointerIsNotEmpty()
+    public void receiveSignal_WhenSourcePointerIsNotEmpty()
     {
         Mockito.when(mockPointer.get()).thenReturn(mockBottomUp);
         Mockito.when(mockMessage.getSource()).thenReturn(mockPointer);
@@ -232,7 +232,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenSourceRunningModeAndPointerIsEmpty()
+    public void receiveSignal_WhenSourceRunningModeAndPointerIsEmpty()
     {
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockMessage.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
@@ -244,7 +244,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenSourceRunningModeAndRunning()
+    public void receiveSignal_WhenSourceRunningModeAndRunning()
     {
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockMessage.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
@@ -257,7 +257,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenSourceRunningModeAndStopped()
+    public void receiveSignal_WhenSourceRunningModeAndStopped()
     {
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockMessage.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
@@ -270,7 +270,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenSourceRunningModeAndFinished()
+    public void receiveSignal_WhenSourceRunningModeAndFinished()
     {
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockMessage.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
@@ -283,7 +283,7 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenSourceRunningModeAndContinuing()
+    public void receiveSignal_WhenSourceRunningModeAndContinuing()
     {
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockMessage.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());

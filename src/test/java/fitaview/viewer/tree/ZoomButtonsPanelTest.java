@@ -39,7 +39,7 @@ public class ZoomButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenZeroZoom()
+    public void actionPerformed_WhenZeroZoom()
     {
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_ZERO");
 
@@ -52,7 +52,7 @@ public class ZoomButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenZoomIn()
+    public void actionPerformed_WhenZoomIn()
     {
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_IN");
 
@@ -66,7 +66,7 @@ public class ZoomButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenZoomOut()
+    public void actionPerformed_WhenZoomOut()
     {
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_IN");
 
@@ -86,7 +86,7 @@ public class ZoomButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenZoomOutOnMinimum()
+    public void actionPerformed_WhenZoomOutOnMinimum()
     {
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_OUT");
 
@@ -99,7 +99,7 @@ public class ZoomButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenZoomInOnMaximum()
+    public void actionPerformed_WhenZoomInOnMaximum()
     {
         int invoking = TreeDrawingArea.MAX_ZOOM + 1;
 

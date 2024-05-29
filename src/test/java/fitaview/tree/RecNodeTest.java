@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import fitaview.TestUtils;
 import fitaview.automaton.IllegalVariableValueException;
 import fitaview.automaton.Variable;
 
@@ -37,7 +38,7 @@ public class RecNodeTest
     }
 
     @Test
-    public void testConstructorWhenNullRecursive()
+    public void constructor_WhenNullRecursive()
     {
         Assertions.assertThatThrownBy(() -> new RecNode(null, 0))
                   .isInstanceOf(IllegalArgumentException.class);
@@ -65,74 +66,54 @@ public class RecNodeTest
     @Test
     public void testGetState()
     {
-        Map<Variable, String> result = null;
-
-        try
-        {
-            result = testObject.getState();
-        }
-        catch(UndefinedStateValueException e)
-        {
-            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
+        // when
+        Map<Variable, String> result = TestUtils.failOnException(() -> testObject.getState());
+        // then
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).isEqualTo(Collections.singletonMap(variable1, "3"));
     }
 
     @Test
-    public void testGetStateValueWhenNoValue()
+    public void getStateValue_WhenNoValue()
     {
         Assertions.assertThatThrownBy(() -> testObject.getStateValue(variable2))
                   .isInstanceOf(UndefinedStateValueException.class);
     }
 
     @Test
-    public void testGetStateValueWhenIsValue()
+    public void getStateValue_WhenIsValue()
     {
-        String result = null;
-        try
-        {
-            result = testObject.getStateValue(variable1);
-        }
-        catch(UndefinedStateValueException e)
-        {
-            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
+        // when
+        String result = TestUtils.failOnException(() -> testObject.getStateValue(variable1));
+        // then
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).isEqualTo("3");
     }
 
     @Test
-    public void testGetStateValueOrNullWhenNoValue()
+    public void getStateValueOrNull_WhenNoValue()
     {
+        // when
         String result = testObject.getStateValueOrNull(variable2);
-
+        // then
         Assertions.assertThat(result).isNull();
     }
 
     @Test
-    public void testGetStateValueOrNullWhenIsValue()
+    public void getStateValueOrNull_WhenIsValue()
     {
+        // when
         String result = testObject.getStateValueOrNull(variable1);
-
+        // then
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).isEqualTo("3");
     }
 
     @Test
-    public void testSetStateValueWhenIsValue()
+    public void setStateValue_WhenIsValue()
     {
         // given
-        try
-        {
-            testObject.setStateValue(variable2, "Y");
-        }
-        catch(IllegalVariableValueException e)
-        {
-            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        TestUtils.failOnException(() -> testObject.setStateValue(variable2, "Y"));
         // when
         String result = testObject.getStateValueOrNull(variable2);
         // then
@@ -141,21 +122,21 @@ public class RecNodeTest
     }
 
     @Test
-    public void testSetStateValueWhenIncorrectValue()
+    public void setStateValue_WhenIncorrectValue()
     {
         Assertions.assertThatThrownBy(() -> testObject.setStateValue(variable2, "N"))
                   .isInstanceOf(IllegalVariableValueException.class);
     }
 
     @Test
-    public void testSetStateValueWhenEmptyValue()
+    public void setStateValue_WhenEmptyValue()
     {
         Assertions.assertThatThrownBy(() -> testObject.setStateValue(variable2, ""))
                   .isInstanceOf(IllegalVariableValueException.class);
     }
 
     @Test
-    public void testSetStateValueWhenNull()
+    public void setStateValue_WhenNull()
     {
         Assertions.assertThatThrownBy(() -> testObject.setStateValue(variable2, null))
                   .isInstanceOf(IllegalVariableValueException.class);

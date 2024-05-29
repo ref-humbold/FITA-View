@@ -18,15 +18,14 @@ import fitaview.utils.Triple;
 public class BottomUpDFTATest
 {
     private BottomUpDFTA testObject;
-    private List<Variable> variables;
-    private List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
-    private Map<Variable, Pair<String, Boolean>> accepts = new HashMap<>();
+    private final List<Variable> variables =
+            Arrays.asList(new Variable(1, "X", "T", "F"), new Variable(2, "#", "!", "@", "$", "&"));
+    private final List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
+    private final Map<Variable, Pair<String, Boolean>> accepts = new HashMap<>();
 
     public BottomUpDFTATest()
             throws Exception
     {
-        variables = Arrays.asList(new Variable(1, "X", "T", "F"),
-                                  new Variable(2, "#", "!", "@", "$", "&"));
         accepts.put(variables.get(0), Pair.make("T", true));
         accepts.put(variables.get(1), Pair.make(Wildcard.EVERY_VALUE, true));
     }
@@ -78,7 +77,7 @@ public class BottomUpDFTATest
     }
 
     @Test
-    public void testSetTreeWhenFiniteTree()
+    public void setTree_WhenFiniteTree()
     {
         TreeNode node = null;
 
@@ -100,7 +99,7 @@ public class BottomUpDFTATest
     }
 
     @Test
-    public void testSetTreeWhenEmptyTree()
+    public void setTree_WhenEmptyTree()
     {
         try
         {
@@ -115,7 +114,7 @@ public class BottomUpDFTATest
     }
 
     @Test(expected = TreeFinitenessException.class)
-    public void testSetTreeWhenInfiniteTree()
+    public void setTree_WhenInfiniteTree()
             throws TreeFinitenessException
     {
         try
@@ -213,7 +212,7 @@ public class BottomUpDFTATest
     }
 
     @Test(expected = NoTraversingStrategyException.class)
-    public void testRunWhenNoTraversing()
+    public void run_WhenNoTraversing()
             throws NoTraversingStrategyException
     {
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
@@ -230,7 +229,7 @@ public class BottomUpDFTATest
     }
 
     @Test(expected = NoTreeException.class)
-    public void testRunWhenNoTree()
+    public void run_WhenNoTree()
             throws NoTreeException
     {
         try
@@ -388,7 +387,7 @@ public class BottomUpDFTATest
     }
 
     @Test(expected = NoTraversingStrategyException.class)
-    public void testMakeStepForwardWhenNoTraversing()
+    public void makeStepForward_WhenNoTraversing()
             throws NoTraversingStrategyException
     {
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
@@ -405,7 +404,7 @@ public class BottomUpDFTATest
     }
 
     @Test(expected = NoTreeException.class)
-    public void testMakeStepForwardWhenNoTree()
+    public void makeStepForward_WhenNoTree()
             throws NoTreeException
     {
         try
@@ -541,7 +540,7 @@ public class BottomUpDFTATest
     }
 
     @Test
-    public void testIsAcceptedWhenAutomatonHasRunAndAccepts()
+    public void isAccepted_WhenAutomatonHasRunAndAccepts()
     {
         try
         {
@@ -599,7 +598,7 @@ public class BottomUpDFTATest
     }
 
     @Test
-    public void testIsAcceptedWhenAutomatonHasRunAndNotAccepts()
+    public void isAccepted_WhenAutomatonHasRunAndNotAccepts()
     {
         try
         {
@@ -657,7 +656,7 @@ public class BottomUpDFTATest
     }
 
     @Test(expected = UndefinedStateValueException.class)
-    public void testIsAcceptedWhenAutomatonHasNotRun()
+    public void isAccepted_WhenAutomatonHasNotRun()
             throws UndefinedStateValueException
     {
         try
@@ -711,7 +710,7 @@ public class BottomUpDFTATest
     }
 
     @Test(expected = UndefinedAcceptanceException.class)
-    public void testIsAcceptedWhenAutomatonHasNoAcceptingStates()
+    public void isAccepted_WhenAutomatonHasNoAcceptingStates()
             throws UndefinedAcceptanceException
     {
         try
@@ -765,7 +764,7 @@ public class BottomUpDFTATest
     }
 
     @Test(expected = NoTreeException.class)
-    public void testIsAcceptedWhenAutomatonHasEmptyTree()
+    public void isAccepted_WhenAutomatonHasEmptyTree()
             throws NoTreeException
     {
         try
@@ -779,7 +778,7 @@ public class BottomUpDFTATest
     }
 
     @Test
-    public void testIsInAlphabetWhenValueInAlphabet()
+    public void isInAlphabet_WhenValueInAlphabet()
     {
         boolean result0 = testObject.isInAlphabet("0");
         boolean result1 = testObject.isInAlphabet("1");
@@ -795,7 +794,7 @@ public class BottomUpDFTATest
     }
 
     @Test
-    public void testIsInAlphabetWhenValueOutOfAlphabet()
+    public void isInAlphabet_WhenValueOutOfAlphabet()
     {
         boolean result2 = testObject.isInAlphabet("2");
         boolean resultIff = testObject.isInAlphabet("iff");
@@ -861,7 +860,7 @@ public class BottomUpDFTATest
     }
 
     @Test
-    public void testCheckEmptinessWhenNotEmpty1()
+    public void checkEmptiness_WhenNotEmpty1()
     {
         boolean result = false;
 
@@ -880,7 +879,7 @@ public class BottomUpDFTATest
     }
 
     @Test
-    public void testCheckEmptinessWhenNotEmpty2()
+    public void checkEmptiness_WhenNotEmpty2()
     {
         boolean result = false;
         Map<Variable, Pair<String, Boolean>> testAccepts = new HashMap<>();
@@ -903,7 +902,7 @@ public class BottomUpDFTATest
     }
 
     @Test
-    public void testCheckEmptinessWhenEmpty()
+    public void checkEmptiness_WhenEmpty()
     {
         boolean result = false;
         Map<Variable, Pair<String, Boolean>> testAccepts = new HashMap<>();
@@ -926,7 +925,7 @@ public class BottomUpDFTATest
     }
 
     @Test(expected = UndefinedAcceptanceException.class)
-    public void testCheckEmptinessWhenNoAcceptance()
+    public void checkEmptiness_WhenNoAcceptance()
             throws UndefinedAcceptanceException
     {
         try

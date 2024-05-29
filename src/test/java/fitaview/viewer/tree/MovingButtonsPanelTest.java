@@ -42,7 +42,7 @@ public class MovingButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenCentre()
+    public void actionPerformed_WhenCentre()
     {
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CENTRE");
 
@@ -56,7 +56,7 @@ public class MovingButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenUp()
+    public void actionPerformed_WhenUp()
     {
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("UP");
 
@@ -70,7 +70,7 @@ public class MovingButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenDown()
+    public void actionPerformed_WhenDown()
     {
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DOWN");
 
@@ -84,7 +84,7 @@ public class MovingButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenLeft()
+    public void actionPerformed_WhenLeft()
     {
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEFT");
 
@@ -98,7 +98,7 @@ public class MovingButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenRight()
+    public void actionPerformed_WhenRight()
     {
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("RIGHT");
 

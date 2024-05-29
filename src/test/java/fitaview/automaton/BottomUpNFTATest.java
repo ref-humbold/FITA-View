@@ -12,13 +12,13 @@ import fitaview.utils.Pair;
 public class BottomUpNFTATest
 {
     private BottomUpNFTA testObject;
-    private List<Variable> variables;
-    private List<String> alphabet = Arrays.asList("0", "1");
+    private final List<Variable> variables =
+            Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "X", "Y"));
+    private final List<String> alphabet = Arrays.asList("0", "1");
 
     public BottomUpNFTATest()
             throws Exception
     {
-        variables = Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "X", "Y"));
     }
 
     @Before

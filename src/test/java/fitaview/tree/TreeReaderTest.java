@@ -1,24 +1,17 @@
 package fitaview.tree;
 
-import java.io.File;
-import java.io.IOException;
+import java.nio.file.Path;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
+import fitaview.TestUtils;
 import fitaview.utils.Pair;
 
 public class TreeReaderTest
 {
     private static final String DIRECTORY = "src/test/resources/TreeReaderTest/";
     private TreeReader testObject;
-
-    @Before
-    public void setUp()
-    {
-    }
 
     @After
     public void tearDown()
@@ -29,83 +22,63 @@ public class TreeReaderTest
     @Test
     public void testReadFiniteTree()
     {
-        Pair<TreeNode, Integer> result = null;
-        TreeNode expected = null;
+        // given
+        testObject = TestUtils.failOnException(
+                () -> new TreeReader(Path.of(DIRECTORY, "testReadFiniteTree.tree.xml").toFile()));
+        // when
+        Pair<TreeNode, Integer> result = TestUtils.failOnException(() -> testObject.read());
+        // then
+        TreeNode expected = TestUtils.failOnException(() -> new StandardNode("1", 1,
+                                                                             new StandardNode("2",
+                                                                                              3,
+                                                                                              new StandardNode(
+                                                                                                      "3",
+                                                                                                      7),
+                                                                                              new StandardNode(
+                                                                                                      "4",
+                                                                                                      6)),
+                                                                             new StandardNode("5",
+                                                                                              2)));
 
-        try
-        {
-            testObject = new TreeReader(new File(DIRECTORY + "testReadFiniteTree.tree.xml"));
-            result = testObject.read();
-            expected = new StandardNode("1", 1, new StandardNode("2", 3, new StandardNode("3", 7),
-                                                                 new StandardNode("4", 6)),
-                                        new StandardNode("5", 2));
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result.getFirst());
-        Assert.assertEquals(Integer.valueOf(3), result.getSecond());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getFirst()).isEqualTo(expected);
+        Assertions.assertThat(result.getSecond()).isEqualTo(3);
     }
 
     @Test
-    public void testReadWhenSingleRepeat()
+    public void read_WhenSingleRepeat()
     {
-        Pair<TreeNode, Integer> result = null;
-
-        try
-        {
-            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenSingleRepeat.tree.xml"));
-            result = testObject.read();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        TreeNode expected = null;
-
-        try
-        {
+        // given
+        testObject = TestUtils.failOnException(() -> new TreeReader(
+                Path.of(DIRECTORY, "testReadWhenSingleRepeat.tree.xml").toFile()));
+        // when
+        Pair<TreeNode, Integer> result = TestUtils.failOnException(() -> testObject.read());
+        // then
+        TreeNode expected = TestUtils.failOnException(() -> {
             RepeatNode repeat = new RepeatNode("5", 2);
 
             repeat.setLeft(new StandardNode("6", 5));
             repeat.setRight(
                     new StandardNode("7", 4, new RecNode(repeat, 9), new StandardNode("9", 8)));
-            expected = new StandardNode("1", 1, new StandardNode("2", 3, new StandardNode("3", 7),
-                                                                 new StandardNode("4", 6)), repeat);
-        }
-        catch(NodeHasParentException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+            return new StandardNode("1", 1, new StandardNode("2", 3, new StandardNode("3", 7),
+                                                             new StandardNode("4", 6)), repeat);
+        });
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result.getFirst());
-        Assert.assertEquals(Integer.valueOf(4), result.getSecond());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getFirst()).isEqualTo(expected);
+        Assertions.assertThat(result.getSecond()).isEqualTo(4);
     }
 
     @Test
-    public void testReadWhenNestedRepeats()
+    public void read_WhenNestedRepeats()
     {
-        Pair<TreeNode, Integer> result = null;
-
-        try
-        {
-            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenNestedRepeats.tree.xml"));
-            result = testObject.read();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        TreeNode expected = null;
-
-        try
-        {
+        // given
+        testObject = TestUtils.failOnException(() -> new TreeReader(
+                Path.of(DIRECTORY, "testReadWhenNestedRepeats.tree.xml").toFile()));
+        // when
+        Pair<TreeNode, Integer> result = TestUtils.failOnException(() -> testObject.read());
+        // then
+        TreeNode expected = TestUtils.failOnException(() -> {
             RepeatNode repeat5 = new RepeatNode("5", 2);
             RepeatNode repeat7 = new RepeatNode("7", 11);
 
@@ -117,110 +90,56 @@ public class TreeReaderTest
             repeat5.setRight(
                     new StandardNode("13", 4, new RecNode(repeat5, 9), new StandardNode("15", 8)));
 
-            expected = new StandardNode("1", 1, new StandardNode("2", 3, new StandardNode("3", 7),
-                                                                 new StandardNode("4", 6)),
-                                        repeat5);
-        }
-        catch(NodeHasParentException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+            return new StandardNode("1", 1, new StandardNode("2", 3, new StandardNode("3", 7),
+                                                             new StandardNode("4", 6)), repeat5);
+        });
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result.getFirst());
-        Assert.assertEquals(Integer.valueOf(6), result.getSecond());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getFirst()).isEqualTo(expected);
+        Assertions.assertThat(result.getSecond()).isEqualTo(6);
     }
 
-    @Test(expected = TreeParsingException.class)
-    public void testReadWhenRecOutOfScope()
-            throws SAXException
+    @Test
+    public void read_WhenRecOutOfScope()
     {
-        try
-        {
-            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenRecOutOfScope.tree.xml"));
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // given
+        testObject = TestUtils.failOnException(() -> new TreeReader(
+                Path.of(DIRECTORY, "testReadWhenRecOutOfScope.tree.xml").toFile()));
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.read())
+                  .isInstanceOf(TreeParsingException.class);
     }
 
-    @Test(expected = OneChildException.class)
-    public void testReadWhenOneChild()
-            throws SAXException
+    @Test
+    public void read_WhenOneChild()
     {
-        try
-        {
-            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenOneChild.tree.xml"));
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // given
+        testObject = TestUtils.failOnException(
+                () -> new TreeReader(Path.of(DIRECTORY, "testReadWhenOneChild.tree.xml").toFile()));
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.read())
+                  .isInstanceOf(OneChildException.class);
     }
 
-    @Test(expected = TreeDepthException.class)
-    public void testReadWhenTreeDepthIsViolated()
-            throws SAXException
+    @Test
+    public void read_WhenTreeDepthIsViolated()
     {
-        try
-        {
-            testObject = new TreeReader(
-                    new File(DIRECTORY + "testReadWhenTreeDepthIsViolated.tree.xml"));
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // given
+        testObject = TestUtils.failOnException(() -> new TreeReader(
+                Path.of(DIRECTORY, "testReadWhenTreeDepthIsViolated.tree.xml").toFile()));
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.read())
+                  .isInstanceOf(TreeDepthException.class);
     }
 
-    @Test(expected = TreeParsingException.class)
-    public void testReadWhenThreeChildren()
-            throws SAXException
+    @Test
+    public void read_WhenThreeChildren()
     {
-        try
-        {
-            testObject = new TreeReader(new File(DIRECTORY + "testReadWhenThreeChildren.tree.xml"));
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        try
-        {
-            testObject.read();
-        }
-        catch(IOException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // given
+        testObject = TestUtils.failOnException(() -> new TreeReader(
+                Path.of(DIRECTORY, "testReadWhenThreeChildren.tree.xml").toFile()));
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.read())
+                  .isInstanceOf(TreeParsingException.class);
     }
 }

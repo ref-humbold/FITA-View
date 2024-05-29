@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -19,11 +18,6 @@ public class AutomatonReaderTest
     private static final String DIRECTORY = "src/test/resources/AutomatonReaderTest/";
     private AutomatonReader testObject;
 
-    @Before
-    public void setUp()
-    {
-    }
-
     @After
     public void tearDown()
     {
@@ -33,7 +27,7 @@ public class AutomatonReaderTest
     // region files
 
     @Test(expected = FileFormatException.class)
-    public void testReadWhenIncorrectFileExtension()
+    public void read_WhenIncorrectFileExtension()
             throws SAXException
     {
         testObject =
@@ -41,7 +35,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = TheFreddieMercuryConfusingFileNameException.class)
-    public void testReadWhenExpectedBottomUpButNamedTopDown()
+    public void read_WhenExpectedBottomUpButNamedTopDown()
             throws TheFreddieMercuryConfusingFileNameException
     {
         try
@@ -56,7 +50,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = TheFreddieMercuryConfusingFileNameException.class)
-    public void testReadWhenExpectedTopDownButNamedBottomUp()
+    public void read_WhenExpectedTopDownButNamedBottomUp()
             throws TheFreddieMercuryConfusingFileNameException
     {
         try
@@ -124,7 +118,7 @@ public class AutomatonReaderTest
     }
 
     @Test
-    public void testReadTopDownDFTAWhenWildcards()
+    public void readTopDownDFTA_WhenWildcards()
     {
         TreeAutomaton result = null;
 
@@ -175,7 +169,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = AutomatonParsingException.class)
-    public void testReadTopDownDFTAWhenIncorrectAlphabetWord()
+    public void readTopDownDFTA_WhenIncorrectAlphabetWord()
             throws SAXException
     {
         try
@@ -199,7 +193,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = IllegalAlphabetWordException.class)
-    public void testReadTopDownDFTAWhenNoSuchLabel()
+    public void readTopDownDFTA_WhenNoSuchLabel()
             throws SAXException
     {
         try
@@ -223,7 +217,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = IllegalVariableValueException.class)
-    public void testReadTopDownDFTAWhenNoSuchVariableValue()
+    public void readTopDownDFTA_WhenNoSuchVariableValue()
             throws SAXException
     {
         try
@@ -247,7 +241,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = NoVariableWithIDException.class)
-    public void testReadTopDownDFTAWhenNoSuchVariableId()
+    public void readTopDownDFTA_WhenNoSuchVariableId()
             throws SAXException
     {
         try
@@ -271,7 +265,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = AutomatonParsingException.class)
-    public void testReadTopDownDFTAWhenIncorrectVariableValue()
+    public void readTopDownDFTA_WhenIncorrectVariableValue()
             throws SAXException
     {
         try
@@ -295,7 +289,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = AutomatonParsingException.class)
-    public void testReadTopDownDFTAWhenVariableValueIsEmpty()
+    public void readTopDownDFTA_WhenVariableValueIsEmpty()
             throws SAXException
     {
         try
@@ -319,7 +313,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = NoAcceptanceForVariableException.class)
-    public void testReadTopDownDFTAWhenNoAcceptingValueForVariable()
+    public void readTopDownDFTA_WhenNoAcceptingValueForVariable()
             throws SAXException
     {
         try
@@ -343,7 +337,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = DuplicatedAcceptanceValueException.class)
-    public void testReadTopDownDFTAWhenDuplicatedAcceptingValueForVariable()
+    public void readTopDownDFTA_WhenDuplicatedAcceptingValueForVariable()
             throws SAXException
     {
         try
@@ -368,7 +362,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = IncorrectAcceptanceConditionException.class)
-    public void testReadTopDownDFTAWhenAcceptingUnspecified()
+    public void readTopDownDFTA_WhenAcceptingUnspecified()
             throws SAXException
     {
         try
@@ -392,7 +386,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = DuplicatedTransitionException.class)
-    public void testReadTopDownDFTAWhenMultipleTransitions()
+    public void readTopDownDFTA_WhenMultipleTransitions()
             throws SAXException
     {
         try
@@ -650,7 +644,7 @@ public class AutomatonReaderTest
     }
 
     @Test
-    public void testReadBottomUpDFTAWhenWildcards()
+    public void readBottomUpDFTA_WhenWildcards()
     {
         TreeAutomaton result = null;
 
@@ -704,7 +698,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = IllegalTransitionException.class)
-    public void testReadBottomUpDFTAWhenDoubleSameWildcard()
+    public void readBottomUpDFTA_WhenDoubleSameWildcard()
             throws SAXException
     {
         try
@@ -728,7 +722,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = IllegalTransitionException.class)
-    public void testReadBottomUpDFTAWhenSameWildcardWithoutEveryWildcard()
+    public void readBottomUpDFTA_WhenSameWildcardWithoutEveryWildcard()
             throws SAXException
     {
         try
@@ -753,7 +747,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = AutomatonParsingException.class)
-    public void testReadBottomUpDFTAWhenIncorrectAlphabetWord()
+    public void readBottomUpDFTA_WhenIncorrectAlphabetWord()
             throws SAXException
     {
         try
@@ -777,7 +771,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = IllegalAlphabetWordException.class)
-    public void testReadBottomUpDFTAWhenNoSuchLabel()
+    public void readBottomUpDFTA_WhenNoSuchLabel()
             throws SAXException
     {
         try
@@ -801,7 +795,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = AutomatonParsingException.class)
-    public void testReadBottomUpDFTAWhenIncorrectVariableValue()
+    public void readBottomUpDFTA_WhenIncorrectVariableValue()
             throws SAXException
     {
         try
@@ -825,7 +819,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = IllegalVariableValueException.class)
-    public void testReadBottomUpDFTAWhenNoSuchVariableValue()
+    public void readBottomUpDFTA_WhenNoSuchVariableValue()
             throws SAXException
     {
         try
@@ -849,7 +843,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = NoVariableWithIDException.class)
-    public void testReadBottomUpDFTAWhenNoSuchVariableId()
+    public void readBottomUpDFTA_WhenNoSuchVariableId()
             throws SAXException
     {
         try
@@ -873,7 +867,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = AutomatonParsingException.class)
-    public void testReadBottomUpDFTAWhenVariableValueIsEmpty()
+    public void readBottomUpDFTA_WhenVariableValueIsEmpty()
             throws SAXException
     {
         try
@@ -897,7 +891,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = NoAcceptanceForVariableException.class)
-    public void testReadBottomUpDFTAWhenNoAcceptingValueForVariable()
+    public void readBottomUpDFTA_WhenNoAcceptingValueForVariable()
             throws SAXException
     {
         try
@@ -921,7 +915,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = DuplicatedAcceptanceValueException.class)
-    public void testReadBottomUpDFTAWhenDuplicatedAcceptingValueForVariable()
+    public void readBottomUpDFTA_WhenDuplicatedAcceptingValueForVariable()
             throws SAXException
     {
         try
@@ -946,7 +940,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = IncorrectAcceptanceConditionException.class)
-    public void testReadBottomUpDFTAWhenAcceptingIncludesAndExcludes()
+    public void readBottomUpDFTA_WhenAcceptingIncludesAndExcludes()
             throws SAXException
     {
         try
@@ -970,7 +964,7 @@ public class AutomatonReaderTest
     }
 
     @Test(expected = DuplicatedTransitionException.class)
-    public void testReadBottomUpDFTAWhenMultipleTransitions()
+    public void readBottomUpDFTA_WhenMultipleTransitions()
             throws SAXException
     {
         try

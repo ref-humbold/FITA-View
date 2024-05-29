@@ -57,7 +57,7 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenStopped()
+    public void receiveSignal_WhenStopped()
     {
         Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.STOPPED);
@@ -70,7 +70,7 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenFinishedAndAccepted()
+    public void receiveSignal_WhenFinishedAndAccepted()
     {
         try
         {
@@ -93,7 +93,7 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenFinishedAndRejects()
+    public void receiveSignal_WhenFinishedAndRejects()
     {
         try
         {
@@ -116,7 +116,7 @@ public class AcceptancePanelTest
     }
 
     @Test(expected = UndefinedAcceptanceException.class)
-    public void testReceiveSignalWhenFinishedAndException()
+    public void receiveSignal_WhenFinishedAndException()
             throws Exception
     {
         try
@@ -152,7 +152,7 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenRunning()
+    public void receiveSignal_WhenRunning()
     {
         Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.RUNNING);
@@ -165,7 +165,7 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenContinuingAndAccepted()
+    public void receiveSignal_WhenContinuingAndAccepted()
     {
         try
         {
@@ -189,7 +189,7 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenContinuingAndRejects()
+    public void receiveSignal_WhenContinuingAndRejects()
     {
         try
         {
@@ -213,7 +213,7 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenContinuing()
+    public void receiveSignal_WhenContinuing()
     {
         try
         {
@@ -237,7 +237,7 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenAutomaton()
+    public void receiveSignal_WhenAutomaton()
     {
         Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
 

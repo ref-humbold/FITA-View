@@ -35,69 +35,66 @@ public class DefaultSignalSenderTest
     }
 
     @Test
-    public void testAddReceiver()
+    public void addReceiver_ThenAdded()
+    {
+        // when
+        testObject.addReceiver(mockReceiver);
+        // then
+        Set<SignalReceiver> receivers = testObject.receivers;
+
+        Assertions.assertThat(receivers).hasSize(1);
+        Assertions.assertThat(receivers).containsExactly(mockReceiver);
+    }
+
+    @Test
+    public void addReceiver_WhenDoubleAdd_ThenNoChanges()
     {
         // given
         testObject.addReceiver(mockReceiver);
         // when
-        Set<SignalReceiver> result = testObject.receivers;
+        testObject.addReceiver(mockReceiver);
         // then
-        Assertions.assertThat(result).hasSize(1);
-        Assertions.assertThat(result).containsExactly(mockReceiver);
+        Set<SignalReceiver> receivers = testObject.receivers;
+
+        Assertions.assertThat(receivers).hasSize(1);
+        Assertions.assertThat(receivers).containsExactly(mockReceiver);
     }
 
     @Test
-    public void testAddReceiverWhenDoubleAdd()
+    public void removeReceiver_ThenRemoved()
     {
         // given
         testObject.addReceiver(mockReceiver);
-        testObject.addReceiver(mockReceiver);
         // when
-        Set<SignalReceiver> result = testObject.receivers;
+        testObject.removeReceiver(mockReceiver);
         // then
-        Assertions.assertThat(result).hasSize(1);
-        Assertions.assertThat(result).containsExactly(mockReceiver);
+        Assertions.assertThat(testObject.receivers).isEmpty();
     }
 
     @Test
-    public void testRemoveReceiver()
+    public void removeReceiver_WhenDoubleRemove_ThenNoChanges()
     {
         // given
         testObject.addReceiver(mockReceiver);
         testObject.removeReceiver(mockReceiver);
         // when
-        Set<SignalReceiver> result = testObject.receivers;
+        testObject.removeReceiver(mockReceiver);
         // then
-        Assertions.assertThat(result).isEmpty();
+        Assertions.assertThat(testObject.receivers).isEmpty();
     }
 
     @Test
-    public void testRemoveReceiverWhenDoubleRemove()
+    public void removeReceiver_WhenNotAdded_ThenNoChanges()
     {
-        // given
-        testObject.addReceiver(mockReceiver);
-        testObject.removeReceiver(mockReceiver);
-        testObject.removeReceiver(mockReceiver);
         // when
-        Set<SignalReceiver> result = testObject.receivers;
-        // then
-        Assertions.assertThat(result).isEmpty();
-    }
-
-    @Test
-    public void testRemoveReceiverWhenNotAdded()
-    {
-        // given
         testObject.removeReceiver(mockReceiver);
-        // when
-        Set<SignalReceiver> result = testObject.receivers;
         // then
-        Assertions.assertThat(result).isEmpty();
+        Assertions.assertThat(testObject.receivers).isEmpty();
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testSend()
+    public void send_ThenReceivedFromSender()
     {
         // given
         Object[] arg = new Object[1];
@@ -121,7 +118,7 @@ public class DefaultSignalSenderTest
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testSendSignal()
+    public void sendSignal_WhenSource_ThenReceivedFromSource()
     {
         // given
         Object[] arg = new Object[1];
@@ -144,12 +141,9 @@ public class DefaultSignalSenderTest
     }
 
     @Test
-    public void testSendSignalWhenNullSource()
+    public void sendSignal_WhenNullSource_ThenNullPointerException()
     {
-        // when
-        Exception exception =
-                Assertions.catchException(() -> testObject.sendSignal(new Message<>(null)));
-        // then
-        Assertions.assertThat(exception).isInstanceOf(NullPointerException.class);
+        Assertions.assertThatThrownBy(() -> testObject.sendSignal(new Message<>(null)))
+                  .isInstanceOf(NullPointerException.class);
     }
 }

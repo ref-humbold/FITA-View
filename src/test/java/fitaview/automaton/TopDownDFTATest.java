@@ -91,7 +91,7 @@ public class TopDownDFTATest
     }
 
     @Test
-    public void testSetTreeWhenFiniteTree()
+    public void setTree_WhenFiniteTree()
     {
         TreeNode node = null;
 
@@ -113,7 +113,7 @@ public class TopDownDFTATest
     }
 
     @Test
-    public void testSetTreeWhenEmptyTree()
+    public void setTree_WhenEmptyTree()
     {
         try
         {
@@ -128,7 +128,7 @@ public class TopDownDFTATest
     }
 
     @Test(expected = TreeFinitenessException.class)
-    public void testSetTreeWhenInfiniteTree()
+    public void setTree_WhenInfiniteTree()
             throws TreeFinitenessException
     {
         try
@@ -267,7 +267,7 @@ public class TopDownDFTATest
     }
 
     @Test(expected = NoTraversingStrategyException.class)
-    public void testRunWhenNoTraversing()
+    public void run_WhenNoTraversing()
             throws NoTraversingStrategyException
     {
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
@@ -284,7 +284,7 @@ public class TopDownDFTATest
     }
 
     @Test(expected = NoTreeException.class)
-    public void testRunWhenNoTree()
+    public void run_WhenNoTree()
             throws NoTreeException
     {
         try
@@ -490,7 +490,7 @@ public class TopDownDFTATest
     }
 
     @Test(expected = NoTraversingStrategyException.class)
-    public void testMakeStepForwardWhenNoTraversing()
+    public void makeStepForward_WhenNoTraversing()
             throws NoTraversingStrategyException
     {
         Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
@@ -507,7 +507,7 @@ public class TopDownDFTATest
     }
 
     @Test(expected = NoTreeException.class)
-    public void testMakeStepForwardWhenNoTree()
+    public void makeStepForward_WhenNoTree()
             throws NoTreeException
     {
         try
@@ -684,7 +684,7 @@ public class TopDownDFTATest
     }
 
     @Test
-    public void testIsAcceptedWhenAutomatonHasRunAndAccepts()
+    public void isAccepted_WhenAutomatonHasRunAndAccepts()
     {
         try
         {
@@ -721,7 +721,7 @@ public class TopDownDFTATest
     }
 
     @Test
-    public void testIsAcceptedWhenAutomatonHasRunAndNotAccepts()
+    public void isAccepted_WhenAutomatonHasRunAndNotAccepts()
     {
         try
         {
@@ -777,7 +777,7 @@ public class TopDownDFTATest
     }
 
     @Test(expected = UndefinedStateValueException.class)
-    public void testIsAcceptedWhenAutomatonHasNotRun()
+    public void isAccepted_WhenAutomatonHasNotRun()
             throws UndefinedStateValueException
     {
         try
@@ -829,7 +829,7 @@ public class TopDownDFTATest
     }
 
     @Test(expected = UndefinedAcceptanceException.class)
-    public void testIsAcceptedWhenAutomatonHasNoAcceptingStates()
+    public void isAccepted_WhenAutomatonHasNoAcceptingStates()
             throws UndefinedAcceptanceException
     {
         try
@@ -879,7 +879,7 @@ public class TopDownDFTATest
     }
 
     @Test(expected = NoTreeException.class)
-    public void testIsAcceptedWhenAutomatonHasEmptyTree()
+    public void isAccepted_WhenAutomatonHasEmptyTree()
             throws NoTreeException
     {
         try
@@ -893,7 +893,7 @@ public class TopDownDFTATest
     }
 
     @Test
-    public void testIsInAlphabetWhenValueInAlphabet()
+    public void isInAlphabet_WhenValueInAlphabet()
     {
         boolean result0 = testObject.isInAlphabet("0");
         boolean result1 = testObject.isInAlphabet("1");
@@ -909,7 +909,7 @@ public class TopDownDFTATest
     }
 
     @Test
-    public void testIsInAlphabetWhenValueOutOfAlphabet()
+    public void isInAlphabet_WhenValueOutOfAlphabet()
     {
         boolean result5 = testObject.isInAlphabet("5");
         boolean resultA = testObject.isInAlphabet("A");

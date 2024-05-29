@@ -95,7 +95,7 @@ public class TopDownDITATest
     }
 
     @Test(expected = TreeFinitenessException.class)
-    public void testSetTreeWhenFiniteTree()
+    public void setTree_WhenFiniteTree()
             throws TreeFinitenessException
     {
         TreeNode node = null;
@@ -115,7 +115,7 @@ public class TopDownDITATest
     }
 
     @Test
-    public void testSetTreeWhenEmptyTree()
+    public void setTree_WhenEmptyTree()
     {
         try
         {
@@ -130,7 +130,7 @@ public class TopDownDITATest
     }
 
     @Test
-    public void testSetTreeWhenInfiniteTree()
+    public void setTree_WhenInfiniteTree()
     {
         TreeNode node = null;
 

@@ -2,7 +2,6 @@ package fitaview.viewer.tree;
 
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import fitaview.tree.NodeHasParentException;
@@ -13,21 +12,16 @@ import fitaview.utils.Pair;
 public class NodeParametersTest
 {
     private NodeParameters testObject;
-    private StandardNode node7 = new StandardNode("7", 7);
-    private StandardNode node6 = new StandardNode("6", 6);
-    private StandardNode node5 = new StandardNode("5", 5);
-    private StandardNode node4 = new StandardNode("4", 4);
-    private TreeNode node3 = new StandardNode("3", 3, node7, node6);
-    private TreeNode node2 = new StandardNode("2", 2, node5, node4);
-    private TreeNode node1 = new StandardNode("1", 1, node3, node2);
+    private final StandardNode node7 = new StandardNode("7", 7);
+    private final StandardNode node6 = new StandardNode("6", 6);
+    private final StandardNode node5 = new StandardNode("5", 5);
+    private final StandardNode node4 = new StandardNode("4", 4);
+    private final TreeNode node3 = new StandardNode("3", 3, node7, node6);
+    private final TreeNode node2 = new StandardNode("2", 2, node5, node4);
+    private final TreeNode node1 = new StandardNode("1", 1, node3, node2);
 
     public NodeParametersTest()
             throws NodeHasParentException
-    {
-    }
-
-    @Before
-    public void setUp()
     {
     }
 
@@ -48,7 +42,7 @@ public class NodeParametersTest
     }
 
     @Test
-    public void testGetLeftParamsWhenRoot()
+    public void getLeftParams_WhenRoot()
     {
         testObject = new NodeParameters(node1, 3);
 
@@ -61,7 +55,7 @@ public class NodeParametersTest
     }
 
     @Test
-    public void testGetRightParamsWhenRoot()
+    public void getRightParams_WhenRoot()
     {
         testObject = new NodeParameters(node1, 3);
 
@@ -74,7 +68,7 @@ public class NodeParametersTest
     }
 
     @Test
-    public void testGetLeftParamsWhenInnerLeftNode()
+    public void getLeftParams_WhenInnerLeftNode()
     {
         testObject = new NodeParameters(-10, 10, 1, node3, 3);
 
@@ -87,7 +81,7 @@ public class NodeParametersTest
     }
 
     @Test
-    public void testGetRightParamsWhenInnerLeftNode()
+    public void getRightParams_WhenInnerLeftNode()
     {
         testObject = new NodeParameters(-10, 10, 1, node3, 3);
 
@@ -100,7 +94,7 @@ public class NodeParametersTest
     }
 
     @Test
-    public void testGetLeftParamsWhenInnerRightNode()
+    public void getLeftParams_WhenInnerRightNode()
     {
         testObject = new NodeParameters(10, 10, 1, node2, 3);
 
@@ -113,7 +107,7 @@ public class NodeParametersTest
     }
 
     @Test
-    public void testGetRightParamsWhenInnerRightNode()
+    public void getRightParams_WhenInnerRightNode()
     {
         testObject = new NodeParameters(10, 10, 1, node2, 3);
 
@@ -126,7 +120,7 @@ public class NodeParametersTest
     }
 
     @Test
-    public void testGetLeftParamsWhenLeafNode()
+    public void getLeftParams_WhenLeafNode()
     {
         testObject = new NodeParameters(10, 10, 2, node4, 3);
 
@@ -139,7 +133,7 @@ public class NodeParametersTest
     }
 
     @Test
-    public void testGetRightParamsWhenLeafNode()
+    public void getRightParams_WhenLeafNode()
     {
         testObject = new NodeParameters(10, 10, 2, node4, 3);
 

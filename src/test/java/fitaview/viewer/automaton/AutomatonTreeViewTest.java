@@ -4,7 +4,6 @@ import java.util.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -33,11 +32,6 @@ public class AutomatonTreeViewTest
 
     @InjectMocks private AutomatonTreeView testObject;
 
-    @Before
-    public void setUp()
-    {
-    }
-
     @After
     public void tearDown()
     {
@@ -45,7 +39,7 @@ public class AutomatonTreeViewTest
     }
 
     @Test
-    public void testReceiveSignalWhenNullAutomaton()
+    public void receiveSignal_WhenNullAutomaton()
     {
         Mockito.when(mockPointer.get()).thenReturn(null);
 
@@ -58,7 +52,7 @@ public class AutomatonTreeViewTest
     }
 
     @Test
-    public void testReceiveSignalWhenBottomUpDFTA()
+    public void receiveSignal_WhenBottomUpDFTA()
     {
         List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
         List<Variable> variables = null;
@@ -227,7 +221,7 @@ public class AutomatonTreeViewTest
     }
 
     @Test
-    public void testReceiveSignalWhenTopDownDFTA()
+    public void receiveSignal_WhenTopDownDFTA()
     {
         List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
         List<Variable> variables = null;

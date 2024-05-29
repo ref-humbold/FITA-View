@@ -13,15 +13,9 @@ public class VariableTest
 
     @Before
     public void setUp()
+            throws Exception
     {
-        try
-        {
-            testObject = new Variable(1, "A", "B", "C");
-        }
-        catch(IllegalVariableValueException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        testObject = new Variable(1, "A", "B", "C");
     }
 
     @After
@@ -31,36 +25,36 @@ public class VariableTest
     }
 
     @Test(expected = IllegalVariableValueException.class)
-    public void testConstructorWhenInitIsNull()
-        throws IllegalVariableValueException
+    public void constructor_WhenInitIsNull()
+            throws IllegalVariableValueException
     {
         testObject = new Variable(2, null);
     }
 
     @Test(expected = IllegalVariableValueException.class)
-    public void testConstructorWhenInitIsEmpty()
-        throws IllegalVariableValueException
+    public void constructor_WhenInitIsEmpty()
+            throws IllegalVariableValueException
     {
         testObject = new Variable(2, "");
     }
 
     @Test(expected = IllegalVariableValueException.class)
-    public void testConstructorWhenValueIsNull()
-        throws IllegalVariableValueException
+    public void constructor_WhenValueIsNull()
+            throws IllegalVariableValueException
     {
         testObject = new Variable(2, "A", "B", "C", null);
     }
 
     @Test(expected = IllegalVariableValueException.class)
-    public void testConstructorWhenValueIsEmpty()
-        throws IllegalVariableValueException
+    public void constructor_WhenValueIsEmpty()
+            throws IllegalVariableValueException
     {
         testObject = new Variable(2, "A", "B", "C", "");
     }
 
     @Test
-    public void testConstructorWhenInitValueIsInValuesList()
-        throws IllegalVariableValueException
+    public void constructor_WhenInitValueIsInValuesList()
+            throws IllegalVariableValueException
     {
         testObject = new Variable(2, "A", "B", "C", "A");
 
@@ -80,7 +74,7 @@ public class VariableTest
     }
 
     @Test
-    public void testContainsWhenInnerValue()
+    public void contains_WhenInnerValue()
     {
         boolean resultA = testObject.contains("A");
         boolean resultB = testObject.contains("B");
@@ -92,7 +86,7 @@ public class VariableTest
     }
 
     @Test
-    public void testContainsWhenOuterValue()
+    public void contains_WhenOuterValue()
     {
         boolean resultD = testObject.contains("D");
 
@@ -100,7 +94,7 @@ public class VariableTest
     }
 
     @Test
-    public void testContainsWhenNull()
+    public void contains_WhenNull()
     {
         boolean result = testObject.contains(null);
 
@@ -108,7 +102,7 @@ public class VariableTest
     }
 
     @Test
-    public void testContainsWhenEmpty()
+    public void contains_WhenEmpty()
     {
         boolean result = testObject.contains("");
 

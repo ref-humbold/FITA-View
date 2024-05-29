@@ -2,17 +2,13 @@ package fitaview.tree;
 
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+
+import fitaview.TestUtils;
 
 public class TreeWriterTest
 {
     private TreeWriter testObject;
-
-    @Before
-    public void setUp()
-    {
-    }
 
     @After
     public void tearDown()
@@ -21,69 +17,81 @@ public class TreeWriterTest
     }
 
     @Test
-    public void testToStringWhenEmptyTree()
+    public void toString_WhenEmptyTree()
     {
+        // given
         testObject = new TreeWriter(null);
-
+        // when
         String result = testObject.toString();
-
+        // then
         Assert.assertEquals("", result);
     }
 
     @Test
-    public void testToStringWhenSimpleTree()
+    public void toString_WhenSimpleTree()
     {
-        TreeNode tree = null;
-
-        try
-        {
-            tree = new StandardNode("1", 0, new StandardNode("2", 0, new StandardNode("3", 0),
-                                                             new StandardNode("4", 0)),
-                                    new StandardNode("5", 0));
-        }
-        catch(NodeHasParentException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // given
+        TreeNode tree = TestUtils.failOnException(() -> new StandardNode("1", 0,
+                                                                         new StandardNode("2", 0,
+                                                                                          new StandardNode(
+                                                                                                  "3",
+                                                                                                  0),
+                                                                                          new StandardNode(
+                                                                                                  "4",
+                                                                                                  0)),
+                                                                         new StandardNode("5", 0)));
 
         testObject = new TreeWriter(tree);
-
+        // when
         String result = testObject.toString();
-        String expected =
-            "<node label=\"1\">\n  <node label=\"2\">\n    <node label=\"3\" />\n    <node label=\"4\" />\n"
-                + "  </node>\n  <node label=\"5\" />\n</node>\n";
+        // then
+        String expected = """
+                <node label="1">
+                  <node label="2">
+                    <node label="3" />
+                    <node label="4" />
+                  </node>
+                  <node label="5" />
+                </node>
+                """;
 
         Assert.assertEquals(expected, result);
     }
 
     @Test
-    public void testToStringWhenRepeat()
+    public void toString_WhenRepeat()
     {
-        TreeNode tree = null;
-
-        try
-        {
+        // given
+        TreeNode tree = TestUtils.failOnException(() -> {
             RepeatNode repeat = new RepeatNode("5", 0);
 
             repeat.setLeft(new StandardNode("6", 0));
             repeat.setRight(
-                new StandardNode("7", 0, new RecNode(repeat, 0), new StandardNode("9", 0)));
+                    new StandardNode("7", 0, new RecNode(repeat, 0), new StandardNode("9", 0)));
 
-            tree = new StandardNode("1", 0, new StandardNode("2", 0, new StandardNode("3", 0),
+            return new StandardNode("1", 0, new StandardNode("2", 0, new StandardNode("3", 0),
                                                              new StandardNode("4", 0)), repeat);
-        }
-        catch(NodeHasParentException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        });
 
         testObject = new TreeWriter(tree);
-
+        // when
         String result = testObject.toString();
-        String expected =
-            "<node label=\"1\">\n  <node label=\"2\">\n    <node label=\"3\" />\n    <node label=\"4\" />\n"
-                + "  </node>\n  <repeat label=\"5\">\n    <node label=\"6\" />\n    <node label=\"7\">\n"
-                + "      <rec />\n      <node label=\"9\" />\n    </node>\n  </repeat>\n</node>\n";
+        // then
+        String expected = """
+                <node label="1">
+                  <node label="2">
+                    <node label="3" />
+                    <node label="4" />
+                  </node>
+                  <repeat label="5">
+                    <node label="6" />
+                    <node label="7">
+                      <rec />
+                      <node label="9" />
+                    </node>
+                  </repeat>
+                </node>
+                """;
 
         Assert.assertEquals(expected, result);
     }
