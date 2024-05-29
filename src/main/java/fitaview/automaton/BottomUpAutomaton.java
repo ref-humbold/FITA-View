@@ -72,8 +72,8 @@ public abstract class BottomUpAutomaton
      * @param label tree label of node
      * @param result variable value in node
      */
-    public abstract void addTransition(Variable var, String leftValue, String rightValue,
-                                       String label, String result)
+    public abstract void addTransition(
+            Variable var, String leftValue, String rightValue, String label, String result)
             throws DuplicatedTransitionException, IllegalTransitionException;
 
     /**
@@ -87,8 +87,8 @@ public abstract class BottomUpAutomaton
     protected void changeRunningMode()
     {
         setRunningMode(traversing.hasNext()
-                               ? AutomatonRunningMode.RUNNING
-                               : AutomatonRunningMode.FINISHED);
+                       ? AutomatonRunningMode.RUNNING
+                       : AutomatonRunningMode.FINISHED);
     }
 
     @Override
@@ -144,8 +144,8 @@ public abstract class BottomUpAutomaton
      * @return variable value in node
      * @throws NoSuchTransitionException if no transition entry was found
      */
-    protected abstract String applyTransition(Variable var, String leftValue, String rightValue,
-                                              String label)
+    protected abstract String applyTransition(
+            Variable var, String leftValue, String rightValue, String label)
             throws NoSuchTransitionException;
 
     /**
@@ -156,8 +156,8 @@ public abstract class BottomUpAutomaton
      * @return state in the node
      * @throws NoSuchTransitionException if no transition entry was found
      */
-    protected Map<Variable, String> applyTransition(Map<Variable, String> leftState,
-                                                    Map<Variable, String> rightState, String label)
+    protected Map<Variable, String> applyTransition(
+            Map<Variable, String> leftState, Map<Variable, String> rightState, String label)
             throws NoSuchTransitionException
     {
         Map<Variable, String> result = new HashMap<>();
@@ -209,7 +209,7 @@ public abstract class BottomUpAutomaton
 
     private void findLeaves()
     {
-        TopDownTraversing t = new TopDownDFS();
+        TopDownTraversing t = new TopDownDfs();
 
         leaves.clear();
         t.initialize(tree);

@@ -11,7 +11,7 @@ public class TraversingFactoryTest
         TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.DFS);
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownDFS);
+        Assert.assertTrue(result instanceof TopDownDfs);
     }
 
     @Test
@@ -20,7 +20,7 @@ public class TraversingFactoryTest
         TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.BFS);
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownBFS);
+        Assert.assertTrue(result instanceof TopDownBfs);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class TraversingFactoryTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof BottomUpBFS);
+        Assert.assertTrue(result instanceof BottomUpBfs);
     }
 
     @Test

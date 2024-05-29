@@ -14,9 +14,9 @@ import fitaview.tree.RepeatNode;
 import fitaview.tree.StandardNode;
 import fitaview.tree.TreeNode;
 
-public class TopDownBFSTest
+public class TopDownBfsTest
 {
-    private TopDownBFS testObject;
+    private TopDownBfs testObject;
 
     private final TreeNode finiteNode13 = new StandardNode("13", 13);
     private final TreeNode finiteNode12 = new StandardNode("12", 12);
@@ -42,7 +42,7 @@ public class TopDownBFSTest
     private final RecNode infiniteNode10 = new RecNode(infiniteNode2, 10);
     private final TreeNode infiniteNode5 = new StandardNode("5", 5, infiniteNode11, infiniteNode10);
 
-    public TopDownBFSTest()
+    public TopDownBfsTest()
             throws NodeHasParentException
     {
         infiniteNode2.setRight(infiniteNode4);
@@ -52,7 +52,7 @@ public class TopDownBFSTest
     @Before
     public void setUp()
     {
-        testObject = new TopDownBFS();
+        testObject = new TopDownBfs();
     }
 
     @After

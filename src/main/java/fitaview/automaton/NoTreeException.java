@@ -1,9 +1,9 @@
 package fitaview.automaton;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 
 public class NoTreeException
-    extends FITAViewException
+        extends FitaViewException
 {
     private static final long serialVersionUID = 8624749288560161357L;
 

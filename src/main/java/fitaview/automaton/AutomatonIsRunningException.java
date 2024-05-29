@@ -1,9 +1,9 @@
 package fitaview.automaton;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 
 public class AutomatonIsRunningException
-    extends FITAViewException
+        extends FitaViewException
 {
     private static final long serialVersionUID = -1150108330555271950L;
 

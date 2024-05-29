@@ -15,15 +15,15 @@ import fitaview.tree.*;
 import fitaview.utils.Pair;
 import fitaview.utils.Triple;
 
-public class BottomUpDFTATest
+public class BottomUpDftaTest
 {
-    private BottomUpDFTA testObject;
+    private BottomUpDfta testObject;
     private final List<Variable> variables =
             Arrays.asList(new Variable(1, "X", "T", "F"), new Variable(2, "#", "!", "@", "$", "&"));
     private final List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
     private final Map<Variable, Pair<String, Boolean>> accepts = new HashMap<>();
 
-    public BottomUpDFTATest()
+    public BottomUpDftaTest()
             throws Exception
     {
         accepts.put(variables.get(0), Pair.make("T", true));
@@ -34,7 +34,7 @@ public class BottomUpDFTATest
     public void setUp()
             throws Exception
     {
-        testObject = new BottomUpDFTA(variables, alphabet);
+        testObject = new BottomUpDfta(variables, alphabet);
         testObject.addTransition(variables.get(0), "X", "X", "0", "F");
         testObject.addTransition(variables.get(0), "X", "X", "1", "T");
         testObject.addTransition(variables.get(0), "T", "T", "and", "T");

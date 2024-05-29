@@ -2,7 +2,7 @@ package fitaview;
 
 import fitaview.viewer.MainWindow;
 
-public final class FITAView
+public final class FitaView
 {
     public static void main(String[] args)
     {

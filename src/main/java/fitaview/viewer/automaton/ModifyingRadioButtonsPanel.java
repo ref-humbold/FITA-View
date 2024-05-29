@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 import fitaview.automaton.AbstractTreeAutomaton;
 import fitaview.automaton.NonDeterministicAutomaton;
 import fitaview.automaton.TreeAutomaton;
@@ -62,7 +62,7 @@ public class ModifyingRadioButtonsPanel
             {
                 automaton.setTraversing(TraversingMode.valueOf(actionCommand));
             }
-            catch(FITAViewException e)
+            catch(FitaViewException e)
             {
                 TreeTraversing traversing = automaton.getTraversing();
 
@@ -162,7 +162,7 @@ public class ModifyingRadioButtonsPanel
                         StateChoiceMode.valueOf(actionCommand)));
             }
         }
-        catch(FITAViewException e)
+        catch(FitaViewException e)
         {
             StateChoice<K, R> choice = nonDeterministicAutomaton.getChoice();
 

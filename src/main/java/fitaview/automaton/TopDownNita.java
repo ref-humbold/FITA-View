@@ -7,14 +7,14 @@ import java.util.Objects;
 
 import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.automaton.traversing.RecursiveContinuationException;
-import fitaview.automaton.traversing.TopDownDFS;
+import fitaview.automaton.traversing.TopDownDfs;
 import fitaview.automaton.traversing.TopDownTraversing;
 import fitaview.tree.NodeType;
 import fitaview.tree.TreeNode;
 import fitaview.tree.UndefinedStateValueException;
 import fitaview.utils.Pair;
 
-public class TopDownNITA
+public class TopDownNita
         extends TopDownNondeterministicAutomaton
         implements InfiniteTreeAutomaton
 {
@@ -24,7 +24,7 @@ public class TopDownNITA
     private final Map<TreeNode, Integer> numberRecursive = new HashMap<>();
     private int maximumRecursive;
 
-    public TopDownNITA(Collection<Variable> variables, Collection<String> alphabet)
+    public TopDownNita(Collection<Variable> variables, Collection<String> alphabet)
     {
         super(variables, alphabet);
     }
@@ -92,16 +92,17 @@ public class TopDownNITA
         if(this == o)
             return true;
 
-        if(!(o instanceof TopDownNITA))
+        if(!(o instanceof TopDownNita))
             return false;
 
-        TopDownNITA other = (TopDownNITA)o;
+        TopDownNita other = (TopDownNita)o;
 
         return Objects.equals(alphabet, other.alphabet) && Objects.equals(variables,
                                                                           other.variables)
-                && Objects.equals(acceptanceConditions, other.acceptanceConditions)
-                && Objects.equals(infiniteAcceptanceConditions, other.infiniteAcceptanceConditions)
-                && Objects.equals(transitions, other.transitions);
+                       && Objects.equals(acceptanceConditions, other.acceptanceConditions)
+                       && Objects.equals(infiniteAcceptanceConditions,
+                                         other.infiniteAcceptanceConditions) && Objects.equals(
+                transitions, other.transitions);
     }
 
     @Override
@@ -122,10 +123,10 @@ public class TopDownNITA
     protected void changeRunningMode()
     {
         setRunningMode(traversing.hasNext()
-                               ? AutomatonRunningMode.RUNNING
-                               : traversing.canContinue()
-                                       ? AutomatonRunningMode.CONTINUING
-                                       : AutomatonRunningMode.STOPPED);
+                       ? AutomatonRunningMode.RUNNING
+                       : traversing.canContinue()
+                         ? AutomatonRunningMode.CONTINUING
+                         : AutomatonRunningMode.STOPPED);
     }
 
     @Override
@@ -161,7 +162,7 @@ public class TopDownNITA
 
     private void findRepeating()
     {
-        TopDownTraversing t = new TopDownDFS();
+        TopDownTraversing t = new TopDownDfs();
 
         repeatingStates.clear();
         t.initialize(tree);

@@ -10,13 +10,13 @@ import fitaview.tree.UndefinedStateValueException;
 import fitaview.utils.Pair;
 import fitaview.utils.Triple;
 
-public class BottomUpDFTA
+public class BottomUpDfta
         extends BottomUpAutomaton
 {
     private final BottomUpTransitions<String> transitions =
             new BottomUpTransitions<>(this::keyToString, this::valueToString);
 
-    public BottomUpDFTA(Collection<Variable> variables, Collection<String> alphabet)
+    public BottomUpDfta(Collection<Variable> variables, Collection<String> alphabet)
     {
         super(variables, alphabet);
     }
@@ -85,15 +85,15 @@ public class BottomUpDFTA
         if(this == o)
             return true;
 
-        if(!(o instanceof BottomUpDFTA))
+        if(!(o instanceof BottomUpDfta))
             return false;
 
-        BottomUpDFTA other = (BottomUpDFTA)o;
+        BottomUpDfta other = (BottomUpDfta)o;
 
         return Objects.equals(alphabet, other.alphabet) && Objects.equals(variables,
                                                                           other.variables)
-                && Objects.equals(acceptanceConditions, other.acceptanceConditions)
-                && Objects.equals(transitions, other.transitions);
+                       && Objects.equals(acceptanceConditions, other.acceptanceConditions)
+                       && Objects.equals(transitions, other.transitions);
     }
 
     @Override
@@ -110,16 +110,16 @@ public class BottomUpDFTA
     }
 
     @Override
-    public void addTransition(Variable var, String leftValue, String rightValue, String label,
-                              String result)
+    public void addTransition(
+            Variable var, String leftValue, String rightValue, String label, String result)
             throws DuplicatedTransitionException, IllegalTransitionException
     {
         transitions.add(var, Triple.make(leftValue, rightValue, label), result);
     }
 
     @Override
-    protected String applyTransition(Variable var, String leftValue, String rightValue,
-                                     String label)
+    protected String applyTransition(
+            Variable var, String leftValue, String rightValue, String label)
             throws NoSuchTransitionException
     {
         String result = transitions.getMatched(var, Triple.make(leftValue, rightValue, label));
@@ -127,8 +127,8 @@ public class BottomUpDFTA
         return resolveWildcard(result, leftValue, rightValue);
     }
 
-    private Map<Variable, String> getNextState(Map<Variable, String> leftState,
-                                               Map<Variable, String> rightState, String word)
+    private Map<Variable, String> getNextState(
+            Map<Variable, String> leftState, Map<Variable, String> rightState, String word)
     {
         try
         {

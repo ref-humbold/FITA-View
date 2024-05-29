@@ -6,10 +6,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import fitaview.utils.Pair;
-import fitaview.utils.XMLHandler;
+import fitaview.utils.XmlHandler;
 
 abstract class AutomatonHandler<T extends TreeAutomaton>
-        extends XMLHandler<T>
+        extends XmlHandler<T>
 {
     protected final Collection<String> alphabet = new ArrayList<>();
     protected final Map<Integer, Variable> variables = new HashMap<>();

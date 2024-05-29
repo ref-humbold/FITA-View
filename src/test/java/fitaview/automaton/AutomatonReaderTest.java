@@ -93,8 +93,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        TopDownDFTA expected =
-                new TopDownDFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        TopDownDfta expected =
+                new TopDownDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", false)));
 
@@ -113,7 +113,7 @@ public class AutomatonReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownDFTA);
+        Assert.assertTrue(result instanceof TopDownDfta);
         Assert.assertEquals(expected, result);
     }
 
@@ -144,8 +144,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        TopDownDFTA expected =
-                new TopDownDFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        TopDownDfta expected =
+                new TopDownDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("A", false)));
 
@@ -164,7 +164,7 @@ public class AutomatonReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownDFTA);
+        Assert.assertTrue(result instanceof TopDownDfta);
         Assert.assertEquals(expected, result);
     }
 
@@ -438,8 +438,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        TopDownNFTA expected =
-                new TopDownNFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        TopDownNfta expected =
+                new TopDownNfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", true)));
 
@@ -462,7 +462,7 @@ public class AutomatonReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownNFTA);
+        Assert.assertTrue(result instanceof TopDownNfta);
         Assert.assertEquals(expected, result);
     }
 
@@ -495,8 +495,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        TopDownDITA expected =
-                new TopDownDITA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        TopDownDita expected =
+                new TopDownDita(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         expected.addBuchiAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
         expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", false)));
@@ -516,7 +516,7 @@ public class AutomatonReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownDITA);
+        Assert.assertTrue(result instanceof TopDownDita);
         Assert.assertEquals(expected, result);
     }
 
@@ -549,8 +549,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        TopDownNITA expected =
-                new TopDownNITA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        TopDownNita expected =
+                new TopDownNita(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         expected.addBuchiAcceptanceConditions(Collections.singletonMap(v, Pair.make("A", false)));
         expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", true)));
@@ -574,7 +574,7 @@ public class AutomatonReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownNITA);
+        Assert.assertTrue(result instanceof TopDownNita);
         Assert.assertEquals(expected, result);
     }
 
@@ -607,8 +607,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        BottomUpDFTA expected =
-                new BottomUpDFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        BottomUpDfta expected =
+                new BottomUpDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
 
@@ -639,7 +639,7 @@ public class AutomatonReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof BottomUpDFTA);
+        Assert.assertTrue(result instanceof BottomUpDfta);
         Assert.assertEquals(expected, result);
     }
 
@@ -670,8 +670,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        BottomUpDFTA expected =
-                new BottomUpDFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        BottomUpDfta expected =
+                new BottomUpDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         expected.addAcceptanceConditions(
                 Collections.singletonMap(v, Pair.make(Wildcard.EVERY_VALUE, true)));
@@ -693,7 +693,7 @@ public class AutomatonReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof BottomUpDFTA);
+        Assert.assertTrue(result instanceof BottomUpDfta);
         Assert.assertEquals(expected, result);
     }
 
@@ -1016,8 +1016,8 @@ public class AutomatonReaderTest
             Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        BottomUpNFTA expected =
-                new BottomUpNFTA(Collections.singletonList(v), Arrays.asList("0", "1"));
+        BottomUpNfta expected =
+                new BottomUpNfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
         expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
 
@@ -1051,7 +1051,7 @@ public class AutomatonReaderTest
         }
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof BottomUpNFTA);
+        Assert.assertTrue(result instanceof BottomUpNfta);
         Assert.assertEquals(expected, result);
     }
 

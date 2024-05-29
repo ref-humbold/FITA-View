@@ -17,7 +17,7 @@ import fitaview.utils.Pair;
 
 public class TopDownDFTATest
 {
-    private TopDownDFTA testObject;
+    private TopDownDfta testObject;
     private List<Variable> variables;
     private List<String> alphabet = Arrays.asList("0", "1", "2", "3", "4");
     private List<Map<Variable, Pair<String, Boolean>>> accepts =
@@ -39,7 +39,7 @@ public class TopDownDFTATest
     public void setUp()
             throws Exception
     {
-        testObject = new TopDownDFTA(variables, alphabet);
+        testObject = new TopDownDfta(variables, alphabet);
         testObject.addTransition(variables.get(0), "A", "0", "A", "B");
         testObject.addTransition(variables.get(0), "A", "1", "A", "A");
         testObject.addTransition(variables.get(0), "A", "2", "B", "B");

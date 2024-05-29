@@ -1,9 +1,9 @@
 package fitaview.tree;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 
 public class UndefinedStateValueException
-    extends FITAViewException
+        extends FitaViewException
 {
     private static final long serialVersionUID = -395187049765591339L;
 

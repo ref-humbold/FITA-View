@@ -12,9 +12,9 @@ import fitaview.tree.NodeHasParentException;
 import fitaview.tree.StandardNode;
 import fitaview.tree.TreeNode;
 
-public class BottomUpBFSTest
+public class BottomUpBfsTest
 {
-    private BottomUpBFS testObject;
+    private BottomUpBfs testObject;
     private final TreeNode node13 = new StandardNode("13", 13);
     private final TreeNode node12 = new StandardNode("12", 12);
     private final TreeNode node11 = new StandardNode("11", 11);
@@ -27,7 +27,7 @@ public class BottomUpBFSTest
     private final TreeNode node2 = new StandardNode("2", 2, node5, node4);
     private final TreeNode node1 = new StandardNode("1", 1, node3, node2);
 
-    public BottomUpBFSTest()
+    public BottomUpBfsTest()
             throws NodeHasParentException
     {
     }
@@ -35,7 +35,7 @@ public class BottomUpBFSTest
     @Before
     public void setUp()
     {
-        testObject = new BottomUpBFS();
+        testObject = new BottomUpBfs();
     }
 
     @After

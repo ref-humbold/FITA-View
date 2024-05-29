@@ -11,7 +11,7 @@ public final class TraversingFactory
                 return new BottomUpLevel();
 
             case BFS:
-                return new BottomUpBFS();
+                return new BottomUpBfs();
 
             case DFS:
                 throw new IncorrectTraversingException(
@@ -29,10 +29,10 @@ public final class TraversingFactory
                 return new TopDownLevel();
 
             case BFS:
-                return new TopDownBFS();
+                return new TopDownBfs();
 
             case DFS:
-                return new TopDownDFS();
+                return new TopDownDfs();
         }
 
         return null;

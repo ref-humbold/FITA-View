@@ -9,14 +9,14 @@ import org.junit.Test;
 import fitaview.tree.UndefinedStateValueException;
 import fitaview.utils.Pair;
 
-public class BottomUpNFTATest
+public class BottomUpNftaTest
 {
-    private BottomUpNFTA testObject;
+    private BottomUpNfta testObject;
     private final List<Variable> variables =
             Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "X", "Y"));
     private final List<String> alphabet = Arrays.asList("0", "1");
 
-    public BottomUpNFTATest()
+    public BottomUpNftaTest()
             throws Exception
     {
     }
@@ -30,7 +30,7 @@ public class BottomUpNFTATest
         accept.put(variables.get(0), Pair.make("B", true));
         accept.put(variables.get(1), Pair.make("Y", true));
 
-        testObject = new BottomUpNFTA(variables, alphabet);
+        testObject = new BottomUpNfta(variables, alphabet);
         testObject.addTransition(variables.get(0), Wildcard.EVERY_VALUE, Wildcard.SAME_VALUE,
                                  Wildcard.EVERY_VALUE, "A");
         testObject.addTransition(variables.get(0), "A", "A", "1", "B");

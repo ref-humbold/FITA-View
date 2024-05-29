@@ -1,9 +1,9 @@
 package fitaview.automaton;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 
 public class UndefinedAcceptanceException
-    extends FITAViewException
+        extends FitaViewException
 {
     private static final long serialVersionUID = -1497929791557889163L;
 

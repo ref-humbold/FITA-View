@@ -13,7 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 import fitaview.automaton.AutomatonRunningModeSender;
 import fitaview.automaton.BottomUpAutomaton;
 import fitaview.automaton.IllegalVariableValueException;
@@ -100,7 +100,7 @@ public class ActionButtonsPanel
                     break;
             }
         }
-        catch(IllegalVariableValueException | NoSuchElementException | FITAViewException e)
+        catch(IllegalVariableValueException | NoSuchElementException | FitaViewException e)
         {
             UserMessageBox.showException(e);
         }

@@ -13,7 +13,7 @@ import fitaview.tree.UndefinedStateValueException;
 import fitaview.utils.Pair;
 import fitaview.utils.Triple;
 
-public class BottomUpNFTA
+public class BottomUpNfta
         extends BottomUpAutomaton
         implements NonDeterministicAutomaton<Triple<String, String, String>, String>
 {
@@ -21,7 +21,7 @@ public class BottomUpNFTA
     private final BottomUpTransitions<Set<String>> transitions =
             new BottomUpTransitions<>(this::keyToString, this::valueSetToString);
 
-    public BottomUpNFTA(Collection<Variable> variables, Collection<String> alphabet)
+    public BottomUpNfta(Collection<Variable> variables, Collection<String> alphabet)
     {
         super(variables, alphabet);
     }
@@ -63,8 +63,8 @@ public class BottomUpNFTA
     }
 
     @Override
-    public void addTransition(Variable var, String leftValue, String rightValue, String label,
-                              String result)
+    public void addTransition(
+            Variable var, String leftValue, String rightValue, String label, String result)
             throws DuplicatedTransitionException, IllegalTransitionException
     {
         Set<String> entry = getTransitionValuesSet(var, Triple.make(leftValue, rightValue, label));
@@ -108,15 +108,15 @@ public class BottomUpNFTA
         if(this == o)
             return true;
 
-        if(!(o instanceof BottomUpNFTA))
+        if(!(o instanceof BottomUpNfta))
             return false;
 
-        BottomUpNFTA other = (BottomUpNFTA)o;
+        BottomUpNfta other = (BottomUpNfta)o;
 
         return Objects.equals(alphabet, other.alphabet) && Objects.equals(variables,
                                                                           other.variables)
-                && Objects.equals(acceptanceConditions, other.acceptanceConditions)
-                && Objects.equals(transitions, other.transitions);
+                       && Objects.equals(acceptanceConditions, other.acceptanceConditions)
+                       && Objects.equals(transitions, other.transitions);
     }
 
     @Override
@@ -133,8 +133,8 @@ public class BottomUpNFTA
     }
 
     @Override
-    protected String applyTransition(Variable var, String leftValue, String rightValue,
-                                     String label)
+    protected String applyTransition(
+            Variable var, String leftValue, String rightValue, String label)
             throws NoSuchTransitionException
     {
         return choice.chooseState(var, Triple.make(leftValue, rightValue, label),
@@ -153,8 +153,8 @@ public class BottomUpNFTA
         super.initialize();
     }
 
-    Set<Map<Variable, String>> getNextStates(Map<Variable, String> leftState,
-                                             Map<Variable, String> rightState, String word)
+    Set<Map<Variable, String>> getNextStates(
+            Map<Variable, String> leftState, Map<Variable, String> rightState, String word)
     {
         Map<Variable, Set<String>> result = new HashMap<>();
 
@@ -173,10 +173,12 @@ public class BottomUpNFTA
         return pairsToMap(convert(mapToPairs(result)));
     }
 
-    private boolean addNextStates(Set<Map<Variable, String>> reachableStates,
-                                  Map<Variable, String> currentState1,
-                                  Map<Variable, String> currentState2,
-                                  Set<Map<Variable, String>> generatedStates, String word)
+    private boolean addNextStates(
+            Set<Map<Variable, String>> reachableStates,
+            Map<Variable, String> currentState1,
+            Map<Variable, String> currentState2,
+            Set<Map<Variable, String>> generatedStates,
+            String word)
             throws UndefinedStateValueException, UndefinedAcceptanceException
     {
         Set<Map<Variable, String>> nextStates = getNextStates(currentState1, currentState2, word);
@@ -197,8 +199,8 @@ public class BottomUpNFTA
         return false;
     }
 
-    private Set<String> getAllTransitionResults(Variable var, String leftValue, String rightValue,
-                                                String label)
+    private Set<String> getAllTransitionResults(
+            Variable var, String leftValue, String rightValue, String label)
             throws NoSuchTransitionException
     {
         return transitions.getAll(var, Triple.make(leftValue, rightValue, label))

@@ -32,9 +32,9 @@ public class TreeWriter
     @Override
     public String toString()
     {
-        TreeXMLBuilder builder = new TreeXMLBuilder();
+        TreeXmlBuilder builder = new TreeXmlBuilder();
 
-        if(TreeXMLBuilder.isNull(tree))
+        if(TreeXmlBuilder.isNull(tree))
             return "";
 
         return builder.build(tree).toString();

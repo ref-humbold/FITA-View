@@ -17,9 +17,9 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import fitaview.automaton.BottomUpDFTA;
-import fitaview.automaton.TopDownDFTA;
-import fitaview.automaton.TopDownNFTA;
+import fitaview.automaton.BottomUpDfta;
+import fitaview.automaton.TopDownDfta;
+import fitaview.automaton.TopDownNfta;
 import fitaview.automaton.TreeAutomaton;
 import fitaview.automaton.nondeterminism.FirstElementChoice;
 import fitaview.automaton.nondeterminism.GreatestHashCodeChoice;
@@ -63,7 +63,7 @@ public class ModifyingRadioButtonsPanelTest
             throws Exception
     {
         Mockito.when(mockPointer.get())
-               .thenReturn(new BottomUpDFTA(Collections.emptySet(), Collections.emptySet()));
+               .thenReturn(new BottomUpDfta(Collections.emptySet(), Collections.emptySet()));
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DFS");
         PowerMockito.doAnswer((Answer<Void>)invocation -> {
             throw (Exception)invocation.getArguments()[0];
@@ -75,7 +75,7 @@ public class ModifyingRadioButtonsPanelTest
     @Test
     public void actionPerformed_WhenBottomUpBFS()
     {
-        BottomUpDFTA automaton = new BottomUpDFTA(Collections.emptySet(), Collections.emptySet());
+        BottomUpDfta automaton = new BottomUpDfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("BFS");
@@ -85,13 +85,13 @@ public class ModifyingRadioButtonsPanelTest
         TreeTraversing result = automaton.getTraversing();
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof BottomUpBFS);
+        Assert.assertTrue(result instanceof BottomUpBfs);
     }
 
     @Test
     public void actionPerformed_WhenBottomUpLevel()
     {
-        BottomUpDFTA automaton = new BottomUpDFTA(Collections.emptySet(), Collections.emptySet());
+        BottomUpDfta automaton = new BottomUpDfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEVEL");
@@ -107,7 +107,7 @@ public class ModifyingRadioButtonsPanelTest
     @Test
     public void actionPerformed_WhenTopDownDFS()
     {
-        TopDownDFTA automaton = new TopDownDFTA(Collections.emptySet(), Collections.emptySet());
+        TopDownDfta automaton = new TopDownDfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DFS");
@@ -117,13 +117,13 @@ public class ModifyingRadioButtonsPanelTest
         TreeTraversing result = automaton.getTraversing();
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownDFS);
+        Assert.assertTrue(result instanceof TopDownDfs);
     }
 
     @Test
     public void actionPerformed_WhenTopDownBFS()
     {
-        TopDownDFTA automaton = new TopDownDFTA(Collections.emptySet(), Collections.emptySet());
+        TopDownDfta automaton = new TopDownDfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("BFS");
@@ -133,13 +133,13 @@ public class ModifyingRadioButtonsPanelTest
         TreeTraversing result = automaton.getTraversing();
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownBFS);
+        Assert.assertTrue(result instanceof TopDownBfs);
     }
 
     @Test
     public void actionPerformed_WhenTopDownLevel()
     {
-        TopDownDFTA automaton = new TopDownDFTA(Collections.emptySet(), Collections.emptySet());
+        TopDownDfta automaton = new TopDownDfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEVEL");
@@ -155,7 +155,7 @@ public class ModifyingRadioButtonsPanelTest
     @Test
     public void actionPerformed_WhenFirstChoice()
     {
-        TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
+        TopDownNfta automaton = new TopDownNfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("FIRST");
@@ -171,7 +171,7 @@ public class ModifyingRadioButtonsPanelTest
     @Test
     public void actionPerformed_WhenRandomChoice()
     {
-        TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
+        TopDownNfta automaton = new TopDownNfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("RANDOM");
@@ -187,7 +187,7 @@ public class ModifyingRadioButtonsPanelTest
     @Test
     public void actionPerformed_WhenLeastChoice()
     {
-        TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
+        TopDownNfta automaton = new TopDownNfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEAST");
@@ -203,7 +203,7 @@ public class ModifyingRadioButtonsPanelTest
     @Test
     public void actionPerformed_WhenGreatestChoice()
     {
-        TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
+        TopDownNfta automaton = new TopDownNfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("GREATEST");
@@ -230,7 +230,7 @@ public class ModifyingRadioButtonsPanelTest
     public void receiveSignal_WhenBottomUpDFTA()
     {
         Mockito.when(mockPointer.get())
-               .thenReturn(new BottomUpDFTA(Collections.emptySet(), Collections.emptySet()));
+               .thenReturn(new BottomUpDfta(Collections.emptySet(), Collections.emptySet()));
 
         testObject.receiveSignal(mockMessage);
 
@@ -241,7 +241,7 @@ public class ModifyingRadioButtonsPanelTest
     public void receiveSignal_WhenTopDownDFTA()
     {
         Mockito.when(mockPointer.get())
-               .thenReturn(new TopDownDFTA(Collections.emptySet(), Collections.emptySet()));
+               .thenReturn(new TopDownDfta(Collections.emptySet(), Collections.emptySet()));
 
         testObject.receiveSignal(mockMessage);
 
@@ -252,7 +252,7 @@ public class ModifyingRadioButtonsPanelTest
     public void receiveSignal_WhenTopDownNFTA()
     {
         Mockito.when(mockPointer.get())
-               .thenReturn(new TopDownNFTA(Collections.emptySet(), Collections.emptySet()));
+               .thenReturn(new TopDownNfta(Collections.emptySet(), Collections.emptySet()));
 
         testObject.receiveSignal(mockMessage);
 

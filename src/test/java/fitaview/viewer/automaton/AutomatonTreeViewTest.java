@@ -68,7 +68,7 @@ public class AutomatonTreeViewTest
         }
 
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
-        BottomUpDFTA automaton = new BottomUpDFTA(variables, alphabet);
+        BottomUpDfta automaton = new BottomUpDfta(variables, alphabet);
 
         accept.put(variables.get(0), Pair.make("T", true));
         accept.put(variables.get(1), Pair.make(Wildcard.EVERY_VALUE, true));
@@ -237,7 +237,7 @@ public class AutomatonTreeViewTest
         }
 
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
-        TopDownDFTA automaton = new TopDownDFTA(variables, alphabet);
+        TopDownDfta automaton = new TopDownDfta(variables, alphabet);
 
         accept.put(variables.get(0), Pair.make("X", true));
         accept.put(variables.get(1), Pair.make("!", false));
