@@ -1,9 +1,10 @@
 package fitaview.viewer.automaton;
 
 import java.util.*;
+import java.util.stream.IntStream;
 import javax.swing.tree.DefaultMutableTreeNode;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,9 +12,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import fitaview.TestUtils;
 import fitaview.automaton.*;
-import fitaview.automaton.transition.DuplicatedTransitionException;
-import fitaview.automaton.transition.IllegalTransitionException;
 import fitaview.messaging.Message;
 import fitaview.utils.Pair;
 import fitaview.utils.Pointer;
@@ -41,31 +41,24 @@ public class AutomatonTreeViewTest
     @Test
     public void receiveSignal_WhenNullAutomaton()
     {
+        // given
         Mockito.when(mockPointer.get()).thenReturn(null);
-
+        // when
         testObject.receiveSignal(mockSignal);
-
-        DefaultMutableTreeNode rootNode = testObject.rootNode;
-
-        Assert.assertEquals(0, rootNode.getChildCount());
-        Assert.assertEquals(AutomatonTreeView.EMPTY_ROOT_TEXT, rootNode.getUserObject());
+        // then
+        Assertions.assertThat(testObject.rootNode.getChildCount()).isEqualTo(0);
+        Assertions.assertThat(testObject.rootNode.getUserObject())
+                  .isEqualTo(AutomatonTreeView.EMPTY_ROOT_TEXT);
     }
 
     @Test
     public void receiveSignal_WhenBottomUpDFTA()
     {
+        // given
         List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
-        List<Variable> variables = null;
-
-        try
-        {
-            variables = Arrays.asList(new Variable(1, "X", "T", "F"),
-                                      new Variable(2, "#", "!", "@", "$", "&"));
-        }
-        catch(IllegalVariableValueException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        List<Variable> variables = TestUtils.failOnException(
+                () -> Arrays.asList(new Variable(1, "X", "T", "F"),
+                                    new Variable(2, "#", "!", "@", "$", "&")));
 
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
         BottomUpDfta automaton = new BottomUpDfta(variables, alphabet);
@@ -74,8 +67,7 @@ public class AutomatonTreeViewTest
         accept.put(variables.get(1), Pair.make(Wildcard.EVERY_VALUE, true));
         automaton.addAcceptanceConditions(accept);
 
-        try
-        {
+        TestUtils.failOnException(() -> {
             automaton.addTransition(variables.get(0), "X", "X", "0", "F");
             automaton.addTransition(variables.get(0), "X", "X", "1", "T");
             automaton.addTransition(variables.get(0), "T", Wildcard.EVERY_VALUE, "and",
@@ -93,17 +85,13 @@ public class AutomatonTreeViewTest
                                     "or", "$");
             automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE,
                                     "impl", "@");
-        }
-        catch(DuplicatedTransitionException | IllegalTransitionException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        });
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
-
+        // when
         testObject.receiveSignal(mockSignal);
-
+        // then
         DefaultMutableTreeNode rootNode = testObject.rootNode;
         DefaultMutableTreeNode alphabetChild = (DefaultMutableTreeNode)rootNode.getChildAt(0);
         DefaultMutableTreeNode variableChild = (DefaultMutableTreeNode)rootNode.getChildAt(1);
@@ -118,123 +106,127 @@ public class AutomatonTreeViewTest
         DefaultMutableTreeNode transition2Node =
                 (DefaultMutableTreeNode)transitionChild.getChildAt(1);
 
-        List<String> alphabetValues = new ArrayList<>();
-        List<String> variable1Values = new ArrayList<>();
-        List<String> variable2Values = new ArrayList<>();
-        List<String> accept1Values = new ArrayList<>();
-        List<String> transition1Values = new ArrayList<>();
-        List<String> transition2Values = new ArrayList<>();
+        List<String> alphabetValues = IntStream.range(0, alphabetChild.getChildCount())
+                                               .mapToObj(
+                                                       i -> (String)((DefaultMutableTreeNode)alphabetChild.getChildAt(
+                                                               i)).getUserObject())
+                                               .toList();
 
-        for(int i = 0; i < alphabetChild.getChildCount(); ++i)
-            alphabetValues.add(
-                    (String)((DefaultMutableTreeNode)alphabetChild.getChildAt(i)).getUserObject());
+        List<String> variable1Values = IntStream.range(0, variable1Node.getChildCount())
+                                                .mapToObj(
+                                                        i -> (String)((DefaultMutableTreeNode)variable1Node.getChildAt(
+                                                                i)).getUserObject())
+                                                .toList();
 
-        for(int i = 0; i < variable1Node.getChildCount(); ++i)
-            variable1Values.add(
-                    (String)((DefaultMutableTreeNode)variable1Node.getChildAt(i)).getUserObject());
+        List<String> transition1Values = IntStream.range(0, transition1Node.getChildCount())
+                                                  .mapToObj(
+                                                          i -> (String)((DefaultMutableTreeNode)transition1Node.getChildAt(
+                                                                  i)).getUserObject())
+                                                  .toList();
 
-        for(int i = 0; i < variable2Node.getChildCount(); ++i)
-            variable2Values.add(
-                    (String)((DefaultMutableTreeNode)variable2Node.getChildAt(i)).getUserObject());
-
-        for(int i = 0; i < accept1Node.getChildCount(); ++i)
-            accept1Values.add(
-                    (String)((DefaultMutableTreeNode)accept1Node.getChildAt(i)).getUserObject());
-
-        for(int i = 0; i < transition1Node.getChildCount(); ++i)
-            transition1Values.add((String)((DefaultMutableTreeNode)transition1Node.getChildAt(
-                    i)).getUserObject());
-
-        for(int i = 0; i < transition2Node.getChildCount(); ++i)
-            transition2Values.add((String)((DefaultMutableTreeNode)transition2Node.getChildAt(
-                    i)).getUserObject());
+        List<String> transition2Values = IntStream.range(0, transition2Node.getChildCount())
+                                                  .mapToObj(
+                                                          i -> (String)((DefaultMutableTreeNode)transition2Node.getChildAt(
+                                                                  i)).getUserObject())
+                                                  .toList();
 
         List<Variable> expectedVariables = new ArrayList<>(automaton.getVariables());
         List<String> expectedVariable1Values = expectedVariables.get(0).getValuesList();
         List<String> expectedVariable2Values = expectedVariables.get(1).getValuesList();
-        List<String> expectedAccept1Values = new ArrayList<>();
-        List<String> expectedTransition1Values = new ArrayList<>();
-        List<String> expectedTransition2Values = new ArrayList<>();
 
-        for(int i = 0; i < expectedVariable1Values.size(); ++i)
-            if(Objects.equals(expectedVariables.get(0).getInitValue(),
-                              expectedVariable1Values.get(i)))
-                expectedVariable1Values.set(i, expectedVariable1Values.get(i) + " [init value]");
+        IntStream.range(0, expectedVariable1Values.size())
+                 .filter(i -> Objects.equals(expectedVariables.get(0).getInitValue(),
+                                             expectedVariable1Values.get(i)))
+                 .forEach(i -> expectedVariable1Values.set(i, "%s [init value]".formatted(
+                         expectedVariable1Values.get(i))));
 
-        for(int i = 0; i < expectedVariable2Values.size(); ++i)
-            if(Objects.equals(expectedVariables.get(1).getInitValue(),
-                              expectedVariable2Values.get(i)))
-                expectedVariable2Values.set(i, expectedVariable2Values.get(i) + " [init value]");
+        IntStream.range(0, expectedVariable2Values.size())
+                 .filter(i -> Objects.equals(expectedVariables.get(1).getInitValue(),
+                                             expectedVariable2Values.get(i)))
+                 .forEach(i -> expectedVariable2Values.set(i, "%s [init value]".formatted(
+                         expectedVariable2Values.get(i))));
 
-        for(Map<Variable, Pair<String, Boolean>> state : automaton.getAcceptanceConditions()
-                                                                  .getStatesConditions())
-            for(Map.Entry<Variable, Pair<String, Boolean>> entry : state.entrySet())
-                expectedAccept1Values.add(AcceptanceConditions.getEntryString(entry));
+        Assertions.assertThat(rootNode.getChildCount()).isEqualTo(4);
+        Assertions.assertThat(rootNode.getUserObject()).isEqualTo(automaton.getTypeName());
 
-        for(Map.Entry<Pair<Variable, String>, String> entry : automaton.getTransitionAsStrings()
-                                                                       .entrySet())
-            if(Objects.equals(entry.getKey().getFirst().getVarName(),
-                              transition1Node.getUserObject()))
-                expectedTransition1Values.add(
-                        testObject.getTransitionEntryString(entry.getKey().getSecond(),
-                                                            entry.getValue()));
+        Assertions.assertThat(alphabetChild.getUserObject()).isEqualTo("Alphabet");
+        Assertions.assertThat(alphabetChild.getChildCount())
+                  .isEqualTo(automaton.getAlphabet().size());
 
-        for(Map.Entry<Pair<Variable, String>, String> entry : automaton.getTransitionAsStrings()
-                                                                       .entrySet())
-            if(Objects.equals(entry.getKey().getFirst().getVarName(),
-                              transition2Node.getUserObject()))
-                expectedTransition2Values.add(
-                        testObject.getTransitionEntryString(entry.getKey().getSecond(),
-                                                            entry.getValue()));
+        Assertions.assertThat(variableChild.getUserObject()).isEqualTo("Variables");
+        Assertions.assertThat(variableChild.getChildCount()).isEqualTo(expectedVariables.size());
 
-        Assert.assertEquals(4, rootNode.getChildCount());
-        Assert.assertEquals(automaton.getTypeName(), rootNode.getUserObject());
+        Assertions.assertThat(alphabetValues).containsExactlyElementsOf(automaton.getAlphabet());
 
-        Assert.assertEquals("Alphabet", alphabetChild.getUserObject());
-        Assert.assertEquals(automaton.getAlphabet().size(), alphabetChild.getChildCount());
+        Assertions.assertThat(variable1Node.getUserObject())
+                  .isEqualTo(expectedVariables.get(0).getVarName());
+        Assertions.assertThat(variable1Values).containsExactlyElementsOf(expectedVariable1Values);
 
-        Assert.assertEquals("Variables", variableChild.getUserObject());
-        Assert.assertEquals(expectedVariables.size(), variableChild.getChildCount());
+        Assertions.assertThat(variable2Node.getUserObject())
+                  .isEqualTo(expectedVariables.get(1).getVarName());
+        Assertions.assertThat(IntStream.range(0, variable2Node.getChildCount())
+                                       .mapToObj(
+                                               i -> (String)((DefaultMutableTreeNode)variable2Node.getChildAt(
+                                                       i)).getUserObject())
+                                       .toList())
+                  .containsExactlyElementsOf(expectedVariable2Values);
 
-        Assert.assertArrayEquals(automaton.getAlphabet().toArray(), alphabetValues.toArray());
+        Assertions.assertThat(acceptChild.getUserObject()).isEqualTo("Acceptance conditions");
+        Assertions.assertThat(acceptChild.getChildCount())
+                  .isEqualTo(automaton.getAcceptanceConditions().size());
 
-        Assert.assertEquals(expectedVariables.get(0).getVarName(), variable1Node.getUserObject());
-        Assert.assertArrayEquals(expectedVariable1Values.toArray(), variable1Values.toArray());
+        Assertions.assertThat(accept1Node.getUserObject()).isEqualTo("condition");
+        Assertions.assertThat(IntStream.range(0, accept1Node.getChildCount())
+                                       .mapToObj(
+                                               i -> (String)((DefaultMutableTreeNode)accept1Node.getChildAt(
+                                                       i)).getUserObject())
+                                       .toList())
+                  .containsExactlyElementsOf(automaton.getAcceptanceConditions()
+                                                      .getStatesConditions()
+                                                      .stream()
+                                                      .flatMap(state -> state.entrySet().stream())
+                                                      .map(AcceptanceConditions::getEntryString)
+                                                      .toList());
 
-        Assert.assertEquals(expectedVariables.get(1).getVarName(), variable2Node.getUserObject());
-        Assert.assertArrayEquals(expectedVariable2Values.toArray(), variable2Values.toArray());
+        Assertions.assertThat(transitionChild.getUserObject()).isEqualTo("Transition relation");
+        Assertions.assertThat(transitionChild.getChildCount()).isEqualTo(2);
 
-        Assert.assertEquals("Acceptance conditions", acceptChild.getUserObject());
-        Assert.assertEquals(automaton.getAcceptanceConditions().size(),
-                            acceptChild.getChildCount());
-
-        Assert.assertEquals("condition", accept1Node.getUserObject());
-        Assert.assertArrayEquals(expectedAccept1Values.toArray(), accept1Values.toArray());
-
-        Assert.assertEquals("Transition relation", transitionChild.getUserObject());
-        Assert.assertEquals(2, transitionChild.getChildCount());
-
-        Assert.assertEquals(automaton.getTransitionAsStrings().size(),
-                            transition1Values.size() + transition2Values.size());
-        Assert.assertArrayEquals(expectedTransition1Values.toArray(), transition1Values.toArray());
-        Assert.assertArrayEquals(expectedTransition2Values.toArray(), transition2Values.toArray());
+        Assertions.assertThat(transition1Values.size() + transition2Values.size())
+                  .isEqualTo(automaton.getTransitionAsStrings().size());
+        Assertions.assertThat(transition1Values)
+                  .containsExactlyElementsOf(automaton.getTransitionAsStrings()
+                                                      .entrySet()
+                                                      .stream()
+                                                      .filter(entry -> Objects.equals(entry.getKey()
+                                                                                           .getFirst()
+                                                                                           .getVarName(),
+                                                                                      transition1Node.getUserObject()))
+                                                      .map(entry -> testObject.getTransitionEntryString(
+                                                              entry.getKey().getSecond(),
+                                                              entry.getValue()))
+                                                      .toList());
+        Assertions.assertThat(transition2Values)
+                  .containsExactlyElementsOf(automaton.getTransitionAsStrings()
+                                                      .entrySet()
+                                                      .stream()
+                                                      .filter(entry -> Objects.equals(entry.getKey()
+                                                                                           .getFirst()
+                                                                                           .getVarName(),
+                                                                                      transition2Node.getUserObject()))
+                                                      .map(entry -> testObject.getTransitionEntryString(
+                                                              entry.getKey().getSecond(),
+                                                              entry.getValue()))
+                                                      .toList());
     }
 
     @Test
     public void receiveSignal_WhenTopDownDFTA()
     {
+        // given
         List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
-        List<Variable> variables = null;
-
-        try
-        {
-            variables = Arrays.asList(new Variable(1, "X", "T", "F"),
-                                      new Variable(2, "#", "!", "@", "$", "&"));
-        }
-        catch(IllegalVariableValueException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        List<Variable> variables = TestUtils.failOnException(
+                () -> Arrays.asList(new Variable(1, "X", "T", "F"),
+                                    new Variable(2, "#", "!", "@", "$", "&")));
 
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
         TopDownDfta automaton = new TopDownDfta(variables, alphabet);
@@ -243,8 +235,7 @@ public class AutomatonTreeViewTest
         accept.put(variables.get(1), Pair.make("!", false));
         automaton.addAcceptanceConditions(accept);
 
-        try
-        {
+        TestUtils.failOnException(() -> {
             automaton.addTransition(variables.get(0), "F", "0", "X", "X");
             automaton.addTransition(variables.get(0), "T", "1", "X", "X");
             automaton.addTransition(variables.get(0), "T", "and", Wildcard.SAME_VALUE,
@@ -257,17 +248,13 @@ public class AutomatonTreeViewTest
             automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "and", "&", "&");
             automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "or", "$", "$");
             automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "impl", "@", "@");
-        }
-        catch(DuplicatedTransitionException | IllegalTransitionException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        });
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
-
+        // when
         testObject.receiveSignal(mockSignal);
-
+        // then
         DefaultMutableTreeNode rootNode = testObject.rootNode;
         DefaultMutableTreeNode alphabetChild = (DefaultMutableTreeNode)rootNode.getChildAt(0);
         DefaultMutableTreeNode variableChild = (DefaultMutableTreeNode)rootNode.getChildAt(1);
@@ -282,144 +269,147 @@ public class AutomatonTreeViewTest
         DefaultMutableTreeNode transition2Node =
                 (DefaultMutableTreeNode)transitionChild.getChildAt(1);
 
-        List<String> alphabetValues = new ArrayList<>();
-        List<String> variable1Values = new ArrayList<>();
-        List<String> variable2Values = new ArrayList<>();
-        List<String> accept1Values = new ArrayList<>();
-        List<String> transition1Values = new ArrayList<>();
-        List<String> transition2Values = new ArrayList<>();
+        List<String> transition1Values = IntStream.range(0, transition1Node.getChildCount())
+                                                  .mapToObj(
+                                                          i -> (String)((DefaultMutableTreeNode)transition1Node.getChildAt(
+                                                                  i)).getUserObject())
+                                                  .toList();
 
-        for(int i = 0; i < alphabetChild.getChildCount(); ++i)
-            alphabetValues.add(
-                    (String)((DefaultMutableTreeNode)alphabetChild.getChildAt(i)).getUserObject());
-
-        for(int i = 0; i < variable1Node.getChildCount(); ++i)
-            variable1Values.add(
-                    (String)((DefaultMutableTreeNode)variable1Node.getChildAt(i)).getUserObject());
-
-        for(int i = 0; i < variable2Node.getChildCount(); ++i)
-            variable2Values.add(
-                    (String)((DefaultMutableTreeNode)variable2Node.getChildAt(i)).getUserObject());
-
-        for(int i = 0; i < accept1Node.getChildCount(); ++i)
-            accept1Values.add(
-                    (String)((DefaultMutableTreeNode)accept1Node.getChildAt(i)).getUserObject());
-
-        for(int i = 0; i < transition1Node.getChildCount(); ++i)
-            transition1Values.add((String)((DefaultMutableTreeNode)transition1Node.getChildAt(
-                    i)).getUserObject());
-
-        for(int i = 0; i < transition2Node.getChildCount(); ++i)
-            transition2Values.add((String)((DefaultMutableTreeNode)transition2Node.getChildAt(
-                    i)).getUserObject());
+        List<String> transition2Values = IntStream.range(0, transition2Node.getChildCount())
+                                                  .mapToObj(
+                                                          i -> (String)((DefaultMutableTreeNode)transition2Node.getChildAt(
+                                                                  i)).getUserObject())
+                                                  .toList();
 
         List<Variable> expectedVariables = new ArrayList<>(automaton.getVariables());
         List<String> expectedVariable1Values = expectedVariables.get(0).getValuesList();
         List<String> expectedVariable2Values = expectedVariables.get(1).getValuesList();
-        List<String> expectedAccept1Values = new ArrayList<>();
-        List<String> expectedTransition1Values = new ArrayList<>();
-        List<String> expectedTransition2Values = new ArrayList<>();
 
-        for(int i = 0; i < expectedVariable1Values.size(); i++)
-            if(Objects.equals(expectedVariables.get(0).getInitValue(),
-                              expectedVariable1Values.get(i)))
-                expectedVariable1Values.set(i, expectedVariable1Values.get(i) + " [init value]");
+        IntStream.range(0, expectedVariable1Values.size())
+                 .filter(i -> Objects.equals(expectedVariables.get(0).getInitValue(),
+                                             expectedVariable1Values.get(i)))
+                 .forEach(i -> expectedVariable1Values.set(i, "%s [init value]".formatted(
+                         expectedVariable1Values.get(i))));
 
-        for(int i = 0; i < expectedVariable2Values.size(); i++)
-            if(Objects.equals(expectedVariables.get(1).getInitValue(),
-                              expectedVariable2Values.get(i)))
-                expectedVariable2Values.set(i, expectedVariable2Values.get(i) + " [init value]");
+        IntStream.range(0, expectedVariable2Values.size())
+                 .filter(i -> Objects.equals(expectedVariables.get(1).getInitValue(),
+                                             expectedVariable2Values.get(i)))
+                 .forEach(i -> expectedVariable2Values.set(i, "%s [init value]".formatted(
+                         expectedVariable2Values.get(i))));
 
-        for(Map<Variable, Pair<String, Boolean>> state : automaton.getAcceptanceConditions()
-                                                                  .getStatesConditions())
-            for(Map.Entry<Variable, Pair<String, Boolean>> entry : state.entrySet())
-                expectedAccept1Values.add(AcceptanceConditions.getEntryString(entry));
+        Assertions.assertThat(rootNode.getChildCount()).isEqualTo(4);
+        Assertions.assertThat(rootNode.getUserObject()).isEqualTo(automaton.getTypeName());
 
-        for(Map.Entry<Pair<Variable, String>, String> entry : automaton.getTransitionAsStrings()
-                                                                       .entrySet())
-            if(Objects.equals(entry.getKey().getFirst().getVarName(),
-                              transition1Node.getUserObject()))
-                expectedTransition1Values.add(
-                        testObject.getTransitionEntryString(entry.getKey().getSecond(),
-                                                            entry.getValue()));
+        Assertions.assertThat(alphabetChild.getUserObject()).isEqualTo("Alphabet");
+        Assertions.assertThat(alphabetChild.getChildCount())
+                  .isEqualTo(automaton.getAlphabet().size());
 
-        for(Map.Entry<Pair<Variable, String>, String> entry : automaton.getTransitionAsStrings()
-                                                                       .entrySet())
-            if(Objects.equals(entry.getKey().getFirst().getVarName(),
-                              transition2Node.getUserObject()))
-                expectedTransition2Values.add(
-                        testObject.getTransitionEntryString(entry.getKey().getSecond(),
-                                                            entry.getValue()));
+        Assertions.assertThat(IntStream.range(0, alphabetChild.getChildCount())
+                                       .mapToObj(
+                                               i -> (String)((DefaultMutableTreeNode)alphabetChild.getChildAt(
+                                                       i)).getUserObject())
+                                       .toList())
+                  .containsExactlyElementsOf(automaton.getAlphabet());
 
-        Assert.assertEquals(4, rootNode.getChildCount());
-        Assert.assertEquals(automaton.getTypeName(), rootNode.getUserObject());
+        Assertions.assertThat(variableChild.getUserObject()).isEqualTo("Variables");
+        Assertions.assertThat(variableChild.getChildCount()).isEqualTo(expectedVariables.size());
 
-        Assert.assertEquals("Alphabet", alphabetChild.getUserObject());
-        Assert.assertEquals(automaton.getAlphabet().size(), alphabetChild.getChildCount());
+        Assertions.assertThat(variable1Node.getUserObject())
+                  .isEqualTo(expectedVariables.get(0).getVarName());
+        Assertions.assertThat(IntStream.range(0, variable1Node.getChildCount())
+                                       .mapToObj(
+                                               i -> (String)((DefaultMutableTreeNode)variable1Node.getChildAt(
+                                                       i)).getUserObject())
+                                       .toList())
+                  .containsExactlyElementsOf(expectedVariable1Values);
 
-        Assert.assertArrayEquals(automaton.getAlphabet().toArray(), alphabetValues.toArray());
+        Assertions.assertThat(variable2Node.getUserObject())
+                  .isEqualTo(expectedVariables.get(1).getVarName());
+        Assertions.assertThat(IntStream.range(0, variable2Node.getChildCount())
+                                       .mapToObj(
+                                               i -> (String)((DefaultMutableTreeNode)variable2Node.getChildAt(
+                                                       i)).getUserObject())
+                                       .toList())
+                  .containsExactlyElementsOf(expectedVariable2Values);
 
-        Assert.assertEquals("Variables", variableChild.getUserObject());
-        Assert.assertEquals(expectedVariables.size(), variableChild.getChildCount());
+        Assertions.assertThat(acceptChild.getUserObject()).isEqualTo("Acceptance conditions");
+        Assertions.assertThat(acceptChild.getChildCount())
+                  .isEqualTo(automaton.getAcceptanceConditions().size());
 
-        Assert.assertEquals(expectedVariables.get(0).getVarName(), variable1Node.getUserObject());
-        Assert.assertArrayEquals(expectedVariable1Values.toArray(), variable1Values.toArray());
+        Assertions.assertThat(accept1Node.getUserObject()).isEqualTo("condition");
+        Assertions.assertThat(IntStream.range(0, accept1Node.getChildCount())
+                                       .mapToObj(
+                                               i -> (String)((DefaultMutableTreeNode)accept1Node.getChildAt(
+                                                       i)).getUserObject())
+                                       .toList())
+                  .containsExactlyElementsOf(automaton.getAcceptanceConditions()
+                                                      .getStatesConditions()
+                                                      .stream()
+                                                      .flatMap(state -> state.entrySet().stream())
+                                                      .map(AcceptanceConditions::getEntryString)
+                                                      .toList());
 
-        Assert.assertEquals(expectedVariables.get(1).getVarName(), variable2Node.getUserObject());
-        Assert.assertArrayEquals(expectedVariable2Values.toArray(), variable2Values.toArray());
+        Assertions.assertThat(transitionChild.getUserObject()).isEqualTo("Transition relation");
+        Assertions.assertThat(transitionChild.getChildCount()).isEqualTo(2);
 
-        Assert.assertEquals("Acceptance conditions", acceptChild.getUserObject());
-        Assert.assertEquals(automaton.getAcceptanceConditions().size(),
-                            acceptChild.getChildCount());
-
-        Assert.assertEquals("condition", accept1Node.getUserObject());
-        Assert.assertArrayEquals(expectedAccept1Values.toArray(), accept1Values.toArray());
-
-        Assert.assertEquals("Transition relation", transitionChild.getUserObject());
-        Assert.assertEquals(2, transitionChild.getChildCount());
-
-        Assert.assertEquals(automaton.getTransitionAsStrings().size(),
-                            transition1Values.size() + transition2Values.size());
-        Assert.assertArrayEquals(expectedTransition1Values.toArray(), transition1Values.toArray());
-        Assert.assertArrayEquals(expectedTransition2Values.toArray(), transition2Values.toArray());
+        Assertions.assertThat(transition1Values.size() + transition2Values.size())
+                  .isEqualTo(automaton.getTransitionAsStrings().size());
+        Assertions.assertThat(transition1Values)
+                  .containsExactlyElementsOf(automaton.getTransitionAsStrings()
+                                                      .entrySet()
+                                                      .stream()
+                                                      .filter(entry -> Objects.equals(entry.getKey()
+                                                                                           .getFirst()
+                                                                                           .getVarName(),
+                                                                                      transition1Node.getUserObject()))
+                                                      .map(entry -> testObject.getTransitionEntryString(
+                                                              entry.getKey().getSecond(),
+                                                              entry.getValue()))
+                                                      .toList());
+        Assertions.assertThat(transition2Values)
+                  .containsExactlyElementsOf(automaton.getTransitionAsStrings()
+                                                      .entrySet()
+                                                      .stream()
+                                                      .filter(entry -> Objects.equals(entry.getKey()
+                                                                                           .getFirst()
+                                                                                           .getVarName(),
+                                                                                      transition2Node.getUserObject()))
+                                                      .map(entry -> testObject.getTransitionEntryString(
+                                                              entry.getKey().getSecond(),
+                                                              entry.getValue()))
+                                                      .toList());
     }
 
     @Test
     public void testReceiveSignal()
     {
+        // given
         Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockPointer.isEmpty()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.STOPPED);
-
+        // when
         testObject.receiveSignal(mockSignal);
-
-        Assert.assertTrue(testObject.lastTransitions.isEmpty());
+        // then
+        Assertions.assertThat(testObject.lastTransitions).isEmpty();
     }
 
     @Test
     public void testReceiveMessage()
     {
-        Triple<Variable, String, String> param = null;
-
-        try
-        {
-            param = Triple.make(new Variable(0, "A", "B"), "A", "B");
-        }
-        catch(IllegalVariableValueException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // given
+        Triple<Variable, String, String> param =
+                TestUtils.failOnException(() -> Triple.make(new Variable(0, "A", "B"), "A", "B"));
 
         Mockito.when(mockMessage.getParam()).thenReturn(param);
-
+        // when
         testObject.receiveMessage(mockMessage);
-
+        // then
         String expectedMapValue =
                 testObject.getTransitionEntryString(param.getSecond(), param.getThird());
 
-        Assert.assertEquals(1, testObject.lastTransitions.size());
-        Assert.assertTrue(testObject.lastTransitions.containsKey(param.getFirst()));
-        Assert.assertTrue(testObject.lastTransitions.containsValue(expectedMapValue));
+        Assertions.assertThat(testObject.lastTransitions).hasSize(1);
+        Assertions.assertThat(testObject.lastTransitions).containsKey(param.getFirst());
+        Assertions.assertThat(testObject.lastTransitions).containsValue(expectedMapValue);
     }
 }

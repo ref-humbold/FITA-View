@@ -10,9 +10,9 @@ public final class TestUtils
         {
             return supplier.get();
         }
-        catch(Exception e)
+        catch(Exception ex)
         {
-            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(ex.getClass().getSimpleName()));
             return null;
         }
     }
@@ -23,9 +23,9 @@ public final class TestUtils
         {
             supplier.run();
         }
-        catch(Exception e)
+        catch(Exception ex)
         {
-            Assertions.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
+            Assertions.fail("Unexpected exception %s".formatted(ex.getClass().getSimpleName()));
         }
     }
 

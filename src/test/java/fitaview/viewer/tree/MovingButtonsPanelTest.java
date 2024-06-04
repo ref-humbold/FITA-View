@@ -1,8 +1,8 @@
 package fitaview.viewer.tree;
 
 import java.awt.event.ActionEvent;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,70 +44,79 @@ public class MovingButtonsPanelTest
     @Test
     public void actionPerformed_WhenCentre()
     {
+        // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CENTRE");
-
+        // when
         testObject.actionPerformed(mockActionEvent);
-
-        Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
+        // then
+        Pair<Integer, Integer> point = mockDrawingArea.getAxisPoint();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).centralize();
-        Assert.assertEquals(Integer.valueOf(0), result.getFirst());
-        Assert.assertEquals(Integer.valueOf(0), result.getSecond());
+        Assertions.assertThat(point.getFirst()).isEqualTo(Integer.valueOf(0));
+        Assertions.assertThat(point.getSecond()).isEqualTo(Integer.valueOf(0));
     }
 
     @Test
     public void actionPerformed_WhenUp()
     {
+        // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("UP");
-
+        // when
         testObject.actionPerformed(mockActionEvent);
-
-        Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
+        // then
+        Pair<Integer, Integer> point = mockDrawingArea.getAxisPoint();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(0, 1);
-        Assert.assertEquals(Integer.valueOf(mockDrawingArea.getStepUnit()), result.getFirst());
-        Assert.assertEquals(Integer.valueOf(0), result.getSecond());
+        Assertions.assertThat(point.getFirst())
+                  .isEqualTo(Integer.valueOf(mockDrawingArea.getStepUnit()));
+        Assertions.assertThat(point.getSecond()).isEqualTo(Integer.valueOf(0));
     }
 
     @Test
     public void actionPerformed_WhenDown()
     {
+        // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DOWN");
-
+        // when
         testObject.actionPerformed(mockActionEvent);
-
-        Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
+        // then
+        Pair<Integer, Integer> point = mockDrawingArea.getAxisPoint();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(0, -1);
-        Assert.assertEquals(Integer.valueOf(-mockDrawingArea.getStepUnit()), result.getFirst());
-        Assert.assertEquals(Integer.valueOf(0), result.getSecond());
+        Assertions.assertThat(point.getFirst())
+                  .isEqualTo(Integer.valueOf(-mockDrawingArea.getStepUnit()));
+        Assertions.assertThat(point.getSecond()).isEqualTo(Integer.valueOf(0));
     }
 
     @Test
     public void actionPerformed_WhenLeft()
     {
+        // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEFT");
-
+        // when
         testObject.actionPerformed(mockActionEvent);
-
-        Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
+        // then
+        Pair<Integer, Integer> point = mockDrawingArea.getAxisPoint();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(1, 0);
-        Assert.assertEquals(Integer.valueOf(0), result.getFirst());
-        Assert.assertEquals(Integer.valueOf(mockDrawingArea.getStepUnit()), result.getSecond());
+        Assertions.assertThat(point.getFirst()).isEqualTo(Integer.valueOf(0));
+        Assertions.assertThat(point.getSecond())
+                  .isEqualTo(Integer.valueOf(mockDrawingArea.getStepUnit()));
     }
 
     @Test
     public void actionPerformed_WhenRight()
     {
+        // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("RIGHT");
-
+        // when
         testObject.actionPerformed(mockActionEvent);
-
-        Pair<Integer, Integer> result = mockDrawingArea.getAxisPoint();
+        // then
+        Pair<Integer, Integer> point = mockDrawingArea.getAxisPoint();
 
         Mockito.verify(mockDrawingArea, Mockito.times(1)).moveArea(-1, 0);
-        Assert.assertEquals(Integer.valueOf(0), result.getFirst());
-        Assert.assertEquals(Integer.valueOf(-mockDrawingArea.getStepUnit()), result.getSecond());
+        Assertions.assertThat(point.getFirst()).isEqualTo(Integer.valueOf(0));
+        Assertions.assertThat(point.getSecond())
+                  .isEqualTo(Integer.valueOf(-mockDrawingArea.getStepUnit()));
     }
 }

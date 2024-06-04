@@ -1,7 +1,7 @@
 package fitaview.viewer.tree;
 
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
 
 import fitaview.tree.NodeHasParentException;
@@ -34,114 +34,123 @@ public class NodeParametersTest
     @Test
     public void testGetDistance()
     {
+        // given
         testObject = new NodeParameters(node1, 3);
-
+        // when
         Pair<Integer, Integer> result = testObject.getDistance();
-
-        Assert.assertEquals(Pair.make(0, 0), result);
+        // then
+        Assertions.assertThat(result).isEqualTo(Pair.make(0, 0));
     }
 
     @Test
     public void getLeftParams_WhenRoot()
     {
+        // given
         testObject = new NodeParameters(node1, 3);
-
+        // when
         NodeParameters result = testObject.getLeftParams();
-
-        Assert.assertEquals(Pair.make(-3, 1), result.getDistance());
-        Assert.assertSame(node3, result.getNode());
-        Assert.assertEquals(1, result.getInvertedDepth());
-        Assert.assertEquals(2, result.getLeavesNumber());
+        // then
+        Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(-3, 1));
+        Assertions.assertThat(result.getNode()).isSameAs(node3);
+        Assertions.assertThat(result.getInvertedDepth()).isEqualTo(1);
+        Assertions.assertThat(result.getLeavesNumber()).isEqualTo(2);
     }
 
     @Test
     public void getRightParams_WhenRoot()
     {
+        // given
         testObject = new NodeParameters(node1, 3);
-
+        // when
         NodeParameters result = testObject.getRightParams();
-
-        Assert.assertEquals(Pair.make(3, 1), result.getDistance());
-        Assert.assertSame(node2, result.getNode());
-        Assert.assertEquals(1, result.getInvertedDepth());
-        Assert.assertEquals(2, result.getLeavesNumber());
+        // then
+        Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(3, 1));
+        Assertions.assertThat(result.getNode()).isSameAs(node2);
+        Assertions.assertThat(result.getInvertedDepth()).isEqualTo(1);
+        Assertions.assertThat(result.getLeavesNumber()).isEqualTo(2);
     }
 
     @Test
     public void getLeftParams_WhenInnerLeftNode()
     {
+        // given
         testObject = new NodeParameters(-10, 10, 1, node3, 3);
-
+        // when
         NodeParameters result = testObject.getLeftParams();
-
-        Assert.assertEquals(Pair.make(-12, 11), result.getDistance());
-        Assert.assertSame(node7, result.getNode());
-        Assert.assertEquals(0, result.getInvertedDepth());
-        Assert.assertEquals(1, result.getLeavesNumber());
+        // then
+        Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(-12, 11));
+        Assertions.assertThat(result.getNode()).isSameAs(node7);
+        Assertions.assertThat(result.getInvertedDepth()).isEqualTo(0);
+        Assertions.assertThat(result.getLeavesNumber()).isEqualTo(1);
     }
 
     @Test
     public void getRightParams_WhenInnerLeftNode()
     {
+        // given
         testObject = new NodeParameters(-10, 10, 1, node3, 3);
-
+        // when
         NodeParameters result = testObject.getRightParams();
-
-        Assert.assertEquals(Pair.make(-9, 12), result.getDistance());
-        Assert.assertSame(node6, result.getNode());
-        Assert.assertEquals(0, result.getInvertedDepth());
-        Assert.assertEquals(1, result.getLeavesNumber());
+        // then
+        Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(-9, 12));
+        Assertions.assertThat(result.getNode()).isSameAs(node6);
+        Assertions.assertThat(result.getInvertedDepth()).isEqualTo(0);
+        Assertions.assertThat(result.getLeavesNumber()).isEqualTo(1);
     }
 
     @Test
     public void getLeftParams_WhenInnerRightNode()
     {
+        // given
         testObject = new NodeParameters(10, 10, 1, node2, 3);
-
+        // when
         NodeParameters result = testObject.getLeftParams();
-
-        Assert.assertEquals(Pair.make(9, 12), result.getDistance());
-        Assert.assertSame(node5, result.getNode());
-        Assert.assertEquals(0, result.getInvertedDepth());
-        Assert.assertEquals(1, result.getLeavesNumber());
+        // then
+        Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(9, 12));
+        Assertions.assertThat(result.getNode()).isSameAs(node5);
+        Assertions.assertThat(result.getInvertedDepth()).isEqualTo(0);
+        Assertions.assertThat(result.getLeavesNumber()).isEqualTo(1);
     }
 
     @Test
     public void getRightParams_WhenInnerRightNode()
     {
+        // given
         testObject = new NodeParameters(10, 10, 1, node2, 3);
-
+        // when
         NodeParameters result = testObject.getRightParams();
-
-        Assert.assertEquals(Pair.make(12, 11), result.getDistance());
-        Assert.assertSame(node4, result.getNode());
-        Assert.assertEquals(0, result.getInvertedDepth());
-        Assert.assertEquals(1, result.getLeavesNumber());
+        // then
+        Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(12, 11));
+        Assertions.assertThat(result.getNode()).isSameAs(node4);
+        Assertions.assertThat(result.getInvertedDepth()).isEqualTo(0);
+        Assertions.assertThat(result.getLeavesNumber()).isEqualTo(1);
     }
 
     @Test
     public void getLeftParams_WhenLeafNode()
     {
+        // given
         testObject = new NodeParameters(10, 10, 2, node4, 3);
-
+        // when
         NodeParameters result = testObject.getLeftParams();
-
-        Assert.assertEquals(Pair.make(9, 11), result.getDistance());
-        Assert.assertTrue(result.getNode().isNull());
-        Assert.assertEquals(-1, result.getInvertedDepth());
-        Assert.assertEquals(0, result.getLeavesNumber());
+        // then
+        Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(9, 11));
+        Assertions.assertThat(result.getNode().isNull()).isTrue();
+        Assertions.assertThat(result.getInvertedDepth()).isEqualTo(-1);
+        Assertions.assertThat(result.getLeavesNumber()).isEqualTo(0);
     }
 
     @Test
     public void getRightParams_WhenLeafNode()
     {
+        // given
         testObject = new NodeParameters(10, 10, 2, node4, 3);
-
+        // when
         NodeParameters result = testObject.getRightParams();
-
-        Assert.assertEquals(Pair.make(11, 11), result.getDistance());
-        Assert.assertTrue(result.getNode().isNull());
-        Assert.assertEquals(-1, result.getInvertedDepth());
-        Assert.assertEquals(0, result.getLeavesNumber());
+        // then
+        Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(11, 11));
+        Assertions.assertThat(result.getNode().isNull()).isTrue();
+        Assertions.assertThat(result.getInvertedDepth()).isEqualTo(-1);
+        Assertions.assertThat(result.getLeavesNumber()).isEqualTo(0);
     }
 }

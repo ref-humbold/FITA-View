@@ -2,8 +2,8 @@ package fitaview.viewer.automaton;
 
 import java.util.Collections;
 import java.util.Map;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,74 +51,81 @@ public class TransitionDrawingAreaTest
     @Test
     public void receiveSignal_WhenSourcePointer()
     {
+        // given
         Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
-
+        // when
         testObject.receiveSignal(mockSignal);
-
-        Assert.assertNull(testObject.parentInfo);
-        Assert.assertNull(testObject.leftSonInfo);
-        Assert.assertNull(testObject.rightSonInfo);
+        // then
+        Assertions.assertThat(testObject.parentInfo).isNull();
+        Assertions.assertThat(testObject.leftSonInfo).isNull();
+        Assertions.assertThat(testObject.rightSonInfo).isNull();
     }
 
     @Test
     public void receiveSignal_WhenSourceMode()
     {
+        // given
         Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.STOPPED);
-
+        // when
         testObject.receiveSignal(mockSignal);
-
-        Assert.assertNull(testObject.parentInfo);
-        Assert.assertNull(testObject.leftSonInfo);
-        Assert.assertNull(testObject.rightSonInfo);
+        // then
+        Assertions.assertThat(testObject.parentInfo).isNull();
+        Assertions.assertThat(testObject.leftSonInfo).isNull();
+        Assertions.assertThat(testObject.rightSonInfo).isNull();
     }
 
     @Test
     public void receiveMessage_WhenLeftSon()
     {
+        // given
         Triple<NodeInfoSource, String, Map<Variable, String>> param =
                 Triple.make(NodeInfoSource.LEFT_SON, "LABEL", Collections.emptyMap());
 
         Mockito.when(mockMessage.getParam()).thenReturn(param);
-
+        // when
         testObject.receiveMessage(mockMessage);
-
-        Assert.assertNotNull(testObject.leftSonInfo);
-        Assert.assertEquals(Pair.make(param.getSecond(), param.getThird()), testObject.leftSonInfo);
-        Assert.assertNull(testObject.parentInfo);
-        Assert.assertNull(testObject.rightSonInfo);
+        // then
+        Assertions.assertThat(testObject.leftSonInfo)
+                  .isNotNull()
+                  .isEqualTo(Pair.make(param.getSecond(), param.getThird()));
+        Assertions.assertThat(testObject.parentInfo).isNull();
+        Assertions.assertThat(testObject.rightSonInfo).isNull();
     }
 
     @Test
     public void receiveMessage_WhenParent()
     {
+        // given
         Triple<NodeInfoSource, String, Map<Variable, String>> param =
                 Triple.make(NodeInfoSource.PARENT, "LABEL", Collections.emptyMap());
 
         Mockito.when(mockMessage.getParam()).thenReturn(param);
-
+        // when
         testObject.receiveMessage(mockMessage);
-
-        Assert.assertNotNull(testObject.parentInfo);
-        Assert.assertEquals(Pair.make(param.getSecond(), param.getThird()), testObject.parentInfo);
-        Assert.assertNull(testObject.leftSonInfo);
-        Assert.assertNull(testObject.rightSonInfo);
+        // then
+        Assertions.assertThat(testObject.parentInfo)
+                  .isNotNull()
+                  .isEqualTo(Pair.make(param.getSecond(), param.getThird()));
+        Assertions.assertThat(testObject.leftSonInfo).isNull();
+        Assertions.assertThat(testObject.rightSonInfo).isNull();
     }
 
     @Test
     public void receiveMessage_WhenRightSon()
     {
+        // given
         Triple<NodeInfoSource, String, Map<Variable, String>> param =
                 Triple.make(NodeInfoSource.RIGHT_SON, "LABEL", Collections.emptyMap());
 
         Mockito.when(mockMessage.getParam()).thenReturn(param);
-
+        // when
         testObject.receiveMessage(mockMessage);
-
-        Assert.assertNotNull(testObject.rightSonInfo);
-        Assert.assertEquals(Pair.make(param.getSecond(), param.getThird()),
-                            testObject.rightSonInfo);
-        Assert.assertNull(testObject.parentInfo);
-        Assert.assertNull(testObject.leftSonInfo);
+        // then
+        Assertions.assertThat(testObject.rightSonInfo)
+                  .isNotNull()
+                  .isEqualTo(Pair.make(param.getSecond(), param.getThird()));
+        Assertions.assertThat(testObject.parentInfo).isNull();
+        Assertions.assertThat(testObject.leftSonInfo).isNull();
     }
 }
