@@ -154,8 +154,9 @@ public class StandardNodeTest
         // when
         Map<Variable, String> result = TestUtils.failOnException(() -> testObject.getState());
         // then
-        Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result).isEqualTo(Collections.singletonMap(variable1, "3"));
+        Assertions.assertThat(result)
+                  .isNotNull()
+                  .isEqualTo(Collections.singletonMap(variable1, "3"));
     }
 
     @Test
@@ -171,8 +172,7 @@ public class StandardNodeTest
         // when
         String result = TestUtils.failOnException(() -> testObject.getStateValue(variable1));
         // then
-        Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result).isEqualTo("3");
+        Assertions.assertThat(result).isNotNull().isEqualTo("3");
     }
 
     @Test
@@ -190,8 +190,7 @@ public class StandardNodeTest
         // when
         String result = testObject.getStateValueOrNull(variable1);
         // then
-        Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result).isEqualTo("3");
+        Assertions.assertThat(result).isNotNull().isEqualTo("3");
     }
 
     @Test
@@ -202,8 +201,7 @@ public class StandardNodeTest
         // then
         String result = testObject.getStateValueOrNull(variable2);
 
-        Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result).isEqualTo("Y");
+        Assertions.assertThat(result).isNotNull().isEqualTo("Y");
     }
 
     @Test
@@ -236,10 +234,8 @@ public class StandardNodeTest
         String result1 = testObject.getStateValueOrNull(variable1);
         String result2 = testObject.getStateValueOrNull(variable2);
 
-        Assertions.assertThat(result1).isNotNull();
-        Assertions.assertThat(result2).isNotNull();
-        Assertions.assertThat(result1).isEqualTo(variable1.getInitValue());
-        Assertions.assertThat(result2).isEqualTo(variable2.getInitValue());
+        Assertions.assertThat(result1).isNotNull().isEqualTo(variable1.getInitValue());
+        Assertions.assertThat(result2).isNotNull().isEqualTo(variable2.getInitValue());
     }
 
     @Test

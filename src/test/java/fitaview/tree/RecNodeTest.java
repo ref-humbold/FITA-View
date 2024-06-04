@@ -59,8 +59,7 @@ public class RecNodeTest
         // when
         String result = testObject.getLabel();
         // then
-        Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result).isEqualTo("LABEL");
+        Assertions.assertThat(result).isNotNull().isEqualTo("LABEL");
     }
 
     @Test
@@ -69,8 +68,9 @@ public class RecNodeTest
         // when
         Map<Variable, String> result = TestUtils.failOnException(() -> testObject.getState());
         // then
-        Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result).isEqualTo(Collections.singletonMap(variable1, "3"));
+        Assertions.assertThat(result)
+                  .isNotNull()
+                  .isEqualTo(Collections.singletonMap(variable1, "3"));
     }
 
     @Test
@@ -86,8 +86,7 @@ public class RecNodeTest
         // when
         String result = TestUtils.failOnException(() -> testObject.getStateValue(variable1));
         // then
-        Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result).isEqualTo("3");
+        Assertions.assertThat(result).isNotNull().isEqualTo("3");
     }
 
     @Test
@@ -105,8 +104,7 @@ public class RecNodeTest
         // when
         String result = testObject.getStateValueOrNull(variable1);
         // then
-        Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result).isEqualTo("3");
+        Assertions.assertThat(result).isNotNull().isEqualTo("3");
     }
 
     @Test
@@ -117,8 +115,7 @@ public class RecNodeTest
         // when
         String result = testObject.getStateValueOrNull(variable2);
         // then
-        Assertions.assertThat(result).isNotNull();
-        Assertions.assertThat(result).isEqualTo("Y");
+        Assertions.assertThat(result).isNotNull().isEqualTo("Y");
     }
 
     @Test
@@ -151,10 +148,8 @@ public class RecNodeTest
         String result1 = testObject.getStateValueOrNull(variable1);
         String result2 = testObject.getStateValueOrNull(variable2);
         // then
-        Assertions.assertThat(result1).isNotNull();
-        Assertions.assertThat(result2).isNotNull();
-        Assertions.assertThat(result1).isEqualTo(variable1.getInitValue());
-        Assertions.assertThat(result2).isEqualTo(variable2.getInitValue());
+        Assertions.assertThat(result1).isNotNull().isEqualTo(variable1.getInitValue());
+        Assertions.assertThat(result2).isNotNull().isEqualTo(variable2.getInitValue());
     }
 
     @Test

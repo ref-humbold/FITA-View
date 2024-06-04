@@ -167,8 +167,9 @@ public class ActionButtonsPanelTest
         // when
         testObject.actionPerformed(mockActionEvent);
         // then
-        Assertions.assertThat(warning[0]).isEqualTo("AUTOMATON IS EMPTY");
-        Assertions.assertThat(warning[1]).isEqualTo("No tree can be accepted by the automaton");
+        Assertions.assertThat(warning)
+                  .containsExactly("AUTOMATON IS EMPTY",
+                                   "No tree can be accepted by the automaton");
     }
 
     @Test
@@ -193,8 +194,9 @@ public class ActionButtonsPanelTest
         // when
         testObject.actionPerformed(mockActionEvent);
         // then
-        Assertions.assertThat(info[0]).isEqualTo("AUTOMATON IS NON-EMPTY");
-        Assertions.assertThat(info[1]).isEqualTo("The automaton can accept at least one tree");
+        Assertions.assertThat(info)
+                  .containsExactly("AUTOMATON IS NON-EMPTY",
+                                   "The automaton can accept at least one tree");
     }
 
     @Test

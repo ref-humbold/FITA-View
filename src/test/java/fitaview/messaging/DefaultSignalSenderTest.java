@@ -1,6 +1,5 @@
 package fitaview.messaging;
 
-import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Assert;
@@ -40,10 +39,7 @@ public class DefaultSignalSenderTest
         // when
         testObject.addReceiver(mockReceiver);
         // then
-        Set<SignalReceiver> receivers = testObject.receivers;
-
-        Assertions.assertThat(receivers).hasSize(1);
-        Assertions.assertThat(receivers).containsExactly(mockReceiver);
+        Assertions.assertThat(testObject.receivers).containsExactly(mockReceiver);
     }
 
     @Test
@@ -54,10 +50,7 @@ public class DefaultSignalSenderTest
         // when
         testObject.addReceiver(mockReceiver);
         // then
-        Set<SignalReceiver> receivers = testObject.receivers;
-
-        Assertions.assertThat(receivers).hasSize(1);
-        Assertions.assertThat(receivers).containsExactly(mockReceiver);
+        Assertions.assertThat(testObject.receivers).containsExactly(mockReceiver);
     }
 
     @Test
@@ -105,14 +98,15 @@ public class DefaultSignalSenderTest
         }).when(mockReceiver).receiveSignal(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
-        testObject.send();
         // when
-        Message<Void> result = (Message<Void>)arg[0];
+        testObject.send();
         // then
-        Assertions.assertThat(result.getSource()).isSameAs(testObject);
-        Assert.assertNull(result.getParam());
-        Assertions.assertThat(result.toString())
-                  .isEqualTo("MESSAGE from %s: 'null'".formatted(
+        Message<Void> message = (Message<Void>)arg[0];
+
+        Assertions.assertThat(message.getSource()).isSameAs(testObject);
+        Assert.assertNull(message.getParam());
+        Assertions.assertThat(message)
+                  .hasToString("MESSAGE from %s: 'null'".formatted(
                           testObject.getClass().getSimpleName()));
     }
 
@@ -129,14 +123,15 @@ public class DefaultSignalSenderTest
         }).when(mockReceiver).receiveSignal(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
-        testObject.sendSignal(new Message<>(mockSender));
         // when
-        Message<Void> result = (Message<Void>)arg[0];
+        testObject.sendSignal(new Message<>(mockSender));
         // then
-        Assertions.assertThat(result.getSource()).isSameAs(mockSender);
-        Assertions.assertThat(result.getParam()).isNull();
-        Assertions.assertThat(result.toString())
-                  .isEqualTo("MESSAGE from %s: 'null'".formatted(
+        Message<Void> message = (Message<Void>)arg[0];
+
+        Assertions.assertThat(message.getSource()).isSameAs(mockSender);
+        Assertions.assertThat(message.getParam()).isNull();
+        Assertions.assertThat(message)
+                  .hasToString("MESSAGE from %s: 'null'".formatted(
                           mockSender.getClass().getSimpleName()));
     }
 

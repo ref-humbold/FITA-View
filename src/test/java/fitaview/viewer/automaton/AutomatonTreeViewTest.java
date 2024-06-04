@@ -405,11 +405,10 @@ public class AutomatonTreeViewTest
         // when
         testObject.receiveMessage(mockMessage);
         // then
-        String expectedMapValue =
-                testObject.getTransitionEntryString(param.getSecond(), param.getThird());
-
-        Assertions.assertThat(testObject.lastTransitions).hasSize(1);
-        Assertions.assertThat(testObject.lastTransitions).containsKey(param.getFirst());
-        Assertions.assertThat(testObject.lastTransitions).containsValue(expectedMapValue);
+        Assertions.assertThat(testObject.lastTransitions)
+                  .hasSize(1)
+                  .containsKey(param.getFirst())
+                  .containsValue(
+                          testObject.getTransitionEntryString(param.getSecond(), param.getThird()));
     }
 }

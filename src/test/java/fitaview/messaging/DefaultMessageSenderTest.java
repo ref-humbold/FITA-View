@@ -1,6 +1,5 @@
 package fitaview.messaging;
 
-import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
@@ -39,10 +38,7 @@ public class DefaultMessageSenderTest
         // when
         testObject.addReceiver(mockReceiver);
         // then
-        Set<MessageReceiver<String>> receivers = testObject.receivers;
-
-        Assertions.assertThat(receivers).hasSize(1);
-        Assertions.assertThat(receivers).containsExactly(mockReceiver);
+        Assertions.assertThat(testObject.receivers).containsExactly(mockReceiver);
     }
 
     @Test
@@ -53,10 +49,7 @@ public class DefaultMessageSenderTest
         // when
         testObject.addReceiver(mockReceiver);
         // then
-        Set<MessageReceiver<String>> receivers = testObject.receivers;
-
-        Assertions.assertThat(receivers).hasSize(1);
-        Assertions.assertThat(receivers).containsExactly(mockReceiver);
+        Assertions.assertThat(testObject.receivers).containsExactly(mockReceiver);
     }
 
     @Test
@@ -104,14 +97,15 @@ public class DefaultMessageSenderTest
         }).when(mockReceiver).receiveMessage(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
-        testObject.send("PARAMETER");
         // when
-        Message<String> result = (Message<String>)arg[0];
+        testObject.send("PARAMETER");
         // then
-        Assertions.assertThat(result.getSource()).isSameAs(testObject);
-        Assertions.assertThat(result.getParam()).isEqualTo("PARAMETER");
-        Assertions.assertThat(result.toString())
-                  .isEqualTo("MESSAGE from %s: 'PARAMETER'".formatted(
+        Message<String> message = (Message<String>)arg[0];
+
+        Assertions.assertThat(message.getSource()).isSameAs(testObject);
+        Assertions.assertThat(message.getParam()).isEqualTo("PARAMETER");
+        Assertions.assertThat(message)
+                  .hasToString("MESSAGE from %s: 'PARAMETER'".formatted(
                           testObject.getClass().getSimpleName()));
     }
 
@@ -128,14 +122,15 @@ public class DefaultMessageSenderTest
         }).when(mockReceiver).receiveMessage(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
-        testObject.sendMessage(new Message<>(mockSender, null));
         // when
-        Message<String> result = (Message<String>)arg[0];
+        testObject.sendMessage(new Message<>(mockSender, null));
         // then
-        Assertions.assertThat(result.getSource()).isSameAs(mockSender);
-        Assertions.assertThat(result.getParam()).isNull();
-        Assertions.assertThat(result.toString())
-                  .isEqualTo("MESSAGE from %s: 'null'".formatted(
+        Message<String> message = (Message<String>)arg[0];
+
+        Assertions.assertThat(message.getSource()).isSameAs(mockSender);
+        Assertions.assertThat(message.getParam()).isNull();
+        Assertions.assertThat(message)
+                  .hasToString("MESSAGE from %s: 'null'".formatted(
                           mockSender.getClass().getSimpleName()));
     }
 
