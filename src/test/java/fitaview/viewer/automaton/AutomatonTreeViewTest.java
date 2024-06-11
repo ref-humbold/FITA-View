@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import fitaview.TestUtils;
 import fitaview.automaton.*;
 import fitaview.messaging.Message;
 import fitaview.utils.Pair;
@@ -39,12 +38,14 @@ public class AutomatonTreeViewTest
     }
 
     @Test
-    public void receiveSignal_WhenNullAutomaton()
+    public void receiveSignal_WhenPointerOfNull_ThenEmptyAutomaton()
     {
         // given
         Mockito.when(mockPointer.get()).thenReturn(null);
+
         // when
         testObject.receiveSignal(mockSignal);
+
         // then
         Assertions.assertThat(testObject.rootNode.getChildCount()).isEqualTo(0);
         Assertions.assertThat(testObject.rootNode.getUserObject())
@@ -52,45 +53,44 @@ public class AutomatonTreeViewTest
     }
 
     @Test
-    public void receiveSignal_WhenBottomUpDFTA()
+    public void receiveSignal_WhenPointerOfBottomUpDfta_ThenAutomatonInitialized()
+            throws Exception
     {
         // given
         List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
-        List<Variable> variables = TestUtils.failOnException(
-                () -> Arrays.asList(new Variable(1, "X", "T", "F"),
-                                    new Variable(2, "#", "!", "@", "$", "&")));
+        List<Variable> variables = Arrays.asList(new Variable(1, "X", "T", "F"),
+                                                 new Variable(2, "#", "!", "@", "$", "&"));
 
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
-        BottomUpDfta automaton = new BottomUpDfta(variables, alphabet);
+        var automaton = new BottomUpDfta(variables, alphabet);
 
         accept.put(variables.get(0), Pair.make("T", true));
         accept.put(variables.get(1), Pair.make(Wildcard.EVERY_VALUE, true));
         automaton.addAcceptanceConditions(accept);
-
-        TestUtils.failOnException(() -> {
-            automaton.addTransition(variables.get(0), "X", "X", "0", "F");
-            automaton.addTransition(variables.get(0), "X", "X", "1", "T");
-            automaton.addTransition(variables.get(0), "T", Wildcard.EVERY_VALUE, "and",
-                                    Wildcard.RIGHT_VALUE);
-            automaton.addTransition(variables.get(0), Wildcard.EVERY_VALUE, "F", "or",
-                                    Wildcard.LEFT_VALUE);
-            automaton.addTransition(variables.get(0), "T", "F", "impl", "F");
-            automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.SAME_VALUE,
-                                    "0", "!");
-            automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.SAME_VALUE,
-                                    "1", "!");
-            automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE,
-                                    "and", "&");
-            automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE,
-                                    "or", "$");
-            automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE,
-                                    "impl", "@");
-        });
+        automaton.addTransition(variables.get(0), "X", "X", "0", "F");
+        automaton.addTransition(variables.get(0), "X", "X", "1", "T");
+        automaton.addTransition(variables.get(0), "T", Wildcard.EVERY_VALUE, "and",
+                                Wildcard.RIGHT_VALUE);
+        automaton.addTransition(variables.get(0), Wildcard.EVERY_VALUE, "F", "or",
+                                Wildcard.LEFT_VALUE);
+        automaton.addTransition(variables.get(0), "T", "F", "impl", "F");
+        automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.SAME_VALUE, "0",
+                                "!");
+        automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.SAME_VALUE, "1",
+                                "!");
+        automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "and",
+                                "&");
+        automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "or",
+                                "$");
+        automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE,
+                                "impl", "@");
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
+
         // when
         testObject.receiveSignal(mockSignal);
+
         // then
         DefaultMutableTreeNode rootNode = testObject.rootNode;
         DefaultMutableTreeNode alphabetChild = (DefaultMutableTreeNode)rootNode.getChildAt(0);
@@ -220,40 +220,39 @@ public class AutomatonTreeViewTest
     }
 
     @Test
-    public void receiveSignal_WhenTopDownDFTA()
+    public void receiveSignal_WhenPointerOfTopDownDfta_ThenAutomatonInitialized()
+            throws Exception
     {
         // given
         List<String> alphabet = Arrays.asList("0", "1", "and", "or", "impl");
-        List<Variable> variables = TestUtils.failOnException(
-                () -> Arrays.asList(new Variable(1, "X", "T", "F"),
-                                    new Variable(2, "#", "!", "@", "$", "&")));
+        List<Variable> variables = Arrays.asList(new Variable(1, "X", "T", "F"),
+                                                 new Variable(2, "#", "!", "@", "$", "&"));
 
         Map<Variable, Pair<String, Boolean>> accept = new HashMap<>();
-        TopDownDfta automaton = new TopDownDfta(variables, alphabet);
+        var automaton = new TopDownDfta(variables, alphabet);
 
         accept.put(variables.get(0), Pair.make("X", true));
         accept.put(variables.get(1), Pair.make("!", false));
         automaton.addAcceptanceConditions(accept);
-
-        TestUtils.failOnException(() -> {
-            automaton.addTransition(variables.get(0), "F", "0", "X", "X");
-            automaton.addTransition(variables.get(0), "T", "1", "X", "X");
-            automaton.addTransition(variables.get(0), "T", "and", Wildcard.SAME_VALUE,
-                                    Wildcard.SAME_VALUE);
-            automaton.addTransition(variables.get(0), "F", "or", Wildcard.SAME_VALUE,
-                                    Wildcard.SAME_VALUE);
-            automaton.addTransition(variables.get(0), "F", "impl", "T", "F");
-            automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "0", "!", "!");
-            automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "1", "!", "!");
-            automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "and", "&", "&");
-            automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "or", "$", "$");
-            automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "impl", "@", "@");
-        });
+        automaton.addTransition(variables.get(0), "F", "0", "X", "X");
+        automaton.addTransition(variables.get(0), "T", "1", "X", "X");
+        automaton.addTransition(variables.get(0), "T", "and", Wildcard.SAME_VALUE,
+                                Wildcard.SAME_VALUE);
+        automaton.addTransition(variables.get(0), "F", "or", Wildcard.SAME_VALUE,
+                                Wildcard.SAME_VALUE);
+        automaton.addTransition(variables.get(0), "F", "impl", "T", "F");
+        automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "0", "!", "!");
+        automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "1", "!", "!");
+        automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "and", "&", "&");
+        automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "or", "$", "$");
+        automaton.addTransition(variables.get(1), Wildcard.EVERY_VALUE, "impl", "@", "@");
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
+
         // when
         testObject.receiveSignal(mockSignal);
+
         // then
         DefaultMutableTreeNode rootNode = testObject.rootNode;
         DefaultMutableTreeNode alphabetChild = (DefaultMutableTreeNode)rootNode.getChildAt(0);
@@ -381,29 +380,33 @@ public class AutomatonTreeViewTest
     }
 
     @Test
-    public void testReceiveSignal()
+    public void receiveSignal_WhenStopped_ThenEmptyTransitions()
     {
         // given
         Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockPointer.isEmpty()).thenReturn(false);
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.STOPPED);
+
         // when
         testObject.receiveSignal(mockSignal);
+
         // then
         Assertions.assertThat(testObject.lastTransitions).isEmpty();
     }
 
     @Test
-    public void testReceiveMessage()
+    public void receiveMessage_ThenApplyTransition()
+            throws Exception
     {
         // given
-        Triple<Variable, String, String> param =
-                TestUtils.failOnException(() -> Triple.make(new Variable(0, "A", "B"), "A", "B"));
+        Triple<Variable, String, String> param = Triple.make(new Variable(0, "A", "B"), "A", "B");
 
         Mockito.when(mockMessage.getParam()).thenReturn(param);
+
         // when
         testObject.receiveMessage(mockMessage);
+
         // then
         Assertions.assertThat(testObject.lastTransitions)
                   .hasSize(1)

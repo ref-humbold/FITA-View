@@ -1,10 +1,8 @@
 package fitaview.tree;
 
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
-
-import fitaview.TestUtils;
 
 public class TreeWriterTest
 {
@@ -17,33 +15,32 @@ public class TreeWriterTest
     }
 
     @Test
-    public void toString_WhenEmptyTree()
+    public void toString_WhenEmptyTree_ThenEmptyXml()
     {
         // given
         testObject = new TreeWriter(null);
+
         // when
         String result = testObject.toString();
+
         // then
-        Assert.assertEquals("", result);
+        Assertions.assertThat(result).isEmpty();
     }
 
     @Test
-    public void toString_WhenSimpleTree()
+    public void toString_WhenSimpleTree_ThenXml()
+            throws Exception
     {
         // given
-        TreeNode tree = TestUtils.failOnException(() -> new StandardNode("1", 0,
-                                                                         new StandardNode("2", 0,
-                                                                                          new StandardNode(
-                                                                                                  "3",
-                                                                                                  0),
-                                                                                          new StandardNode(
-                                                                                                  "4",
-                                                                                                  0)),
-                                                                         new StandardNode("5", 0)));
+        TreeNode tree = new StandardNode("1", 0, new StandardNode("2", 0, new StandardNode("3", 0),
+                                                                  new StandardNode("4", 0)),
+                                         new StandardNode("5", 0));
 
         testObject = new TreeWriter(tree);
+
         // when
         String result = testObject.toString();
+
         // then
         String expected = """
                 <node label="1">
@@ -55,27 +52,28 @@ public class TreeWriterTest
                 </node>
                 """;
 
-        Assert.assertEquals(expected, result);
+        Assertions.assertThat(result).isEqualTo(expected);
     }
 
     @Test
     public void toString_WhenRepeat()
+            throws Exception
     {
         // given
-        TreeNode tree = TestUtils.failOnException(() -> {
-            RepeatNode repeat = new RepeatNode("5", 0);
+        RepeatNode repeat = new RepeatNode("5", 0);
 
-            repeat.setLeft(new StandardNode("6", 0));
-            repeat.setRight(
-                    new StandardNode("7", 0, new RecNode(repeat, 0), new StandardNode("9", 0)));
+        repeat.setLeft(new StandardNode("6", 0));
+        repeat.setRight(new StandardNode("7", 0, new RecNode(repeat, 0), new StandardNode("9", 0)));
 
-            return new StandardNode("1", 0, new StandardNode("2", 0, new StandardNode("3", 0),
-                                                             new StandardNode("4", 0)), repeat);
-        });
+        TreeNode tree = new StandardNode("1", 0, new StandardNode("2", 0, new StandardNode("3", 0),
+                                                                  new StandardNode("4", 0)),
+                                         repeat);
 
         testObject = new TreeWriter(tree);
+
         // when
         String result = testObject.toString();
+
         // then
         String expected = """
                 <node label="1">
@@ -93,6 +91,6 @@ public class TreeWriterTest
                 </node>
                 """;
 
-        Assert.assertEquals(expected, result);
+        Assertions.assertThat(result).isEqualTo(expected);
     }
 }

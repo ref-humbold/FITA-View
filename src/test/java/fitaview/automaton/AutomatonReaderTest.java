@@ -1,13 +1,12 @@
 package fitaview.automaton;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;
 
-import fitaview.TestUtils;
 import fitaview.automaton.transition.DuplicatedTransitionException;
 import fitaview.automaton.transition.IllegalTransitionException;
 import fitaview.utils.Pair;
@@ -29,11 +28,11 @@ public class AutomatonReaderTest
     public void read_WhenIncorrectFileExtension_ThenFileFormatException()
     {
         // given
-        File file =
-                new File(DIRECTORY + "read_WhenIncorrectFileExtension_ThenFileFormatException.xml");
+        var path =
+                Path.of(DIRECTORY, "read_WhenIncorrectFileExtension_ThenFileFormatException.xml");
 
         // then
-        Assertions.assertThatThrownBy(() -> new AutomatonReader(file))
+        Assertions.assertThatThrownBy(() -> new AutomatonReader(path.toFile()))
                   .isInstanceOf(FileFormatException.class);
     }
 
@@ -41,11 +40,11 @@ public class AutomatonReaderTest
     public void read_WhenExpectedBottomUpButNamedTopDown_ThenConfusingFileNameException()
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenExpectedBottomUpButNamedTopDown_ThenConfusingFileNameException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenExpectedBottomUpButNamedTopDown_ThenConfusingFileNameException.bua.xml");
 
         // then
-        Assertions.assertThatThrownBy(() -> new AutomatonReader(file))
+        Assertions.assertThatThrownBy(() -> new AutomatonReader(path.toFile()))
                   .isInstanceOf(TheFreddieMercuryConfusingFileNameException.class);
     }
 
@@ -53,11 +52,11 @@ public class AutomatonReaderTest
     public void read_WhenExpectedTopDownButNamedBottomUp_ThenConfusingFileNameException()
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenExpectedTopDownButNamedBottomUp_ThenConfusingFileNameException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenExpectedTopDownButNamedBottomUp_ThenConfusingFileNameException.tda.xml");
 
         // then
-        Assertions.assertThatThrownBy(() -> new AutomatonReader(file))
+        Assertions.assertThatThrownBy(() -> new AutomatonReader(path.toFile()))
                   .isInstanceOf(TheFreddieMercuryConfusingFileNameException.class);
     }
 
@@ -66,30 +65,27 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDfta_ThenAutomatonObject()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY + "read_WhenTopDownDfta_ThenAutomatonObject.tda.xml");
+        var path = Path.of(DIRECTORY, "read_WhenTopDownDfta_ThenAutomatonObject.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // when
-        TreeAutomaton result = TestUtils.failOnException(() -> testObject.read());
+        TreeAutomaton result = testObject.read();
 
         // then
+        var v = new Variable(0, "A", "B", "C");
+        var expected = new TopDownDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
-        TopDownDfta expected = TestUtils.failOnException(() -> {
-            var v = new Variable(0, "A", "B", "C");
-            var automaton = new TopDownDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
-
-            automaton.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", false)));
-            automaton.addTransition(v, "A", "0", "B", "C");
-            automaton.addTransition(v, "A", "1", "A", "A");
-            automaton.addTransition(v, "B", "0", "C", "A");
-            automaton.addTransition(v, "B", "1", "B", "B");
-            automaton.addTransition(v, "C", "0", "A", "B");
-            automaton.addTransition(v, "C", "1", "C", "C");
-            return automaton;
-        });
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", false)));
+        expected.addTransition(v, "A", "0", "B", "C");
+        expected.addTransition(v, "A", "1", "A", "A");
+        expected.addTransition(v, "B", "0", "C", "A");
+        expected.addTransition(v, "B", "1", "B", "B");
+        expected.addTransition(v, "C", "0", "A", "B");
+        expected.addTransition(v, "C", "1", "C", "C");
 
         Assertions.assertThat(result)
                   .isNotNull()
@@ -99,30 +95,28 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithWildcards_ThenAutomatonObject()
+            throws Exception
     {
         // given
-        File file = new File(
-                DIRECTORY + "read_WhenTopDownDftaWithWildcards_ThenAutomatonObject.tda.xml");
+        var path =
+                Path.of(DIRECTORY, "read_WhenTopDownDftaWithWildcards_ThenAutomatonObject.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // when
-        TreeAutomaton result = TestUtils.failOnException(() -> testObject.read());
+        TreeAutomaton result = testObject.read();
 
         // then
-        TopDownDfta expected = TestUtils.failOnException(() -> {
-            var v = new Variable(0, "A", "B", "C");
-            var automaton = new TopDownDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
+        var v = new Variable(0, "A", "B", "C");
+        var expected = new TopDownDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
-            automaton.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("A", false)));
-            automaton.addTransition(v, "A", "0", "B", "C");
-            automaton.addTransition(v, "A", "1", "B", Wildcard.SAME_VALUE);
-            automaton.addTransition(v, "B", "0", "C", "A");
-            automaton.addTransition(v, "C", "0", "A", "B");
-            automaton.addTransition(v, Wildcard.EVERY_VALUE, "1", Wildcard.SAME_VALUE,
-                                    Wildcard.SAME_VALUE);
-            return automaton;
-        });
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("A", false)));
+        expected.addTransition(v, "A", "0", "B", "C");
+        expected.addTransition(v, "A", "1", "B", Wildcard.SAME_VALUE);
+        expected.addTransition(v, "B", "0", "C", "A");
+        expected.addTransition(v, "C", "0", "A", "B");
+        expected.addTransition(v, Wildcard.EVERY_VALUE, "1", Wildcard.SAME_VALUE,
+                               Wildcard.SAME_VALUE);
 
         Assertions.assertThat(result)
                   .isNotNull()
@@ -132,12 +126,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithIncorrectAlphabetWord_ThenAutomatonParsingException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenTopDownDftaWithIncorrectAlphabetWord_ThenAutomatonParsingException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenTopDownDftaWithIncorrectAlphabetWord_ThenAutomatonParsingException.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -146,12 +141,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithNoSuchLabel_ThenIllegalAlphabetWordException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenTopDownDftaWithNoSuchLabel_ThenIllegalAlphabetWordException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenTopDownDftaWithNoSuchLabel_ThenIllegalAlphabetWordException.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -160,12 +156,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithNoSuchVariableValue_ThenIllegalVariableValueException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenTopDownDftaWithNoSuchVariableValue_ThenIllegalVariableValueException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenTopDownDftaWithNoSuchVariableValue_ThenIllegalVariableValueException.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -174,12 +171,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithNoSuchVariableId_ThenNoVariableWithIdException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenTopDownDftaWithNoSuchVariableId_ThenNoVariableWithIdException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenTopDownDftaWithNoSuchVariableId_ThenNoVariableWithIdException.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -188,12 +186,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithIncorrectVariableValue_ThenAutomatonParsingException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenTopDownDftaWithIncorrectVariableValue_ThenAutomatonParsingException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenTopDownDftaWithIncorrectVariableValue_ThenAutomatonParsingException.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -202,12 +201,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithEmptyVariableValue_ThenAutomatonParsingException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenTopDownDftaWithEmptyVariableValue_ThenAutomatonParsingException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenTopDownDftaWithEmptyVariableValue_ThenAutomatonParsingException.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -216,12 +216,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithNoAcceptingValueForVariable_ThenNoAcceptanceForVariableException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenTopDownDftaWithNoAcceptingValueForVariable_ThenNoAcceptanceForVariableException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenTopDownDftaWithNoAcceptingValueForVariable_ThenNoAcceptanceForVariableException.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -230,12 +231,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithDuplicatedAcceptingValueForVariable_ThenDuplicatedAcceptanceValueException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenTopDownDftaWithDuplicatedAcceptingValueForVariable_ThenDuplicatedAcceptanceValueException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenTopDownDftaWithDuplicatedAcceptingValueForVariable_ThenDuplicatedAcceptanceValueException.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -244,12 +246,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithAcceptingUnspecified_ThenIncorrectAcceptanceConditionException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenTopDownDftaWithAcceptingUnspecified_ThenIncorrectAcceptanceConditionException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenTopDownDftaWithAcceptingUnspecified_ThenIncorrectAcceptanceConditionException.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -258,12 +261,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDftaWithMultipleTransitions_ThenDuplicatedTransitionException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenTopDownDftaWithMultipleTransitions_ThenDuplicatedTransitionException.tda.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenTopDownDftaWithMultipleTransitions_ThenDuplicatedTransitionException.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -275,33 +279,31 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownNfta_ThenAutomatonObject()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY + "read_WhenTopDownNfta_ThenAutomatonObject.tda.xml");
+        var path = Path.of(DIRECTORY, "read_WhenTopDownNfta_ThenAutomatonObject.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // when
-        TreeAutomaton result = TestUtils.failOnException(() -> testObject.read());
+        TreeAutomaton result = testObject.read();
 
         // then
-        TopDownNfta expected = TestUtils.failOnException(() -> {
-            var v = new Variable(0, "A", "B", "C");
-            var automaton = new TopDownNfta(Collections.singletonList(v), Arrays.asList("0", "1"));
+        var v = new Variable(0, "A", "B", "C");
+        var expected = new TopDownNfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
-            automaton.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", true)));
-            automaton.addTransition(v, "A", "0", "B", "C");
-            automaton.addTransition(v, "A", "1", "A", "A");
-            automaton.addTransition(v, "A", "1", "A", "B");
-            automaton.addTransition(v, "B", "0", "C", "A");
-            automaton.addTransition(v, "B", "0", "B", "C");
-            automaton.addTransition(v, "B", "1", "B", "B");
-            automaton.addTransition(v, "C", "0", "A", "B");
-            automaton.addTransition(v, "C", "1", "C", "C");
-            automaton.addTransition(v, "C", "1", "B", "B");
-            automaton.addTransition(v, "C", "1", "A", "A");
-            return automaton;
-        });
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", true)));
+        expected.addTransition(v, "A", "0", "B", "C");
+        expected.addTransition(v, "A", "1", "A", "A");
+        expected.addTransition(v, "A", "1", "A", "B");
+        expected.addTransition(v, "B", "0", "C", "A");
+        expected.addTransition(v, "B", "0", "B", "C");
+        expected.addTransition(v, "B", "1", "B", "B");
+        expected.addTransition(v, "C", "0", "A", "B");
+        expected.addTransition(v, "C", "1", "C", "C");
+        expected.addTransition(v, "C", "1", "B", "B");
+        expected.addTransition(v, "C", "1", "A", "A");
 
         Assertions.assertThat(result)
                   .isNotNull()
@@ -314,31 +316,28 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownDita_ThenAutomatonObject()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY + "read_WhenTopDownDita_ThenAutomatonObject.tda.xml");
+        var path = Path.of(DIRECTORY, "read_WhenTopDownDita_ThenAutomatonObject.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // when
-        TreeAutomaton result = TestUtils.failOnException(() -> testObject.read());
+        TreeAutomaton result = testObject.read();
 
         // then
-        TopDownDita expected = TestUtils.failOnException(() -> {
-            var v = new Variable(0, "A", "B", "C");
-            var automaton = new TopDownDita(Collections.singletonList(v), Arrays.asList("0", "1"));
+        var v = new Variable(0, "A", "B", "C");
+        var expected = new TopDownDita(Collections.singletonList(v), Arrays.asList("0", "1"));
 
-            automaton.addBuchiAcceptanceConditions(
-                    Collections.singletonMap(v, Pair.make("C", true)));
-            automaton.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", false)));
-            automaton.addTransition(v, "A", "0", "B", "C");
-            automaton.addTransition(v, "A", "1", "A", "A");
-            automaton.addTransition(v, "B", "0", "C", "A");
-            automaton.addTransition(v, "B", "1", "B", "B");
-            automaton.addTransition(v, "C", "0", "A", "B");
-            automaton.addTransition(v, "C", "1", "C", "C");
-            return automaton;
-        });
+        expected.addBuchiAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", false)));
+        expected.addTransition(v, "A", "0", "B", "C");
+        expected.addTransition(v, "A", "1", "A", "A");
+        expected.addTransition(v, "B", "0", "C", "A");
+        expected.addTransition(v, "B", "1", "B", "B");
+        expected.addTransition(v, "C", "0", "A", "B");
+        expected.addTransition(v, "C", "1", "C", "C");
 
         Assertions.assertThat(result)
                   .isNotNull()
@@ -351,35 +350,32 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenTopDownNita_ThenAutomatonObject()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY + "read_WhenTopDownNita_ThenAutomatonObject.tda.xml");
+        var path = Path.of(DIRECTORY, "read_WhenTopDownNita_ThenAutomatonObject.tda.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // when
-        TreeAutomaton result = TestUtils.failOnException(() -> testObject.read());
+        TreeAutomaton result = testObject.read();
 
         // then
-        TopDownNita expected = TestUtils.failOnException(() -> {
-            var v = new Variable(0, "A", "B", "C");
-            var automaton = new TopDownNita(Collections.singletonList(v), Arrays.asList("0", "1"));
+        var v = new Variable(0, "A", "B", "C");
+        var expected = new TopDownNita(Collections.singletonList(v), Arrays.asList("0", "1"));
 
-            automaton.addBuchiAcceptanceConditions(
-                    Collections.singletonMap(v, Pair.make("A", false)));
-            automaton.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", true)));
-            automaton.addTransition(v, "A", "0", "B", "C");
-            automaton.addTransition(v, "A", "1", "A", "A");
-            automaton.addTransition(v, "A", "1", "A", "B");
-            automaton.addTransition(v, "B", "0", "C", "A");
-            automaton.addTransition(v, "B", "0", "B", "C");
-            automaton.addTransition(v, "B", "1", "B", "B");
-            automaton.addTransition(v, "C", "0", "A", "B");
-            automaton.addTransition(v, "C", "1", "C", "C");
-            automaton.addTransition(v, "C", "1", "B", "B");
-            automaton.addTransition(v, "C", "1", "A", "A");
-            return automaton;
-        });
+        expected.addBuchiAcceptanceConditions(Collections.singletonMap(v, Pair.make("A", false)));
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("B", true)));
+        expected.addTransition(v, "A", "0", "B", "C");
+        expected.addTransition(v, "A", "1", "A", "A");
+        expected.addTransition(v, "A", "1", "A", "B");
+        expected.addTransition(v, "B", "0", "C", "A");
+        expected.addTransition(v, "B", "0", "B", "C");
+        expected.addTransition(v, "B", "1", "B", "B");
+        expected.addTransition(v, "C", "0", "A", "B");
+        expected.addTransition(v, "C", "1", "C", "C");
+        expected.addTransition(v, "C", "1", "B", "B");
+        expected.addTransition(v, "C", "1", "A", "A");
 
         Assertions.assertThat(result)
                   .isNotNull()
@@ -392,41 +388,39 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDfta_ThenAutomatonObject()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY + "read_WhenBottomUpDfta_ThenAutomatonObject.bua.xml");
+        var path = Path.of(DIRECTORY, "read_WhenBottomUpDfta_ThenAutomatonObject.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // when
-        TreeAutomaton result = TestUtils.failOnException(() -> testObject.read());
+        TreeAutomaton result = testObject.read();
 
         // then
-        BottomUpDfta expected = TestUtils.failOnException(() -> {
-            var v = new Variable(0, "A", "B", "C");
-            var automaton = new BottomUpDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
+        var v = new Variable(0, "A", "B", "C");
+        var expected = new BottomUpDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
-            automaton.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
-            automaton.addTransition(v, "A", "A", "0", "A");
-            automaton.addTransition(v, "A", "A", "1", "B");
-            automaton.addTransition(v, "A", "B", "0", "B");
-            automaton.addTransition(v, "A", "B", "1", "C");
-            automaton.addTransition(v, "A", "C", "0", "C");
-            automaton.addTransition(v, "A", "C", "1", "A");
-            automaton.addTransition(v, "B", "A", "0", "B");
-            automaton.addTransition(v, "B", "A", "1", "C");
-            automaton.addTransition(v, "B", "B", "0", "B");
-            automaton.addTransition(v, "B", "B", "1", "C");
-            automaton.addTransition(v, "B", "C", "0", "C");
-            automaton.addTransition(v, "B", "C", "1", "A");
-            automaton.addTransition(v, "C", "A", "0", "A");
-            automaton.addTransition(v, "C", "A", "1", "B");
-            automaton.addTransition(v, "C", "B", "0", "B");
-            automaton.addTransition(v, "C", "B", "1", "C");
-            automaton.addTransition(v, "C", "C", "0", "C");
-            automaton.addTransition(v, "C", "C", "1", "A");
-            return automaton;
-        });
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
+        expected.addTransition(v, "A", "A", "0", "A");
+        expected.addTransition(v, "A", "A", "1", "B");
+        expected.addTransition(v, "A", "B", "0", "B");
+        expected.addTransition(v, "A", "B", "1", "C");
+        expected.addTransition(v, "A", "C", "0", "C");
+        expected.addTransition(v, "A", "C", "1", "A");
+        expected.addTransition(v, "B", "A", "0", "B");
+        expected.addTransition(v, "B", "A", "1", "C");
+        expected.addTransition(v, "B", "B", "0", "B");
+        expected.addTransition(v, "B", "B", "1", "C");
+        expected.addTransition(v, "B", "C", "0", "C");
+        expected.addTransition(v, "B", "C", "1", "A");
+        expected.addTransition(v, "C", "A", "0", "A");
+        expected.addTransition(v, "C", "A", "1", "B");
+        expected.addTransition(v, "C", "B", "0", "B");
+        expected.addTransition(v, "C", "B", "1", "C");
+        expected.addTransition(v, "C", "C", "0", "C");
+        expected.addTransition(v, "C", "C", "1", "A");
 
         Assertions.assertThat(result)
                   .isNotNull()
@@ -436,34 +430,31 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithWildcards_ThenAutomatonObject()
+            throws Exception
     {
         // given
-        File file = new File(
-                DIRECTORY + "read_WhenBottomUpDftaWithWildcards_ThenAutomatonObject.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithWildcards_ThenAutomatonObject.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // when
-        TreeAutomaton result = TestUtils.failOnException(() -> testObject.read());
+        TreeAutomaton result = testObject.read();
 
         // then
-        BottomUpDfta expected = TestUtils.failOnException(() -> {
-            Variable v = new Variable(0, "A", "B", "C");
-            BottomUpDfta automaton =
-                    new BottomUpDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
+        var v = new Variable(0, "A", "B", "C");
+        var expected = new BottomUpDfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
-            automaton.addAcceptanceConditions(
-                    Collections.singletonMap(v, Pair.make(Wildcard.EVERY_VALUE, true)));
-            automaton.addTransition(v, "A", Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "A");
-            automaton.addTransition(v, "B", "A", Wildcard.EVERY_VALUE, Wildcard.LEFT_VALUE);
-            automaton.addTransition(v, "B", "B", "0", "B");
-            automaton.addTransition(v, "B", "C", Wildcard.EVERY_VALUE, "C");
-            automaton.addTransition(v, "C", Wildcard.EVERY_VALUE, "0", Wildcard.RIGHT_VALUE);
-            automaton.addTransition(v, "C", "A", "1", "B");
-            automaton.addTransition(v, "C", "B", "1", "C");
-            automaton.addTransition(v, Wildcard.EVERY_VALUE, Wildcard.SAME_VALUE, "1", "C");
-            return automaton;
-        });
+        expected.addAcceptanceConditions(
+                Collections.singletonMap(v, Pair.make(Wildcard.EVERY_VALUE, true)));
+        expected.addTransition(v, "A", Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "A");
+        expected.addTransition(v, "B", "A", Wildcard.EVERY_VALUE, Wildcard.LEFT_VALUE);
+        expected.addTransition(v, "B", "B", "0", "B");
+        expected.addTransition(v, "B", "C", Wildcard.EVERY_VALUE, "C");
+        expected.addTransition(v, "C", Wildcard.EVERY_VALUE, "0", Wildcard.RIGHT_VALUE);
+        expected.addTransition(v, "C", "A", "1", "B");
+        expected.addTransition(v, "C", "B", "1", "C");
+        expected.addTransition(v, Wildcard.EVERY_VALUE, Wildcard.SAME_VALUE, "1", "C");
 
         Assertions.assertThat(result)
                   .isNotNull()
@@ -473,12 +464,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithDoubledSameWildcard_ThenIllegalTransitionException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithDoubledSameWildcard_ThenIllegalTransitionException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithDoubledSameWildcard_ThenIllegalTransitionException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -487,11 +479,12 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithSameWildcardWithoutEveryWildcard_ThenIllegalTransitionException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithSameWildcardWithoutEveryWildcard_ThenIllegalTransitionException.bua.xml");
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithSameWildcardWithoutEveryWildcard_ThenIllegalTransitionException.bua.xml");
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -500,12 +493,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithIncorrectAlphabetWord_ThenAutomatonParsingException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithIncorrectAlphabetWord_ThenAutomatonParsingException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithIncorrectAlphabetWord_ThenAutomatonParsingException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -514,12 +508,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithNoSuchLabel_ThenIllegalAlphabetWordException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithNoSuchLabel_ThenIllegalAlphabetWordException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithNoSuchLabel_ThenIllegalAlphabetWordException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -528,12 +523,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithIncorrectVariableValue_ThenAutomatonParsingException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithIncorrectVariableValue_ThenAutomatonParsingException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithIncorrectVariableValue_ThenAutomatonParsingException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -542,12 +538,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithNoSuchVariableValue_ThenIllegalVariableValueException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithNoSuchVariableValue_ThenIllegalVariableValueException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithNoSuchVariableValue_ThenIllegalVariableValueException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -556,12 +553,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithNoSuchVariableId_ThenNoVariableWithIdException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithNoSuchVariableId_ThenNoVariableWithIdException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithNoSuchVariableId_ThenNoVariableWithIdException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -570,12 +568,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithEmptyVariableValue_ThenAutomatonParsingException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithEmptyVariableValue_ThenAutomatonParsingException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithEmptyVariableValue_ThenAutomatonParsingException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -584,12 +583,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithNoAcceptingValueForVariable_ThenNoAcceptanceForVariableException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithNoAcceptingValueForVariable_ThenNoAcceptanceForVariableException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithNoAcceptingValueForVariable_ThenNoAcceptanceForVariableException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -598,12 +598,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithDuplicatedAcceptingValueForVariable_ThenDuplicatedAcceptanceValueException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithDuplicatedAcceptingValueForVariable_ThenDuplicatedAcceptanceValueException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithDuplicatedAcceptingValueForVariable_ThenDuplicatedAcceptanceValueException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -612,12 +613,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithAcceptanceIncludingAndExcluding_ThenIncorrectAcceptanceConditionException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithAcceptanceIncludingAndExcluding_ThenIncorrectAcceptanceConditionException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithAcceptanceIncludingAndExcluding_ThenIncorrectAcceptanceConditionException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -626,12 +628,13 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpDftaWithMultipleTransitions_ThenDuplicatedTransitionException()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY
-                                     + "read_WhenBottomUpDftaWithMultipleTransitions_ThenDuplicatedTransitionException.bua.xml");
+        var path = Path.of(DIRECTORY,
+                           "read_WhenBottomUpDftaWithMultipleTransitions_ThenDuplicatedTransitionException.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // then
         Assertions.assertThatThrownBy(() -> testObject.read())
@@ -643,45 +646,42 @@ public class AutomatonReaderTest
 
     @Test
     public void read_WhenBottomUpNfta_ThenAutomatonObject()
+            throws Exception
     {
         // given
-        File file = new File(DIRECTORY + "read_WhenBottomUpNfta_ThenAutomatonObject.bua.xml");
+        var path = Path.of(DIRECTORY, "read_WhenBottomUpNfta_ThenAutomatonObject.bua.xml");
 
-        testObject = TestUtils.failOnException(() -> new AutomatonReader(file));
+        testObject = new AutomatonReader(path.toFile());
 
         // when
-        TreeAutomaton result = TestUtils.failOnException(() -> testObject.read());
+        TreeAutomaton result = testObject.read();
 
         // then
-        BottomUpNfta expected = TestUtils.failOnException(() -> {
-            var v = new Variable(0, "A", "B", "C");
-            var automaton = new BottomUpNfta(Collections.singletonList(v), Arrays.asList("0", "1"));
+        var v = new Variable(0, "A", "B", "C");
+        var expected = new BottomUpNfta(Collections.singletonList(v), Arrays.asList("0", "1"));
 
-            automaton.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
-            automaton.addTransition(v, "A", "A", "0", "A");
-            automaton.addTransition(v, "A", "A", "1", "B");
-            automaton.addTransition(v, "A", "A", "1", "C");
-            automaton.addTransition(v, "A", "B", "0", "B");
-            automaton.addTransition(v, "A", "B", "1", "C");
-            automaton.addTransition(v, "A", "C", "0", "C");
-            automaton.addTransition(v, "A", "C", "1", "A");
-            automaton.addTransition(v, "B", "A", "0", "B");
-            automaton.addTransition(v, "B", "A", "1", "C");
-            automaton.addTransition(v, "B", "A", "1", "B");
-            automaton.addTransition(v, "B", "B", "0", "B");
-            automaton.addTransition(v, "B", "B", "1", "C");
-            automaton.addTransition(v, "B", "C", "0", "C");
-            automaton.addTransition(v, "B", "C", "1", "A");
-            automaton.addTransition(v, "C", "A", "0", "A");
-            automaton.addTransition(v, "C", "A", "0", "C");
-            automaton.addTransition(v, "C", "A", "1", "B");
-            automaton.addTransition(v, "C", "B", "0", "B");
-            automaton.addTransition(v, "C", "B", "1", "C");
-            automaton.addTransition(v, "C", "C", "0", "C");
-            automaton.addTransition(v, "C", "C", "1", "A");
-
-            return automaton;
-        });
+        expected.addAcceptanceConditions(Collections.singletonMap(v, Pair.make("C", true)));
+        expected.addTransition(v, "A", "A", "0", "A");
+        expected.addTransition(v, "A", "A", "1", "B");
+        expected.addTransition(v, "A", "A", "1", "C");
+        expected.addTransition(v, "A", "B", "0", "B");
+        expected.addTransition(v, "A", "B", "1", "C");
+        expected.addTransition(v, "A", "C", "0", "C");
+        expected.addTransition(v, "A", "C", "1", "A");
+        expected.addTransition(v, "B", "A", "0", "B");
+        expected.addTransition(v, "B", "A", "1", "C");
+        expected.addTransition(v, "B", "A", "1", "B");
+        expected.addTransition(v, "B", "B", "0", "B");
+        expected.addTransition(v, "B", "B", "1", "C");
+        expected.addTransition(v, "B", "C", "0", "C");
+        expected.addTransition(v, "B", "C", "1", "A");
+        expected.addTransition(v, "C", "A", "0", "A");
+        expected.addTransition(v, "C", "A", "0", "C");
+        expected.addTransition(v, "C", "A", "1", "B");
+        expected.addTransition(v, "C", "B", "0", "B");
+        expected.addTransition(v, "C", "B", "1", "C");
+        expected.addTransition(v, "C", "C", "0", "C");
+        expected.addTransition(v, "C", "C", "1", "A");
 
         Assertions.assertThat(result)
                   .isNotNull()

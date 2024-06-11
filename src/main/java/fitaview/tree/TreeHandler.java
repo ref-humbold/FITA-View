@@ -104,7 +104,7 @@ class TreeHandler
                         if(nodesPair.getSecond() == TreeChild.LEFT)
                             index /= 2;
                         else if(nodesPair.getSecond() == TreeChild.RIGHT)
-                            throw new OneChildException(String.format(
+                            throw new InvalidChildrenException(String.format(
                                     "%s: Node must have zero or two children, but it has one",
                                     writePosition()));
 
