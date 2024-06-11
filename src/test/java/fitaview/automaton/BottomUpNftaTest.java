@@ -1,12 +1,11 @@
 package fitaview.automaton;
 
 import java.util.*;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fitaview.tree.UndefinedStateValueException;
 import fitaview.utils.Pair;
 
 public class BottomUpNftaTest
@@ -60,8 +59,20 @@ public class BottomUpNftaTest
     }
 
     @Test
-    public void testGetNextStatesForZero()
+    public void getTypeName_ThenFullName()
     {
+        // when
+        String result = testObject.getTypeName();
+
+        // then
+        Assertions.assertThat(result)
+                  .isEqualTo("Bottom-up non-deterministic finite tree automaton");
+    }
+
+    @Test
+    public void getNextStates_WhenZero_ThenAllStatesForWord()
+    {
+        // given
         Map<Variable, String> leftState = new HashMap<>();
         Map<Variable, String> rightState = new HashMap<>();
 
@@ -70,8 +81,10 @@ public class BottomUpNftaTest
         rightState.put(variables.get(0), "B");
         rightState.put(variables.get(1), "Y");
 
+        // when
         Set<Map<Variable, String>> result = testObject.getNextStates(leftState, rightState, "0");
 
+        // then
         Map<Variable, String> state1 = new HashMap<>();
         Map<Variable, String> state2 = new HashMap<>();
         Map<Variable, String> state3 = new HashMap<>();
@@ -91,13 +104,13 @@ public class BottomUpNftaTest
         expected.add(state3);
         expected.add(state4);
 
-        Assert.assertEquals(4, result.size());
-        Assert.assertEquals(expected, result);
+        Assertions.assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
-    public void testGetNextStatesForOne()
+    public void getNextStates_WhenOne_ThenAllStatesForWord()
     {
+        // given
         Map<Variable, String> leftState = new HashMap<>();
         Map<Variable, String> rightState = new HashMap<>();
 
@@ -106,8 +119,10 @@ public class BottomUpNftaTest
         rightState.put(variables.get(0), "A");
         rightState.put(variables.get(1), "X");
 
+        // when
         Set<Map<Variable, String>> result = testObject.getNextStates(leftState, rightState, "1");
 
+        // then
         Map<Variable, String> state1 = new HashMap<>();
         Map<Variable, String> state2 = new HashMap<>();
         Set<Map<Variable, String>> expected = new HashSet<>();
@@ -119,24 +134,17 @@ public class BottomUpNftaTest
         expected.add(state1);
         expected.add(state2);
 
-        Assert.assertEquals(2, result.size());
-        Assert.assertEquals(expected, result);
+        Assertions.assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
-    public void testCheckEmptiness()
+    public void checkEmptiness_ThenFalse()
+            throws Exception
     {
-        boolean result = false;
+        // when
+        boolean result = testObject.checkEmptiness();
 
-        try
-        {
-            result = testObject.checkEmptiness();
-        }
-        catch(UndefinedStateValueException | UndefinedAcceptanceException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertFalse(result);
+        // then
+        Assertions.assertThat(result).isFalse();
     }
 }

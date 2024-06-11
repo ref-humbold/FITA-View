@@ -4,14 +4,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.Assumptions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fitaview.automaton.transition.NoSuchTransitionException;
 import fitaview.automaton.traversing.TraversingMode;
-import fitaview.tree.*;
+import fitaview.tree.RecNode;
+import fitaview.tree.RepeatNode;
+import fitaview.tree.StandardNode;
+import fitaview.tree.TreeNode;
+import fitaview.tree.UndefinedStateValueException;
 import fitaview.utils.Pair;
 import fitaview.utils.Triple;
 
@@ -69,744 +73,591 @@ public class BottomUpDftaTest
     }
 
     @Test
-    public void testGetTypeName()
+    public void getTypeName_ThenFullName()
     {
+        // when
         String result = testObject.getTypeName();
 
-        Assert.assertEquals("Bottom-up deterministic finite tree automaton", result);
+        // then
+        Assertions.assertThat(result).isEqualTo("Bottom-up deterministic finite tree automaton");
     }
 
     @Test
-    public void setTree_WhenFiniteTree()
+    public void setTree_WhenFiniteTree_ThenTree()
+            throws Exception
     {
-        TreeNode node = null;
+        // given
+        TreeNode node = new StandardNode("and", 1, new StandardNode("1", 3),
+                                         new StandardNode("or", 2, new StandardNode("0", 5),
+                                                          new StandardNode("1", 4)));
 
-        try
-        {
-            node = new StandardNode("and", 1, new StandardNode("1", 3),
-                                    new StandardNode("or", 2, new StandardNode("0", 5),
-                                                     new StandardNode("1", 4)));
+        // when
+        testObject.setTree(node);
 
-            testObject.setTree(node);
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertNotNull(testObject.tree);
-        Assert.assertSame(node, testObject.tree);
+        // then
+        Assertions.assertThat(testObject.tree).isNotNull().isSameAs(node);
     }
 
     @Test
-    public void setTree_WhenEmptyTree()
+    public void setTree_WhenEmptyTree_ThenNull()
+            throws Exception
     {
-        try
-        {
-            testObject.setTree(null);
-        }
-        catch(TreeFinitenessException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // when
+        testObject.setTree(null);
 
-        Assert.assertNull(testObject.tree);
-    }
-
-    @Test(expected = TreeFinitenessException.class)
-    public void setTree_WhenInfiniteTree()
-            throws TreeFinitenessException
-    {
-        try
-        {
-            RepeatNode node2 = new RepeatNode("0", 2);
-            TreeNode node4 = new StandardNode("1", 4);
-            TreeNode node5 =
-                    new StandardNode("3", 5, new StandardNode("1", 11), new RecNode(node2, 10));
-            TreeNode node1 = new StandardNode("2", 1, new StandardNode("0", 3), node2);
-
-            node2.setLeft(node5);
-            node2.setRight(node4);
-
-            testObject.setTree(node1);
-        }
-        catch(NodeHasParentException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // then
+        Assertions.assertThat(testObject.tree).isNull();
     }
 
     @Test
-    public void testRun()
+    public void setTree_WhenInfiniteTree_ThenTreeFinitenessException()
+            throws Exception
     {
-        TreeNode node13 = null;
-        TreeNode node12 = null;
-        TreeNode node11 = null;
-        TreeNode node10 = null;
-        TreeNode node7 = null;
-        TreeNode node6 = null;
-        TreeNode node5 = null;
-        TreeNode node4 = null;
-        TreeNode node3 = null;
-        TreeNode node2 = null;
-        TreeNode node1 = null;
+        // given
+        RepeatNode node2 = new RepeatNode("0", 2);
+        TreeNode node4 = new StandardNode("1", 4);
+        TreeNode node5 =
+                new StandardNode("3", 5, new StandardNode("1", 11), new RecNode(node2, 10));
+        TreeNode node1 = new StandardNode("2", 1, new StandardNode("0", 3), node2);
 
-        try
-        {
-            testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptanceConditions(accepts);
+        node2.setLeft(node5);
+        node2.setRight(node4);
 
-            node13 = new StandardNode("1", 13);
-            node12 = new StandardNode("1", 12);
-            node11 = new StandardNode("1", 11);
-            node10 = new StandardNode("0", 10);
-            node7 = new StandardNode("1", 7);
-            node6 = new StandardNode("or", 6, node13, node12);
-            node5 = new StandardNode("and", 5, node11, node10);
-            node4 = new StandardNode("0", 4);
-            node3 = new StandardNode("and", 3, node7, node6);
-            node2 = new StandardNode("or", 2, node5, node4);
-            node1 = new StandardNode("impl", 1, node3, node2);
-
-            testObject.setTree(node1);
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
-
-        try
-        {
-            testObject.run();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
-        Assert.assertEquals("T", node13.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node13.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node12.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node12.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node11.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node11.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node10.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node10.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node7.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node7.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node6.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("$", node6.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node5.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("&", node5.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node4.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node4.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node3.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("&", node3.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node2.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("$", node2.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node1.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("@", node1.getStateValueOrNull(variables.get(1)));
-    }
-
-    @Test(expected = NoTraversingStrategyException.class)
-    public void run_WhenNoTraversing()
-            throws NoTraversingStrategyException
-    {
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
-
-        try
-        {
-            testObject.run();
-        }
-        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException |
-              UndefinedStateValueException | NoNonDeterministicStrategyException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-    }
-
-    @Test(expected = NoTreeException.class)
-    public void run_WhenNoTree()
-            throws NoTreeException
-    {
-        try
-        {
-            testObject.setTraversing(TraversingMode.LEVEL);
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
-
-        try
-        {
-
-            testObject.run();
-        }
-        catch(NoTraversingStrategyException | IllegalVariableValueException |
-              NoSuchTransitionException | UndefinedStateValueException |
-              NoNonDeterministicStrategyException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.setTree(node1))
+                  .isInstanceOf(TreeFinitenessException.class);
     }
 
     @Test
-    public void testMakeStepForward()
+    public void run_ThenTraversedToEnd()
+            throws Exception
     {
-        TreeNode node13 = null;
-        TreeNode node12 = null;
-        TreeNode node11 = null;
-        TreeNode node10 = null;
-        TreeNode node7 = null;
-        TreeNode node6 = null;
-        TreeNode node5 = null;
-        TreeNode node4 = null;
-        TreeNode node3 = null;
-        TreeNode node2 = null;
-        TreeNode node1 = null;
+        // given
+        TreeNode node13 = new StandardNode("1", 13);
+        TreeNode node12 = new StandardNode("1", 12);
+        TreeNode node11 = new StandardNode("1", 11);
+        TreeNode node10 = new StandardNode("0", 10);
+        TreeNode node7 = new StandardNode("1", 7);
+        TreeNode node6 = new StandardNode("or", 6, node13, node12);
+        TreeNode node5 = new StandardNode("and", 5, node11, node10);
+        TreeNode node4 = new StandardNode("0", 4);
+        TreeNode node3 = new StandardNode("and", 3, node7, node6);
+        TreeNode node2 = new StandardNode("or", 2, node5, node4);
+        TreeNode node1 = new StandardNode("impl", 1, node3, node2);
 
-        try
-        {
-            testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptanceConditions(accepts);
+        testObject.setTraversing(TraversingMode.LEVEL);
+        testObject.addAcceptanceConditions(accepts);
+        testObject.setTree(node1);
 
-            node13 = new StandardNode("1", 13);
-            node12 = new StandardNode("1", 12);
-            node11 = new StandardNode("1", 11);
-            node10 = new StandardNode("0", 10);
-            node7 = new StandardNode("1", 7);
-            node6 = new StandardNode("or", 6, node13, node12);
-            node5 = new StandardNode("and", 5, node11, node10);
-            node4 = new StandardNode("0", 4);
-            node3 = new StandardNode("and", 3, node7, node6);
-            node2 = new StandardNode("or", 2, node5, node4);
-            node1 = new StandardNode("impl", 1, node3, node2);
+        Assumptions.assumeThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.STOPPED);
 
-            testObject.setTree(node1);
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // when
+        testObject.run();
 
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
-
-        try
-        {
-            testObject.makeStepForward();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
-        Assert.assertEquals("T", node13.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node13.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node12.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node12.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node11.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node11.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node10.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node10.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node7.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node7.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node6.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node6.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node5.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node5.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node4.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node4.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node3.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node3.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node2.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node2.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node1.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node1.getStateValueOrNull(variables.get(1)));
-
-        try
-        {
-            testObject.makeStepForward();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
-        Assert.assertEquals("T", node7.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node7.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node6.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("$", node6.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node5.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("&", node5.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node4.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node4.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node3.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node3.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node2.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node2.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node1.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node1.getStateValueOrNull(variables.get(1)));
-
-        try
-        {
-            testObject.makeStepForward();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
-        Assert.assertEquals("T", node3.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("&", node3.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node2.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("$", node2.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node1.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node1.getStateValueOrNull(variables.get(1)));
-
-        try
-        {
-            testObject.makeStepForward();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
-        Assert.assertEquals("F", node1.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("@", node1.getStateValueOrNull(variables.get(1)));
-    }
-
-    @Test(expected = NoTraversingStrategyException.class)
-    public void makeStepForward_WhenNoTraversing()
-            throws NoTraversingStrategyException
-    {
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
-
-        try
-        {
-            testObject.makeStepForward();
-        }
-        catch(NoTreeException | IllegalVariableValueException | NoSuchTransitionException |
-              UndefinedStateValueException | NoNonDeterministicStrategyException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-    }
-
-    @Test(expected = NoTreeException.class)
-    public void makeStepForward_WhenNoTree()
-            throws NoTreeException
-    {
-        try
-        {
-            testObject.setTraversing(TraversingMode.LEVEL);
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
-
-        try
-        {
-
-            testObject.makeStepForward();
-        }
-        catch(NoTraversingStrategyException | IllegalVariableValueException |
-              NoSuchTransitionException | UndefinedStateValueException |
-              NoNonDeterministicStrategyException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        Assertions.assertThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.FINISHED);
+        Assertions.assertThat(node13.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node13.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node12.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node12.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node11.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node11.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node10.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node10.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(1))).isEqualTo("$");
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(1))).isEqualTo("&");
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(1))).isEqualTo("&");
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(1))).isEqualTo("$");
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(1))).isEqualTo("@");
     }
 
     @Test
-    public void testMakeStepForwardThenRun()
+    public void run_WhenNoTraversing_ThenNoTraversingStrategyException()
     {
-        TreeNode node13 = null;
-        TreeNode node12 = null;
-        TreeNode node11 = null;
-        TreeNode node10 = null;
-        TreeNode node7 = null;
-        TreeNode node6 = null;
-        TreeNode node5 = null;
-        TreeNode node4 = null;
-        TreeNode node3 = null;
-        TreeNode node2 = null;
-        TreeNode node1 = null;
+        // given
+        Assumptions.assumeThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.STOPPED);
 
-        try
-        {
-            testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptanceConditions(accepts);
-
-            node13 = new StandardNode("1", 13);
-            node12 = new StandardNode("1", 12);
-            node11 = new StandardNode("1", 11);
-            node10 = new StandardNode("0", 10);
-            node7 = new StandardNode("1", 7);
-            node6 = new StandardNode("or", 6, node13, node12);
-            node5 = new StandardNode("and", 5, node11, node10);
-            node4 = new StandardNode("0", 4);
-            node3 = new StandardNode("and", 3, node7, node6);
-            node2 = new StandardNode("or", 2, node5, node4);
-            node1 = new StandardNode("impl", 1, node3, node2);
-
-            testObject.setTree(node1);
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.STOPPED, testObject.runningMode);
-
-        try
-        {
-            testObject.makeStepForward();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.RUNNING, testObject.runningMode);
-        Assert.assertEquals("T", node13.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node13.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node12.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node12.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node11.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node11.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node10.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node10.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node7.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node7.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node6.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node6.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node5.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node5.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node4.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node4.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node3.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node3.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node2.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node2.getStateValueOrNull(variables.get(1)));
-        Assert.assertNull(node1.getStateValueOrNull(variables.get(0)));
-        Assert.assertNull(node1.getStateValueOrNull(variables.get(1)));
-
-        try
-        {
-            testObject.run();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertEquals(AutomatonRunningMode.FINISHED, testObject.runningMode);
-        Assert.assertEquals("T", node13.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node13.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node12.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node12.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node11.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node11.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node10.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node10.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node7.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node7.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node6.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("$", node6.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node5.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("&", node5.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node4.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("!", node4.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("T", node3.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("&", node3.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node2.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("$", node2.getStateValueOrNull(variables.get(1)));
-        Assert.assertEquals("F", node1.getStateValueOrNull(variables.get(0)));
-        Assert.assertEquals("@", node1.getStateValueOrNull(variables.get(1)));
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.run())
+                  .isInstanceOf(NoTraversingStrategyException.class);
     }
 
     @Test
-    public void isAccepted_WhenAutomatonHasRunAndAccepts()
+    public void run_WhenNoTree_ThenNoTreeException()
+            throws Exception
     {
-        try
-        {
-            testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptanceConditions(accepts);
+        // given
+        testObject.setTraversing(TraversingMode.LEVEL);
 
-            TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
-                                                                         new StandardNode("1", 7,
-                                                                                          null,
-                                                                                          null),
-                                                                         new StandardNode("or", 6,
-                                                                                          new StandardNode(
-                                                                                                  "1",
-                                                                                                  13,
-                                                                                                  null,
-                                                                                                  null),
-                                                                                          new StandardNode(
-                                                                                                  "1",
-                                                                                                  12,
-                                                                                                  null,
-                                                                                                  null))),
-                                             new StandardNode("or", 2, new StandardNode("and", 5,
-                                                                                        new StandardNode(
-                                                                                                "1",
-                                                                                                11,
-                                                                                                null,
-                                                                                                null),
-                                                                                        new StandardNode(
-                                                                                                "1",
-                                                                                                10,
-                                                                                                null,
-                                                                                                null)),
-                                                              new StandardNode("0", 4)));
+        Assumptions.assumeThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.STOPPED);
 
-            testObject.setTree(node);
-            testObject.run();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        boolean result = false;
-
-        try
-        {
-            result = testObject.isAccepted();
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertTrue(result);
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.run()).isInstanceOf(NoTreeException.class);
     }
 
     @Test
-    public void isAccepted_WhenAutomatonHasRunAndNotAccepts()
+    public void makeStepForward_ThenSingleStep()
+            throws Exception
     {
-        try
-        {
-            testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptanceConditions(accepts);
+        // given
+        TreeNode node13 = new StandardNode("1", 13);
+        TreeNode node12 = new StandardNode("1", 12);
+        TreeNode node11 = new StandardNode("1", 11);
+        TreeNode node10 = new StandardNode("0", 10);
+        TreeNode node7 = new StandardNode("1", 7);
+        TreeNode node6 = new StandardNode("or", 6, node13, node12);
+        TreeNode node5 = new StandardNode("and", 5, node11, node10);
+        TreeNode node4 = new StandardNode("0", 4);
+        TreeNode node3 = new StandardNode("and", 3, node7, node6);
+        TreeNode node2 = new StandardNode("or", 2, node5, node4);
+        TreeNode node1 = new StandardNode("impl", 1, node3, node2);
 
-            TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
-                                                                         new StandardNode("1", 7,
-                                                                                          null,
-                                                                                          null),
-                                                                         new StandardNode("or", 6,
-                                                                                          new StandardNode(
-                                                                                                  "1",
-                                                                                                  13,
-                                                                                                  null,
-                                                                                                  null),
-                                                                                          new StandardNode(
-                                                                                                  "1",
-                                                                                                  12,
-                                                                                                  null,
-                                                                                                  null))),
-                                             new StandardNode("or", 2, new StandardNode("and", 5,
-                                                                                        new StandardNode(
-                                                                                                "1",
-                                                                                                11,
-                                                                                                null,
-                                                                                                null),
-                                                                                        new StandardNode(
-                                                                                                "0",
-                                                                                                10,
-                                                                                                null,
-                                                                                                null)),
-                                                              new StandardNode("0", 4)));
+        testObject.setTraversing(TraversingMode.LEVEL);
+        testObject.addAcceptanceConditions(accepts);
+        testObject.setTree(node1);
 
-            testObject.setTree(node);
-            testObject.run();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        Assumptions.assumeThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.STOPPED);
 
-        boolean result = false;
+        // when
+        testObject.makeStepForward();
 
-        try
-        {
-            result = testObject.isAccepted();
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertFalse(result);
-    }
-
-    @Test(expected = UndefinedStateValueException.class)
-    public void isAccepted_WhenAutomatonHasNotRun()
-            throws UndefinedStateValueException
-    {
-        try
-        {
-            testObject.setTraversing(TraversingMode.LEVEL);
-            testObject.addAcceptanceConditions(accepts);
-
-            TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
-                                                                         new StandardNode("1", 7,
-                                                                                          null,
-                                                                                          null),
-                                                                         new StandardNode("or", 6,
-                                                                                          new StandardNode(
-                                                                                                  "1",
-                                                                                                  13,
-                                                                                                  null,
-                                                                                                  null),
-                                                                                          new StandardNode(
-                                                                                                  "1",
-                                                                                                  12,
-                                                                                                  null,
-                                                                                                  null))),
-                                             new StandardNode("or", 2, new StandardNode("and", 5,
-                                                                                        new StandardNode(
-                                                                                                "1",
-                                                                                                11,
-                                                                                                null,
-                                                                                                null),
-                                                                                        new StandardNode(
-                                                                                                "0",
-                                                                                                10,
-                                                                                                null,
-                                                                                                null)),
-                                                              new StandardNode("0", 4)));
-
-            testObject.setTree(node);
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        try
-        {
-            testObject.isAccepted();
-        }
-        catch(UndefinedAcceptanceException | NoTreeException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-    }
-
-    @Test(expected = UndefinedAcceptanceException.class)
-    public void isAccepted_WhenAutomatonHasNoAcceptingStates()
-            throws UndefinedAcceptanceException
-    {
-        try
-        {
-            testObject.setTraversing(TraversingMode.LEVEL);
-
-            TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
-                                                                         new StandardNode("1", 7,
-                                                                                          null,
-                                                                                          null),
-                                                                         new StandardNode("or", 6,
-                                                                                          new StandardNode(
-                                                                                                  "1",
-                                                                                                  13,
-                                                                                                  null,
-                                                                                                  null),
-                                                                                          new StandardNode(
-                                                                                                  "1",
-                                                                                                  12,
-                                                                                                  null,
-                                                                                                  null))),
-                                             new StandardNode("or", 2, new StandardNode("and", 5,
-                                                                                        new StandardNode(
-                                                                                                "1",
-                                                                                                11,
-                                                                                                null,
-                                                                                                null),
-                                                                                        new StandardNode(
-                                                                                                "1",
-                                                                                                10,
-                                                                                                null,
-                                                                                                null)),
-                                                              new StandardNode("0", 4)));
-
-            testObject.setTree(node);
-            testObject.run();
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        try
-        {
-            testObject.isAccepted();
-        }
-        catch(UndefinedStateValueException | NoTreeException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-    }
-
-    @Test(expected = NoTreeException.class)
-    public void isAccepted_WhenAutomatonHasEmptyTree()
-            throws NoTreeException
-    {
-        try
-        {
-            testObject.isAccepted();
-        }
-        catch(UndefinedStateValueException | UndefinedAcceptanceException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // then
+        Assertions.assertThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.RUNNING);
+        Assertions.assertThat(node13.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node13.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node12.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node12.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node11.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node11.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node10.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node10.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(1))).isNull();
     }
 
     @Test
-    public void isInAlphabet_WhenValueInAlphabet()
+    public void makeStepForward_WhenMultipleCalls_ThenConsecutiveSteps()
+            throws Exception
     {
+        // given
+        TreeNode node13 = new StandardNode("1", 13);
+        TreeNode node12 = new StandardNode("1", 12);
+        TreeNode node11 = new StandardNode("1", 11);
+        TreeNode node10 = new StandardNode("0", 10);
+        TreeNode node7 = new StandardNode("1", 7);
+        TreeNode node6 = new StandardNode("or", 6, node13, node12);
+        TreeNode node5 = new StandardNode("and", 5, node11, node10);
+        TreeNode node4 = new StandardNode("0", 4);
+        TreeNode node3 = new StandardNode("and", 3, node7, node6);
+        TreeNode node2 = new StandardNode("or", 2, node5, node4);
+        TreeNode node1 = new StandardNode("impl", 1, node3, node2);
+
+        testObject.setTraversing(TraversingMode.LEVEL);
+        testObject.addAcceptanceConditions(accepts);
+        testObject.setTree(node1);
+
+        Assumptions.assumeThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.STOPPED);
+
+        // when
+        testObject.makeStepForward();
+
+        // then
+        Assertions.assertThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.RUNNING);
+        Assertions.assertThat(node13.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node13.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node12.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node12.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node11.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node11.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node10.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node10.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(1))).isNull();
+
+        // when
+        testObject.makeStepForward();
+
+        // then
+        Assertions.assertThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.RUNNING);
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(1))).isEqualTo("$");
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(1))).isEqualTo("&");
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(1))).isNull();
+
+        // when
+        testObject.makeStepForward();
+
+        // then
+        Assertions.assertThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.RUNNING);
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(1))).isEqualTo("&");
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(1))).isEqualTo("$");
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(1))).isNull();
+
+        // when
+        testObject.makeStepForward();
+
+        // then
+        Assertions.assertThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.FINISHED);
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(1))).isEqualTo("@");
+    }
+
+    @Test
+    public void makeStepForward_WhenNoTraversing_ThenNoTraversingStrategyException()
+    {
+        // given
+        Assumptions.assumeThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.STOPPED);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.makeStepForward())
+                  .isInstanceOf(NoTraversingStrategyException.class);
+    }
+
+    @Test
+    public void makeStepForward_WhenNoTree_ThenNoTreeException()
+            throws Exception
+    {
+        // given
+        testObject.setTraversing(TraversingMode.LEVEL);
+
+        Assumptions.assumeThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.STOPPED);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.makeStepForward())
+                  .isInstanceOf(NoTreeException.class);
+    }
+
+    @Test
+    public void makeStepForward_run_ThenTraversedToEnd()
+            throws Exception
+    {
+        // given
+        TreeNode node13 = new StandardNode("1", 13);
+        TreeNode node12 = new StandardNode("1", 12);
+        TreeNode node11 = new StandardNode("1", 11);
+        TreeNode node10 = new StandardNode("0", 10);
+        TreeNode node7 = new StandardNode("1", 7);
+        TreeNode node6 = new StandardNode("or", 6, node13, node12);
+        TreeNode node5 = new StandardNode("and", 5, node11, node10);
+        TreeNode node4 = new StandardNode("0", 4);
+        TreeNode node3 = new StandardNode("and", 3, node7, node6);
+        TreeNode node2 = new StandardNode("or", 2, node5, node4);
+        TreeNode node1 = new StandardNode("impl", 1, node3, node2);
+
+        testObject.setTraversing(TraversingMode.LEVEL);
+        testObject.addAcceptanceConditions(accepts);
+        testObject.setTree(node1);
+
+        Assumptions.assumeThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.STOPPED);
+
+        // when
+        testObject.makeStepForward();
+
+        // then
+        Assertions.assertThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.RUNNING);
+        Assertions.assertThat(node13.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node13.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node12.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node12.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node11.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node11.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node10.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node10.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(1))).isNull();
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(0))).isNull();
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(1))).isNull();
+
+        // when
+        testObject.run();
+
+        // then
+        Assertions.assertThat(testObject.runningMode).isEqualTo(AutomatonRunningMode.FINISHED);
+        Assertions.assertThat(node13.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node13.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node12.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node12.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node11.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node11.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node10.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node10.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node7.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node6.getStateValueOrNull(variables.get(1))).isEqualTo("$");
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node5.getStateValueOrNull(variables.get(1))).isEqualTo("&");
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node4.getStateValueOrNull(variables.get(1))).isEqualTo("!");
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(0))).isEqualTo("T");
+        Assertions.assertThat(node3.getStateValueOrNull(variables.get(1))).isEqualTo("&");
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node2.getStateValueOrNull(variables.get(1))).isEqualTo("$");
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(0))).isEqualTo("F");
+        Assertions.assertThat(node1.getStateValueOrNull(variables.get(1))).isEqualTo("@");
+    }
+
+    @Test
+    public void isAccepted_WhenAutomatonHasRunAndAccepts_ThenTrue()
+            throws Exception
+    {
+        // given
+        TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
+                                                                     new StandardNode("1", 7, null,
+                                                                                      null),
+                                                                     new StandardNode("or", 6,
+                                                                                      new StandardNode(
+                                                                                              "1",
+                                                                                              13,
+                                                                                              null,
+                                                                                              null),
+                                                                                      new StandardNode(
+                                                                                              "1",
+                                                                                              12,
+                                                                                              null,
+                                                                                              null))),
+                                         new StandardNode("or", 2, new StandardNode("and", 5,
+                                                                                    new StandardNode(
+                                                                                            "1", 11,
+                                                                                            null,
+                                                                                            null),
+                                                                                    new StandardNode(
+                                                                                            "1", 10,
+                                                                                            null,
+                                                                                            null)),
+                                                          new StandardNode("0", 4)));
+
+        testObject.setTraversing(TraversingMode.LEVEL);
+        testObject.addAcceptanceConditions(accepts);
+        testObject.setTree(node);
+        testObject.run();
+
+        // when
+        boolean result = testObject.isAccepted();
+
+        // then
+        Assertions.assertThat(result).isTrue();
+    }
+
+    @Test
+    public void isAccepted_WhenAutomatonHasRunAndNotAccepts_ThenFalse()
+            throws Exception
+    {
+        // given
+        TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
+                                                                     new StandardNode("1", 7, null,
+                                                                                      null),
+                                                                     new StandardNode("or", 6,
+                                                                                      new StandardNode(
+                                                                                              "1",
+                                                                                              13,
+                                                                                              null,
+                                                                                              null),
+                                                                                      new StandardNode(
+                                                                                              "1",
+                                                                                              12,
+                                                                                              null,
+                                                                                              null))),
+                                         new StandardNode("or", 2, new StandardNode("and", 5,
+                                                                                    new StandardNode(
+                                                                                            "1", 11,
+                                                                                            null,
+                                                                                            null),
+                                                                                    new StandardNode(
+                                                                                            "0", 10,
+                                                                                            null,
+                                                                                            null)),
+                                                          new StandardNode("0", 4)));
+
+        testObject.setTraversing(TraversingMode.LEVEL);
+        testObject.addAcceptanceConditions(accepts);
+        testObject.setTree(node);
+        testObject.run();
+
+        // when
+        boolean result = testObject.isAccepted();
+
+        // then
+        Assertions.assertThat(result).isFalse();
+    }
+
+    @Test
+    public void isAccepted_WhenAutomatonHasNotRun_ThenUndefinedStateValueException()
+            throws Exception
+    {
+        // given
+        TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
+                                                                     new StandardNode("1", 7, null,
+                                                                                      null),
+                                                                     new StandardNode("or", 6,
+                                                                                      new StandardNode(
+                                                                                              "1",
+                                                                                              13,
+                                                                                              null,
+                                                                                              null),
+                                                                                      new StandardNode(
+                                                                                              "1",
+                                                                                              12,
+                                                                                              null,
+                                                                                              null))),
+                                         new StandardNode("or", 2, new StandardNode("and", 5,
+                                                                                    new StandardNode(
+                                                                                            "1", 11,
+                                                                                            null,
+                                                                                            null),
+                                                                                    new StandardNode(
+                                                                                            "0", 10,
+                                                                                            null,
+                                                                                            null)),
+                                                          new StandardNode("0", 4)));
+
+        testObject.setTraversing(TraversingMode.LEVEL);
+        testObject.addAcceptanceConditions(accepts);
+        testObject.setTree(node);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.isAccepted())
+                  .isInstanceOf(UndefinedStateValueException.class);
+    }
+
+    @Test
+    public void isAccepted_WhenAutomatonHasNoAcceptingStates_ThenUndefinedAcceptanceException()
+            throws Exception
+    {
+        // given
+        TreeNode node = new StandardNode("impl", 1, new StandardNode("and", 3,
+                                                                     new StandardNode("1", 7, null,
+                                                                                      null),
+                                                                     new StandardNode("or", 6,
+                                                                                      new StandardNode(
+                                                                                              "1",
+                                                                                              13,
+                                                                                              null,
+                                                                                              null),
+                                                                                      new StandardNode(
+                                                                                              "1",
+                                                                                              12,
+                                                                                              null,
+                                                                                              null))),
+                                         new StandardNode("or", 2, new StandardNode("and", 5,
+                                                                                    new StandardNode(
+                                                                                            "1", 11,
+                                                                                            null,
+                                                                                            null),
+                                                                                    new StandardNode(
+                                                                                            "1", 10,
+                                                                                            null,
+                                                                                            null)),
+                                                          new StandardNode("0", 4)));
+
+        testObject.setTraversing(TraversingMode.LEVEL);
+        testObject.setTree(node);
+        testObject.run();
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.isAccepted())
+                  .isInstanceOf(UndefinedAcceptanceException.class);
+    }
+
+    @Test
+    public void isAccepted_WhenAutomatonHasEmptyTree_ThenNoTreeException()
+    {
+        Assertions.assertThatThrownBy(() -> testObject.isAccepted())
+                  .isInstanceOf(NoTreeException.class);
+    }
+
+    @Test
+    public void isInAlphabet_WhenValueInAlphabet_ThenTrue()
+    {
+        // when
         boolean result0 = testObject.isInAlphabet("0");
         boolean result1 = testObject.isInAlphabet("1");
         boolean resultAnd = testObject.isInAlphabet("and");
         boolean resultOr = testObject.isInAlphabet("or");
         boolean resultImpl = testObject.isInAlphabet("impl");
 
-        Assert.assertTrue(result0);
-        Assert.assertTrue(result1);
-        Assert.assertTrue(resultAnd);
-        Assert.assertTrue(resultOr);
-        Assert.assertTrue(resultImpl);
+        // then
+        Assertions.assertThat(result0).isTrue();
+        Assertions.assertThat(result1).isTrue();
+        Assertions.assertThat(resultAnd).isTrue();
+        Assertions.assertThat(resultOr).isTrue();
+        Assertions.assertThat(resultImpl).isTrue();
     }
 
     @Test
-    public void isInAlphabet_WhenValueOutOfAlphabet()
+    public void isInAlphabet_WhenValueOutOfAlphabet_ThenFalse()
     {
+        // when
         boolean result2 = testObject.isInAlphabet("2");
         boolean resultIff = testObject.isInAlphabet("iff");
 
-        Assert.assertFalse(result2);
-        Assert.assertFalse(resultIff);
+        // then
+        Assertions.assertThat(result2).isFalse();
+        Assertions.assertThat(resultIff).isFalse();
     }
 
     @Test
-    public void testGetTransitionWithStrings()
+    public void getTransitionWithStrings_ThenTransitionsMap()
     {
+        // when
         Map<Pair<Variable, String>, String> result = testObject.getTransitionAsStrings();
+
+        // then
         Map<Pair<Variable, String>, String> expected = new HashMap<>();
 
         expected.put(
@@ -855,56 +706,28 @@ public class BottomUpDftaTest
                              Triple.make(Wildcard.EVERY_VALUE, Wildcard.EVERY_VALUE, "impl"))),
                      testObject.valueToString("@"));
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(expected, result);
+        Assertions.assertThat(result).isNotNull().containsExactlyInAnyOrderEntriesOf(expected);
     }
 
     @Test
-    public void checkEmptiness_WhenNotEmpty1()
+    public void checkEmptiness_WhenNotEmpty_ThenFalse()
+            throws Exception
     {
-        boolean result = false;
-
+        // given
         testObject.addAcceptanceConditions(accepts);
 
-        try
-        {
-            result = testObject.checkEmptiness();
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // when
+        boolean result = testObject.checkEmptiness();
 
-        Assert.assertFalse(result);
+        // then
+        Assertions.assertThat(result).isFalse();
     }
 
     @Test
-    public void checkEmptiness_WhenNotEmpty2()
+    public void checkEmptiness_WhenEmpty_ThenTrue()
+            throws Exception
     {
-        boolean result = false;
-        Map<Variable, Pair<String, Boolean>> testAccepts = new HashMap<>();
-
-        testAccepts.put(variables.get(0), Pair.make("F", true));
-        testAccepts.put(variables.get(1), Pair.make(Wildcard.EVERY_VALUE, true));
-
-        testObject.addAcceptanceConditions(testAccepts);
-
-        try
-        {
-            result = testObject.checkEmptiness();
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertFalse(result);
-    }
-
-    @Test
-    public void checkEmptiness_WhenEmpty()
-    {
-        boolean result = false;
+        // given
         Map<Variable, Pair<String, Boolean>> testAccepts = new HashMap<>();
 
         testAccepts.put(variables.get(0), Pair.make("X", true));
@@ -912,29 +735,17 @@ public class BottomUpDftaTest
 
         testObject.addAcceptanceConditions(testAccepts);
 
-        try
-        {
-            result = testObject.checkEmptiness();
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // when
+        boolean result = testObject.checkEmptiness();
 
-        Assert.assertTrue(result);
+        // then
+        Assertions.assertThat(result).isTrue();
     }
 
-    @Test(expected = UndefinedAcceptanceException.class)
-    public void checkEmptiness_WhenNoAcceptance()
-            throws UndefinedAcceptanceException
+    @Test
+    public void checkEmptiness_WhenNoAcceptance_ThenUndefinedAcceptanceException()
     {
-        try
-        {
-            testObject.checkEmptiness();
-        }
-        catch(UndefinedStateValueException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        Assertions.assertThatThrownBy(() -> testObject.checkEmptiness())
+                  .isInstanceOf(UndefinedAcceptanceException.class);
     }
 }

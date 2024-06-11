@@ -4,27 +4,26 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fitaview.tree.NodeHasParentException;
 import fitaview.tree.RecNode;
 import fitaview.tree.RepeatNode;
 import fitaview.tree.StandardNode;
 import fitaview.tree.TreeNode;
 import fitaview.utils.Pair;
 
-public class TopDownDITATest
+public class TopDownDitaTest
 {
     private TopDownDita testObject;
-    private List<Variable> variables;
-    private List<String> alphabet = Arrays.asList("0", "1", "2", "3", "4");
-    private List<Map<Variable, Pair<String, Boolean>>> accepts =
+    private final List<Variable> variables;
+    private final List<String> alphabet = Arrays.asList("0", "1", "2", "3", "4");
+    private final List<Map<Variable, Pair<String, Boolean>>> accepts =
             Arrays.asList(new HashMap<>(), new HashMap<>(), new HashMap<>());
 
-    public TopDownDITATest()
+    public TopDownDitaTest()
             throws Exception
     {
         variables = Arrays.asList(new Variable(1, "A", "B"), new Variable(2, "!", "@", "#", "$"));
@@ -87,72 +86,55 @@ public class TopDownDITATest
     }
 
     @Test
-    public void testGetTypeName()
+    public void getTypeName_ThenFullName()
     {
+        // when
         String result = testObject.getTypeName();
 
-        Assert.assertEquals("Top-down deterministic infinite tree automaton", result);
+        // then
+        Assertions.assertThat(result).isEqualTo("Top-down deterministic infinite tree automaton");
     }
 
-    @Test(expected = TreeFinitenessException.class)
-    public void setTree_WhenFiniteTree()
-            throws TreeFinitenessException
+    @Test
+    public void setTree_WhenFiniteTree_ThenTreeFinitenessException()
+            throws Exception
     {
-        TreeNode node = null;
+        // when
+        TreeNode node = new StandardNode("and", 1, new StandardNode("1", 3),
+                                         new StandardNode("or", 2, new StandardNode("0", 5),
+                                                          new StandardNode("1", 4)));
 
-        try
-        {
-            node = new StandardNode("and", 1, new StandardNode("1", 3),
-                                    new StandardNode("or", 2, new StandardNode("0", 5),
-                                                     new StandardNode("1", 4)));
-        }
-        catch(Exception e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.setTree(node))
+                  .isInstanceOf(TreeFinitenessException.class);
+    }
+
+    @Test
+    public void setTree_WhenEmptyTree_ThenNull()
+            throws Exception
+    {
+        // given
+        testObject.setTree(null);
+
+        // then
+        Assertions.assertThat(testObject.tree).isNull();
+    }
+
+    @Test
+    public void setTree_WhenInfiniteTree_ThenTree()
+            throws Exception
+    {
+        RepeatNode node2 = new RepeatNode("0", 2);
+        TreeNode node4 = new StandardNode("1", 4);
+        TreeNode node5 =
+                new StandardNode("3", 5, new StandardNode("1", 11), new RecNode(node2, 10));
+        TreeNode node = new StandardNode("2", 1, new StandardNode("0", 3), node2);
+
+        node2.setLeft(node5);
+        node2.setRight(node4);
 
         testObject.setTree(node);
-    }
 
-    @Test
-    public void setTree_WhenEmptyTree()
-    {
-        try
-        {
-            testObject.setTree(null);
-        }
-        catch(TreeFinitenessException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertNull(testObject.tree);
-    }
-
-    @Test
-    public void setTree_WhenInfiniteTree()
-    {
-        TreeNode node = null;
-
-        try
-        {
-            RepeatNode node2 = new RepeatNode("0", 2);
-            TreeNode node4 = new StandardNode("1", 4);
-            TreeNode node5 =
-                    new StandardNode("3", 5, new StandardNode("1", 11), new RecNode(node2, 10));
-            node = new StandardNode("2", 1, new StandardNode("0", 3), node2);
-
-            node2.setLeft(node5);
-            node2.setRight(node4);
-
-            testObject.setTree(node);
-        }
-        catch(TreeFinitenessException | NodeHasParentException e)
-        {
-            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
-        }
-
-        Assert.assertNotNull(testObject.tree);
-        Assert.assertSame(node, testObject.tree);
+        Assertions.assertThat(testObject.tree).isNotNull().isSameAs(node);
     }
 }

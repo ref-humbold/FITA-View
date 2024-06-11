@@ -1,9 +1,8 @@
 package fitaview.automaton;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,120 +23,129 @@ public class VariableTest
         testObject = null;
     }
 
-    @Test(expected = IllegalVariableValueException.class)
-    public void constructor_WhenInitIsNull()
-            throws IllegalVariableValueException
+    @Test
+    public void constructor_WhenInitIsNull_ThenIllegalVariableValueException()
     {
-        testObject = new Variable(2, null);
-    }
-
-    @Test(expected = IllegalVariableValueException.class)
-    public void constructor_WhenInitIsEmpty()
-            throws IllegalVariableValueException
-    {
-        testObject = new Variable(2, "");
-    }
-
-    @Test(expected = IllegalVariableValueException.class)
-    public void constructor_WhenValueIsNull()
-            throws IllegalVariableValueException
-    {
-        testObject = new Variable(2, "A", "B", "C", null);
-    }
-
-    @Test(expected = IllegalVariableValueException.class)
-    public void constructor_WhenValueIsEmpty()
-            throws IllegalVariableValueException
-    {
-        testObject = new Variable(2, "A", "B", "C", "");
+        Assertions.assertThatThrownBy(() -> new Variable(2, null))
+                  .isInstanceOf(IllegalVariableValueException.class);
     }
 
     @Test
-    public void constructor_WhenInitValueIsInValuesList()
-            throws IllegalVariableValueException
+    public void constructor_WhenInitIsEmpty_ThenIllegalVariableValueException()
     {
+        Assertions.assertThatThrownBy(() -> new Variable(2, ""))
+                  .isInstanceOf(IllegalVariableValueException.class);
+    }
+
+    @Test
+    public void constructor_WhenValueIsNull_ThenIllegalVariableValueException()
+    {
+        Assertions.assertThatThrownBy(() -> new Variable(2, "A", "B", "C", null))
+                  .isInstanceOf(IllegalVariableValueException.class);
+    }
+
+    @Test
+    public void constructor_WhenValueIsEmpty_ThenIllegalVariableValueException()
+    {
+        Assertions.assertThatThrownBy(() -> new Variable(2, "A", "B", "C", ""))
+                  .isInstanceOf(IllegalVariableValueException.class);
+    }
+
+    @Test
+    public void constructor_WhenInitValueIsInValuesList_ThenNoDuplicates()
+            throws Exception
+    {
+        // when
         testObject = new Variable(2, "A", "B", "C", "A");
 
-        Assert.assertEquals(3, testObject.size());
-        Assert.assertTrue(testObject.contains("A"));
-        Assert.assertTrue(testObject.contains("B"));
-        Assert.assertTrue(testObject.contains("C"));
+        // then
+        Assertions.assertThat(testObject).containsExactlyInAnyOrder("A", "B", "C");
     }
 
     @Test
-    public void testGetInitValue()
+    public void getInitValue_ThenInitialValue()
     {
+        // when
         String result = testObject.getInitValue();
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals("A", result);
+        // then
+        Assertions.assertThat(result).isNotNull().isEqualTo("A");
     }
 
     @Test
-    public void contains_WhenInnerValue()
+    public void contains_WhenInnerValue_ThenTrue()
     {
+        // when
         boolean resultA = testObject.contains("A");
         boolean resultB = testObject.contains("B");
         boolean resultC = testObject.contains("C");
 
-        Assert.assertTrue(resultA);
-        Assert.assertTrue(resultB);
-        Assert.assertTrue(resultC);
+        // then
+        Assertions.assertThat(resultA).isTrue();
+        Assertions.assertThat(resultB).isTrue();
+        Assertions.assertThat(resultC).isTrue();
     }
 
     @Test
-    public void contains_WhenOuterValue()
+    public void contains_WhenOuterValue_ThenFalse()
     {
+        // when
         boolean resultD = testObject.contains("D");
 
-        Assert.assertFalse(resultD);
+        // then
+        Assertions.assertThat(resultD).isFalse();
     }
 
     @Test
-    public void contains_WhenNull()
+    public void contains_WhenNull_ThenFalse()
     {
+        // when
         boolean result = testObject.contains(null);
 
-        Assert.assertFalse(result);
+        // then
+        Assertions.assertThat(result).isFalse();
     }
 
     @Test
-    public void contains_WhenEmpty()
+    public void contains_WhenEmpty_ThenFalse()
     {
+        // when
         boolean result = testObject.contains("");
 
-        Assert.assertFalse(result);
+        // then
+        Assertions.assertThat(result).isFalse();
     }
 
     @Test
-    public void testSize()
+    public void size_ThenNumberOfPossibleValues()
     {
+        // when
         int result = testObject.size();
 
-        Assert.assertEquals(3, result);
+        // then
+        Assertions.assertThat(result).isEqualTo(3);
     }
 
     @Test
-    public void testIterator()
+    public void iterator()
     {
-        Iterator<String> iterator = testObject.iterator();
-
+        // when
         ArrayList<String> result = new ArrayList<>();
 
-        while(iterator.hasNext())
-            result.add(iterator.next());
+        for(String s : testObject)
+            result.add(s);
 
-        Assert.assertEquals(3, result.size());
-        Assert.assertTrue(result.contains("A"));
-        Assert.assertTrue(result.contains("B"));
-        Assert.assertTrue(result.contains("C"));
+        // then
+        Assertions.assertThat(result).containsExactlyInAnyOrder("A", "B", "C");
     }
 
     @Test
-    public void testToString()
+    public void toString_ThenStringRepresentation()
     {
+        // when
         String result = testObject.toString();
 
-        Assert.assertEquals("Var_1::[A, B, C]", result);
+        // then
+        Assertions.assertThat(result).isEqualTo("Var_1::[A, B, C]");
     }
 }
