@@ -53,7 +53,7 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
                 varID = Integer.parseInt(attributes.getValue("var-id"));
 
                 if(!variables.containsKey(varID))
-                    throw new NoVariableWithIDException(
+                    throw new NoVariableWithIdException(
                             String.format("%s: No variable with with ID %d", writePosition(),
                                           varID));
                 break;
@@ -62,7 +62,7 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
                 int id = Integer.parseInt(attributes.getValue("var-id"));
 
                 if(!variables.containsKey(varID))
-                    throw new NoVariableWithIDException(
+                    throw new NoVariableWithIdException(
                             String.format("%s: No variable with with ID %d", writePosition(),
                                           varID));
 

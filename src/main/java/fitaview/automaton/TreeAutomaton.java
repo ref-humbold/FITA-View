@@ -39,7 +39,7 @@ public interface TreeAutomaton
     TreeTraversing getTraversing();
 
     /**
-     * Setting a new traversing strategy specified by traversing mode.
+     * Sets a new traversing strategy specified by traversing mode.
      * @param mode new traversing mode for the automaton
      * @throws IncorrectTraversingException if traversing mode is not supported
      */
@@ -62,7 +62,7 @@ public interface TreeAutomaton
     AutomatonRunningMode getRunningMode();
 
     /**
-     * Checking if the automaton is traversing an associated tree.
+     * Checks if the automaton is traversing an associated tree.
      * @return {@code true} if the automaton is running, otherwise {@code false}
      */
     default boolean isRunning()
@@ -85,7 +85,7 @@ public interface TreeAutomaton
     void setSendingMessages(boolean isSendingMessages);
 
     /**
-     * Checking if associated tree is accepted by the automaton.
+     * Checks if associated tree is accepted by the automaton.
      * @return {@code true} if automaton accepts tree, otherwise {@code false}
      * @throws UndefinedAcceptanceException if no acceptance conditions were defined
      * @throws UndefinedStateValueException if state of the tree is undefined
@@ -95,20 +95,20 @@ public interface TreeAutomaton
             throws UndefinedAcceptanceException, UndefinedStateValueException, NoTreeException;
 
     /**
-     * Adding acceptance conditions for states to the automaton.
+     * Adds acceptance conditions for states to the automaton.
      * @param accept mapping from variables to acceptance conditions on their values
      */
     void addAcceptanceConditions(Map<Variable, Pair<String, Boolean>> accept);
 
     /**
-     * Checking if label is present in alphabet recognised by the automaton.
+     * Checks if label is present in alphabet recognised by the automaton.
      * @param label label to test
      * @return {@code true} if label is present in alphabet, otherwise {@code false}
      */
     boolean isInAlphabet(String label);
 
     /**
-     * Running full traversing of the automaton over the tree until leaves or recursive nodes.
+     * Runs full traversing of the automaton over the tree until leaves or recursive nodes.
      * @throws IllegalVariableValueException if state of any node in tree is illegal
      * @throws NoSuchTransitionException if no transition entry was found
      * @throws NoTraversingStrategyException if no traversing strategy was set
@@ -121,7 +121,7 @@ public interface TreeAutomaton
                    NoNonDeterministicStrategyException;
 
     /**
-     * Making a single traversing step of the automaton over the tree.
+     * Makes a single traversing step of the automaton over the tree.
      * @throws IllegalVariableValueException if state of any node in tree is illegal
      * @throws NoSuchTransitionException if no transition entry was found
      * @throws NoTraversingStrategyException if no traversing strategy was set
@@ -134,7 +134,7 @@ public interface TreeAutomaton
                    NoNonDeterministicStrategyException;
 
     /**
-     * Stopping traversing the tree by the automaton.
+     * Stops traversing the tree by the automaton.
      */
     void stopTraversing();
 }

@@ -61,7 +61,6 @@ public abstract class AbstractTreeAutomaton
             AutomatonRunningModeSender.getInstance().send();
     }
 
-    /** @return initial state of tree in the automaton */
     protected Map<Variable, String> getInitialState()
     {
         return variables.stream()
