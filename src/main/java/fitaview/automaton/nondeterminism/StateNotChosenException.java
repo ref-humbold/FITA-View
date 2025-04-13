@@ -1,9 +1,9 @@
 package fitaview.automaton.nondeterminism;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 
 public class StateNotChosenException
-    extends FITAViewException
+        extends FitaViewException
 {
     private static final long serialVersionUID = -5210455798955068530L;
 

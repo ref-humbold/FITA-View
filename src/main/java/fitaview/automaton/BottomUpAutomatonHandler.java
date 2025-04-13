@@ -44,8 +44,8 @@ class BottomUpAutomatonHandler
 
             case "variables":
                 result = isDeterministic
-                        ? new BottomUpDFTA(variables.values(), alphabet)
-                        : new BottomUpNFTA(variables.values(), alphabet);
+                         ? new BottomUpDfta(variables.values(), alphabet)
+                         : new BottomUpNfta(variables.values(), alphabet);
                 break;
 
             case "conditions":
@@ -81,7 +81,7 @@ class BottomUpAutomatonHandler
 
                 if(!Objects.equals(leftValue, Wildcard.EVERY_VALUE) && !Objects.equals(leftValue,
                                                                                        Wildcard.SAME_VALUE)
-                        && !variables.get(varID).contains(leftValue))
+                           && !variables.get(varID).contains(leftValue))
                     throw new IllegalVariableValueException(String.format(
                             "%s Given left-value '%s' is not a value of variable with ID %d",
                             writePosition(), leftValue, varID));
@@ -93,7 +93,7 @@ class BottomUpAutomatonHandler
 
                 if(!Objects.equals(rightValue, Wildcard.EVERY_VALUE) && !Objects.equals(rightValue,
                                                                                         Wildcard.SAME_VALUE)
-                        && !variables.get(varID).contains(rightValue))
+                           && !variables.get(varID).contains(rightValue))
                     throw new IllegalVariableValueException(String.format(
                             "%s Given right-value '%s' is not a value of variable with ID %d",
                             writePosition(), rightValue, varID));
@@ -105,7 +105,7 @@ class BottomUpAutomatonHandler
 
                 if(!Objects.equals(nodeResult, Wildcard.LEFT_VALUE) && !Objects.equals(nodeResult,
                                                                                        Wildcard.RIGHT_VALUE)
-                        && !variables.get(varID).contains(nodeResult))
+                           && !variables.get(varID).contains(nodeResult))
                     throw new IllegalVariableValueException(String.format(
                             "%s Given node-result '%s' is not a value of variable with ID %d",
                             writePosition(), nodeResult, varID));

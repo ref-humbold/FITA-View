@@ -6,10 +6,10 @@ import java.util.Objects;
 import fitaview.tree.TreeNode;
 import fitaview.tree.UndefinedStateValueException;
 
-public class TopDownNFTA
+public class TopDownNfta
         extends TopDownNondeterministicAutomaton
 {
-    public TopDownNFTA(Collection<Variable> variables, Collection<String> alphabet)
+    public TopDownNfta(Collection<Variable> variables, Collection<String> alphabet)
     {
         super(variables, alphabet);
     }
@@ -39,15 +39,15 @@ public class TopDownNFTA
         if(this == o)
             return true;
 
-        if(!(o instanceof TopDownNFTA))
+        if(!(o instanceof TopDownNfta))
             return false;
 
-        TopDownNFTA other = (TopDownNFTA)o;
+        TopDownNfta other = (TopDownNfta)o;
 
         return Objects.equals(alphabet, other.alphabet) && Objects.equals(variables,
                                                                           other.variables)
-                && Objects.equals(acceptanceConditions, other.acceptanceConditions)
-                && Objects.equals(transitions, other.transitions);
+                       && Objects.equals(acceptanceConditions, other.acceptanceConditions)
+                       && Objects.equals(transitions, other.transitions);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class TopDownNFTA
     protected void changeRunningMode()
     {
         setRunningMode(traversing.hasNext()
-                               ? AutomatonRunningMode.RUNNING
-                               : AutomatonRunningMode.FINISHED);
+                       ? AutomatonRunningMode.RUNNING
+                       : AutomatonRunningMode.FINISHED);
     }
 }

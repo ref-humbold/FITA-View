@@ -17,7 +17,7 @@ import fitaview.utils.Triple;
 public class BottomUpTransitionsTest
 {
     private BottomUpTransitions<String> testObject;
-    private Variable v = new Variable(0, "A", "B", "C", "D");
+    private final Variable variable = new Variable(0, "A", "B", "C", "D");
 
     public BottomUpTransitionsTest()
             throws IllegalVariableValueException
@@ -29,12 +29,12 @@ public class BottomUpTransitionsTest
             throws Exception
     {
         testObject = new BottomUpTransitions<>(this::keyFunction, this::valueFunction);
-        testObject.add(v, Triple.make("A", "B", "0"), "C");
-        testObject.add(v, Triple.make(Wildcard.EVERY_VALUE, "C", "1"), "B");
-        testObject.add(v, Triple.make(Wildcard.SAME_VALUE, Wildcard.EVERY_VALUE, "2"), "A");
-        testObject.add(v, Triple.make("D", "C", "3"), Wildcard.RIGHT_VALUE);
-        testObject.add(v, Triple.make("C", "A", "4"), "C");
-        testObject.add(v, Triple.make(Wildcard.EVERY_VALUE, "A", "4"), "D");
+        testObject.add(variable, Triple.make("A", "B", "0"), "C");
+        testObject.add(variable, Triple.make(Wildcard.EVERY_VALUE, "C", "1"), "B");
+        testObject.add(variable, Triple.make(Wildcard.SAME_VALUE, Wildcard.EVERY_VALUE, "2"), "A");
+        testObject.add(variable, Triple.make("D", "C", "3"), Wildcard.RIGHT_VALUE);
+        testObject.add(variable, Triple.make("C", "A", "4"), "C");
+        testObject.add(variable, Triple.make(Wildcard.EVERY_VALUE, "A", "4"), "D");
     }
 
     @After
@@ -44,113 +44,114 @@ public class BottomUpTransitionsTest
     }
 
     @Test
-    public void testContainsKeyWhenInnerDirectKey()
+    public void containsKey_WhenInnerDirectKey()
     {
-        boolean result = testObject.containsKey(v, Triple.make("A", "B", "0"));
+        boolean result = testObject.containsKey(variable, Triple.make("A", "B", "0"));
 
         Assert.assertTrue(result);
     }
 
     @Test
-    public void testContainsKeyWhenInnerWildcardKey()
+    public void containsKey_WhenInnerWildcardKey()
     {
-        boolean result = testObject.containsKey(v, Triple.make(Wildcard.EVERY_VALUE, "C", "1"));
+        boolean result =
+                testObject.containsKey(variable, Triple.make(Wildcard.EVERY_VALUE, "C", "1"));
 
         Assert.assertTrue(result);
     }
 
     @Test
-    public void testContainsKeyWhenOuterKey()
+    public void containsKey_WhenOuterKey()
     {
-        boolean result = testObject.containsKey(v, Triple.make("E", "E", "0"));
+        boolean result = testObject.containsKey(variable, Triple.make("E", "E", "0"));
 
         Assert.assertFalse(result);
     }
 
     @Test
-    public void testContainsKeyWhenOuterWildcardKey()
+    public void containsKey_WhenOuterWildcardKey()
     {
-        boolean result = testObject.containsKey(v, Triple.make("E", Wildcard.EVERY_VALUE, "1"));
+        boolean result =
+                testObject.containsKey(variable, Triple.make("E", Wildcard.EVERY_VALUE, "1"));
 
         Assert.assertFalse(result);
     }
 
     @Test
-    public void testContainsEntryWhenInnerKey()
+    public void containsEntry_WhenInnerKey()
     {
-        boolean result = testObject.containsEntry(v, Triple.make("A", "B", "0"));
+        boolean result = testObject.containsEntry(variable, Triple.make("A", "B", "0"));
 
         Assert.assertTrue(result);
     }
 
     @Test
-    public void testContainsEntryWhenInnerWildcardEveryKey()
+    public void containsEntry_WhenInnerWildcardEveryKey()
     {
-        boolean result = testObject.containsEntry(v, Triple.make("A", "C", "1"));
+        boolean result = testObject.containsEntry(variable, Triple.make("A", "C", "1"));
 
         Assert.assertTrue(result);
     }
 
     @Test
-    public void testContainsEntryWhenInnerWildcardSameKey()
+    public void containsEntry_WhenInnerWildcardSameKey()
     {
-        boolean result = testObject.containsEntry(v, Triple.make("D", "D", "2"));
+        boolean result = testObject.containsEntry(variable, Triple.make("D", "D", "2"));
 
         Assert.assertTrue(result);
     }
 
     @Test
-    public void testContainsEntryWhenOuterKey()
+    public void containsEntry_WhenOuterKey()
     {
-        boolean result = testObject.containsEntry(v, Triple.make("E", "B", "0"));
+        boolean result = testObject.containsEntry(variable, Triple.make("E", "B", "0"));
 
         Assert.assertFalse(result);
     }
 
     @Test
-    public void testContainsEntryWhenKeyHasNull()
+    public void containsEntry_WhenKeyHasNull()
     {
-        boolean result = testObject.containsEntry(v, Triple.make(null, "B", "0"));
+        boolean result = testObject.containsEntry(variable, Triple.make(null, "B", "0"));
 
         Assert.assertFalse(result);
     }
 
     @Test
-    public void testAddWhenDirectKey()
+    public void add_WhenDirectKey()
     {
         try
         {
-            testObject.add(v, Triple.make("D", "B", "10"), "A");
+            testObject.add(variable, Triple.make("D", "B", "10"), "A");
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        boolean result = testObject.containsKey(v, Triple.make("D", "B", "10"));
+        boolean result = testObject.containsKey(variable, Triple.make("D", "B", "10"));
 
         Assert.assertTrue(result);
     }
 
     @Test
-    public void testAddWhenWildcardKey()
+    public void add_WhenWildcardKey()
     {
         try
         {
-            testObject.add(v, Triple.make("D", Wildcard.EVERY_VALUE, "11"), "B");
+            testObject.add(variable, Triple.make("D", Wildcard.EVERY_VALUE, "11"), "B");
         }
         catch(DuplicatedTransitionException | IllegalTransitionException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
-        boolean result = testObject.containsKey(v, Triple.make("D", Wildcard.EVERY_VALUE, "11"));
-        boolean result0 = testObject.containsEntry(v, Triple.make("D", "A", "11"));
-        boolean result1 = testObject.containsEntry(v, Triple.make("D", "B", "11"));
-        boolean result2 = testObject.containsEntry(v, Triple.make("D", "C", "11"));
-        boolean result3 = testObject.containsEntry(v, Triple.make("D", "D", "11"));
+        boolean result =
+                testObject.containsKey(variable, Triple.make("D", Wildcard.EVERY_VALUE, "11"));
+        boolean result0 = testObject.containsEntry(variable, Triple.make("D", "A", "11"));
+        boolean result1 = testObject.containsEntry(variable, Triple.make("D", "B", "11"));
+        boolean result2 = testObject.containsEntry(variable, Triple.make("D", "C", "11"));
+        boolean result3 = testObject.containsEntry(variable, Triple.make("D", "D", "11"));
 
         Assert.assertTrue(result);
         Assert.assertTrue(result0);
@@ -160,32 +161,30 @@ public class BottomUpTransitionsTest
     }
 
     @Test(expected = DuplicatedTransitionException.class)
-    public void testAddWhenDuplicated()
+    public void add_WhenDuplicated()
             throws DuplicatedTransitionException
     {
         try
         {
-            testObject.add(v, Triple.make("A", "B", "0"), "C");
+            testObject.add(variable, Triple.make("A", "B", "0"), "C");
         }
         catch(IllegalTransitionException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 
     @Test(expected = IllegalTransitionException.class)
-    public void testAddWhenIncorrectSameWildcard()
+    public void add_WhenIncorrectSameWildcard()
             throws IllegalTransitionException
     {
         try
         {
-            testObject.add(v, Triple.make("A", Wildcard.SAME_VALUE, "12"), "C");
+            testObject.add(variable, Triple.make("A", Wildcard.SAME_VALUE, "12"), "C");
         }
         catch(DuplicatedTransitionException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
     }
 
@@ -196,12 +195,11 @@ public class BottomUpTransitionsTest
 
         try
         {
-            result = testObject.getAll(v, Triple.make("C", "A", "4"));
+            result = testObject.getAll(variable, Triple.make("C", "A", "4"));
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -210,32 +208,31 @@ public class BottomUpTransitionsTest
     }
 
     @Test(expected = NoSuchTransitionException.class)
-    public void testGetAllWhenKeyHasNull()
+    public void getAll_WhenKeyHasNull()
             throws NoSuchTransitionException
     {
-        testObject.getAll(v, Triple.make(null, "B", "0"));
+        testObject.getAll(variable, Triple.make(null, "B", "0"));
     }
 
     @Test(expected = NoSuchTransitionException.class)
-    public void testGetAllWhenKeyHasNoEntry()
+    public void getAll_WhenKeyHasNoEntry()
             throws NoSuchTransitionException
     {
-        testObject.getAll(v, Triple.make("C", "C", "0"));
+        testObject.getAll(variable, Triple.make("C", "C", "0"));
     }
 
     @Test
-    public void testGetMatchedWhenKeyDirectlyInside()
+    public void getMatched_WhenKeyDirectlyInside()
     {
         String result = null;
 
         try
         {
-            result = testObject.getMatched(v, Triple.make("A", "B", "0"));
+            result = testObject.getMatched(variable, Triple.make("A", "B", "0"));
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -243,18 +240,17 @@ public class BottomUpTransitionsTest
     }
 
     @Test
-    public void testGetMatchedWhenKeyExpectsWildcardEveryInside()
+    public void getMatched_WhenKeyExpectsWildcardEveryInside()
     {
         String result = null;
 
         try
         {
-            result = testObject.getMatched(v, Triple.make("B", "C", "1"));
+            result = testObject.getMatched(variable, Triple.make("B", "C", "1"));
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -262,18 +258,17 @@ public class BottomUpTransitionsTest
     }
 
     @Test
-    public void testGetMatchedWhenKeyExpectsWildcardSameInside()
+    public void getMatched_WhenKeyExpectsWildcardSameInside()
     {
         String result = null;
 
         try
         {
-            result = testObject.getMatched(v, Triple.make("C", "C", "2"));
+            result = testObject.getMatched(variable, Triple.make("C", "C", "2"));
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -281,18 +276,17 @@ public class BottomUpTransitionsTest
     }
 
     @Test
-    public void testGetMatchedWhenWildcardInValue()
+    public void getMatched_WhenWildcardInValue()
     {
         String result = null;
 
         try
         {
-            result = testObject.getMatched(v, Triple.make("D", "C", "3"));
+            result = testObject.getMatched(variable, Triple.make("D", "C", "3"));
         }
         catch(NoSuchTransitionException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
@@ -300,17 +294,17 @@ public class BottomUpTransitionsTest
     }
 
     @Test(expected = NoSuchTransitionException.class)
-    public void testGetMatchedWhenKeyHasNull()
+    public void getMatched_WhenKeyHasNull()
             throws NoSuchTransitionException
     {
-        testObject.getMatched(v, Triple.make(null, "B", "0"));
+        testObject.getMatched(variable, Triple.make(null, "B", "0"));
     }
 
     @Test(expected = NoSuchTransitionException.class)
-    public void testGetMatchedWhenKeyHasNoEntry()
+    public void getMatched_WhenKeyHasNoEntry()
             throws NoSuchTransitionException
     {
-        testObject.getMatched(v, Triple.make("C", "C", "0"));
+        testObject.getMatched(variable, Triple.make("C", "C", "0"));
     }
 
     @Test
@@ -319,15 +313,17 @@ public class BottomUpTransitionsTest
         Map<Pair<Variable, String>, String> result = testObject.convertToStringMap();
         Map<Pair<Variable, String>, String> expected = new HashMap<>();
 
-        expected.put(Pair.make(v, keyFunction(Triple.make("A", "B", "0"))), valueFunction("C"));
-        expected.put(Pair.make(v, keyFunction(Triple.make(Wildcard.EVERY_VALUE, "C", "1"))),
+        expected.put(Pair.make(variable, keyFunction(Triple.make("A", "B", "0"))),
+                     valueFunction("C"));
+        expected.put(Pair.make(variable, keyFunction(Triple.make(Wildcard.EVERY_VALUE, "C", "1"))),
                      valueFunction("B"));
-        expected.put(Pair.make(v, keyFunction(
+        expected.put(Pair.make(variable, keyFunction(
                 Triple.make(Wildcard.SAME_VALUE, Wildcard.EVERY_VALUE, "2"))), valueFunction("A"));
-        expected.put(Pair.make(v, keyFunction(Triple.make("D", "C", "3"))),
+        expected.put(Pair.make(variable, keyFunction(Triple.make("D", "C", "3"))),
                      valueFunction(Wildcard.RIGHT_VALUE));
-        expected.put(Pair.make(v, keyFunction(Triple.make("C", "A", "4"))), valueFunction("C"));
-        expected.put(Pair.make(v, keyFunction(Triple.make(Wildcard.EVERY_VALUE, "A", "4"))),
+        expected.put(Pair.make(variable, keyFunction(Triple.make("C", "A", "4"))),
+                     valueFunction("C"));
+        expected.put(Pair.make(variable, keyFunction(Triple.make(Wildcard.EVERY_VALUE, "A", "4"))),
                      valueFunction("D"));
 
         Assert.assertNotNull(result);
@@ -337,11 +333,11 @@ public class BottomUpTransitionsTest
 
     private String keyFunction(Triple<String, String, String> key)
     {
-        return String.format("[ %s # %s # %s ]", key.getFirst(), key.getSecond(), key.getThird());
+        return "[ %s # %s # %s ]".formatted(key.getFirst(), key.getSecond(), key.getThird());
     }
 
     private String valueFunction(String value)
     {
-        return String.format("[ %s ]", value);
+        return "[ %s ]".formatted(value);
     }
 }

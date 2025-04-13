@@ -1,9 +1,9 @@
 package fitaview.tree;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 
 public class NodeHasParentException
-    extends FITAViewException
+        extends FitaViewException
 {
     private static final long serialVersionUID = 5710948952820613251L;
 

@@ -4,9 +4,9 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 import fitaview.automaton.transition.NoSuchTransitionException;
-import fitaview.automaton.traversing.TopDownDFS;
+import fitaview.automaton.traversing.TopDownDfs;
 import fitaview.automaton.traversing.TopDownTraversing;
 import fitaview.tree.NodeType;
 import fitaview.tree.TreeNode;
@@ -61,7 +61,6 @@ public abstract class AbstractTreeAutomaton
             AutomatonRunningModeSender.getInstance().send();
     }
 
-    /** @return initial state of tree in the automaton */
     protected Map<Variable, String> getInitialState()
     {
         return variables.stream()
@@ -142,7 +141,7 @@ public abstract class AbstractTreeAutomaton
             for(TreeNode node : nextNodes)
                 processNode(node);
         }
-        catch(FITAViewException e)
+        catch(FitaViewException e)
         {
             stopTraversing();
             throw e;
@@ -213,7 +212,7 @@ public abstract class AbstractTreeAutomaton
 
     private void deleteTreeStates()
     {
-        TopDownTraversing t = new TopDownDFS();
+        TopDownTraversing t = new TopDownDfs();
 
         t.initialize(tree);
         t.forEachRemaining(iterable -> iterable.forEach(TreeNode::deleteState));

@@ -5,17 +5,17 @@ import java.util.NoSuchElementException;
 
 import fitaview.tree.TreeNode;
 
-public class TopDownBFS
-    extends TopDownTraversing
+public class TopDownDfs
+        extends TopDownTraversing
 {
     @Override
     public TraversingMode getMode()
     {
-        return TraversingMode.BFS;
+        return TraversingMode.DFS;
     }
 
     /**
-     * Getting next node in breadth-first search order.
+     * Getting next node in depth-first search order.
      * @return next node
      */
     @Override
@@ -30,8 +30,8 @@ public class TopDownBFS
 
         if(!node.isLeaf())
         {
-            processChild(node.getLeft());
             processChild(node.getRight());
+            processChild(node.getLeft());
         }
 
         return Collections.singletonList(node);
@@ -40,6 +40,6 @@ public class TopDownBFS
     @Override
     protected void addNextNode(TreeNode node)
     {
-        nodeDeque.addLast(node);
+        nodeDeque.addFirst(node);
     }
 }

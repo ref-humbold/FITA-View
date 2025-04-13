@@ -5,12 +5,13 @@
   </tstamp>
 
   <property name="major.version" value="2" />
-  <property name="minor.version" value="2" />
+  <property name="minor.version" value="3" />
   <property name="spec.version" value="${major.version}.${minor.version}" />
   <property name="jar.version" value="${major.version}.${minor.version}.${date.version}" />
   <property name="vendor" value="Rafał Kaleta" />
 
   <property name="main.package" value="fitaview" />
+  <property name="main.class" value="${main.package}.FitaView" />
   <property name="src.dir" value="src/main/java" />
   <property name="resources.dir" value="src/main/resources" />
   <property name="test.dir" value="src/test/java" />
@@ -79,7 +80,7 @@
       <zipgroupfileset dir="${ivy.lib.dir}" includes="*.jar" />
       <manifest>
         <attribute name="Built-By" value="${vendor}" />
-        <attribute name="Main-Class" value="${main.package}.FITAView" />
+        <attribute name="Main-Class" value="${main.class}" />
         <attribute name="Specification-Title" value="Finite and Infinite Tree Automata Viewer" />
         <attribute name="Specification-Version" value="${spec.version}" />
         <attribute name="Specification-Vendor" value="${vendor}" />

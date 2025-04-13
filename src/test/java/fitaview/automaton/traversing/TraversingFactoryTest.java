@@ -1,42 +1,30 @@
 package fitaview.automaton.traversing;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class TraversingFactoryTest
 {
-    @Before
-    public void setUp()
-    {
-    }
-
-    @After
-    public void tearDown()
-    {
-    }
-
     @Test
-    public void testGetTraversingWhenTopDownDFS()
+    public void getTraversing_WhenTopDownDFS()
     {
         TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.DFS);
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownDFS);
+        Assert.assertTrue(result instanceof TopDownDfs);
     }
 
     @Test
-    public void testGetTraversingWhenTopDownBFS()
+    public void getTraversing_WhenTopDownBFS()
     {
         TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.BFS);
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownBFS);
+        Assert.assertTrue(result instanceof TopDownBfs);
     }
 
     @Test
-    public void testGetTraversingWhenTopDownLevel()
+    public void getTraversing_WhenTopDownLevel()
     {
         TopDownTraversing result = TraversingFactory.getTopDownTraversing(TraversingMode.LEVEL);
 
@@ -45,14 +33,14 @@ public class TraversingFactoryTest
     }
 
     @Test(expected = IncorrectTraversingException.class)
-    public void testGetTraversingWhenBottomUpDFS()
-        throws IncorrectTraversingException
+    public void getTraversing_WhenBottomUpDFS()
+            throws IncorrectTraversingException
     {
         TraversingFactory.getBottomUpTraversing(TraversingMode.DFS);
     }
 
     @Test
-    public void testGetTraversingWhenBottomUpBFS()
+    public void getTraversing_WhenBottomUpBFS()
     {
         BottomUpTraversing result = null;
 
@@ -62,16 +50,15 @@ public class TraversingFactoryTest
         }
         catch(IncorrectTraversingException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof BottomUpBFS);
+        Assert.assertTrue(result instanceof BottomUpBfs);
     }
 
     @Test
-    public void testGetTraversingWhenBottomUpLevel()
+    public void getTraversing_WhenBottomUpLevel()
     {
         BottomUpTraversing result = null;
 
@@ -81,8 +68,7 @@ public class TraversingFactoryTest
         }
         catch(IncorrectTraversingException e)
         {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+            Assert.fail("Unexpected exception %s".formatted(e.getClass().getSimpleName()));
         }
 
         Assert.assertNotNull(result);

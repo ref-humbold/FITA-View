@@ -25,15 +25,15 @@ class TopDownAutomatonHandler
             case "buchi-accepting":
                 isBuchiAccept = true;
                 result = isDeterministic
-                        ? new TopDownDITA(variables.values(), alphabet)
-                        : new TopDownNITA(variables.values(), alphabet);
+                         ? new TopDownDita(variables.values(), alphabet)
+                         : new TopDownNita(variables.values(), alphabet);
                 break;
 
             case "leaf-accepting":
                 if(!isBuchiAccept)
                     result = isDeterministic
-                            ? new TopDownDFTA(variables.values(), alphabet)
-                            : new TopDownNFTA(variables.values(), alphabet);
+                             ? new TopDownDfta(variables.values(), alphabet)
+                             : new TopDownNfta(variables.values(), alphabet);
 
                 isBuchiAccept = false;
                 break;

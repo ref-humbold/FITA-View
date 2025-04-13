@@ -13,11 +13,6 @@ public final class Pair<F, S>
         this.second = second;
     }
 
-    public static <F, S> Pair<F, S> make(F first, S second)
-    {
-        return new Pair<>(first, second);
-    }
-
     public F getFirst()
     {
         return first;
@@ -26,6 +21,11 @@ public final class Pair<F, S>
     public S getSecond()
     {
         return second;
+    }
+
+    public static <F, S> Pair<F, S> make(F first, S second)
+    {
+        return new Pair<>(first, second);
     }
 
     @Override
@@ -40,10 +40,8 @@ public final class Pair<F, S>
         if(this == obj)
             return true;
 
-        if(!(obj instanceof Pair))
+        if(!(obj instanceof Pair<?, ?> other))
             return false;
-
-        Pair<?, ?> other = (Pair<?, ?>)obj;
 
         return Objects.equals(first, other.first) && Objects.equals(second, other.second);
     }

@@ -1,9 +1,9 @@
 package fitaview.automaton.traversing;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 
 public class IncorrectTraversingException
-    extends FITAViewException
+        extends FitaViewException
 {
     private static final long serialVersionUID = 4567374783045637984L;
 

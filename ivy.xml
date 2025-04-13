@@ -2,7 +2,8 @@
   <info organisation="ref_humbold" module="fita_view" />
   <dependencies>
     <dependency org="junit" name="junit" rev="4.+" />
-    <dependency org="org.mockito" name="mockito-core" rev="2.+" />
+    <dependency org="org.assertj" name="assertj-core" rev="3.+" />
+    <dependency org="org.mockito" name="mockito-core" rev="3.+" />
     <dependency org="org.powermock" name="powermock-api-mockito2" rev="2.+" />
     <dependency org="org.powermock" name="powermock-module-junit4" rev="2.+" />
   </dependencies>

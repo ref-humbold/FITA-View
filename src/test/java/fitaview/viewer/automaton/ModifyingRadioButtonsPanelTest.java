@@ -2,8 +2,8 @@ package fitaview.viewer.automaton;
 
 import java.awt.event.ActionEvent;
 import java.util.Collections;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,18 +17,16 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import fitaview.automaton.BottomUpDFTA;
-import fitaview.automaton.TopDownDFTA;
-import fitaview.automaton.TopDownNFTA;
+import fitaview.automaton.BottomUpDfta;
+import fitaview.automaton.TopDownDfta;
+import fitaview.automaton.TopDownNfta;
 import fitaview.automaton.TreeAutomaton;
 import fitaview.automaton.nondeterminism.FirstElementChoice;
 import fitaview.automaton.nondeterminism.GreatestHashCodeChoice;
 import fitaview.automaton.nondeterminism.LeastHashCodeChoice;
 import fitaview.automaton.nondeterminism.RandomChoice;
-import fitaview.automaton.nondeterminism.StateChoice;
 import fitaview.automaton.traversing.*;
 import fitaview.messaging.Message;
-import fitaview.utils.Pair;
 import fitaview.utils.Pointer;
 import fitaview.viewer.UserMessageBox;
 
@@ -58,204 +56,231 @@ public class ModifyingRadioButtonsPanelTest
         testObject = null;
     }
 
-    @Test(expected = IncorrectTraversingException.class)
-    public void testActionPerformedWhenBottomUpDFS()
+    @Test
+    public void actionPerformed_WhenBottomUpDfs_ThenIncorrectTraversingException()
             throws Exception
     {
+        // given
         Mockito.when(mockPointer.get())
-               .thenReturn(new BottomUpDFTA(Collections.emptySet(), Collections.emptySet()));
+               .thenReturn(new BottomUpDfta(Collections.emptySet(), Collections.emptySet()));
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DFS");
         PowerMockito.doAnswer((Answer<Void>)invocation -> {
             throw (Exception)invocation.getArguments()[0];
         }).when(UserMessageBox.class, "showException", ArgumentMatchers.any(Exception.class));
 
-        testObject.actionPerformed(mockActionEvent);
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.actionPerformed(mockActionEvent))
+                  .isInstanceOf(IncorrectTraversingException.class);
     }
 
     @Test
-    public void testActionPerformedWhenBottomUpBFS()
+    public void actionPerformed_WhenBottomUpBfs_ThenTraversingApplied()
     {
-        BottomUpDFTA automaton = new BottomUpDFTA(Collections.emptySet(), Collections.emptySet());
+        // given
+        BottomUpDfta automaton = new BottomUpDfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("BFS");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        TreeTraversing result = automaton.getTraversing();
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof BottomUpBFS);
+        // then
+        Assertions.assertThat(automaton.getTraversing())
+                  .isNotNull()
+                  .isInstanceOf(BottomUpBfs.class);
     }
 
     @Test
-    public void testActionPerformedWhenBottomUpLevel()
+    public void actionPerformed_WhenBottomUpLevel_ThenTraversingApplied()
     {
-        BottomUpDFTA automaton = new BottomUpDFTA(Collections.emptySet(), Collections.emptySet());
+        // given
+        BottomUpDfta automaton = new BottomUpDfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEVEL");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        TreeTraversing result = automaton.getTraversing();
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof BottomUpLevel);
+        // then
+        Assertions.assertThat(automaton.getTraversing())
+                  .isNotNull()
+                  .isInstanceOf(BottomUpLevel.class);
     }
 
     @Test
-    public void testActionPerformedWhenTopDownDFS()
+    public void actionPerformed_WhenTopDownDfs_ThenTraversingApplied()
     {
-        TopDownDFTA automaton = new TopDownDFTA(Collections.emptySet(), Collections.emptySet());
+        // given
+        TopDownDfta automaton = new TopDownDfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DFS");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        TreeTraversing result = automaton.getTraversing();
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownDFS);
+        // then
+        Assertions.assertThat(automaton.getTraversing()).isNotNull().isInstanceOf(TopDownDfs.class);
     }
 
     @Test
-    public void testActionPerformedWhenTopDownBFS()
+    public void actionPerformed_WhenTopDownBfs_ThenTraversingApplied()
     {
-        TopDownDFTA automaton = new TopDownDFTA(Collections.emptySet(), Collections.emptySet());
+        // given
+        TopDownDfta automaton = new TopDownDfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("BFS");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        TreeTraversing result = automaton.getTraversing();
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownBFS);
+        // then
+        Assertions.assertThat(automaton.getTraversing()).isNotNull().isInstanceOf(TopDownBfs.class);
     }
 
     @Test
-    public void testActionPerformedWhenTopDownLevel()
+    public void actionPerformed_WhenTopDownLevel_ThenTraversingApplied()
     {
-        TopDownDFTA automaton = new TopDownDFTA(Collections.emptySet(), Collections.emptySet());
+        // given
+        TopDownDfta automaton = new TopDownDfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEVEL");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        TreeTraversing result = automaton.getTraversing();
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof TopDownLevel);
+        // then
+        Assertions.assertThat(automaton.getTraversing())
+                  .isNotNull()
+                  .isInstanceOf(TopDownLevel.class);
     }
 
     @Test
-    public void testActionPerformedWhenFirstChoice()
+    public void actionPerformed_WhenFirstChoice_ThenTraversingApplied()
     {
-        TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
+        // given
+        TopDownNfta automaton = new TopDownNfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("FIRST");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice<Pair<String, String>, Pair<String, String>> result = automaton.getChoice();
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof FirstElementChoice);
+        // then
+        Assertions.assertThat(automaton.getChoice())
+                  .isNotNull()
+                  .isInstanceOf(FirstElementChoice.class);
     }
 
     @Test
-    public void testActionPerformedWhenRandomChoice()
+    public void actionPerformed_WhenRandomChoice_ThenTraversingApplied()
     {
-        TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
+        // given
+        TopDownNfta automaton = new TopDownNfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("RANDOM");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice<Pair<String, String>, Pair<String, String>> result = automaton.getChoice();
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof RandomChoice);
+        // then
+        Assertions.assertThat(automaton.getChoice()).isNotNull().isInstanceOf(RandomChoice.class);
     }
 
     @Test
-    public void testActionPerformedWhenLeastChoice()
+    public void actionPerformed_WhenLeastChoice_ThenTraversingApplied()
     {
-        TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
+        // given
+        TopDownNfta automaton = new TopDownNfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEAST");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice<Pair<String, String>, Pair<String, String>> result = automaton.getChoice();
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof LeastHashCodeChoice);
+        // then
+        Assertions.assertThat(automaton.getChoice())
+                  .isNotNull()
+                  .isInstanceOf(LeastHashCodeChoice.class);
     }
 
     @Test
-    public void testActionPerformedWhenGreatestChoice()
+    public void actionPerformed_WhenGreatestChoice_ThenTraversingApplied()
     {
-        TopDownNFTA automaton = new TopDownNFTA(Collections.emptySet(), Collections.emptySet());
+        // given
+        TopDownNfta automaton = new TopDownNfta(Collections.emptySet(), Collections.emptySet());
 
         Mockito.when(mockPointer.get()).thenReturn(automaton);
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("GREATEST");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        StateChoice<Pair<String, String>, Pair<String, String>> result = automaton.getChoice();
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result instanceof GreatestHashCodeChoice);
+        // then
+        Assertions.assertThat(automaton.getChoice())
+                  .isNotNull()
+                  .isInstanceOf(GreatestHashCodeChoice.class);
     }
 
     @Test
-    public void testReceiveSignalWhenNullAutomaton()
+    public void receiveSignal_WhenNullAutomaton_ThenTwoComponents()
     {
+        // given
         Mockito.when(mockPointer.get()).thenReturn(null);
 
+        // when
         testObject.receiveSignal(mockMessage);
 
-        Assert.assertEquals(2, testObject.getComponentCount());
+        // then
+        Assertions.assertThat(testObject.getComponentCount()).isEqualTo(2);
     }
 
     @Test
-    public void testReceiveSignalWhenBottomUpDFTA()
+    public void receiveSignal_WhenBottomUpDfta_ThenThreeComponents()
     {
+        // given
         Mockito.when(mockPointer.get())
-               .thenReturn(new BottomUpDFTA(Collections.emptySet(), Collections.emptySet()));
+               .thenReturn(new BottomUpDfta(Collections.emptySet(), Collections.emptySet()));
 
+        // when
         testObject.receiveSignal(mockMessage);
 
-        Assert.assertEquals(3, testObject.getComponentCount());
+        // then
+        Assertions.assertThat(testObject.getComponentCount()).isEqualTo(3);
     }
 
     @Test
-    public void testReceiveSignalWhenTopDownDFTA()
+    public void receiveSignal_WhenTopDownDfta_ThenThreeComponents()
     {
+        // given
         Mockito.when(mockPointer.get())
-               .thenReturn(new TopDownDFTA(Collections.emptySet(), Collections.emptySet()));
+               .thenReturn(new TopDownDfta(Collections.emptySet(), Collections.emptySet()));
 
+        // when
         testObject.receiveSignal(mockMessage);
 
-        Assert.assertEquals(3, testObject.getComponentCount());
+        // then
+        Assertions.assertThat(testObject.getComponentCount()).isEqualTo(3);
     }
 
     @Test
-    public void testReceiveSignalWhenTopDownNFTA()
+    public void receiveSignal_WhenTopDownNfta_ThenFiveComponents()
     {
+        // given
         Mockito.when(mockPointer.get())
-               .thenReturn(new TopDownNFTA(Collections.emptySet(), Collections.emptySet()));
+               .thenReturn(new TopDownNfta(Collections.emptySet(), Collections.emptySet()));
 
+        // when
         testObject.receiveSignal(mockMessage);
 
-        Assert.assertEquals(5, testObject.getComponentCount());
+        // then
+        Assertions.assertThat(testObject.getComponentCount()).isEqualTo(5);
     }
 }

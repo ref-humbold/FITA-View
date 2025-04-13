@@ -5,8 +5,8 @@ import java.util.NoSuchElementException;
 
 import fitaview.tree.TreeNode;
 
-public class BottomUpBFS
-    extends BottomUpTraversing
+public class BottomUpBfs
+        extends BottomUpTraversing
 {
     private boolean canAddParent = false;
 

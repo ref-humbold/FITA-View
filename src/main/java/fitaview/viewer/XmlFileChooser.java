@@ -3,23 +3,23 @@ package fitaview.viewer;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public final class XMLFileChooser
-    extends JFileChooser
+public final class XmlFileChooser
+        extends JFileChooser
 {
     private static final long serialVersionUID = -6720307160872607429L;
-    private static XMLFileChooser instance = null;
+    private static XmlFileChooser instance = null;
 
-    private XMLFileChooser()
+    private XmlFileChooser()
     {
         super();
         setFileFilter(new FileNameExtensionFilter("XML files", "xml"));
         setMultiSelectionEnabled(false);
     }
 
-    public static XMLFileChooser getInstance()
+    public static XmlFileChooser getInstance()
     {
         if(instance == null)
-            instance = new XMLFileChooser();
+            instance = new XmlFileChooser();
 
         return instance;
     }

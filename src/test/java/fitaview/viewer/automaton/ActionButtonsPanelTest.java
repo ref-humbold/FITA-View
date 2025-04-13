@@ -1,13 +1,12 @@
 package fitaview.viewer.automaton;
 
 import java.awt.event.ActionEvent;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -58,247 +57,237 @@ public class ActionButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenRun()
+    public void actionPerformed_WhenRun_ThenCalledOnce()
+            throws Exception
     {
-        try
-        {
-            Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
-            Mockito.when(mockActionEvent.getActionCommand()).thenReturn("RUN");
-            Mockito.doNothing().when(mockAutomaton).run();
+        // given
+        Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("RUN");
+        Mockito.doNothing().when(mockAutomaton).run();
 
-            testObject.actionPerformed(mockActionEvent);
+        // when
+        testObject.actionPerformed(mockActionEvent);
 
-            Mockito.verify(mockAutomaton, Mockito.times(1)).run();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // then
+        Mockito.verify(mockAutomaton, Mockito.times(1)).run();
     }
 
     @Test
-    public void testActionPerformedWhenStepForward()
+    public void actionPerformed_WhenStepForward_ThenCalledOnce()
+            throws Exception
     {
-        try
-        {
-            Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
-            Mockito.when(mockActionEvent.getActionCommand()).thenReturn("STEP FORWARD");
-            Mockito.doNothing().when(mockAutomaton).makeStepForward();
+        // given
+        Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("STEP FORWARD");
+        Mockito.doNothing().when(mockAutomaton).makeStepForward();
 
-            testObject.actionPerformed(mockActionEvent);
+        // when
+        testObject.actionPerformed(mockActionEvent);
 
-            Mockito.verify(mockAutomaton, Mockito.times(1)).makeStepForward();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // then
+        Mockito.verify(mockAutomaton, Mockito.times(1)).makeStepForward();
     }
 
     @Test
-    public void testActionPerformedWhenStopTraversing()
+    public void actionPerformed_WhenStopTraversing_ThenCalledOnce()
+            throws Exception
     {
-        try
-        {
-            Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
-            Mockito.when(mockActionEvent.getActionCommand()).thenReturn("STOP TRAVERSING");
-            Mockito.doNothing().when(mockAutomaton).makeStepForward();
+        // given
+        Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("STOP TRAVERSING");
+        Mockito.doNothing().when(mockAutomaton).makeStepForward();
 
-            testObject.actionPerformed(mockActionEvent);
+        // when
+        testObject.actionPerformed(mockActionEvent);
 
-            Mockito.verify(mockAutomaton, Mockito.times(1)).stopTraversing();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // then
+        Mockito.verify(mockAutomaton, Mockito.times(1)).stopTraversing();
     }
 
     @Test
-    public void testActionPerformedWhenContinueRun()
+    public void actionPerformed_WhenContinueAndRun_ThenEachCalledOnce()
+            throws Exception
     {
-        try
-        {
-            Mockito.when(mockPointer.get()).thenReturn(mockInfinite);
-            Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CONTINUE RUN");
-            Mockito.doNothing().when(mockInfinite).continueRecursive();
-            Mockito.doNothing().when(mockInfinite).run();
+        // given
+        Mockito.when(mockPointer.get()).thenReturn(mockInfinite);
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CONTINUE RUN");
+        Mockito.doNothing().when(mockInfinite).continueRecursive();
+        Mockito.doNothing().when(mockInfinite).run();
 
-            testObject.actionPerformed(mockActionEvent);
+        // when
+        testObject.actionPerformed(mockActionEvent);
 
-            InOrder order = Mockito.inOrder(mockInfinite);
-
-            order.verify(mockInfinite, Mockito.times(1)).continueRecursive();
-            order.verify(mockInfinite, Mockito.times(1)).run();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // then
+        Mockito.inOrder(mockInfinite).verify(mockInfinite, Mockito.times(1)).continueRecursive();
+        Mockito.inOrder(mockInfinite).verify(mockInfinite, Mockito.times(1)).run();
     }
 
     @Test
-    public void testActionPerformedWhenContinueStepForward()
+    public void actionPerformed_WhenContinueAndStepForward_ThenEachCalledOnce()
+            throws Exception
     {
-        try
-        {
-            Mockito.when(mockPointer.get()).thenReturn(mockInfinite);
-            Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CONTINUE STEP FORWARD");
-            Mockito.doNothing().when(mockInfinite).continueRecursive();
-            Mockito.doNothing().when(mockInfinite).makeStepForward();
+        // given
+        Mockito.when(mockPointer.get()).thenReturn(mockInfinite);
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CONTINUE STEP FORWARD");
+        Mockito.doNothing().when(mockInfinite).continueRecursive();
+        Mockito.doNothing().when(mockInfinite).makeStepForward();
 
-            testObject.actionPerformed(mockActionEvent);
+        // when
+        testObject.actionPerformed(mockActionEvent);
 
-            InOrder order = Mockito.inOrder(mockInfinite);
-
-            order.verify(mockInfinite, Mockito.times(1)).continueRecursive();
-            order.verify(mockInfinite, Mockito.times(1)).makeStepForward();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // then
+        Mockito.inOrder(mockInfinite).verify(mockInfinite, Mockito.times(1)).continueRecursive();
+        Mockito.inOrder(mockInfinite).verify(mockInfinite, Mockito.times(1)).makeStepForward();
     }
 
     @Test
-    public void testActionPerformedWhenCheckEmptinessIsTrue()
+    public void actionPerformed_WhenCheckEmptinessIsTrue_ThenWarning()
+            throws Exception
     {
-        try
-        {
-            Object[] result = new Object[2];
+        // given
+        Object[] warning = new Object[2];
 
-            Mockito.when(mockPointer.get()).thenReturn(mockBottomUp);
-            Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CHECK EMPTINESS");
-            Mockito.when(mockBottomUp.checkEmptiness()).thenReturn(true);
-            PowerMockito.doAnswer((Answer<Void>)invocation -> {
-                            result[0] = invocation.getArguments()[0];
-                            result[1] = invocation.getArguments()[1];
-                            return null;
-                        })
-                        .when(UserMessageBox.class, "showWarning", ArgumentMatchers.anyString(),
-                              ArgumentMatchers.anyString());
+        Mockito.when(mockPointer.get()).thenReturn(mockBottomUp);
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CHECK EMPTINESS");
+        Mockito.when(mockBottomUp.checkEmptiness()).thenReturn(true);
+        PowerMockito.doAnswer((Answer<Void>)invocation -> {
+                        warning[0] = invocation.getArguments()[0];
+                        warning[1] = invocation.getArguments()[1];
+                        return null;
+                    })
+                    .when(UserMessageBox.class, "showWarning", ArgumentMatchers.anyString(),
+                          ArgumentMatchers.anyString());
 
-            testObject.actionPerformed(mockActionEvent);
+        // when
+        testObject.actionPerformed(mockActionEvent);
 
-            Assert.assertEquals("AUTOMATON IS EMPTY", result[0]);
-            Assert.assertEquals("No tree can be accepted by the automaton", result[1]);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // then
+        Assertions.assertThat(warning)
+                  .containsExactly("AUTOMATON IS EMPTY",
+                                   "No tree can be accepted by the automaton");
     }
 
     @Test
-    public void testActionPerformedWhenCheckEmptinessIsFalse()
+    public void actionPerformed_WhenCheckEmptinessIsFalse_ThenInfo()
+            throws Exception
     {
-        try
-        {
-            Object[] result = new Object[2];
+        // given
+        Object[] info = new Object[2];
 
-            Mockito.when(mockPointer.get()).thenReturn(mockBottomUp);
-            Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CHECK EMPTINESS");
-            Mockito.when(mockBottomUp.checkEmptiness()).thenReturn(false);
-            PowerMockito.doAnswer((Answer<Void>)invocation -> {
-                            result[0] = invocation.getArguments()[0];
-                            result[1] = invocation.getArguments()[1];
-                            return null;
-                        })
-                        .when(UserMessageBox.class, "showInfo", ArgumentMatchers.anyString(),
-                              ArgumentMatchers.anyString());
+        Mockito.when(mockPointer.get()).thenReturn(mockBottomUp);
+        Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CHECK EMPTINESS");
+        Mockito.when(mockBottomUp.checkEmptiness()).thenReturn(false);
+        PowerMockito.doAnswer((Answer<Void>)invocation -> {
+                        info[0] = invocation.getArguments()[0];
+                        info[1] = invocation.getArguments()[1];
+                        return null;
+                    })
+                    .when(UserMessageBox.class, "showInfo", ArgumentMatchers.anyString(),
+                          ArgumentMatchers.anyString());
 
-            testObject.actionPerformed(mockActionEvent);
+        // when
+        testObject.actionPerformed(mockActionEvent);
 
-            Assert.assertEquals("AUTOMATON IS NON-EMPTY", result[0]);
-            Assert.assertEquals("The automaton can accept at least one tree", result[1]);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // then
+        Assertions.assertThat(info)
+                  .containsExactly("AUTOMATON IS NON-EMPTY",
+                                   "The automaton can accept at least one tree");
     }
 
     @Test
-    public void testReceiveSignalWhenSourcePointerIsNotEmpty()
+    public void receiveSignal_WhenSourcePointerIsNotEmpty_ThenRunButton()
     {
+        // given
         Mockito.when(mockPointer.get()).thenReturn(mockBottomUp);
         Mockito.when(mockMessage.getSource()).thenReturn(mockPointer);
         Mockito.when(mockPointer.isEmpty()).thenReturn(false);
 
+        // when
         testObject.receiveSignal(mockMessage);
 
-        Assert.assertEquals(ActionButtonsPanel.ButtonsType.RUN, testObject.buttonsType);
+        // then
+        Assertions.assertThat(testObject.buttonsType).isEqualTo(ActionButtonsPanel.ButtonsType.RUN);
         Mockito.verify(mockPointer, Mockito.times(1)).get();
     }
 
     @Test
-    public void testReceiveSignalWhenSourceRunningModeAndPointerIsEmpty()
+    public void receiveSignal_WhenSourceRunningModeAndPointerIsEmpty_ThenNoneButton()
     {
+        // given
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockMessage.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockPointer.isEmpty()).thenReturn(true);
 
+        // when
         testObject.receiveSignal(mockMessage);
 
-        Assert.assertEquals(ActionButtonsPanel.ButtonsType.NONE, testObject.buttonsType);
+        // then
+        Assertions.assertThat(testObject.buttonsType)
+                  .isEqualTo(ActionButtonsPanel.ButtonsType.NONE);
     }
 
     @Test
-    public void testReceiveSignalWhenSourceRunningModeAndRunning()
+    public void receiveSignal_WhenSourceRunningModeAndRunning_ThenRunButton()
     {
+        // given
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockMessage.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockPointer.isEmpty()).thenReturn(false);
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.RUNNING);
 
+        // when
         testObject.receiveSignal(mockMessage);
 
-        Assert.assertEquals(ActionButtonsPanel.ButtonsType.RUN, testObject.buttonsType);
+        // then
+        Assertions.assertThat(testObject.buttonsType).isEqualTo(ActionButtonsPanel.ButtonsType.RUN);
     }
 
     @Test
-    public void testReceiveSignalWhenSourceRunningModeAndStopped()
+    public void receiveSignal_WhenSourceRunningModeAndStopped_ThenRunButton()
     {
+        // given
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockMessage.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockPointer.isEmpty()).thenReturn(false);
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.STOPPED);
 
+        // when
         testObject.receiveSignal(mockMessage);
 
-        Assert.assertEquals(ActionButtonsPanel.ButtonsType.RUN, testObject.buttonsType);
+        // then
+        Assertions.assertThat(testObject.buttonsType).isEqualTo(ActionButtonsPanel.ButtonsType.RUN);
     }
 
     @Test
-    public void testReceiveSignalWhenSourceRunningModeAndFinished()
+    public void receiveSignal_WhenSourceRunningModeAndFinished_ThenRunButton()
     {
+        // given
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockMessage.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockPointer.isEmpty()).thenReturn(false);
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.FINISHED);
 
+        // when
         testObject.receiveSignal(mockMessage);
 
-        Assert.assertEquals(ActionButtonsPanel.ButtonsType.RUN, testObject.buttonsType);
+        // then
+        Assertions.assertThat(testObject.buttonsType).isEqualTo(ActionButtonsPanel.ButtonsType.RUN);
     }
 
     @Test
-    public void testReceiveSignalWhenSourceRunningModeAndContinuing()
+    public void receiveSignal_WhenSourceRunningModeAndContinuing_ThenContinueButton()
     {
+        // given
         Mockito.when(mockPointer.get()).thenReturn(mockAutomaton);
         Mockito.when(mockMessage.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockPointer.isEmpty()).thenReturn(false);
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.CONTINUING);
 
+        // when
         testObject.receiveSignal(mockMessage);
 
-        Assert.assertEquals(ActionButtonsPanel.ButtonsType.CONTINUE, testObject.buttonsType);
+        // then
+        Assertions.assertThat(testObject.buttonsType)
+                  .isEqualTo(ActionButtonsPanel.ButtonsType.CONTINUE);
     }
 }

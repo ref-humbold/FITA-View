@@ -1,9 +1,9 @@
 package fitaview.automaton.transition;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 
 public class NoSuchTransitionException
-    extends FITAViewException
+        extends FitaViewException
 {
     private static final long serialVersionUID = 3922393365263563771L;
 

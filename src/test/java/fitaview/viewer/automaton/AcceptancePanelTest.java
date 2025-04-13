@@ -1,8 +1,8 @@
 package fitaview.viewer.automaton;
 
 import java.awt.Color;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,11 +18,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import fitaview.automaton.AutomatonRunningMode;
 import fitaview.automaton.AutomatonRunningModeSender;
-import fitaview.automaton.NoTreeException;
 import fitaview.automaton.TreeAutomaton;
 import fitaview.automaton.UndefinedAcceptanceException;
 import fitaview.messaging.Message;
-import fitaview.tree.UndefinedStateValueException;
 import fitaview.utils.Pointer;
 import fitaview.viewer.UserMessageBox;
 
@@ -57,200 +55,166 @@ public class AcceptancePanelTest
     }
 
     @Test
-    public void testReceiveSignalWhenStopped()
+    public void receiveSignal_WhenStopped_ThenGray()
     {
+        // given
         Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.STOPPED);
 
+        // when
         testObject.receiveSignal(mockSignal);
 
-        Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());
-        Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
-        Assert.assertEquals("------", testObject.acceptanceLabel.getText());
+        // then
+        Assertions.assertThat(testObject.getBackground()).isEqualTo(Color.DARK_GRAY);
+        Assertions.assertThat(testObject.acceptanceLabel.getForeground()).isEqualTo(Color.WHITE);
+        Assertions.assertThat(testObject.acceptanceLabel.getText()).isEqualTo("------");
     }
 
     @Test
-    public void testReceiveSignalWhenFinishedAndAccepted()
-    {
-        try
-        {
-            Mockito.when(mockSignal.getSource())
-                   .thenReturn(AutomatonRunningModeSender.getInstance());
-            Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.FINISHED);
-            Mockito.when(mockPointer.isEmpty()).thenReturn(false);
-            Mockito.when(mockAutomaton.isAccepted()).thenReturn(true);
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
-
-        testObject.receiveSignal(mockSignal);
-
-        Assert.assertEquals(Color.GREEN, testObject.getBackground());
-        Assert.assertEquals(Color.BLACK, testObject.acceptanceLabel.getForeground());
-        Assert.assertEquals("TREE ACCEPTED :)", testObject.acceptanceLabel.getText());
-    }
-
-    @Test
-    public void testReceiveSignalWhenFinishedAndRejects()
-    {
-        try
-        {
-            Mockito.when(mockSignal.getSource())
-                   .thenReturn(AutomatonRunningModeSender.getInstance());
-            Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.FINISHED);
-            Mockito.when(mockPointer.isEmpty()).thenReturn(false);
-            Mockito.when(mockAutomaton.isAccepted()).thenReturn(false);
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
-
-        testObject.receiveSignal(mockSignal);
-
-        Assert.assertEquals(AcceptancePanel.DARK_RED, testObject.getBackground());
-        Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
-        Assert.assertEquals("TREE REJECTED :(", testObject.acceptanceLabel.getText());
-    }
-
-    @Test(expected = UndefinedAcceptanceException.class)
-    public void testReceiveSignalWhenFinishedAndException()
+    public void receiveSignal_WhenFinishedAndAccepted_ThenGreen()
             throws Exception
     {
-        try
-        {
-            Mockito.when(mockSignal.getSource())
-                   .thenReturn(AutomatonRunningModeSender.getInstance());
-            Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.FINISHED);
-            Mockito.when(mockPointer.isEmpty()).thenReturn(false);
-            Mockito.when(mockAutomaton.isAccepted())
-                   .thenThrow(new UndefinedAcceptanceException(""));
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // given
+        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
+        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.FINISHED);
+        Mockito.when(mockPointer.isEmpty()).thenReturn(false);
+        Mockito.when(mockAutomaton.isAccepted()).thenReturn(true);
+
+        // when
+        testObject.receiveSignal(mockSignal);
+
+        // then
+        Assertions.assertThat(testObject.getBackground()).isEqualTo(Color.GREEN);
+        Assertions.assertThat(testObject.acceptanceLabel.getForeground()).isEqualTo(Color.BLACK);
+        Assertions.assertThat(testObject.acceptanceLabel.getText()).isEqualTo("TREE ACCEPTED :)");
+    }
+
+    @Test
+    public void receiveSignal_WhenFinishedAndRejects_ThenRed()
+            throws Exception
+    {
+        // given
+        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
+        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.FINISHED);
+        Mockito.when(mockPointer.isEmpty()).thenReturn(false);
+        Mockito.when(mockAutomaton.isAccepted()).thenReturn(false);
+
+        // when
+        testObject.receiveSignal(mockSignal);
+
+        // then
+        Assertions.assertThat(testObject.getBackground()).isEqualTo(AcceptancePanel.DARK_RED);
+        Assertions.assertThat(testObject.acceptanceLabel.getForeground()).isEqualTo(Color.WHITE);
+        Assertions.assertThat(testObject.acceptanceLabel.getText()).isEqualTo("TREE REJECTED :(");
+    }
+
+    @Test
+    public void receiveSignal_WhenFinishedAndException_ThenGray()
+            throws Exception
+    {
+        // given
+        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
+        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.FINISHED);
+        Mockito.when(mockPointer.isEmpty()).thenReturn(false);
+        Mockito.when(mockAutomaton.isAccepted()).thenThrow(new UndefinedAcceptanceException(""));
 
         PowerMockito.doAnswer((Answer<Void>)invocation -> {
             throw (Exception)invocation.getArguments()[0];
         }).when(UserMessageBox.class, "showException", ArgumentMatchers.any(Exception.class));
 
-        try
-        {
-            testObject.receiveSignal(mockSignal);
-        }
-        catch(Exception e)
-        {
-            Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());
-            Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
-            Assert.assertEquals("------", testObject.acceptanceLabel.getText());
-
-            throw e;
-        }
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.receiveSignal(mockSignal))
+                  .isInstanceOf(UndefinedAcceptanceException.class);
+        Assertions.assertThat(testObject.getBackground()).isEqualTo(Color.DARK_GRAY);
+        Assertions.assertThat(testObject.acceptanceLabel.getForeground()).isEqualTo(Color.WHITE);
+        Assertions.assertThat(testObject.acceptanceLabel.getText()).isEqualTo("------");
     }
 
     @Test
-    public void testReceiveSignalWhenRunning()
+    public void receiveSignal_WhenRunning_ThenGray()
     {
+        // given
         Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.RUNNING);
 
+        // when
         testObject.receiveSignal(mockSignal);
 
-        Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());
-        Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
-        Assert.assertEquals("------", testObject.acceptanceLabel.getText());
+        // then
+        Assertions.assertThat(testObject.getBackground()).isEqualTo(Color.DARK_GRAY);
+        Assertions.assertThat(testObject.acceptanceLabel.getForeground()).isEqualTo(Color.WHITE);
+        Assertions.assertThat(testObject.acceptanceLabel.getText()).isEqualTo("------");
     }
 
     @Test
-    public void testReceiveSignalWhenContinuingAndAccepted()
+    public void receiveSignal_WhenContinuingAndAccepted_ThenGreen()
+            throws Exception
     {
-        try
-        {
-            Mockito.when(mockSignal.getSource())
-                   .thenReturn(AutomatonRunningModeSender.getInstance());
-            Mockito.when(mockAutomaton.getRunningMode())
-                   .thenReturn(AutomatonRunningMode.CONTINUING);
-            Mockito.when(mockPointer.isEmpty()).thenReturn(false);
-            Mockito.when(mockAutomaton.isAccepted()).thenReturn(true);
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // given
+        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
+        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.CONTINUING);
+        Mockito.when(mockPointer.isEmpty()).thenReturn(false);
+        Mockito.when(mockAutomaton.isAccepted()).thenReturn(true);
 
+        // when
         testObject.receiveSignal(mockSignal);
 
-        Assert.assertEquals(Color.GREEN, testObject.getBackground());
-        Assert.assertEquals(Color.BLACK, testObject.acceptanceLabel.getForeground());
-        Assert.assertEquals("TREE ACCEPTED :)", testObject.acceptanceLabel.getText());
+        // then
+        Assertions.assertThat(testObject.getBackground()).isEqualTo(Color.GREEN);
+        Assertions.assertThat(testObject.acceptanceLabel.getForeground()).isEqualTo(Color.BLACK);
+        Assertions.assertThat(testObject.acceptanceLabel.getText()).isEqualTo("TREE ACCEPTED :)");
     }
 
     @Test
-    public void testReceiveSignalWhenContinuingAndRejects()
+    public void receiveSignal_WhenContinuingAndRejects_ThenRed()
+            throws Exception
     {
-        try
-        {
-            Mockito.when(mockSignal.getSource())
-                   .thenReturn(AutomatonRunningModeSender.getInstance());
-            Mockito.when(mockAutomaton.getRunningMode())
-                   .thenReturn(AutomatonRunningMode.CONTINUING);
-            Mockito.when(mockPointer.isEmpty()).thenReturn(false);
-            Mockito.when(mockAutomaton.isAccepted()).thenReturn(false);
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // given
+        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
+        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.CONTINUING);
+        Mockito.when(mockPointer.isEmpty()).thenReturn(false);
+        Mockito.when(mockAutomaton.isAccepted()).thenReturn(false);
 
+        // when
         testObject.receiveSignal(mockSignal);
 
-        Assert.assertEquals(AcceptancePanel.DARK_RED, testObject.getBackground());
-        Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
-        Assert.assertEquals("TREE REJECTED :(", testObject.acceptanceLabel.getText());
+        // then
+        Assertions.assertThat(testObject.getBackground()).isEqualTo(AcceptancePanel.DARK_RED);
+        Assertions.assertThat(testObject.acceptanceLabel.getForeground()).isEqualTo(Color.WHITE);
+        Assertions.assertThat(testObject.acceptanceLabel.getText()).isEqualTo("TREE REJECTED :(");
     }
 
     @Test
-    public void testReceiveSignalWhenContinuing()
+    public void receiveSignal_WhenContinuing_thenGray()
+            throws Exception
     {
-        try
-        {
-            Mockito.when(mockSignal.getSource())
-                   .thenReturn(AutomatonRunningModeSender.getInstance());
-            Mockito.when(mockAutomaton.getRunningMode())
-                   .thenReturn(AutomatonRunningMode.CONTINUING);
-            Mockito.when(mockPointer.isEmpty()).thenReturn(false);
-            Mockito.when(mockAutomaton.isAccepted()).thenReturn(null);
-        }
-        catch(UndefinedAcceptanceException | UndefinedStateValueException | NoTreeException e)
-        {
-            e.printStackTrace();
-            Assert.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        // given
+        Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
+        Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.CONTINUING);
+        Mockito.when(mockPointer.isEmpty()).thenReturn(false);
+        Mockito.when(mockAutomaton.isAccepted()).thenReturn(null);
 
+        // when
         testObject.receiveSignal(mockSignal);
 
-        Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());
-        Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
-        Assert.assertEquals("------", testObject.acceptanceLabel.getText());
+        // then
+        Assertions.assertThat(testObject.getBackground()).isEqualTo(Color.DARK_GRAY);
+        Assertions.assertThat(testObject.acceptanceLabel.getForeground()).isEqualTo(Color.WHITE);
+        Assertions.assertThat(testObject.acceptanceLabel.getText()).isEqualTo("------");
     }
 
     @Test
-    public void testReceiveSignalWhenAutomaton()
+    public void receiveSignal_WhenAutomaton_ThenGray()
     {
+        // given
         Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
 
+        // when
         testObject.receiveSignal(mockSignal);
 
-        Assert.assertEquals(Color.DARK_GRAY, testObject.getBackground());
-        Assert.assertEquals(Color.WHITE, testObject.acceptanceLabel.getForeground());
-        Assert.assertEquals("------", testObject.acceptanceLabel.getText());
+        // then
+        Assertions.assertThat(testObject.getBackground()).isEqualTo(Color.DARK_GRAY);
+        Assertions.assertThat(testObject.acceptanceLabel.getForeground()).isEqualTo(Color.WHITE);
+        Assertions.assertThat(testObject.acceptanceLabel.getText()).isEqualTo("------");
     }
 }

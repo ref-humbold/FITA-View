@@ -6,10 +6,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import fitaview.utils.Pair;
-import fitaview.utils.XMLHandler;
+import fitaview.utils.XmlHandler;
 
 abstract class AutomatonHandler<T extends TreeAutomaton>
-        extends XMLHandler<T>
+        extends XmlHandler<T>
 {
     protected final Collection<String> alphabet = new ArrayList<>();
     protected final Map<Integer, Variable> variables = new HashMap<>();
@@ -53,7 +53,7 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
                 varID = Integer.parseInt(attributes.getValue("var-id"));
 
                 if(!variables.containsKey(varID))
-                    throw new NoVariableWithIDException(
+                    throw new NoVariableWithIdException(
                             String.format("%s: No variable with with ID %d", writePosition(),
                                           varID));
                 break;
@@ -62,7 +62,7 @@ abstract class AutomatonHandler<T extends TreeAutomaton>
                 int id = Integer.parseInt(attributes.getValue("var-id"));
 
                 if(!variables.containsKey(varID))
-                    throw new NoVariableWithIDException(
+                    throw new NoVariableWithIdException(
                             String.format("%s: No variable with with ID %d", writePosition(),
                                           varID));
 

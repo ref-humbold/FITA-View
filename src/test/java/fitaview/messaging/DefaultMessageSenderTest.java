@@ -1,8 +1,7 @@
 package fitaview.messaging;
 
-import java.util.Set;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,65 +33,70 @@ public class DefaultMessageSenderTest
     }
 
     @Test
-    public void testAddReceiver()
+    public void addReceiver_ThenAdded()
     {
+        // when
         testObject.addReceiver(mockReceiver);
 
-        Set<MessageReceiver<String>> result = testObject.receivers;
-
-        Assert.assertEquals(1, result.size());
-        Assert.assertTrue(result.contains(mockReceiver));
+        // then
+        Assertions.assertThat(testObject.receivers).containsExactly(mockReceiver);
     }
 
     @Test
-    public void testAddReceiverWhenDoubleAdd()
+    public void addReceiver_WhenDoubleAdd_ThenNoChanges()
     {
-        testObject.addReceiver(mockReceiver);
+        // given
         testObject.addReceiver(mockReceiver);
 
-        Set<MessageReceiver<String>> result = testObject.receivers;
+        // when
+        testObject.addReceiver(mockReceiver);
 
-        Assert.assertEquals(1, result.size());
-        Assert.assertTrue(result.contains(mockReceiver));
+        // then
+        Assertions.assertThat(testObject.receivers).containsExactly(mockReceiver);
     }
 
     @Test
-    public void testRemoveReceiver()
+    public void removeReceiver_ThenRemoved()
     {
+        // given
         testObject.addReceiver(mockReceiver);
+
+        // when
         testObject.removeReceiver(mockReceiver);
 
-        Set<MessageReceiver<String>> result = testObject.receivers;
-
-        Assert.assertTrue(result.isEmpty());
+        // then
+        Assertions.assertThat(testObject.receivers).isEmpty();
     }
 
     @Test
-    public void testRemoveReceiverWhenDoubleRemove()
+    public void removeReceiver_WhenDoubleRemove_ThenNoChanges()
     {
+        // given
         testObject.addReceiver(mockReceiver);
         testObject.removeReceiver(mockReceiver);
+
+        // when
         testObject.removeReceiver(mockReceiver);
 
-        Set<MessageReceiver<String>> result = testObject.receivers;
-
-        Assert.assertTrue(result.isEmpty());
+        // then
+        Assertions.assertThat(testObject.receivers).isEmpty();
     }
 
     @Test
-    public void testRemoveReceiverWhenNotAdded()
+    public void removeReceiver_WhenNotAdded_ThenNoChanges()
     {
+        // when
         testObject.removeReceiver(mockReceiver);
 
-        Set<MessageReceiver<String>> result = testObject.receivers;
-
-        Assert.assertTrue(result.isEmpty());
+        // then
+        Assertions.assertThat(testObject.receivers).isEmpty();
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testSend()
+    public void send_ThenReceivedFromSender()
     {
+        // given
         Object[] arg = new Object[1];
 
         Mockito.doAnswer((Answer<Void>)invocation -> {
@@ -101,21 +105,25 @@ public class DefaultMessageSenderTest
         }).when(mockReceiver).receiveMessage(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
+
+        // when
         testObject.send("PARAMETER");
 
-        Message<String> result = (Message<String>)arg[0];
-        String expected = String.format("MESSAGE from %s: 'PARAMETER'",
-                                        testObject.getClass().getSimpleName());
+        // then
+        Message<String> message = (Message<String>)arg[0];
 
-        Assert.assertSame(testObject, result.getSource());
-        Assert.assertEquals("PARAMETER", result.getParam());
-        Assert.assertEquals(expected, result.toString());
+        Assertions.assertThat(message.getSource()).isSameAs(testObject);
+        Assertions.assertThat(message.getParam()).isEqualTo("PARAMETER");
+        Assertions.assertThat(message)
+                  .hasToString("MESSAGE from %s: 'PARAMETER'".formatted(
+                          testObject.getClass().getSimpleName()));
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testSendWhenNullParam()
+    public void sendMessage_WhenSource_ThenReceivedFromSource()
     {
+        // given
         Object[] arg = new Object[1];
 
         Mockito.doAnswer((Answer<Void>)invocation -> {
@@ -124,43 +132,25 @@ public class DefaultMessageSenderTest
         }).when(mockReceiver).receiveMessage(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
-        testObject.send(null);
 
-        Message<String> result = (Message<String>)arg[0];
-        String expected =
-                String.format("MESSAGE from %s: 'null'", testObject.getClass().getSimpleName());
+        // when
+        testObject.sendMessage(new Message<>(mockSender, null));
 
-        Assert.assertSame(testObject, result.getSource());
-        Assert.assertNull(result.getParam());
-        Assert.assertEquals(expected, result.toString());
+        // then
+        Message<String> message = (Message<String>)arg[0];
+
+        Assertions.assertThat(message.getSource()).isSameAs(mockSender);
+        Assertions.assertThat(message.getParam()).isNull();
+        Assertions.assertThat(message)
+                  .hasToString("MESSAGE from %s: 'null'".formatted(
+                          mockSender.getClass().getSimpleName()));
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void testSendMessage()
+    public void sendMessage_WhenNullSource_ThenNullPointerException()
     {
-        Object[] arg = new Object[1];
-
-        Mockito.doAnswer((Answer<Void>)invocation -> {
-            arg[0] = invocation.getArguments()[0];
-            return null;
-        }).when(mockReceiver).receiveMessage(ArgumentMatchers.any());
-
-        testObject.addReceiver(mockReceiver);
-        testObject.sendMessage(new Message<>(mockSender, "PARAMETER"));
-
-        Message<String> result = (Message<String>)arg[0];
-        String expected = String.format("MESSAGE from %s: 'PARAMETER'",
-                                        mockSender.getClass().getSimpleName());
-
-        Assert.assertSame(mockSender, result.getSource());
-        Assert.assertEquals("PARAMETER", result.getParam());
-        Assert.assertEquals(expected, result.toString());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testSendMessageWhenNullSource()
-    {
-        testObject.sendMessage(new Message<>(null, "PARAMETER"));
+        Assertions.assertThatThrownBy(
+                          () -> testObject.sendMessage(new Message<>(null, "PARAMETER")))
+                  .isInstanceOf(NullPointerException.class);
     }
 }

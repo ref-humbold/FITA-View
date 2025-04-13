@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 import fitaview.automaton.AutomatonRunningModeSender;
 import fitaview.automaton.TreeAutomaton;
 import fitaview.messaging.Message;
@@ -42,7 +42,7 @@ public class AcceptancePanel
         if(signal.getSource() == automatonPointer)
             setTreeUndefined();
         else if(signal.getSource() == AutomatonRunningModeSender.getInstance()
-                && !automatonPointer.isEmpty())
+                        && !automatonPointer.isEmpty())
             switch(automatonPointer.get().getRunningMode())
             {
                 case FINISHED:
@@ -54,7 +54,7 @@ public class AcceptancePanel
                             else
                                 setTreeRejected();
                     }
-                    catch(FITAViewException e)
+                    catch(FitaViewException e)
                     {
                         UserMessageBox.showException(e);
                         setTreeUndefined();
@@ -76,7 +76,7 @@ public class AcceptancePanel
                                 setTreeRejected();
                         }
                     }
-                    catch(FITAViewException e)
+                    catch(FitaViewException e)
                     {
                         UserMessageBox.showException(e);
                         setTreeUndefined();

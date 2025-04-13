@@ -7,10 +7,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import fitaview.utils.Pair;
-import fitaview.utils.XMLHandler;
+import fitaview.utils.XmlHandler;
 
 class TreeHandler
-        extends XMLHandler<TreeNode>
+        extends XmlHandler<TreeNode>
 {
     private static final int MAX_HEIGHT = 15;
     private final Stack<Pair<StandardNode, TreeChild>> nodes = new Stack<>();
@@ -104,7 +104,7 @@ class TreeHandler
                         if(nodesPair.getSecond() == TreeChild.LEFT)
                             index /= 2;
                         else if(nodesPair.getSecond() == TreeChild.RIGHT)
-                            throw new OneChildException(String.format(
+                            throw new InvalidChildrenException(String.format(
                                     "%s: Node must have zero or two children, but it has one",
                                     writePosition()));
 

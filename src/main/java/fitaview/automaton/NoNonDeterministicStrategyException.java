@@ -1,9 +1,9 @@
 package fitaview.automaton;
 
-import fitaview.FITAViewException;
+import fitaview.FitaViewException;
 
 public class NoNonDeterministicStrategyException
-    extends FITAViewException
+        extends FitaViewException
 {
     private static final long serialVersionUID = -532773326620067556L;
 

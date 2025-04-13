@@ -14,10 +14,7 @@ public class Message<T>
 
     public Message(Object source, T param)
     {
-        if(source == null)
-            throw new IllegalArgumentException("Source is null!");
-
-        this.source = source;
+        this.source = Objects.requireNonNull(source);
         this.param = param;
     }
 

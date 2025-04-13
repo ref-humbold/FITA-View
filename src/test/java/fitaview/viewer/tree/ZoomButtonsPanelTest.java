@@ -1,13 +1,12 @@
 package fitaview.viewer.tree;
 
 import java.awt.event.ActionEvent;
+import org.assertj.core.api.Assertions;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -39,35 +38,38 @@ public class ZoomButtonsPanelTest
     }
 
     @Test
-    public void testActionPerformedWhenZeroZoom()
+    public void actionPerformed_WhenZeroZoom()
     {
+        // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_ZERO");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        int result = mockDrawingArea.getZoomLevel();
-
+        // then
         Mockito.verify(mockDrawingArea, Mockito.times(1)).zeroZoom();
-        Assert.assertEquals(0, result);
+        Assertions.assertThat(mockDrawingArea.getZoomLevel()).isEqualTo(0);
     }
 
     @Test
-    public void testActionPerformedWhenZoomIn()
+    public void actionPerformed_WhenZoomIn()
     {
+        // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_IN");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
         testObject.actionPerformed(mockActionEvent);
 
-        int result = mockDrawingArea.getZoomLevel();
-
+        // then
         Mockito.verify(mockDrawingArea, Mockito.times(2)).zoom(1);
-        Assert.assertEquals(2, result);
+        Assertions.assertThat(mockDrawingArea.getZoomLevel()).isEqualTo(2);
     }
 
     @Test
-    public void testActionPerformedWhenZoomOut()
+    public void actionPerformed_WhenZoomOut()
     {
+        // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_IN");
 
         testObject.actionPerformed(mockActionEvent);
@@ -75,42 +77,43 @@ public class ZoomButtonsPanelTest
 
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_OUT");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        int result = mockDrawingArea.getZoomLevel();
-        InOrder order = Mockito.inOrder(mockDrawingArea);
-
-        order.verify(mockDrawingArea, Mockito.times(2)).zoom(1);
-        order.verify(mockDrawingArea, Mockito.times(1)).zoom(-1);
-        Assert.assertEquals(1, result);
+        // then
+        Mockito.inOrder(mockDrawingArea).verify(mockDrawingArea, Mockito.times(2)).zoom(1);
+        Mockito.inOrder(mockDrawingArea).verify(mockDrawingArea, Mockito.times(1)).zoom(-1);
+        Assertions.assertThat(mockDrawingArea.getZoomLevel()).isEqualTo(1);
     }
 
     @Test
-    public void testActionPerformedWhenZoomOutOnMinimum()
+    public void actionPerformed_WhenZoomOutOnMinimum()
     {
+        // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_OUT");
 
+        // when
         testObject.actionPerformed(mockActionEvent);
 
-        int result = mockDrawingArea.getZoomLevel();
-
+        // then
         Mockito.verify(mockDrawingArea, Mockito.times(1)).zoom(-1);
-        Assert.assertEquals(0, result);
+        Assertions.assertThat(mockDrawingArea.getZoomLevel()).isEqualTo(0);
     }
 
     @Test
-    public void testActionPerformedWhenZoomInOnMaximum()
+    public void actionPerformed_WhenZoomInOnMaximum()
     {
+        // given
         int invoking = TreeDrawingArea.MAX_ZOOM + 1;
 
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("ZOOM_IN");
 
+        // when
         for(int i = 0; i < invoking; ++i)
             testObject.actionPerformed(mockActionEvent);
 
-        int result = mockDrawingArea.getZoomLevel();
-
+        // then
         Mockito.verify(mockDrawingArea, Mockito.times(invoking)).zoom(1);
-        Assert.assertEquals(TreeDrawingArea.MAX_ZOOM, result);
+        Assertions.assertThat(mockDrawingArea.getZoomLevel()).isEqualTo(TreeDrawingArea.MAX_ZOOM);
     }
 }

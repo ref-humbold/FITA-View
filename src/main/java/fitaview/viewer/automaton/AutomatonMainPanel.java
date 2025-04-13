@@ -23,7 +23,7 @@ import fitaview.utils.Pointer;
 import fitaview.viewer.EmptyPanel;
 import fitaview.viewer.TitlePanel;
 import fitaview.viewer.UserMessageBox;
-import fitaview.viewer.XMLFileChooser;
+import fitaview.viewer.XmlFileChooser;
 
 public class AutomatonMainPanel
         extends JPanel
@@ -40,8 +40,8 @@ public class AutomatonMainPanel
     private ModifyingRadioButtonsPanel modifyingRadioButtonsPanel;
     private ActionButtonsPanel actionButtonsPanel;
 
-    public AutomatonMainPanel(Pointer<TreeAutomaton> automatonPointer,
-                              Pointer<Pair<TreeNode, Integer>> treePointer)
+    public AutomatonMainPanel(
+            Pointer<TreeAutomaton> automatonPointer, Pointer<Pair<TreeNode, Integer>> treePointer)
     {
         super();
 
@@ -116,10 +116,10 @@ public class AutomatonMainPanel
 
     private File chooseFile()
     {
-        int result = XMLFileChooser.getInstance().showOpenDialog(this);
+        int result = XmlFileChooser.getInstance().showOpenDialog(this);
 
         if(result == JFileChooser.APPROVE_OPTION)
-            return XMLFileChooser.getInstance().getSelectedFile();
+            return XmlFileChooser.getInstance().getSelectedFile();
 
         return null;
     }

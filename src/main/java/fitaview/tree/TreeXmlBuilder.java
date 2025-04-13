@@ -2,17 +2,17 @@ package fitaview.tree;
 
 import java.util.Collections;
 
-class TreeXMLBuilder
+class TreeXmlBuilder
 {
     private TreeNode currentTree;
-    private TreeXMLBuilder parent;
+    private TreeXmlBuilder parent;
     private final StringBuilder body = new StringBuilder();
 
-    TreeXMLBuilder()
+    TreeXmlBuilder()
     {
     }
 
-    private TreeXMLBuilder(TreeNode currentTree, TreeXMLBuilder parent)
+    private TreeXmlBuilder(TreeNode currentTree, TreeXmlBuilder parent)
     {
         this.currentTree = currentTree;
         this.parent = parent;
@@ -55,12 +55,12 @@ class TreeXMLBuilder
         return output.toString();
     }
 
-    TreeXMLBuilder build(TreeNode tree)
+    TreeXmlBuilder build(TreeNode tree)
     {
         if(isNull(tree))
             return this;
 
-        TreeXMLBuilder builder = startTree(tree);
+        TreeXmlBuilder builder = startTree(tree);
 
         if(isNode(tree) && !tree.isLeaf())
             builder = builder.build(tree.getLeft()).build(tree.getRight());
@@ -93,12 +93,12 @@ class TreeXMLBuilder
         return indented;
     }
 
-    private TreeXMLBuilder startTree(TreeNode tree)
+    private TreeXmlBuilder startTree(TreeNode tree)
     {
-        return new TreeXMLBuilder(tree, this);
+        return new TreeXmlBuilder(tree, this);
     }
 
-    private TreeXMLBuilder endTree()
+    private TreeXmlBuilder endTree()
     {
         parent.addContent(toString());
 
