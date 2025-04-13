@@ -35,7 +35,7 @@ Trees and automata can be loaded from XML files with extensions *filename.tree.x
 > dependencies are automatically downloaded during build process
 
 + JUnit 4.+
-+ Mockito 2.+
++ Mockito 3.+
 + PowerMock 2.+
 
 -----
