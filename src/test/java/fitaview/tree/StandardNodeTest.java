@@ -258,6 +258,7 @@ public class StandardNodeTest
     {
         // when
         testObject.setInitialState(Arrays.asList(variable1, variable2));
+
         // then
         String result1 = testObject.getStateValueOrNull(variable1);
         String result2 = testObject.getStateValueOrNull(variable2);
@@ -271,6 +272,7 @@ public class StandardNodeTest
     {
         // when
         testObject.deleteState();
+
         // then
         Assertions.assertThat(testObject.getStateWithNulls()).isEmpty();
     }

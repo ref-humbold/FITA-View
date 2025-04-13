@@ -109,6 +109,7 @@ public class RecNodeTest
     {
         // when
         String result = testObject.getStateValueOrNull(variable2);
+
         // then
         Assertions.assertThat(result).isNull();
     }

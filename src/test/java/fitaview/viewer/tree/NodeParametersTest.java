@@ -36,8 +36,10 @@ public class NodeParametersTest
     {
         // given
         testObject = new NodeParameters(node1, 3);
+
         // when
         Pair<Integer, Integer> result = testObject.getDistance();
+
         // then
         Assertions.assertThat(result).isEqualTo(Pair.make(0, 0));
     }
@@ -47,8 +49,10 @@ public class NodeParametersTest
     {
         // given
         testObject = new NodeParameters(node1, 3);
+
         // when
         NodeParameters result = testObject.getLeftParams();
+
         // then
         Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(-3, 1));
         Assertions.assertThat(result.getNode()).isSameAs(node3);
@@ -61,8 +65,10 @@ public class NodeParametersTest
     {
         // given
         testObject = new NodeParameters(node1, 3);
+
         // when
         NodeParameters result = testObject.getRightParams();
+
         // then
         Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(3, 1));
         Assertions.assertThat(result.getNode()).isSameAs(node2);
@@ -75,8 +81,10 @@ public class NodeParametersTest
     {
         // given
         testObject = new NodeParameters(-10, 10, 1, node3, 3);
+
         // when
         NodeParameters result = testObject.getLeftParams();
+
         // then
         Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(-12, 11));
         Assertions.assertThat(result.getNode()).isSameAs(node7);
@@ -89,8 +97,10 @@ public class NodeParametersTest
     {
         // given
         testObject = new NodeParameters(-10, 10, 1, node3, 3);
+
         // when
         NodeParameters result = testObject.getRightParams();
+
         // then
         Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(-9, 12));
         Assertions.assertThat(result.getNode()).isSameAs(node6);
@@ -103,8 +113,10 @@ public class NodeParametersTest
     {
         // given
         testObject = new NodeParameters(10, 10, 1, node2, 3);
+
         // when
         NodeParameters result = testObject.getLeftParams();
+
         // then
         Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(9, 12));
         Assertions.assertThat(result.getNode()).isSameAs(node5);
@@ -117,8 +129,10 @@ public class NodeParametersTest
     {
         // given
         testObject = new NodeParameters(10, 10, 1, node2, 3);
+
         // when
         NodeParameters result = testObject.getRightParams();
+
         // then
         Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(12, 11));
         Assertions.assertThat(result.getNode()).isSameAs(node4);
@@ -131,8 +145,10 @@ public class NodeParametersTest
     {
         // given
         testObject = new NodeParameters(10, 10, 2, node4, 3);
+
         // when
         NodeParameters result = testObject.getLeftParams();
+
         // then
         Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(9, 11));
         Assertions.assertThat(result.getNode().isNull()).isTrue();
@@ -145,8 +161,10 @@ public class NodeParametersTest
     {
         // given
         testObject = new NodeParameters(10, 10, 2, node4, 3);
+
         // when
         NodeParameters result = testObject.getRightParams();
+
         // then
         Assertions.assertThat(result.getDistance()).isEqualTo(Pair.make(11, 11));
         Assertions.assertThat(result.getNode().isNull()).isTrue();

@@ -53,8 +53,10 @@ public class TransitionDrawingAreaTest
     {
         // given
         Mockito.when(mockSignal.getSource()).thenReturn(mockPointer);
+
         // when
         testObject.receiveSignal(mockSignal);
+
         // then
         Assertions.assertThat(testObject.parentInfo).isNull();
         Assertions.assertThat(testObject.leftSonInfo).isNull();
@@ -67,8 +69,10 @@ public class TransitionDrawingAreaTest
         // given
         Mockito.when(mockSignal.getSource()).thenReturn(AutomatonRunningModeSender.getInstance());
         Mockito.when(mockAutomaton.getRunningMode()).thenReturn(AutomatonRunningMode.STOPPED);
+
         // when
         testObject.receiveSignal(mockSignal);
+
         // then
         Assertions.assertThat(testObject.parentInfo).isNull();
         Assertions.assertThat(testObject.leftSonInfo).isNull();
@@ -83,8 +87,10 @@ public class TransitionDrawingAreaTest
                 Triple.make(NodeInfoSource.LEFT_SON, "LABEL", Collections.emptyMap());
 
         Mockito.when(mockMessage.getParam()).thenReturn(param);
+
         // when
         testObject.receiveMessage(mockMessage);
+
         // then
         Assertions.assertThat(testObject.leftSonInfo)
                   .isNotNull()
@@ -101,8 +107,10 @@ public class TransitionDrawingAreaTest
                 Triple.make(NodeInfoSource.PARENT, "LABEL", Collections.emptyMap());
 
         Mockito.when(mockMessage.getParam()).thenReturn(param);
+
         // when
         testObject.receiveMessage(mockMessage);
+
         // then
         Assertions.assertThat(testObject.parentInfo)
                   .isNotNull()
@@ -119,8 +127,10 @@ public class TransitionDrawingAreaTest
                 Triple.make(NodeInfoSource.RIGHT_SON, "LABEL", Collections.emptyMap());
 
         Mockito.when(mockMessage.getParam()).thenReturn(param);
+
         // when
         testObject.receiveMessage(mockMessage);
+
         // then
         Assertions.assertThat(testObject.rightSonInfo)
                   .isNotNull()

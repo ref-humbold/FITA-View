@@ -38,6 +38,7 @@ public class DefaultSignalSenderTest
     {
         // when
         testObject.addReceiver(mockReceiver);
+
         // then
         Assertions.assertThat(testObject.receivers).containsExactly(mockReceiver);
     }
@@ -47,8 +48,10 @@ public class DefaultSignalSenderTest
     {
         // given
         testObject.addReceiver(mockReceiver);
+
         // when
         testObject.addReceiver(mockReceiver);
+
         // then
         Assertions.assertThat(testObject.receivers).containsExactly(mockReceiver);
     }
@@ -58,8 +61,10 @@ public class DefaultSignalSenderTest
     {
         // given
         testObject.addReceiver(mockReceiver);
+
         // when
         testObject.removeReceiver(mockReceiver);
+
         // then
         Assertions.assertThat(testObject.receivers).isEmpty();
     }
@@ -70,8 +75,10 @@ public class DefaultSignalSenderTest
         // given
         testObject.addReceiver(mockReceiver);
         testObject.removeReceiver(mockReceiver);
+
         // when
         testObject.removeReceiver(mockReceiver);
+
         // then
         Assertions.assertThat(testObject.receivers).isEmpty();
     }
@@ -81,6 +88,7 @@ public class DefaultSignalSenderTest
     {
         // when
         testObject.removeReceiver(mockReceiver);
+
         // then
         Assertions.assertThat(testObject.receivers).isEmpty();
     }
@@ -98,8 +106,10 @@ public class DefaultSignalSenderTest
         }).when(mockReceiver).receiveSignal(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
+
         // when
         testObject.send();
+
         // then
         Message<Void> message = (Message<Void>)arg[0];
 
@@ -123,8 +133,10 @@ public class DefaultSignalSenderTest
         }).when(mockReceiver).receiveSignal(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
+
         // when
         testObject.sendSignal(new Message<>(mockSender));
+
         // then
         Message<Void> message = (Message<Void>)arg[0];
 

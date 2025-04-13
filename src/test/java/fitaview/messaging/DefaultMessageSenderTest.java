@@ -37,6 +37,7 @@ public class DefaultMessageSenderTest
     {
         // when
         testObject.addReceiver(mockReceiver);
+
         // then
         Assertions.assertThat(testObject.receivers).containsExactly(mockReceiver);
     }
@@ -46,8 +47,10 @@ public class DefaultMessageSenderTest
     {
         // given
         testObject.addReceiver(mockReceiver);
+
         // when
         testObject.addReceiver(mockReceiver);
+
         // then
         Assertions.assertThat(testObject.receivers).containsExactly(mockReceiver);
     }
@@ -57,8 +60,10 @@ public class DefaultMessageSenderTest
     {
         // given
         testObject.addReceiver(mockReceiver);
+
         // when
         testObject.removeReceiver(mockReceiver);
+
         // then
         Assertions.assertThat(testObject.receivers).isEmpty();
     }
@@ -69,8 +74,10 @@ public class DefaultMessageSenderTest
         // given
         testObject.addReceiver(mockReceiver);
         testObject.removeReceiver(mockReceiver);
+
         // when
         testObject.removeReceiver(mockReceiver);
+
         // then
         Assertions.assertThat(testObject.receivers).isEmpty();
     }
@@ -80,6 +87,7 @@ public class DefaultMessageSenderTest
     {
         // when
         testObject.removeReceiver(mockReceiver);
+
         // then
         Assertions.assertThat(testObject.receivers).isEmpty();
     }
@@ -97,8 +105,10 @@ public class DefaultMessageSenderTest
         }).when(mockReceiver).receiveMessage(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
+
         // when
         testObject.send("PARAMETER");
+
         // then
         Message<String> message = (Message<String>)arg[0];
 
@@ -122,8 +132,10 @@ public class DefaultMessageSenderTest
         }).when(mockReceiver).receiveMessage(ArgumentMatchers.any());
 
         testObject.addReceiver(mockReceiver);
+
         // when
         testObject.sendMessage(new Message<>(mockSender, null));
+
         // then
         Message<String> message = (Message<String>)arg[0];
 

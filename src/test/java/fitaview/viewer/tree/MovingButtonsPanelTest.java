@@ -46,8 +46,10 @@ public class MovingButtonsPanelTest
     {
         // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("CENTRE");
+
         // when
         testObject.actionPerformed(mockActionEvent);
+
         // then
         Pair<Integer, Integer> point = mockDrawingArea.getAxisPoint();
 
@@ -61,8 +63,10 @@ public class MovingButtonsPanelTest
     {
         // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("UP");
+
         // when
         testObject.actionPerformed(mockActionEvent);
+
         // then
         Pair<Integer, Integer> point = mockDrawingArea.getAxisPoint();
 
@@ -77,8 +81,10 @@ public class MovingButtonsPanelTest
     {
         // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("DOWN");
+
         // when
         testObject.actionPerformed(mockActionEvent);
+
         // then
         Pair<Integer, Integer> point = mockDrawingArea.getAxisPoint();
 
@@ -93,8 +99,10 @@ public class MovingButtonsPanelTest
     {
         // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("LEFT");
+
         // when
         testObject.actionPerformed(mockActionEvent);
+
         // then
         Pair<Integer, Integer> point = mockDrawingArea.getAxisPoint();
 
@@ -109,8 +117,10 @@ public class MovingButtonsPanelTest
     {
         // given
         Mockito.when(mockActionEvent.getActionCommand()).thenReturn("RIGHT");
+
         // when
         testObject.actionPerformed(mockActionEvent);
+
         // then
         Pair<Integer, Integer> point = mockDrawingArea.getAxisPoint();
 
